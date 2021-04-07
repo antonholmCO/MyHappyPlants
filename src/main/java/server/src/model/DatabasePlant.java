@@ -13,4 +13,16 @@ public class DatabasePlant {
         this.apiURL = apiURL;
         this.lastWatered = lastWatered;
     }
+
+    public String getImageURL() {
+        return null;
+    }
+
+    public String getName() {
+        return null;
+    }
+
+    public double getProgress() {
+        return 0;
+    }
 }

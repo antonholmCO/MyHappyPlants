@@ -1,3 +1,7 @@
+package client.src.controller;
+
+import client.src.model.LoggedInUser;
+import client.src.view.LibraryPlantPane;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import server.src.model.DatabasePlant;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,10 +46,10 @@ public class HomeController {
         populateListView(testPlantArray());
     }
 
-    private ArrayList<UserPlant> testPlantArray() {
-        ArrayList<UserPlant> userPlants = new ArrayList<>();
+    private ArrayList<DatabasePlant> testPlantArray() {
+        ArrayList<DatabasePlant> userPlants = new ArrayList<>();
         for(int i = 1; i<=10; i++) {
-            userPlants.add(new UserPlant("Plant"+(i), "/blommaPNG/blomma"+(i)+".png", 86400000l*(i+1), new Date(System.currentTimeMillis())));
+            userPlants.add(new DatabasePlant("Plant"+(i), "/blommaPNG/blomma"+(i)+".png",  new Date(System.currentTimeMillis())));
         }
         return userPlants;
     }
@@ -63,10 +68,10 @@ public class HomeController {
     }
 
 
-    public void populateListView(ArrayList<UserPlant> userPlants) {
+    public void populateListView(ArrayList<DatabasePlant> userPlants) {
 
         ObservableList<LibraryPlantPane> libraryPlantPanes = FXCollections.observableArrayList();
-        for (UserPlant p: userPlants) {
+        for (DatabasePlant p: userPlants) {
             libraryPlantPanes.add(new LibraryPlantPane(
                     new ImageView(p.getImageURL()),
                     new Label(p.getName()),

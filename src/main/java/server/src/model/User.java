@@ -17,6 +17,10 @@ public class User {
         this.isNotificationsActivated = isNotificationsActivated;
     }
 
+    public User(String userName) {
+
+    }
+
     public int getUniqueId() {
         return uniqueId;
     }
@@ -55,5 +59,13 @@ public class User {
 
     public void setIsNotificationsActivated(boolean notificationsActivated) {
         this.isNotificationsActivated = notificationsActivated;
+    }
+
+    public String getUserName() {
+        return null;
+    }
+
+    public String getAvatarURL() {
+        return null;
     }
 }

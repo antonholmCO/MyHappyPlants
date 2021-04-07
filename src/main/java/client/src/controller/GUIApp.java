@@ -1,3 +1,6 @@
+package client.src.controller;
+
+import client.src.view.ConfirmationBox;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
