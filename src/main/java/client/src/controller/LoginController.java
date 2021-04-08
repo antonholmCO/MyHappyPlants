@@ -28,11 +28,7 @@ public class LoginController {
     public void logInButtonPressed(javafx.event.ActionEvent actionEvent) throws IOException {
 
         if(verifyLoginDetails()) {
-            Parent homeParent = FXMLLoader.load(getClass().getResource("HomeParent.fxml"));
-            Scene homeScene = new Scene(homeParent);
-            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            window.setScene(homeScene);
-            window.show();
+            StartClient.setRoot("HomeParent");
         }
     }
 
