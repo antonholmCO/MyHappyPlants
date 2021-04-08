@@ -1,4 +1,5 @@
 package server.src.controller;
+import se.myhappyplants.server.controller.Controller;
 import server.src.model.repository.IUserRepository;
 import server.src.model.repository.UserRepository;
 import server.src.model.service.PlantService;
@@ -8,7 +9,7 @@ import server.src.model.service.PlantService;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        IUserRepository userRepository = new UserRepository();
+        IUserRepository userRepository = (IUserRepository) new UserRepository();
         Controller controller = new Controller((UserRepository) userRepository);
         //Testa logga in och spara användare på DB samt skapa en ny User
         //controller.createNewUser();

@@ -1,5 +1,5 @@
 package server.src.model.repository;
-import server.PasswordsAndKeys;
+import se.myhappyplants.server.PasswordsAndKeys;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

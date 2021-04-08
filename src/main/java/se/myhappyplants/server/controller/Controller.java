@@ -1,16 +1,16 @@
 package se.myhappyplants.server.controller;
 
 
-import se.myhappyplants.server.model.User;
-import se.myhappyplants.server.model.repository.UserRepository;
+import server.src.model.User;
+import server.src.model.repository.UserRepository;
 
 import java.util.Scanner;
 
 public class Controller {
-    private UserRepository userRepository;
+    private server.src.model.repository.UserRepository userRepository;
 
     public Controller(UserRepository userRepository) {
-        this.userRepository = userRepository;
+        this.userRepository=userRepository;
     }
 
     public void createNewUser() {
