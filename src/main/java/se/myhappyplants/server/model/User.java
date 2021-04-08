@@ -1,8 +1,11 @@
 package se.myhappyplants.server.model;
+
+import java.io.Serializable;
+
 /**
  * Version 1. Author: Frida Jacobsson.
  */
-public class User {
+public class User implements Serializable {
 
     private int uniqueId;
     private String email;
@@ -15,6 +18,15 @@ public class User {
         this.firstName = firstName;
         this.password = password;
         this.isNotificationsActivated = isNotificationsActivated;
+    }
+
+    /**
+     * temporary class to test client-server communication
+     * todo remove when redundant
+     * @param email
+     */
+    public User(String email) {
+        this.email = email;
     }
 
     public int getUniqueId() {

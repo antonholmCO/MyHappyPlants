@@ -2,10 +2,11 @@ package se.myhappyplants.server.controller;
 
 import se.myhappyplants.client.model.APIRequest;
 import se.myhappyplants.client.model.DBRequest;
+import se.myhappyplants.client.model.LoginRequest;
 import se.myhappyplants.client.model.Request;
-import se.myhappyplants.server.model.ApiServer;
-import se.myhappyplants.server.model.DBComm;
-import se.myhappyplants.server.model.Response;
+import se.myhappyplants.server.model.*;
+import se.myhappyplants.server.model.repository.UserRepository;
+import se.myhappyplants.server.model.service.PlantService;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -19,22 +20,24 @@ import java.net.Socket;
  */
 public class Server implements Runnable {
 
-    private final ApiServer apiServer;
-    private final DBComm dbComm;
+
 
     private ServerSocket serverSocket;
     private final Thread serverThread = new Thread(this);
     private boolean serverRunning;
+    private UserRepository userRepository;
+    private PlantService plantService;
 
     /**
      * Constructor opens a port and starts a thread to listen for incoming connections/requests
      * @param port port to be used
-     * @param apiServer to handle api requests
-     * @param dbComm to handle db requests
+     * @param userRepository to handle db requests
+     * @param plantService to handle api requests
      */
-    public Server(int port, ApiServer apiServer, DBComm dbComm) {
-        this.apiServer = apiServer;
-        this.dbComm = dbComm;
+    public Server(int port, UserRepository userRepository, PlantService plantService) {
+        this.userRepository = userRepository;
+        this.plantService = plantService;
+
         try {
             serverSocket = new ServerSocket(port);
             serverRunning = true;
@@ -53,12 +56,12 @@ public class Server implements Runnable {
         while (serverRunning) {
             try {
                 Socket socket = serverSocket.accept();
+                //todo remove sout method
+                System.out.println("Connection made, starting server thread to handle client");
                 ClientHandler clientHandler = new ClientHandler(socket);
                 clientHandler.start();
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                stopServer();
             }
         }
     }
@@ -82,11 +85,12 @@ public class Server implements Runnable {
      * @return response to be sent back to client
      */
     private Response getResponse(Request request) {
-        Response response = null;
-        if (request instanceof DBRequest) {
-            response = dbComm.request(request);
+        Response response = new LoginResponse(true, new User(((LoginRequest) request).getEmail()));
+        if (request instanceof LoginRequest) {
+                //ToDo code to handle requests made to database
+                response = new LoginResponse(true, new User(((LoginRequest) request).getEmail()));
         } else if (request instanceof APIRequest) {
-            response = apiServer.request(request);
+            //ToDo code to handle requests made to api
         }
         return response;
     }
@@ -119,8 +123,12 @@ public class Server implements Runnable {
         public void run() {
             try {
                 Request request = (Request) ois.readObject();
+                //todo remove test sout
+                System.out.println("Request received, sending response");
                 Response response = getResponse(request);
                 oos.writeObject(response);
+                //todo remove test sout
+                System.out.println("Reponse sent");
                 oos.flush();
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();

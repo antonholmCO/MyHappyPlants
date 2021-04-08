@@ -5,21 +5,40 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import se.myhappyplants.client.view.ConfirmationBox;
 
 import java.io.IOException;
 
 /**
- * JavaFX App
+ * JavaFX Application Main class
+ * If javaFX not installed, execute maven goals:
+ *        1.  mvn javafx:compile
+ *        2.  mvn javafx:run
  */
 public class StartClient extends Application {
 
     private static Scene scene;
+    private Stage window;
 
     @Override
     public void start(Stage stage) throws IOException {
+        window = stage;
+        window.setOnCloseRequest( action -> {
+            action.consume(); // tell java to forget about event so that
+            closeProgram(); // now handles close event manually
+        });
         scene = new Scene(loadFXML("primary"), 800, 600);
-        stage.setScene(scene);
-        stage.show();
+        window.setScene(scene);
+        window.show();
+    }
+
+    private void closeProgram() {
+        if(ConfirmationBox.display("Exit", "Are you sure?")) {
+            //ToDo - some code here to save user profile,
+            // update database, make sure
+            // any open connection is closed safely etc
+            window.close();
+        }
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -31,8 +50,12 @@ public class StartClient extends Application {
         return fxmlLoader.load();
     }
 
-    public static void main(String[] args) {
-        launch();
-    }
+    /**
+     * Alternative run method (not needed)
+     * @param args
+     */
+//    public static void main(String[] args) {
+//        launch();
+//    }
 
 }

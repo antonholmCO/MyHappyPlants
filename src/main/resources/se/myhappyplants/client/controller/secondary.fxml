@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15.0.1" stylesheets="@Stylesheet.css">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@Stylesheet.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SecondaryController">
   <tabs>
     <Tab text="Home">
          <content>
@@ -20,9 +20,9 @@
                <top>
                   <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Button layoutX="700.0" layoutY="16.0" mnemonicParsing="false" style="-fx-color: Darkred;" text="Log Out" />
+                        <Button layoutX="700.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" style="-fx-color: Darkred;" text="Log Out" />
                         <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label layoutX="74.0" layoutY="18.0" text="Username">
+                        <Label fx:id="lblUserName1" layoutX="74.0" layoutY="18.0" text="Username">
                            <font>
                               <Font size="13.0" />
                            </font>
@@ -40,7 +40,7 @@
                      <children>
                         <Button layoutX="700.0" layoutY="16.0" mnemonicParsing="false" style="-fx-color: Darkred;" text="Log Out" />
                         <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label layoutX="74.0" layoutY="18.0" text="Username">
+                        <Label fx:id="lblUserName2" layoutX="74.0" layoutY="18.0" text="Username">
                            <font>
                               <Font size="13.0" />
                            </font>
@@ -58,7 +58,7 @@
                      <children>
                         <Button layoutX="700.0" layoutY="16.0" mnemonicParsing="false" style="-fx-color: Darkred;" text="Log Out" />
                         <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label layoutX="74.0" layoutY="18.0" text="Username">
+                        <Label fx:id="lblUserName3" layoutX="74.0" layoutY="18.0" text="Username">
                            <font>
                               <Font size="13.0" />
                            </font>

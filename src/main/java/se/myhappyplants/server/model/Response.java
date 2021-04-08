@@ -7,4 +7,14 @@ import java.io.Serializable;
  * Can be sent via TCP
  */
 public class Response implements Serializable {
+
+    private boolean success;
+
+    public Response(boolean success) {
+        this.success = success;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
 }

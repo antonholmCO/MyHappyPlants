@@ -8,43 +8,33 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ConfirmationBox {
-
-    private static boolean answer;
-
-    public static boolean display(String title, String message) {
+public class ErrorMessage {
+    public static void display(String title, String message) {
         Stage window = new Stage();
 
         //block interaction with other windows
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(250);
-        window.setMinHeight(150);
+        window.setMinHeight(100);
 
         Label label = new Label();
         label.setText(message);
 
-        Button yesButton = new Button("Yes");
-        yesButton.setOnAction(action -> {
-            answer = true;
+        Button okButton = new Button("OK");
+        okButton.setOnAction(action -> {
             window.close();
         });
 
-        Button noButton = new Button("No");
-        noButton.setOnAction( action -> {
-            answer = false;
-            window.close();
-        });
 
         VBox vBox = new VBox(10);
-        vBox.getChildren().addAll(label, yesButton, noButton);
+        vBox.getChildren().addAll(label, okButton);
         vBox.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(vBox);
         window.setScene(scene);
         window.showAndWait();
 
-        return answer;
     }
-}
 
+}
