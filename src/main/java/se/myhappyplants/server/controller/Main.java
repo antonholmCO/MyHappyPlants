@@ -1,8 +1,8 @@
 package se.myhappyplants.server.controller;
 
-import server.src.model.repository.IUserRepository;
-import server.src.model.repository.UserRepository;
-import server.src.model.service.PlantService;
+import se.myhappyplants.server.model.repository.IUserRepository;
+import se.myhappyplants.server.model.repository.UserRepository;
+import se.myhappyplants.server.model.service.PlantService;
 
 /**
  * @version 2.0
