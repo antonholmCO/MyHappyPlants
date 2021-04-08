@@ -203,3 +203,6 @@ $RECYCLE.BIN/
 # File that stores all passwords and API keys
 PasswordsAndKeys.java
 PasswordsAndKeys.class
+
+#Testing to remove the iml file, fucks with maven
+MyHappyPlants.iml
