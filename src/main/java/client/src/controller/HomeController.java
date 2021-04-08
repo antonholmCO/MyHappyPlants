@@ -1,6 +1,7 @@
 package client.src.controller;
 
 import client.src.model.LoggedInUser;
+import client.src.view.GUIApp;
 import client.src.view.LibraryPlantPane;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -8,16 +9,11 @@ import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import server.src.model.DatabasePlant;
 
@@ -60,7 +56,7 @@ public class HomeController {
      * @throws IOException
      */
     public void changeToLogInScene(javafx.event.ActionEvent actionEvent) throws IOException {
-        StartClient.setRoot("LogInParent");
+        GUIApp.setRoot("LogInParent");
     }
 
 

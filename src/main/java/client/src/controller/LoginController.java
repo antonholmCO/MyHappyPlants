@@ -1,4 +1,7 @@
+package client.src.controller;
+
 import client.src.model.LoggedInUser;
+import client.src.view.GUIApp;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -28,7 +31,7 @@ public class LoginController {
     public void logInButtonPressed(javafx.event.ActionEvent actionEvent) throws IOException {
 
         if(verifyLoginDetails()) {
-            StartClient.setRoot("HomeParent");
+            GUIApp.setRoot("HomeParent");
         }
     }
 
