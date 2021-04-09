@@ -1,7 +1,7 @@
 package se.myhappyplants.server.model.repository;
 
 
-import se.myhappyplants.server.model.DatabasePlant;
+import se.myhappyplants.server.model.DBPlant;
 import se.myhappyplants.server.model.User;
 
 import java.net.UnknownHostException;
@@ -9,10 +9,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 /**
+ * Class for calling DB to get saved plants or save new plants.
  * Version 1. Author: Frida Jacobsson.
  * Version 2. Author: Linn Borgström.
  * Version 3. Author Frida Jacobsson
- * Class for calling the database to collect plants or save new plants.
  */
 public class PlantRepository implements IPlantRepository {
 
@@ -31,7 +31,7 @@ public class PlantRepository implements IPlantRepository {
      * @param plant
      */
     @Override
-    public void savePlant(DatabasePlant plant) {
+    public void savePlant(DBPlant plant) {
         //INSERT INTO Plant (plant.getUsername, plant.getNickname, plant.getURL, plant.getLastWatered);
     }
 
@@ -41,8 +41,8 @@ public class PlantRepository implements IPlantRepository {
      * @return
      */
     @Override
-    public ArrayList<DatabasePlant> getAllPlants() {
-        ArrayList<DatabasePlant> plantList = new ArrayList<DatabasePlant>();
+    public ArrayList<DBPlant> getAllPlants() {
+        ArrayList<DBPlant> plantList = new ArrayList<DBPlant>();
         try {
             String query = "SELECT nickname, api_url, last_watered FROM [Plant] WHERE user_id =" +user.getUniqueId() +";";
             ResultSet resultSet = statement.executeQuery(query);
@@ -50,7 +50,7 @@ public class PlantRepository implements IPlantRepository {
                 String nickname = resultSet.getString(3);
                 String APIUrl = resultSet.getString(4);
                 Date lastWatered = resultSet.getDate(5);
-                plantList.add(new DatabasePlant(nickname, APIUrl, lastWatered));
+                plantList.add(new DBPlant(nickname, APIUrl, lastWatered));
             }
         }
         catch (SQLException sqlException) {
@@ -67,13 +67,13 @@ public class PlantRepository implements IPlantRepository {
      * @return
      */
     @Override
-    public DatabasePlant getPlant(String nickname) {
+    public DBPlant getPlant(String nickname) {
         try {
             String query = "SELECT nickname, api_url, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() +"AND nickname =" +nickname;
             ResultSet resultSet = statement.executeQuery(query);
             String APIUrl = resultSet.getString(4);
             Date lastWatered = resultSet.getDate(5);
-            return new DatabasePlant(nickname,APIUrl,lastWatered);
+            return new DBPlant(nickname,APIUrl,lastWatered);
         }
         catch (SQLException sqlException) {
             System.out.println(sqlException.fillInStackTrace());

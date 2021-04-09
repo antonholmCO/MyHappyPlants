@@ -2,14 +2,19 @@ package se.myhappyplants.server.model;
 
 import java.util.ArrayList;
 
-public class PlantLibrary {
-    private ArrayList<DatabasePlant> userPlantLibrary;
+/**
+ * version 1 Linn
+ * version 2 Frida 7/4
+ */
 
-    public void addPlantsToLibrary(DatabasePlant plant){
+public class PlantLibrary {
+    private ArrayList<DBPlant> userPlantLibrary;
+
+    public void addPlantToLibrary(DBPlant plant){
         userPlantLibrary.add(plant);
     }
 
-    public DatabasePlant getPlantFromLibrary(int index) {
+    public DBPlant getPlantFromLibrary(int index) {
        return userPlantLibrary.get(index);
     }
 }

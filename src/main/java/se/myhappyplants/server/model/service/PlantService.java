@@ -2,8 +2,8 @@ package se.myhappyplants.server.model.service;
 
 import com.google.gson.Gson;
 import se.myhappyplants.server.model.APIPlant;
-import se.myhappyplants.server.model.Plant.PlantCollection;
-import se.myhappyplants.server.model.Plant.PlantDetail;
+import se.myhappyplants.server.model.plant.PlantCollection;
+import se.myhappyplants.server.model.plant.PlantDetail;
 
 
 import java.io.IOException;

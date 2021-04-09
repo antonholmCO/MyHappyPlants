@@ -18,8 +18,8 @@ public class Main {
 //        //controller.createNewUser();
 //        controller.logIn();
 //
-//        //för att testa API:et används koden nedan
-//        //PlantService plantService = new PlantService();
+//        för att testa API:et används koden nedan
+//        lantService plantService = new PlantService();
 //        //plantService.getResult();
 //    }
 

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Version 1. Author: Frida Jacobsson.
+ * Version 2. Author: Linn Borgström
  */
 public class User implements Serializable {
 

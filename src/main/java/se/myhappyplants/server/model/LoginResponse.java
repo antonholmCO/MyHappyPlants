@@ -1,6 +1,6 @@
 package se.myhappyplants.server.model;
 
-public class LoginResponse extends LibraryResponse{
+public class LoginResponse extends LibraryResponse {
 
     private User user;
 

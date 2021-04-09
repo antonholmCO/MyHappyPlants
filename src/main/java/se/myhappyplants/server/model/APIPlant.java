@@ -1,7 +1,7 @@
 package se.myhappyplants.server.model;
 
 
-import se.myhappyplants.server.model.Plant.Links;
+import se.myhappyplants.server.model.plant.Links;
 
 import java.net.URL;
 

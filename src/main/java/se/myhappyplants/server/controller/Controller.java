@@ -5,6 +5,11 @@ import se.myhappyplants.server.model.User;
 import se.myhappyplants.server.model.repository.UserRepository;
 
 import java.util.Scanner;
+/*
+Test-class for testing DB, logging in and create account
+Version 1 Author: Linn Borgström
+Version 2. Author: Frida Jacobsson
+ */
 
 public class Controller {
     private UserRepository userRepository;

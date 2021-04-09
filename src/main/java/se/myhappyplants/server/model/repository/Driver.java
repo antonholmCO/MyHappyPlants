@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 
 /**
+ * Version 1 - 2/4 Frida
  * Version 2 - 6/4 - Anton
  */
 

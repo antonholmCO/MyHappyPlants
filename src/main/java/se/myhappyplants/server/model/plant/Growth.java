@@ -1,4 +1,4 @@
-package se.myhappyplants.server.model.Plant;
+package se.myhappyplants.server.model.plant;
 
 public class Growth {
 
