@@ -8,7 +8,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-
+/**
+ * Simple pane that displays a DBPlant's information
+ * todo update to prettier pane
+ * @author Christopher O'Driscoll
+ */
 public class LibraryPlantPane extends BorderPane {
 
     private ImageView image;

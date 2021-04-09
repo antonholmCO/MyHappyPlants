@@ -8,6 +8,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Simple yes/no confirmation box
+ * @author Christopher O'Driscoll
+ */
 public class ConfirmationBox {
 
     private static boolean answer;

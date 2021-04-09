@@ -13,6 +13,9 @@ import se.myhappyplants.server.model.LoginResponse;
 
 /**
  * Controls the inputs from a user that hasn't logged in
+ * @author Christopher O'Driscoll
+ * @author Eric Simonsson
+ *
  * */
 public class PrimaryController {
 

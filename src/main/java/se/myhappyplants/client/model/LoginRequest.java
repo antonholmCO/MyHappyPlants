@@ -3,6 +3,7 @@ package se.myhappyplants.client.model;
 /**
  * Class that could be used to communicate with server -> database
  * to verify login details
+ * @author Christopher O'Driscoll
  */
 public class LoginRequest extends DBRequest {
 

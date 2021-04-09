@@ -6,6 +6,7 @@ import se.myhappyplants.server.model.User;
 /**
  * Class that could be used to communicate with server -> database
  * to update or fetch a users library
+ * @author Christopher O'Driscoll
  */
 public class LibraryRequest extends DBRequest {
 

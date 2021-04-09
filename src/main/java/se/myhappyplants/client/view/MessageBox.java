@@ -8,6 +8,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Simple message box
+ * @author Christopher O'Driscoll
+ */
 public class MessageBox {
     public static void display(String title, String message) {
         Stage window = new Stage();
