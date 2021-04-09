@@ -22,12 +22,12 @@ public class User implements Serializable {
     }
 
     /**
-     * temporary class to test client-server communication
+     * temporary constructor to test client-server communication
      * todo remove when redundant
-     * @param email
+     * @param firstname
      */
-    public User(String email) {
-        this.email = email;
+    public User(String firstname) {
+        this.firstName = firstname;
     }
 
     public int getUniqueId() {

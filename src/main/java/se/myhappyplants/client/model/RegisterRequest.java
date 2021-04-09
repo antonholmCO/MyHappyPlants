@@ -12,4 +12,8 @@ public class RegisterRequest extends LoginRequest {
         super(email, password);
         this.userName = userName;
     }
+
+    public String getUserName() {
+        return userName;
+    }
 }

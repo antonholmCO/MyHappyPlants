@@ -50,9 +50,9 @@ public class StartClient extends Application {
         return fxmlLoader.load();
     }
 
-    /**
-     * Alternative run method (not needed)
-     * @param args
+    /*
+      Alternative run method (not needed)
+      @param args
      */
 //    public static void main(String[] args) {
 //        launch();

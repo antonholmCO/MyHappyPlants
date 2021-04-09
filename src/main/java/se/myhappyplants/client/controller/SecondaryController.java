@@ -6,6 +6,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import se.myhappyplants.client.model.LoggedInUser;
 
+/**
+ * Controls the inputs from a 'logged in' user
+ * */
 public class SecondaryController {
 
     private ClientConnection connection;
@@ -17,26 +20,42 @@ public class SecondaryController {
     @FXML
     Label lblUserName3;
 
+    /**
+     * Constructor that has access to FXML variables
+     */
     @FXML
     public void initialize() {
 
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
-        lblUserName1.setText(loggedInUser.getUser().getEmail());
-        lblUserName2.setText(loggedInUser.getUser().getEmail());
-        lblUserName3.setText(loggedInUser.getUser().getEmail());
+        lblUserName1.setText(loggedInUser.getUser().getFirstName());
+        lblUserName2.setText(loggedInUser.getUser().getFirstName());
+        lblUserName3.setText(loggedInUser.getUser().getFirstName());
         //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
 
         //populateListView(testPlantArray());
     }
 
+    /**
+     * Default constructor, probably unnecessary
+     * @param connection
+     */
     public void SecondaryController (ClientConnection connection){
         this.connection = connection;
     }
 
+    /**
+     * Switches to 'logged out' scene
+     * @throws IOException
+     */
     @FXML
     private void switchToPrimary() throws IOException {
         StartClient.setRoot("primary");
     }
+
+    /**
+     * Logs out user, then switches scenes
+     * @throws IOException
+     */
     @FXML
     private void logoutButtonPressed() throws IOException {
 

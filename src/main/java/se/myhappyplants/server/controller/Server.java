@@ -32,9 +32,16 @@ public class Server implements Runnable {
      * @param plantService to handle api requests
      */
     public Server(int port, UserRepository userRepository, PlantService plantService) {
+        this(port);
         this.userRepository = userRepository;
         this.plantService = plantService;
+    }
 
+    /**
+     * Simplified constructor
+     * @param port port to be used
+     */
+    public Server(int port) {
         try {
             serverSocket = new ServerSocket(port);
             serverRunning = true;
@@ -42,7 +49,6 @@ public class Server implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -86,7 +92,17 @@ public class Server implements Runnable {
         if (request instanceof DBRequest) {
             //ToDo code to handle requests made to database
             if (request instanceof LoginRequest) {
-                response = new LoginResponse(true, new User(((LoginRequest) request).getEmail()));
+                //for testing purposes, always returns true and a new User created from request parameters
+                if (request instanceof RegisterRequest) {
+                    //for testing purposes, always returns true and a new User created from request parameters
+                    String username = ((RegisterRequest) request).getUserName();
+                    response = new LoginResponse(true, new User(username));
+                }
+                else {
+                    String email = ((LoginRequest) request).getEmail();
+                    //creates a username based on the email given, in future shall get username from database
+                    response = new LoginResponse(true, new User(email.substring(0, email.indexOf("@"))));
+                }
             }
             else if (request instanceof LibraryRequest){
                 response = new LibraryResponse(true);
