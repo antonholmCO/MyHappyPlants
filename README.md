@@ -6,9 +6,8 @@ Applikationen påminner även användaren när det är tid att vattna eller ge v
 
 ### Main Branch - Instruktioner
 1. Se till att alla maven dependencies har laddats in
-2. Kör main-metoden i klassen PlantService, då får man en output med sökordet i slutet av URLen i getResult(länk) anropet.
+![bild](https://user-images.githubusercontent.com/77005138/114137664-cd6c0d80-990c-11eb-8350-bdc3172e48d7.png)
+2. Execute maven goal mvn javafx:compile
+3. Execute maven goal mvn javafx:run (startar klient)
+4. Kör main metod i se/myhappyplants/server/controller/Main.java (startar server)
 
-### GUI Branch (test branch, ej kopplat till API resultat än så länge)
-1. Se till att det finns JavaFX runtime-dependencies installerat (enklast att byta JDK till azul15)
-2. Kör GUIApp (själva klassen kan köras direkt utan main-metod) och leka runt lite
-3. OBS Resources kan behöva sättas som projekt-mapp(MyHappyPlants)
