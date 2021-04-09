@@ -1,9 +1,6 @@
 package se.myhappyplants.server.controller;
 
-import se.myhappyplants.client.model.APIRequest;
-import se.myhappyplants.client.model.DBRequest;
-import se.myhappyplants.client.model.LoginRequest;
-import se.myhappyplants.client.model.Request;
+import se.myhappyplants.client.model.*;
 import se.myhappyplants.server.model.*;
 import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.server.model.service.PlantService;
@@ -85,12 +82,18 @@ public class Server implements Runnable {
      * @return response to be sent back to client
      */
     private Response getResponse(Request request) {
-        Response response = new LoginResponse(true, new User(((LoginRequest) request).getEmail()));
-        if (request instanceof LoginRequest) {
-                //ToDo code to handle requests made to database
+        Response response = null;
+        if (request instanceof DBRequest) {
+            //ToDo code to handle requests made to database
+            if (request instanceof LoginRequest) {
                 response = new LoginResponse(true, new User(((LoginRequest) request).getEmail()));
+            }
+            else if (request instanceof LibraryRequest){
+                response = new LibraryResponse(true);
+            }
         } else if (request instanceof APIRequest) {
             //ToDo code to handle requests made to api
+            response = new APIResponse(true);
         }
         return response;
     }
@@ -128,7 +131,7 @@ public class Server implements Runnable {
                 Response response = getResponse(request);
                 oos.writeObject(response);
                 //todo remove test sout
-                System.out.println("Reponse sent");
+                System.out.println("Response sent");
                 oos.flush();
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();

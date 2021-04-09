@@ -24,15 +24,21 @@ public class ClientConnection{
     private Socket socket;
 
     /**
-     * Creates class and initialises variables
+     * Creates class and initialises variables,
+     * can only be called within the class
      * @param ipAddress the ipAddress of the Server
      * @param port the port the Server is listening on
      */
-    public ClientConnection(String ipAddress, int port) {
+    private ClientConnection(String ipAddress, int port) {
         this.ipAddress = ipAddress;
         this.port = port;
     }
 
+    /**
+     * Ensures same instance is used by other classes
+     * May be unnecessary?
+     * @return
+     */
     public static ClientConnection getInstance() {
         return INSTANCE;
     }
