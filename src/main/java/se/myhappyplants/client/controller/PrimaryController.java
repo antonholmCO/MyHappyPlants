@@ -49,8 +49,6 @@ public class PrimaryController {
         else {
             ErrorMessage.display(" No response", "No response from server");
         }
-
-
-
     }
+
 }

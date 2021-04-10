@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<TabPane prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginController">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<TabPane prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginController">
   <tabs>
     <Tab text="Home">
          <content>
@@ -17,7 +25,7 @@
                               <PasswordField fx:id="pfPassword" promptText="password" />
                               <Region HBox.hgrow="ALWAYS" />
                               <Button mnemonicParsing="false" onAction="#logInButtonPressed" text="Log In" />
-                              <Button mnemonicParsing="false" text="Create account" />
+                              <Button mnemonicParsing="false" onAction="#createAccontButtonPressed" text="Create account" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
