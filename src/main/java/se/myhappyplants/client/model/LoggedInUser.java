@@ -2,6 +2,11 @@ package se.myhappyplants.client.model;
 
 import se.myhappyplants.server.model.User;
 
+/**
+ * Singleton class that keeps track of the current user
+ * that is logged in to the application
+ * @author Christopher O'Driscoll
+ */
 public final class LoggedInUser {
 
     private User user;
