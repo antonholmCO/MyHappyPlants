@@ -34,7 +34,7 @@ public class UserRepository implements IUserRepository {
   public boolean saveUser(User user) {
     String hashedPassword = BCrypt.hashpw(user.getPassword(),BCrypt.gensalt()); //hashing the password
     try {
-      String query = "INSERT INTO [User] VALUES ('" + user.getFirstName() + "', " + "'"+user.getEmail() +"', '"+hashedPassword + "',"+1+");";
+      String query = "INSERT INTO [User] VALUES ('" + user.getUsername() + "', " + "'"+user.getEmail() +"', '"+hashedPassword + "',"+1+");";
       statement.executeUpdate(query);
       return true;
     } catch (SQLException sqlException) {

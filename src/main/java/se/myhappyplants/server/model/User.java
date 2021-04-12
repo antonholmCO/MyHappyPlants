@@ -10,13 +10,13 @@ public class User implements Serializable {
 
     private int uniqueId;
     private String email;
-    private String firstName;
+    private String username;
     private String password;
     private boolean isNotificationsActivated = true;
 
     public User(String email, String firstName, String password, boolean isNotificationsActivated) {
         this.email = email;
-        this.firstName = firstName;
+        this.username = firstName;
         this.password = password;
         this.isNotificationsActivated = isNotificationsActivated;
     }
@@ -27,19 +27,19 @@ public class User implements Serializable {
      * @param firstname
      */
     public User(String firstname) {
-        this.firstName = firstname;
+        this.username = firstname;
     }
 
     public int getUniqueId() {
         return uniqueId;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setUniqueId(int uniqueId) {

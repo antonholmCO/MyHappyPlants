@@ -8,10 +8,12 @@ package se.myhappyplants.client.model;
 public class LoginRequest extends DBRequest {
 
     private String email;
+    private String username;
     private String password;
 
-    public LoginRequest(String email, String password) {
+    public LoginRequest(String email, String username, String password) {
         this.email = email;
+        this.username = username;
         this.password = password;
     }
 
@@ -21,5 +23,9 @@ public class LoginRequest extends DBRequest {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

@@ -69,7 +69,6 @@ public class Server implements Runnable {
             }
         }
     }
-
     /**
      * stops the server, closing the connection
      */
@@ -95,9 +94,17 @@ public class Server implements Runnable {
             if (request instanceof LoginRequest) {
                 //for testing purposes, always returns true and a new User created from request parameters
                 if (request instanceof RegisterRequest) {
-                    //for testing purposes, always returns true and a new User created from request parameters
-                    String username = ((RegisterRequest) request).getUserName();
-                    response = new LoginResponse(true, new User(username));
+                    String email = ((LoginRequest) request).getEmail();
+                    String username = ((LoginRequest) request).getUsername();
+                    String password = ((LoginRequest) request).getPassword();
+                    User user = new User(email, username, password, true);
+                    boolean ok = userRepository.saveUser(user);
+                    if (ok) {
+                        response = new LoginResponse(true, new User(username));
+                    }
+                    else {
+                        response = new LoginResponse(false, new User(username));
+                    }
                 }
                 else {
                     String email = ((LoginRequest) request).getEmail();
@@ -114,7 +121,6 @@ public class Server implements Runnable {
         }
         return response;
     }
-
     /**
      * Thread that accepts requests and delivers responses to a connected client
      */
