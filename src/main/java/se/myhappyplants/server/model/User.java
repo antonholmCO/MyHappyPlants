@@ -24,10 +24,17 @@ public class User implements Serializable {
     /**
      * temporary constructor to test client-server communication
      * todo remove when redundant
-     * @param firstname
+     * @param firstName
      */
-    public User(String firstname) {
-        this.firstName = firstname;
+    public User(String email, String firstName, boolean isNotificationsActivated) {
+        this.email = email;
+        this.firstName = firstName;
+        this.isNotificationsActivated = isNotificationsActivated;
+    }
+
+    public User(String firstName) {
+        this.firstName = firstName;
+
     }
 
     public int getUniqueId() {
