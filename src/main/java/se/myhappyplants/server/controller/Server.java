@@ -94,12 +94,11 @@ public class Server implements Runnable {
             if (request instanceof LoginRequest) {
                 //for testing purposes, always returns true and a new User created from request parameters
                 if (request instanceof RegisterRequest) {
-                    String email = ((LoginRequest) request).getEmail();
-                    String username = ((LoginRequest) request).getUsername();
-                    String password = ((LoginRequest) request).getPassword();
+                    String email = ((RegisterRequest) request).getEmail();
+                    String username = ((RegisterRequest) request).getUsername();
+                    String password = ((RegisterRequest) request).getPassword();
                     User user = new User(email, username, password, true);
-                    boolean ok = userRepository.saveUser(user);
-                    if (ok) {
+                    if(userRepository.saveUser(user)) {
                         response = new LoginResponse(true, new User(username));
                     }
                     else {

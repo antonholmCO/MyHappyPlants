@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 import java.sql.*;
 
 /**
- * Version 1. Author: Frida Jacobsson.
+ * Version 1. Frida Jacobsson april.
  * Class that call the database to store information about user.
  * Class that call the database to check if a user exists.
  * Uses BCrypt to create a safe password

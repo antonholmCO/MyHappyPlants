@@ -18,6 +18,7 @@ public class Main {
         //controller.createNewUser();
         //controller.logIn();
         new Server(2555);
+        new UserRepository();
 //        för att testa API:et används koden nedan
 //        PlantService plantService = new PlantService();
 //        plantService.getResult();
