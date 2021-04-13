@@ -10,22 +10,17 @@ public class User implements Serializable {
 
     private int uniqueId;
     private String email;
-    private String firstName;
+    private String username;
     private String password;
     private boolean isNotificationsActivated = true;
 
     public User(String email, String firstName, String password, boolean isNotificationsActivated) {
         this.email = email;
-        this.firstName = firstName;
+        this.username = firstName;
         this.password = password;
         this.isNotificationsActivated = isNotificationsActivated;
     }
 
-    /**
-     * temporary constructor to test client-server communication
-     * todo remove when redundant
-     * @param firstName
-     */
     public User(String email, String firstName, boolean isNotificationsActivated) {
         this.email = email;
         this.firstName = firstName;
@@ -41,12 +36,12 @@ public class User implements Serializable {
         return uniqueId;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setUniqueId(int uniqueId) {

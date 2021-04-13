@@ -3,7 +3,6 @@ package se.myhappyplants.client.controller;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import se.myhappyplants.client.model.LoggedInUser;
 
 /**
@@ -29,9 +28,9 @@ public class SecondaryController {
     public void initialize() {
 
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
-        lblUserName1.setText(loggedInUser.getUser().getFirstName());
-        lblUserName2.setText(loggedInUser.getUser().getFirstName());
-        lblUserName3.setText(loggedInUser.getUser().getFirstName());
+        lblUserName1.setText(loggedInUser.getUser().getUsername());
+        lblUserName2.setText(loggedInUser.getUser().getUsername());
+        lblUserName3.setText(loggedInUser.getUser().getUsername());
         //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
 
         //populateListView(testPlantArray());

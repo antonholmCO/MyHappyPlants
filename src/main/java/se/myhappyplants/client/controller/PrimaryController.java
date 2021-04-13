@@ -87,7 +87,7 @@ public class PrimaryController {
         if(loginResponse!=null) {
             if(loginResponse.isSuccess()) {
                 LoggedInUser.getInstance().setUser(loginResponse.getUser());
-                MessageBox.display("Success", "Account created successfully! Now logged in as " + LoggedInUser.getInstance().getUser().getFirstName());
+                MessageBox.display("Success", "Account created successfully! Now logged in as " + LoggedInUser.getInstance().getUser().getUsername());
                 switchToSecondary();
             }
             else {

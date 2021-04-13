@@ -7,14 +7,14 @@ package se.myhappyplants.client.model;
  */
 public class RegisterRequest extends LoginRequest {
 
-    private String userName;
+    private String username;
 
     public RegisterRequest(String email, String userName, String password) {
         super(email, password);
-        this.userName = userName;
+        this.username = userName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 }
