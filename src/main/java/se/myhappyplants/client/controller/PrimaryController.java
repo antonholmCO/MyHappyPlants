@@ -5,16 +5,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import se.myhappyplants.client.model.LoggedInUser;
-import se.myhappyplants.client.model.LoginRequest;
-import se.myhappyplants.client.model.RegisterRequest;
-import se.myhappyplants.client.model.Request;
+import se.myhappyplants.shared.Message;
 import se.myhappyplants.client.view.MessageBox;
-import se.myhappyplants.server.model.LoginResponse;
+import se.myhappyplants.shared.User;
 
 /**
  * Controls the inputs from a user that hasn't logged in
- * @author Christopher O'Driscoll
- * @author Eric Simonsson
+ * Created by Eric Simonsson, Christopher O'Driscoll
+ * Updated 2021-04-13 by Christopher
  *
  * */
 public class PrimaryController {
@@ -60,8 +58,8 @@ public class PrimaryController {
         //ToDo - Some code to handle what happens when user wants to log in
         // if successful, switch to logged in view
 
-        Request loginRequest = new LoginRequest(txtFldEmail.getText(), passFldPassword.getText());
-        LoginResponse loginResponse = (LoginResponse) ClientConnection.getInstance().makeRequest(loginRequest);
+        Message loginMessage = new Message("login", new User(txtFldEmail.getText(), passFldPassword.getText()));
+        Message loginResponse = ClientConnection.getInstance().makeRequest(loginMessage);
 
         if(loginResponse!=null) {
             if(loginResponse.isSuccess()) {
@@ -81,12 +79,12 @@ public class PrimaryController {
 
         //todo - code that creates a registration request
 
-        Request registrationRequest = new RegisterRequest(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText());
-        LoginResponse loginResponse = (LoginResponse) ClientConnection.getInstance().makeRequest(registrationRequest);
+        Message registerRequest = new Message("register", new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
+        Message registerResponse = ClientConnection.getInstance().makeRequest(registerRequest);
 
-        if(loginResponse!=null) {
-            if(loginResponse.isSuccess()) {
-                LoggedInUser.getInstance().setUser(loginResponse.getUser());
+        if(registerResponse!=null) {
+            if(registerResponse.isSuccess()) {
+                LoggedInUser.getInstance().setUser(registerResponse.getUser());
                 MessageBox.display("Success", "Account created successfully! Now logged in as " + LoggedInUser.getInstance().getUser().getUsername());
                 switchToSecondary();
             }

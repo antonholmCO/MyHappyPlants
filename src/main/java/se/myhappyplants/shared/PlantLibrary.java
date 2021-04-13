@@ -1,4 +1,4 @@
-package se.myhappyplants.server.model;
+package se.myhappyplants.shared;
 
 import java.util.ArrayList;
 

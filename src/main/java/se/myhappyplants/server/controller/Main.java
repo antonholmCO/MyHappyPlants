@@ -1,11 +1,7 @@
 package se.myhappyplants.server.controller;
 
-import se.myhappyplants.server.model.repository.IUserRepository;
 import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.server.model.service.PlantService;
-
-import java.net.UnknownHostException;
-import java.sql.SQLException;
 
 /**
  * @version 2.0

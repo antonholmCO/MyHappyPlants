@@ -1,7 +1,7 @@
 package se.myhappyplants.server.model.repository;
 
 
-import se.myhappyplants.server.model.User;
+import se.myhappyplants.shared.User;
 
 /**
  * Version 1. Author Frida Jacobsson 6/4

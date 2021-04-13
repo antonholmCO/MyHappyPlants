@@ -1,7 +1,7 @@
 package se.myhappyplants.server.model.plant;
 
 
-import se.myhappyplants.server.model.APIPlant;
+import se.myhappyplants.shared.APIPlant;
 
 import java.util.ArrayList;
 

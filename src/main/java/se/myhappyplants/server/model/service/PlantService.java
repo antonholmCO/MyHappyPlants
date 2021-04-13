@@ -1,7 +1,7 @@
 package se.myhappyplants.server.model.service;
 
 import com.google.gson.Gson;
-import se.myhappyplants.server.model.APIPlant;
+import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.server.model.plant.PlantCollection;
 import se.myhappyplants.server.model.plant.PlantDetail;
 

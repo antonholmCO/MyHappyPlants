@@ -1,7 +1,7 @@
 package se.myhappyplants.server.model.repository;
 
 
-import se.myhappyplants.server.model.DBPlant;
+import se.myhappyplants.shared.DBPlant;
 
 import java.util.ArrayList;
 

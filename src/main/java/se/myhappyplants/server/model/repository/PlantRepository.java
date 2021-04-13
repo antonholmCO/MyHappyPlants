@@ -1,8 +1,8 @@
 package se.myhappyplants.server.model.repository;
 
 
-import se.myhappyplants.server.model.DBPlant;
-import se.myhappyplants.server.model.User;
+import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.User;
 
 import java.net.UnknownHostException;
 import java.sql.*;

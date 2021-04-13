@@ -1,11 +1,12 @@
 package se.myhappyplants.client.model;
 
-import se.myhappyplants.server.model.User;
+import se.myhappyplants.shared.User;
 
 /**
  * Singleton class that keeps track of the current user
  * that is logged in to the application
- * @author Christopher O'Driscoll
+ * Created by Christopher O'Driscoll
+ * Updated 2021-04-13 by Christopher
  */
 public final class LoggedInUser {
 

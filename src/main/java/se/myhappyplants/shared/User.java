@@ -1,10 +1,11 @@
-package se.myhappyplants.server.model;
+package se.myhappyplants.shared;
 
 import java.io.Serializable;
 
 /**
  * Version 1. Author: Frida Jacobsson.
  * Version 2. Author: Linn Borgström
+ * Updated 2021-04-13 by Christopher
  */
 public class User implements Serializable {
 
@@ -12,8 +13,17 @@ public class User implements Serializable {
     private String email;
     private String username;
     private String password;
+    private PlantLibrary plantLibrary;
     private boolean isNotificationsActivated = true;
 
+    /**
+     * Constructor used when registering a new user account
+     *
+     * @param email
+     * @param username
+     * @param password
+     * @param isNotificationsActivated
+     */
     public User(String email, String username, String password, boolean isNotificationsActivated) {
         this.email = email;
         this.username = username;
@@ -21,15 +31,38 @@ public class User implements Serializable {
         this.isNotificationsActivated = isNotificationsActivated;
     }
 
+    /**
+     * Constructor for login responses from database
+     *
+     * @param email
+     * @param username
+     * @param isNotificationsActivated
+     */
     public User(String email, String username, boolean isNotificationsActivated) {
         this.email = email;
         this.username = username;
         this.isNotificationsActivated = isNotificationsActivated;
     }
 
+    /**
+     * Simple constructor for when login/registration requests fail
+     *
+     * @param username
+     */
     public User(String username) {
         this.username = username;
 
+    }
+
+    /**
+     * Simple constructor for login requests
+     * @param email
+     * @param password
+     */
+    public User(String email, String password) {
+
+        this.email = email;
+        this.password = password;
     }
 
     public int getUniqueId() {
@@ -44,17 +77,11 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public void setUniqueId(int uniqueId) {
-        this.uniqueId = uniqueId;
-    }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getPassword() {
         return password;

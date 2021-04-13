@@ -1,4 +1,4 @@
-package se.myhappyplants.server.model;
+package se.myhappyplants.shared;
 
 
 import se.myhappyplants.server.model.plant.Links;

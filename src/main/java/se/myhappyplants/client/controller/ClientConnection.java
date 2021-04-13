@@ -1,11 +1,7 @@
-/**
- * @author Christopher O'Driscoll
- */
 
 package se.myhappyplants.client.controller;
 
-import se.myhappyplants.client.model.Request;
-import se.myhappyplants.server.model.Response;
+import se.myhappyplants.shared.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,6 +10,8 @@ import java.net.Socket;
 
 /**
  * Class that opens a connection to the server, to send request and receive response objects.
+ * created by Christopher O'Driscoll
+ * updated 2021-04-13 by Christopher
  */
 public class ClientConnection{
 
@@ -43,9 +41,9 @@ public class ClientConnection{
         return INSTANCE;
     }
 
-    public Response makeRequest(Request request) {
+    public Message makeRequest(Message request) {
 
-        Response response = null;
+        Message response = null;
         try {
             socket = new Socket(ipAddress, port);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
@@ -54,7 +52,7 @@ public class ClientConnection{
             oos.writeObject(request);
             oos.flush();
             //wait for response
-            response = (Response) ois.readObject();
+            response = (Message) ois.readObject();
         }
         catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
