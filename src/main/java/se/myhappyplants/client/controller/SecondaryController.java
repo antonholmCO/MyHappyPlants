@@ -3,6 +3,7 @@ package se.myhappyplants.client.controller;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import se.myhappyplants.client.model.LoggedInUser;
 
 /**
@@ -20,6 +21,8 @@ public class SecondaryController {
     Label lblUserName2;
     @FXML
     Label lblUserName3;
+    @FXML
+    TextField txtFldSearch;
 
     /**
      * Constructor that has access to FXML variables
@@ -62,5 +65,11 @@ public class SecondaryController {
 
         //ToDo - Some code to handle what happens when user wants to log out
         switchToPrimary();
+    }
+
+    @FXML
+    private void searchButtonPressed() {
+        String searchWord = txtFldSearch.getText();
+        System.out.println(searchWord);
     }
 }
