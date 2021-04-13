@@ -42,6 +42,19 @@
                      </children>
                   </AnchorPane>
                </top>
+               <left>
+                  <Pane prefHeight="200.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <TextField fx:id="txtFldSearchText" layoutX="14.0" layoutY="14.0" prefHeight="23.0" prefWidth="441.0" promptText="Search...">
+                           <padding>
+                              <Insets left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </TextField>
+                        <Button fx:id="btnSearch" layoutX="467.0" layoutY="15.0" mnemonicParsing="false" prefHeight="23.0" text="Search" />
+                        <ProgressIndicator layoutX="545.0" layoutY="7.0" progress="0.0" />
+                     </children>
+                  </Pane>
+               </left>
             </BorderPane>
          </content></Tab>
       <Tab text="Settings">
