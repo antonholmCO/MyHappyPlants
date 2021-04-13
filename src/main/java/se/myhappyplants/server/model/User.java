@@ -21,14 +21,14 @@ public class User implements Serializable {
         this.isNotificationsActivated = isNotificationsActivated;
     }
 
-    public User(String email, String firstName, boolean isNotificationsActivated) {
+    public User(String email, String username, boolean isNotificationsActivated) {
         this.email = email;
-        this.firstName = firstName;
+        this.username = username;
         this.isNotificationsActivated = isNotificationsActivated;
     }
 
-    public User(String firstName) {
-        this.firstName = firstName;
+    public User(String username) {
+        this.username = username;
 
     }
 
