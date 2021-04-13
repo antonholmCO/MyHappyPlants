@@ -7,4 +7,9 @@ package se.myhappyplants.client.model;
  * @author Christopher O'Driscoll
  */
 public class APIRequest extends Request {
+    private String searchWord;
+
+    public APIRequest(String searchWord) {
+        this.searchWord=searchWord;
+    }
 }

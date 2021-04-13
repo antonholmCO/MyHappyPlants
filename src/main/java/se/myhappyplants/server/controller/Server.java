@@ -125,7 +125,7 @@ public class Server implements Runnable {
             }
         } else if (request instanceof APIRequest) {
             //ToDo code to handle requests made to api
-            response = new APIResponse(true);
+            response = new APIResponse(true,null);
         }
         return response;
     }

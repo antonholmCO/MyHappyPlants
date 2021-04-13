@@ -4,7 +4,12 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import se.myhappyplants.client.model.APIRequest;
 import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.model.Request;
+import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.server.model.APIResponse;
+import se.myhappyplants.server.model.Response;
 
 /**
  * Controls the inputs from a 'logged in' user
@@ -71,5 +76,25 @@ public class SecondaryController {
     private void searchButtonPressed() {
         String searchWord = txtFldSearch.getText();
         System.out.println(searchWord);
+        Request apiRequest = new APIRequest(searchWord);
+        APIResponse apiResponse = (APIResponse)ClientConnection.getInstance().makeRequest(apiRequest);
+
+        if (apiResponse != null) {
+            if (apiResponse.isSuccess()) {
+                System.out.println("det gick bra med att hämta api-växter");
+                System.out.println(apiResponse);
+                sendToSearchPlantPane(apiResponse);
+            }
+        } else {
+            MessageBox.display("No response", "No response from the server");
+        }
+
+
+    }
+
+    private void sendToSearchPlantPane(APIResponse apiResponse) {
+
+        
+
     }
 }
