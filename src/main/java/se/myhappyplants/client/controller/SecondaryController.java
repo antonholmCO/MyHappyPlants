@@ -1,6 +1,7 @@
 package se.myhappyplants.client.controller;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -11,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.APIRequest;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.Request;
@@ -41,6 +44,8 @@ public class SecondaryController {
   ListView resultPane;
   @FXML
   ProgressIndicator progressIndicator;
+  @FXML
+  ImageView imageViewImageUrl;
 
   /**
    * Constructor that has access to FXML variables
@@ -111,7 +116,9 @@ public class SecondaryController {
     ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
     ObservableList<String> items = FXCollections.observableArrayList ();
     for(APIPlant plant: searchedPlant) {
-      items.add(plant.common_name);
+      items.add(plant.toString());
+      //Image image = new Image(String.valueOf(plant.getImage_url()));
+      //imageViewImageUrl.setImage(image);
     }
     resultPane.setItems(items);
     progressIndicator.setProgress(100);

@@ -74,7 +74,7 @@ public class UserRepository implements IUserRepository {
     String firstName = null;
     boolean notificationActivated = false;
     try {
-      String query = "SELECT first_name, notification_activated FROM [User] WHERE email = '" +email +"';";
+      String query = "SELECT username, notification_activated FROM [User] WHERE email = '" +email +"';";
       ResultSet resultSet = statement.executeQuery(query);
       while (resultSet.next()) {
         firstName = resultSet.getString(1);
