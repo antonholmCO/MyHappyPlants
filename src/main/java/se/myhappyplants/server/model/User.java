@@ -21,13 +21,15 @@ public class User implements Serializable {
         this.isNotificationsActivated = isNotificationsActivated;
     }
 
-    /**
-     * temporary constructor to test client-server communication
-     * todo remove when redundant
-     * @param firstname
-     */
-    public User(String firstname) {
-        this.username = firstname;
+    public User(String email, String firstName, boolean isNotificationsActivated) {
+        this.email = email;
+        this.firstName = firstName;
+        this.isNotificationsActivated = isNotificationsActivated;
+    }
+
+    public User(String firstName) {
+        this.firstName = firstName;
+
     }
 
     public int getUniqueId() {

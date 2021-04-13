@@ -107,8 +107,17 @@ public class Server implements Runnable {
                 }
                 else {
                     String email = ((LoginRequest) request).getEmail();
+                    String password = ((LoginRequest) request).getPassword();
+                    boolean loginSuccess = userRepository.checkLogin(email, password);
                     //creates a username based on the email given, in future shall get username from database
-                    response = new LoginResponse(true, new User(email.substring(0, email.indexOf("@"))));
+                    if(loginSuccess) {
+
+                        User user = userRepository.getUserDetails(email);
+                        response = new LoginResponse(true, user);
+                    }
+                    else {
+                        response = new LoginResponse(false);
+                    }
                 }
             }
             else if (request instanceof LibraryRequest){

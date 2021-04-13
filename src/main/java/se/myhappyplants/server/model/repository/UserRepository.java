@@ -68,4 +68,25 @@ public class UserRepository implements IUserRepository {
     }
     return isVerified;
   }
+
+  public User getUserDetails(String email) {
+    User user = null;
+    String firstName = null;
+    boolean notificationActivated = false;
+    try {
+      String query = "SELECT first_name, notification_activated FROM [User] WHERE email = '" +email +"';";
+      ResultSet resultSet = statement.executeQuery(query);
+      while (resultSet.next()) {
+        firstName = resultSet.getString(1);
+        notificationActivated = resultSet.getBoolean(2);
+        System.out.println(firstName);
+        System.out.println(notificationActivated);
+      }
+      user = new User(email, firstName, notificationActivated);
+    }
+    catch(SQLException sqlException) {
+      sqlException.printStackTrace();
+    }
+    return user;
+  }
 }

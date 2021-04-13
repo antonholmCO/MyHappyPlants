@@ -17,9 +17,9 @@ public class Main {
         //Testa logga in och spara användare på DB samt skapa en ny User
         //controller.createNewUser();
         //controller.logIn();
-        PlantService plantService = new PlantService();
-       UserRepository userRepository = new UserRepository();
-        new Server(2555, userRepository, plantService);
+
+        new Server(2555, new UserRepository(), new PlantService());
+
 //        för att testa API:et används koden nedan
 //        PlantService plantService = new PlantService();
 //        plantService.getResult();
