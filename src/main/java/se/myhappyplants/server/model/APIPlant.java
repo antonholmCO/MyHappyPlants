@@ -62,7 +62,7 @@ public class APIPlant implements Serializable {
     this.links = links;
   }
   public String toString() {
-    String toString = String.format("%s: \t%s: \t%s: ",common_name,family_common_name,scientific_name);
+    String toString = String.format("Common name: %s \tFamily name: %s \tScientific name: %s ",common_name,family_common_name,scientific_name);
     return toString;
   }
 }
