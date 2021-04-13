@@ -93,31 +93,37 @@ public class Server implements Runnable {
      * @return response to be sent back to client
      */
     private Message getResponse(Message request) {
-        Message response = null;
-        if (request.getMessageType().equals("register")) {
-            String email = request.getUser().getEmail();
-            String username = request.getUser().getUsername();
-            String password = request.getUser().getPassword();
-            User user = new User(email, username, password, true);
-            if (userRepository.saveUser(user)) {
-                response = new Message("registration", new User(email, username, true), true);
-            } else {
-                response = new Message("registration",false);
-            }
-        } else if (request.getMessageType().equals("login")) {
-            String email = request.getUser().getEmail();
-            String password = request.getUser().getPassword();
-            boolean loginSuccess = userRepository.checkLogin(email, password);
-            //creates a username based on the email given, in future shall get username from database
-            if (loginSuccess) {
-                User user = userRepository.getUserDetails(email);
-                response = new Message("login", user, true);
-            } else {
-                response = new Message("login", false);
-            }
+        Message response;
+        String messageType = request.getMessageType();
+
+        switch (messageType) {
+            case "login":
+//                response = new Message("login", new User(request.getUser().getEmail()), true);
+                String email = request.getUser().getEmail();
+                String password = request.getUser().getPassword();
+
+                boolean loginSuccess = userRepository.checkLogin(email, password);
+                if (loginSuccess) {
+                    User user = userRepository.getUserDetails(email);
+                    response = new Message("login", user, true);
+                } else {
+                    response = new Message("login", false);
+                }
+                break;
+            case "register":
+//                response = new Message("register", request.getUser(), true);
+                User user = request.getUser();
+                if (userRepository.saveUser(user)) {
+                    response = new Message("registration", user, true);
+                } else {
+                    response = new Message("registration",false);
+                }
+                break;
+            default:
+                response = new Message("fail", false);
         }
-            return response;
-        }
+        return response;
+    }
 
         /**
          * Thread that accepts requests and delivers responses to a connected client
@@ -156,15 +162,16 @@ public class Server implements Runnable {
                     oos.flush();
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
-                } finally {
-                    if (socket != null) {
-                        try {
-                            socket.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
                 }
+//                finally {
+//                    if (socket != null) {
+//                        try {
+//                            socket.close();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
             }
         }
     }

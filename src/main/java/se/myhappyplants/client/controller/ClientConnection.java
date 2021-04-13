@@ -3,6 +3,7 @@ package se.myhappyplants.client.controller;
 
 import se.myhappyplants.shared.Message;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

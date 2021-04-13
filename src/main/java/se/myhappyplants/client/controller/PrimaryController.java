@@ -64,6 +64,7 @@ public class PrimaryController {
         if(loginResponse!=null) {
             if(loginResponse.isSuccess()) {
                 LoggedInUser.getInstance().setUser(loginResponse.getUser());
+                MessageBox.display("Success", "Now logged in as " + LoggedInUser.getInstance().getUser().getUsername());
                 switchToSecondary();
             }
             else {
