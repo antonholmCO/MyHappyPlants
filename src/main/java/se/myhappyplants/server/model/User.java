@@ -14,9 +14,9 @@ public class User implements Serializable {
     private String password;
     private boolean isNotificationsActivated = true;
 
-    public User(String email, String firstName, String password, boolean isNotificationsActivated) {
+    public User(String email, String username, String password, boolean isNotificationsActivated) {
         this.email = email;
-        this.username = firstName;
+        this.username = username;
         this.password = password;
         this.isNotificationsActivated = isNotificationsActivated;
     }
