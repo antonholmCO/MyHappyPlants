@@ -11,8 +11,8 @@ import se.myhappyplants.shared.User;
 
 /**
  * Controls the inputs from a user that hasn't logged in
- * Created by Eric Simonsson, Christopher O'Driscoll
- * Updated 2021-04-13 by Christopher
+ * Created by: Eric Simonsson, Christopher O'Driscoll
+ * Updated by: Christopher, 2021-04-13
  *
  * */
 public class PrimaryController {

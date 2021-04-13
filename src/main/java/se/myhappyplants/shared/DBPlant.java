@@ -1,5 +1,10 @@
 package se.myhappyplants.shared;
 
+/**
+ * Created by: Frida Jacobsson
+ * Updated by:
+ */
+
 import java.util.Date;
 
 public class DBPlant {

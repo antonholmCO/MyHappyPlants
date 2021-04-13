@@ -4,7 +4,7 @@ import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.server.model.service.PlantService;
 
 /**
- * @version 2.0
+ * Created by: Frida Jacobson, Eric Simonson, Anton Holm, Linn Borgström, Christopher O'Driscoll
  */
 public class Main {
     public static void main(String[] args) throws Exception {

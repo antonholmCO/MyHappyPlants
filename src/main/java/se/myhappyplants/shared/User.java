@@ -3,9 +3,8 @@ package se.myhappyplants.shared;
 import java.io.Serializable;
 
 /**
- * Version 1. Author: Frida Jacobsson.
- * Version 2. Author: Linn Borgström
- * Updated 2021-04-13 by Christopher
+ * Created by: Author: Frida Jacobsson Linn Borgström
+ * Updated by: Christopher, 2021-04-13
  */
 public class User implements Serializable {
 

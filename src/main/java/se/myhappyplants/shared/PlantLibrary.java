@@ -3,8 +3,8 @@ package se.myhappyplants.shared;
 import java.util.ArrayList;
 
 /**
- * version 1 Linn
- * version 2 Frida 7/4
+ * Created by: Linn Borgström
+ * Updated by: Frida Jacobsson 2021-04-07
  */
 
 public class PlantLibrary {

@@ -17,7 +17,8 @@ public class PlantService {
 
   /**
    * Class responsable for calling API and collect information about plants.
-   * Version 1. Author: Frida Jacobsson.
+   * Created by: Frida Jacobsson
+   * Updated by:
    */
 
   //new PlantService().getResult("https://trefle.io/api/v1/plants/search?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k&q="+search);

@@ -6,8 +6,8 @@ import java.io.Serializable;
  * ToDo
  * Class that can be used for communication between Client/Server
  * Client/Server via TCP
- * Created by Christopher O'Driscoll
- * Updated 2021-04-13 by Christopher
+ * Created by: Christopher O'Driscoll
+ * Updated by: Christopher, 2021-04-13
  */
 public class Message implements Serializable {
 

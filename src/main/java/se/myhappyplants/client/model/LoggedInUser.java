@@ -5,8 +5,8 @@ import se.myhappyplants.shared.User;
 /**
  * Singleton class that keeps track of the current user
  * that is logged in to the application
- * Created by Christopher O'Driscoll
- * Updated 2021-04-13 by Christopher
+ * Created by: Christopher O'Driscoll
+ * Updated by: Christopher, 2021-04-13
  */
 public final class LoggedInUser {
 

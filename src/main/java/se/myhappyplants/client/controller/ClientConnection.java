@@ -11,8 +11,8 @@ import java.net.Socket;
 
 /**
  * Class that opens a connection to the server, to send request and receive response objects.
- * created by Christopher O'Driscoll
- * updated 2021-04-13 by Christopher
+ * Created by: Christopher O'Driscoll
+ * Updated by: Christopher, 2021-04-13
  */
 public class ClientConnection{
 

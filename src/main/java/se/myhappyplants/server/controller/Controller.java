@@ -11,8 +11,8 @@ import java.util.Scanner;
 
 /**
  * Test-class for testing DB, logging in and create account
- * Created by Linn Borgström
- * Updated by Frida
+ * Created by: Linn Borgström
+ * Updated by: Frida
  */
 
 public class Controller {

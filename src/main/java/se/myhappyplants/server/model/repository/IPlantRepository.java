@@ -6,7 +6,8 @@ import se.myhappyplants.shared.DBPlant;
 import java.util.ArrayList;
 
 /**
- * Version 1. Author Frida Jacobsson 6/4
+ * Created by: Frida Jacobsson 2021-04-06
+ * Updated by:
  */
 public interface IPlantRepository {
 

@@ -15,8 +15,8 @@ import java.net.Socket;
  * Server that listens for incoming connections
  * Handles each connection with a new thread
  *
- * Created by Christopher O'Driscoll
- * Updated 2021-04-13 by Christopher
+ * Created by: Christopher O'Driscoll
+ * Updated by: Christopher, 2021-04-13
  */
 public class Server implements Runnable {
 
