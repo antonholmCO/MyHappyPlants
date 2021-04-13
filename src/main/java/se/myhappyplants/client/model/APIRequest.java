@@ -12,4 +12,8 @@ public class APIRequest extends Request {
     public APIRequest(String searchWord) {
         this.searchWord=searchWord;
     }
+
+    public String getSearchWord() {
+        return searchWord;
+    }
 }

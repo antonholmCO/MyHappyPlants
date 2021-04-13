@@ -8,4 +8,8 @@ import java.util.ArrayList;
 public class PlantCollection {
 
   public ArrayList<APIPlant> data;
+
+  public ArrayList<APIPlant> getData() {
+    return data;
+  }
 }

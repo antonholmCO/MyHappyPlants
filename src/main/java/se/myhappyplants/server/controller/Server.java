@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * Server that listens for incoming connections
@@ -87,7 +88,7 @@ public class Server implements Runnable {
      * @param request request object received from client
      * @return response to be sent back to client
      */
-    private Response getResponse(Request request) {
+    private Response getResponse(Request request) throws Exception {
         Response response = null;
         if (request instanceof DBRequest) {
             //ToDo code to handle requests made to database
@@ -124,8 +125,15 @@ public class Server implements Runnable {
                 response = new LibraryResponse(true);
             }
         } else if (request instanceof APIRequest) {
-            //ToDo code to handle requests made to api
-            response = new APIResponse(true,null);
+            String userSearch = ((APIRequest) request).getSearchWord();
+            ArrayList<APIPlant> plantResult = plantService.getResult(userSearch);
+            System.out.println("server" +plantResult);
+            if(plantResult != null) {
+                response = new APIResponse(true, plantResult);
+            }
+            else {
+                response = new APIResponse(false, plantResult);
+            }
         }
         return response;
     }
@@ -164,7 +172,7 @@ public class Server implements Runnable {
                 //todo remove test sout
                 System.out.println("Response sent");
                 oos.flush();
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 if (socket != null) {

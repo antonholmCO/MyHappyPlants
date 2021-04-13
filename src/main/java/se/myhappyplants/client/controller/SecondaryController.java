@@ -30,7 +30,7 @@ public class SecondaryController {
     @FXML
     Label lblUserName3;
     @FXML
-    TextField txtFldSearch;
+    TextField txtFldSearchText;
 
     /**
      * Constructor that has access to FXML variables
@@ -77,7 +77,7 @@ public class SecondaryController {
 
     @FXML
     private void searchButtonPressed() {
-        String searchWord = txtFldSearch.getText();
+        String searchWord = txtFldSearchText.getText();
         System.out.println(searchWord);
         Request apiRequest = new APIRequest(searchWord);
         APIResponse apiResponse = (APIResponse)ClientConnection.getInstance().makeRequest(apiRequest);
@@ -88,20 +88,18 @@ public class SecondaryController {
                 System.out.println(apiResponse);
                 sendToSearchPlantPane(apiResponse);
             }
+            else {
+                System.out.println("no results!");
+            }
         } else {
             MessageBox.display("No response", "No response from the server");
         }
-
-
     }
 
     private void sendToSearchPlantPane(APIResponse apiResponse) {
-
         ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
-        for (APIPlant p : searchedPlant) {
-            System.out.println(p.getCommon_name());
-        }
-
-
+//        for (APIPlant p : searchedPlant) {
+//            System.out.println(p.getCommon_name());
+ //       }
     }
 }
