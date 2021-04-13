@@ -1,6 +1,8 @@
 package se.myhappyplants.server.model.plant;
 
-public class Links {
+import java.io.Serializable;
+
+public class Links implements Serializable {
 
   public String plant;
 }

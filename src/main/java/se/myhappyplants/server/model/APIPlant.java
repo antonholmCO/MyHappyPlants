@@ -3,9 +3,10 @@ package se.myhappyplants.server.model;
 
 import se.myhappyplants.server.model.plant.Links;
 
+import java.io.Serializable;
 import java.net.URL;
 
-public class APIPlant {
+public class APIPlant implements Serializable {
 
   public String common_name;
   public String scientific_name;

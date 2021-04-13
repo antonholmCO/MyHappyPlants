@@ -1,6 +1,8 @@
 package se.myhappyplants.server.model.plant;
 
-public class PlantDetail {
+import java.io.Serializable;
+
+public class PlantDetail implements Serializable {
 
   public PlantData data;
 }

@@ -90,6 +90,7 @@ public class Server implements Runnable {
      */
     private Response getResponse(Request request) throws Exception {
         Response response = null;
+        System.out.println("heeeeeyyyy");
         if (request instanceof DBRequest) {
             //ToDo code to handle requests made to database
             if (request instanceof LoginRequest) {

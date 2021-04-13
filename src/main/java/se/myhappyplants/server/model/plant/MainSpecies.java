@@ -1,6 +1,8 @@
 package se.myhappyplants.server.model.plant;
 
-public class MainSpecies {
+import java.io.Serializable;
+
+public class MainSpecies implements Serializable {
 
   public Growth growth;
 }

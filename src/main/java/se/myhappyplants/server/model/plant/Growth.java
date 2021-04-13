@@ -1,6 +1,8 @@
 package se.myhappyplants.server.model.plant;
 
-public class Growth {
+import java.io.Serializable;
+
+public class Growth implements Serializable {
 
   public int light;
   public Object maximum_precipitation;
