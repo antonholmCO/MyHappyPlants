@@ -1,6 +1,8 @@
 package se.myhappyplants.client.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -8,6 +10,7 @@ import se.myhappyplants.client.model.APIRequest;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.Request;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.server.model.APIPlant;
 import se.myhappyplants.server.model.APIResponse;
 import se.myhappyplants.server.model.Response;
 
@@ -94,7 +97,11 @@ public class SecondaryController {
 
     private void sendToSearchPlantPane(APIResponse apiResponse) {
 
-        
+        ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
+        for (APIPlant p : searchedPlant) {
+            System.out.println(p.getCommon_name());
+        }
+
 
     }
 }

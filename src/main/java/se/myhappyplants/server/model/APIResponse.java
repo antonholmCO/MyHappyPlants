@@ -15,6 +15,10 @@ public class APIResponse extends Response {
         this.plantList=plantList;
     }
 
+    public ArrayList<APIPlant> getPlantList() {
+        return plantList;
+    }
+
     @Override
     public String toString() {
         return "APIResponse{" +
