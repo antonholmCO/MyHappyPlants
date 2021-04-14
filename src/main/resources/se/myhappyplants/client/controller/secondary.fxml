@@ -42,7 +42,7 @@
                <top>
                   <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Button layoutX="700.0" layoutY="16.0" mnemonicParsing="false" style="-fx-color: Darkred;" text="Log Out" />
+                        <Button layoutX="700.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" style="-fx-color: Darkred;" text="Log Out" />
                         <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="lblUsernameSearch" layoutX="74.0" layoutY="18.0" text="Username">
                            <font>
@@ -81,7 +81,7 @@
                <top>
                   <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Button layoutX="700.0" layoutY="16.0" mnemonicParsing="false" style="-fx-color: Darkred;" text="Log Out" />
+                        <Button layoutX="700.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" style="-fx-color: Darkred;" text="Log Out" />
                         <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="lblUsernameSettings" layoutX="74.0" layoutY="18.0" text="Username">
                            <font>

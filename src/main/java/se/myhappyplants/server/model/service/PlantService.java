@@ -42,6 +42,9 @@ public class PlantService {
     Gson gson = new Gson();
     PlantCollection plantCollection = gson.fromJson(response.body(), PlantCollection.class);
     ArrayList<APIPlant> plantResult = plantCollection.getData();
+    for (int i = 0; i < plantResult.size(); i++) {
+      System.out.println(plantResult.get(i));
+    }
     return plantResult;
 
 //    for (APIPlant plant : plantCollection.data) {
