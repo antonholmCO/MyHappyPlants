@@ -90,7 +90,6 @@ public class Server implements Runnable {
      */
     private Response getResponse(Request request) throws Exception {
         Response response = null;
-        System.out.println("heeeeeyyyy");
         if (request instanceof DBRequest) {
             //ToDo code to handle requests made to database
             if (request instanceof LoginRequest) {
@@ -128,7 +127,6 @@ public class Server implements Runnable {
         } else if (request instanceof APIRequest) {
             String userSearch = ((APIRequest) request).getSearchWord();
             ArrayList<APIPlant> plantResult = plantService.getResult(userSearch);
-            System.out.println("server" +plantResult);
             if(plantResult != null) {
                 response = new APIResponse(true, plantResult);
             }

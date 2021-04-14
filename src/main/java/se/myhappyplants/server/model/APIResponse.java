@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * ToDo
  * Could contain things like an array list of Plants, text, image locations etc
  * @author Christopher O'Driscoll
+ * Frida, Linn 13/4
  */
 public class APIResponse extends Response {
     private ArrayList<APIPlant> plantList;
