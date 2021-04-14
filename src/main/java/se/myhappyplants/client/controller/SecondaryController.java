@@ -99,7 +99,7 @@ public class SecondaryController {
         progressIndicator.setProgress(50);
         showResultsOnPane(apiResponse);
       } else {
-        MessageBox.display("No results", "No results on "+txtFldSearchText +", sorry!");
+        MessageBox.display("No results", "No results on "+txtFldSearchText.getText() +", sorry!");
       }
     } else {
       MessageBox.display("No response", "No response from the server");
