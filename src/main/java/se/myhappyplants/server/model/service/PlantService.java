@@ -1,7 +1,7 @@
 package se.myhappyplants.server.model.service;
 
 import com.google.gson.Gson;
-import se.myhappyplants.server.model.APIPlant;
+import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.server.model.plant.PlantCollection;
 import se.myhappyplants.server.model.plant.PlantDetail;
 
@@ -18,7 +18,8 @@ public class PlantService {
 
   /**
    * Class responsable for calling API and collect information about plants.
-   * Version 1. Author: Frida Jacobsson.
+   * Created by: Frida Jacobsson
+   * Updated by:
    */
 
   //new PlantService().getResult("https://trefle.io/api/v1/plants/search?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k&q="+search);

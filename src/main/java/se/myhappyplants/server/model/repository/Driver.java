@@ -8,10 +8,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
 /**
- * 2/4 Frida
- * 6/4 - Anton
+ * Created by: Frida Jacobsson 2021-04-02
+ * Updated by: Anton, 2021-04-06
  */
 
 public class Driver {

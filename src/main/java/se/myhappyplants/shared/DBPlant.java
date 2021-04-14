@@ -1,4 +1,9 @@
-package se.myhappyplants.server.model;
+package se.myhappyplants.shared;
+
+/**
+ * Created by: Frida Jacobsson
+ * Updated by:
+ */
 
 import java.util.Date;
 
