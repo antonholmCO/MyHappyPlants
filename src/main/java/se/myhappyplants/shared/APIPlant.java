@@ -8,15 +8,24 @@ package se.myhappyplants.shared;
 
 import se.myhappyplants.server.model.plant.Links;
 
+import java.io.Serializable;
 import java.net.URL;
 
-public class APIPlant {
+public class APIPlant implements Serializable {
 
   public String common_name;
   public String scientific_name;
   public String family_common_name;
   public URL image_url;
   public Links links;
+
+  public APIPlant(String common_name, String scientific_name, String family_common_name, URL image_url, Links links) {
+    this.common_name = common_name;
+    this.scientific_name = scientific_name;
+    this.family_common_name = family_common_name;
+    this.image_url = image_url;
+    this.links = links;
+  }
 
   public String getCommon_name() {
     return common_name;
@@ -56,5 +65,10 @@ public class APIPlant {
 
   public void setLinks(Links links) {
     this.links = links;
+  }
+
+  public String toString() {
+    String toString = String.format("Common name: %s \tFamily name: %s \tScientific name: %s ",common_name,family_common_name,scientific_name);
+    return toString;
   }
 }

@@ -11,12 +11,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import se.myhappyplants.client.model.APIRequest;
 import se.myhappyplants.client.model.LoggedInUser;
-import se.myhappyplants.client.model.Request;
 import se.myhappyplants.client.view.MessageBox;
-import se.myhappyplants.server.model.APIPlant;
-import se.myhappyplants.server.model.APIResponse;
+import se.myhappyplants.shared.APIPlant;
+import se.myhappyplants.shared.Message;
 
 /**
  * Controls the inputs from a 'logged in' user
@@ -28,12 +26,13 @@ public class SecondaryController {
 
   private ClientConnection connection;
 
+
   @FXML
-  Label lblUsername1; //vad innebär dessa? förtydliga variabelnamn?
+  Label lblUsernameHome; //vi borde ändra namn
   @FXML
-  Label lblUsername2;
+  Label lblUsernameSearch;
   @FXML
-  Label lblUsername3;
+  Label lblUsernameSettings;
   @FXML
   TextField txtFldSearchText;
   @FXML
@@ -50,9 +49,9 @@ public class SecondaryController {
   public void initialize() {
 
     LoggedInUser loggedInUser = LoggedInUser.getInstance();
-    lblUsername1.setText(loggedInUser.getUser().getUsername());
-    lblUsername2.setText(loggedInUser.getUser().getUsername());
-    lblUsername3.setText(loggedInUser.getUser().getUsername());
+    lblUsernameHome.setText(loggedInUser.getUser().getUsername());
+    lblUsernameSearch.setText(loggedInUser.getUser().getUsername());
+    lblUsernameSettings.setText(loggedInUser.getUser().getUsername());
     //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
 
     //populateListView(testPlantArray());
@@ -91,9 +90,9 @@ public class SecondaryController {
 
   @FXML
   private void searchButtonPressed() {
-    Request apiRequest = new APIRequest(txtFldSearchText.getText());
+    Message apiRequest = new Message("search", txtFldSearchText.getText());
     progressIndicator.setProgress(25);
-    APIResponse apiResponse = (APIResponse) ClientConnection.getInstance().makeRequest(apiRequest);
+    Message apiResponse = ClientConnection.getInstance().makeRequest(apiRequest);
 
     if (apiResponse != null) {
       if (apiResponse.isSuccess()) {
@@ -107,7 +106,7 @@ public class SecondaryController {
     }
   }
 
-  private void showResultsOnPane(APIResponse apiResponse) {
+  private void showResultsOnPane(Message apiResponse) {
     progressIndicator.setProgress(75);
     ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
     ObservableList<String> items = FXCollections.observableArrayList ();
