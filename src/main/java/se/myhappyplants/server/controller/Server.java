@@ -1,9 +1,9 @@
 package se.myhappyplants.server.controller;
 
-import se.myhappyplants.client.model.*;
-import se.myhappyplants.server.model.*;
 import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.server.model.service.PlantService;
+import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,10 +14,11 @@ import java.net.Socket;
 /**
  * Server that listens for incoming connections
  * Handles each connection with a new thread
- * @author Christopher O'Driscoll
+ *
+ * Created by: Christopher O'Driscoll
+ * Updated by: Christopher, 2021-04-13
  */
 public class Server implements Runnable {
-
 
 
     private ServerSocket serverSocket;
@@ -28,9 +29,10 @@ public class Server implements Runnable {
 
     /**
      * Constructor opens a port and starts a thread to listen for incoming connections/requests
-     * @param port port to be used
+     *
+     * @param port           port to be used
      * @param userRepository to handle db requests
-     * @param plantService to handle api requests
+     * @param plantService   to handle api requests
      */
     public Server(int port, UserRepository userRepository, PlantService plantService) {
         this(port);
@@ -40,6 +42,7 @@ public class Server implements Runnable {
 
     /**
      * Simplified constructor
+     *
      * @param port port to be used
      */
     public Server(int port) {
@@ -69,6 +72,7 @@ public class Server implements Runnable {
             }
         }
     }
+
     /**
      * stops the server, closing the connection
      */
@@ -84,97 +88,90 @@ public class Server implements Runnable {
 
     /**
      * Gets a response depending on the type of requests received
+     *
      * @param request request object received from client
      * @return response to be sent back to client
      */
-    private Response getResponse(Request request) {
-        Response response = null;
-        if (request instanceof DBRequest) {
-            //ToDo code to handle requests made to database
-            if (request instanceof LoginRequest) {
-                //for testing purposes, always returns true and a new User created from request parameters
-                if (request instanceof RegisterRequest) {
-                    String email = ((RegisterRequest) request).getEmail();
-                    String username = ((RegisterRequest) request).getUsername();
-                    String password = ((RegisterRequest) request).getPassword();
-                    User user = new User(email, username, password, true);
-                    if(userRepository.saveUser(user)) {
-                        response = new LoginResponse(true, new User(username));
-                    }
-                    else {
-                        response = new LoginResponse(false, new User(username));
-                    }
-                }
-                else {
-                    String email = ((LoginRequest) request).getEmail();
-                    String password = ((LoginRequest) request).getPassword();
-                    boolean loginSuccess = userRepository.checkLogin(email, password);
-                    //creates a username based on the email given, in future shall get username from database
-                    if(loginSuccess) {
+    private Message getResponse(Message request) {
+        Message response;
+        String messageType = request.getMessageType();
 
-                        User user = userRepository.getUserDetails(email);
-                        response = new LoginResponse(true, user);
-                    }
-                    else {
-                        response = new LoginResponse(false);
-                    }
+        switch (messageType) {
+            case "login":
+//                response = new Message("login", new User(request.getUser().getEmail()), true);
+                String email = request.getUser().getEmail();
+                String password = request.getUser().getPassword();
+
+                boolean loginSuccess = userRepository.checkLogin(email, password);
+                if (loginSuccess) {
+                    User user = userRepository.getUserDetails(email);
+                    response = new Message("login", user, true);
+                } else {
+                    response = new Message("login", false);
                 }
-            }
-            else if (request instanceof LibraryRequest){
-                response = new LibraryResponse(true);
-            }
-        } else if (request instanceof APIRequest) {
-            //ToDo code to handle requests made to api
-            response = new APIResponse(true);
+                break;
+            case "register":
+//                response = new Message("register", request.getUser(), true);
+                User user = request.getUser();
+                if (userRepository.saveUser(user)) {
+                    response = new Message("registration", user, true);
+                } else {
+                    response = new Message("registration",false);
+                }
+                break;
+            default:
+                response = new Message("fail", false);
         }
         return response;
     }
-    /**
-     * Thread that accepts requests and delivers responses to a connected client
-     */
-    private class ClientHandler extends Thread {
-
-        private final Socket socket;
-        private final ObjectInputStream ois;
-        private final ObjectOutputStream oos;
 
         /**
-         * Constructor opens new input/output streams on creation
-         * @param socket the socket to be used for communication
-         * @throws IOException
+         * Thread that accepts requests and delivers responses to a connected client
          */
-        private ClientHandler(Socket socket) throws IOException {
-            this.socket = socket;
-            this.ois = new ObjectInputStream(socket.getInputStream());
-            this.oos = new ObjectOutputStream(socket.getOutputStream());
-        }
+        private class ClientHandler extends Thread {
 
-        /**
-         * Waits for an incoming object, gets the appropriate response, and sends it to the client
-         * Closes thread after execution
-         */
-        @Override
-        public void run() {
-            try {
-                Request request = (Request) ois.readObject();
-                //todo remove test sout
-                System.out.println("Request received, sending response");
-                Response response = getResponse(request);
-                oos.writeObject(response);
-                //todo remove test sout
-                System.out.println("Response sent");
-                oos.flush();
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            } finally {
-                if (socket != null) {
-                    try {
-                        socket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            private final Socket socket;
+            private final ObjectInputStream ois;
+            private final ObjectOutputStream oos;
+
+            /**
+             * Constructor opens new input/output streams on creation
+             * @param socket the socket to be used for communication
+             * @throws IOException
+             */
+            private ClientHandler(Socket socket) throws IOException {
+                this.socket = socket;
+                this.ois = new ObjectInputStream(socket.getInputStream());
+                this.oos = new ObjectOutputStream(socket.getOutputStream());
+            }
+
+            /**
+             * Waits for an incoming object, gets the appropriate response, and sends it to the client
+             * Closes thread after execution
+             */
+            @Override
+            public void run() {
+                try {
+                    Message request = (Message) ois.readObject();
+                    //todo remove test sout
+                    System.out.println("Request received, sending response");
+                    Message response = getResponse(request);
+                    oos.writeObject(response);
+                    //todo remove test sout
+                    System.out.println("Response sent");
+                    oos.flush();
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
+//                finally {
+//                    if (socket != null) {
+//                        try {
+//                            socket.close();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
             }
         }
     }
-}

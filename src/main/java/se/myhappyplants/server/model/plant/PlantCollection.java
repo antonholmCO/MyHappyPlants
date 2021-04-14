@@ -1,7 +1,11 @@
 package se.myhappyplants.server.model.plant;
+/**
+ * Created by: Frida Jacobsson
+ * Updated by:
+ */
 
 
-import se.myhappyplants.server.model.APIPlant;
+import se.myhappyplants.shared.APIPlant;
 
 import java.util.ArrayList;
 

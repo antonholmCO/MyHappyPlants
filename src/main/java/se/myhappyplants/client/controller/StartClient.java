@@ -14,8 +14,7 @@ import java.io.IOException;
  * If javaFX not installed, execute maven goals:
  *        1.  mvn javafx:compile
  *        2.  mvn javafx:run
- * @author Christopher O'Driscoll
- * @author Eric Simonsson
+ * Creater by: Christopher O'Driscoll, Eric Simonsson
  */
 public class StartClient extends Application {
 

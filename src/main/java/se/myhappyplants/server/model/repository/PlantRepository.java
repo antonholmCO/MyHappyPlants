@@ -1,16 +1,16 @@
 package se.myhappyplants.server.model.repository;
 
 
-import se.myhappyplants.server.model.DBPlant;
-import se.myhappyplants.server.model.User;
+import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.User;
 
 import java.net.UnknownHostException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 /**
- * Class for calling DB to get saved plants or save new plants.
- * Version 1. Frida Jacobsson, Linn Borgström april
+ * Created by: Frida Jacobsson, Linn Borgström
+ * Updated by:
  */
 public class PlantRepository implements IPlantRepository {
 

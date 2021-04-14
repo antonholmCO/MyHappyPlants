@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 /**
  * Simple message box
- * @author Christopher O'Driscoll
+ * Created by: Christopher O'Driscoll
  */
 public class MessageBox {
     public static void display(String title, String message) {

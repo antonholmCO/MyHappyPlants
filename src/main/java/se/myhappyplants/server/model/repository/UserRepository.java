@@ -1,13 +1,15 @@
 package se.myhappyplants.server.model.repository;
 
 import org.mindrot.jbcrypt.BCrypt;
-import se.myhappyplants.server.model.User;
+import se.myhappyplants.shared.User;
 
 import java.net.UnknownHostException;
 import java.sql.*;
 
 /**
- * Version 1. Frida Jacobsson april.
+ * Created by: Frida Jacobsson
+ * Updated by:
+ *
  * Class that call the database to store information about user.
  * Class that call the database to check if a user exists.
  * Uses BCrypt to create a safe password
@@ -71,18 +73,18 @@ public class UserRepository implements IUserRepository {
 
   public User getUserDetails(String email) {
     User user = null;
-    String firstName = null;
+    String username = null;
     boolean notificationActivated = false;
     try {
       String query = "SELECT username, notification_activated FROM [User] WHERE email = '" +email +"';";
       ResultSet resultSet = statement.executeQuery(query);
       while (resultSet.next()) {
-        firstName = resultSet.getString(1);
+        username = resultSet.getString(1);
         notificationActivated = resultSet.getBoolean(2);
-        System.out.println(firstName);
+        System.out.println(username);
         System.out.println(notificationActivated);
       }
-      user = new User(email, firstName, notificationActivated);
+      user = new User(email, username, notificationActivated);
     }
     catch(SQLException sqlException) {
       sqlException.printStackTrace();

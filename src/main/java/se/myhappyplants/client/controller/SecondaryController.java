@@ -7,8 +7,8 @@ import se.myhappyplants.client.model.LoggedInUser;
 
 /**
  * Controls the inputs from a 'logged in' user
- * @author Christopher O'Driscoll
- * @author Eric Simonsson
+ * Created by: Christopher O'Driscoll, Eric Simonsson
+ *
  * */
 public class SecondaryController {
 
