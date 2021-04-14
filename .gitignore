@@ -203,3 +203,5 @@ $RECYCLE.BIN/
 # File that stores all passwords and API keys
 PasswordsAndKeys.java
 PasswordsAndKeys.class
+
+lastLogin.txt
