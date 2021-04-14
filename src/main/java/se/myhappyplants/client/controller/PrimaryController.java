@@ -52,7 +52,7 @@ public class PrimaryController {
             txtFldEmail.setText(lastLoggedInUser);
         }
         catch (IOException e){
-            e.printStackTrace();
+            System.out.println("No previous user logged in");
         }
 
 
