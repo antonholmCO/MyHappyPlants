@@ -11,6 +11,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PlantService {
@@ -26,11 +27,8 @@ public class PlantService {
   private String trefleURL = "https://trefle.io";
   private String searchURL = trefleURL + "/api/v1/plants/search?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k&q=";
 
-  public void getResult() throws Exception {
+  public ArrayList<APIPlant> getResult(String userSearch) throws Exception {
 
-    Scanner scanner = new Scanner(System.in);
-    System.out.println("What would you like to search for?");
-    String userSearch = scanner.nextLine();
     String plantURL = searchURL + userSearch;
 
     HttpClient client = HttpClient.newHttpClient();
@@ -43,15 +41,17 @@ public class PlantService {
 
     Gson gson = new Gson();
     PlantCollection plantCollection = gson.fromJson(response.body(), PlantCollection.class);
+    ArrayList<APIPlant> plantResult = plantCollection.getData();
+    return plantResult;
 
-    for (APIPlant plant : plantCollection.data) {
-      System.out.println("Common name: " + plant.common_name + ", Scientific name: " + plant.scientific_name + ", Family name: " + plant.family_common_name);
-      getMoreInformation(plant);
-    }
+//    for (APIPlant plant : plantCollection.data) {
+//      System.out.println("Common name: " + plant.common_name + ", Scientific name: " + plant.scientific_name + ", Family name: " + plant.family_common_name);
+//      getMoreInformation(plant);
+//    }
   }
 
   public void getMoreInformation(APIPlant plant) throws IOException, InterruptedException {
-    String plantURL = trefleURL + plant.links.plant+"?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k";
+    String plantURL = trefleURL + plant.links.plant + "?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k";
     HttpClient client = HttpClient.newHttpClient();
     HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(plantURL))

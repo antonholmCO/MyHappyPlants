@@ -21,5 +21,4 @@ public class Main {
 //        PlantService plantService = new PlantService();
 //        plantService.getResult();
     }
-
 }

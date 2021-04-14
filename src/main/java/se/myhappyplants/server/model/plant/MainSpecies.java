@@ -4,7 +4,9 @@ package se.myhappyplants.server.model.plant;
  * Updated by:
  */
 
-public class MainSpecies {
+import java.io.Serializable;
+
+public class MainSpecies implements Serializable {
 
   public Growth growth;
 }

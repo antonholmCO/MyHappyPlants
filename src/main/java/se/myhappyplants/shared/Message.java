@@ -1,6 +1,7 @@
 package se.myhappyplants.shared;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * ToDo
@@ -12,18 +13,29 @@ import java.io.Serializable;
 public class Message implements Serializable {
 
     private String messageType;
+    private String searchWord;
     private User user;
     private boolean success;
+    private ArrayList<APIPlant> plantList;
 
     public Message(String messageType, User user, boolean success) {
-        this.messageType = messageType;
+        this(messageType, success);
         this.user = user;
-        this.success = success;
     }
 
     public Message(String messageType, boolean success) {
         this.messageType = messageType;
         this.success = success;
+    }
+
+    public Message(String messageType, ArrayList<APIPlant> plantList, boolean success) {
+        this(messageType, success);
+        this.plantList = plantList;
+    }
+
+    public Message(String messageType, String searchWord) {
+        this.messageType = messageType;
+        this.searchWord = searchWord;
     }
 
     public Message(String messageType, User user) {
@@ -36,6 +48,10 @@ public class Message implements Serializable {
         return messageType;
     }
 
+    public ArrayList<APIPlant> getPlantList() {
+        return plantList;
+    }
+
     public User getUser() {
         return user;
     }
@@ -43,4 +59,9 @@ public class Message implements Serializable {
     public boolean isSuccess() {
         return success;
     }
+
+    public String getSearchWord() {
+        return searchWord;
+    }
+
 }

@@ -98,8 +98,8 @@ public class Server implements Runnable {
 
         switch (messageType) {
             case "login":
-//                response = new Message("login", new User(request.getUser().getEmail()), true);
-                String email = request.getUser().getEmail();
+                response = new Message("login", new User(request.getUser().getEmail()), true);
+                /*String email = request.getUser().getEmail();
                 String password = request.getUser().getPassword();
 
                 boolean loginSuccess = userRepository.checkLogin(email, password);
@@ -108,16 +108,16 @@ public class Server implements Runnable {
                     response = new Message("login", user, true);
                 } else {
                     response = new Message("login", false);
-                }
+                }*/
                 break;
             case "register":
-//                response = new Message("register", request.getUser(), true);
-                User user = request.getUser();
+                response = new Message("register", request.getUser(), true);
+                /*User user = request.getUser();
                 if (userRepository.saveUser(user)) {
                     response = new Message("registration", user, true);
                 } else {
                     response = new Message("registration",false);
-                }
+                }*/
                 break;
             default:
                 response = new Message("fail", false);

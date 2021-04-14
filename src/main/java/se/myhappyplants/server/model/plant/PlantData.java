@@ -4,7 +4,9 @@ package se.myhappyplants.server.model.plant;
  * Updated by:
  */
 
-public class PlantData {
+import java.io.Serializable;
+
+public class PlantData implements Serializable {
 
   public MainSpecies main_species;
 }
