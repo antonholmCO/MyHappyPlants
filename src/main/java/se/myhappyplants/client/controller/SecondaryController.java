@@ -9,15 +9,13 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.PlantLibrary;
 
 /**
  * Controls the inputs from a 'logged in' user
@@ -28,6 +26,7 @@ import se.myhappyplants.shared.Message;
 public class SecondaryController {
 
   private ClientConnection connection;
+  private PlantLibrary currentUserLibrary;
 
 
   @FXML
@@ -44,6 +43,8 @@ public class SecondaryController {
   ProgressIndicator progressIndicator;
   @FXML
   ImageView imageViewImageUrl;
+  @FXML
+  ListView userPlantLibrary;
 
   /**
    * Constructor that has access to FXML variables
@@ -55,6 +56,12 @@ public class SecondaryController {
     lblUsernameHome.setText(loggedInUser.getUser().getUsername());
     lblUsernameSearch.setText(loggedInUser.getUser().getUsername());
     lblUsernameSettings.setText(loggedInUser.getUser().getUsername());
+
+    //Gets users plant library
+    currentUserLibrary = LoggedInUser.getInstance().getUser().getPlantLibrary();
+    createCurrentUserLibraryFromDB();
+    addCurrentUserLibraryToHomeScreen();
+
     //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
 
 
@@ -127,13 +134,41 @@ public class SecondaryController {
   private void showResultsOnPane(Message apiResponse) {
     progressIndicator.setProgress(75);
     ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
-    ObservableList<String> items = FXCollections.observableArrayList ();
+    ObservableList<APIPlant> items = FXCollections.observableArrayList ();
     for(APIPlant plant: searchedPlant) {
-      items.add(plant.toString());
+//      arrayItem.add(plant);
+      items.add(plant);
       //Image image = new Image(String.valueOf(plant.getImage_url()));
       //imageViewImageUrl.setImage(image);
     }
     resultPane.setItems(items);
     progressIndicator.setProgress(100);
+  }
+
+
+  private void createCurrentUserLibraryFromDB() {
+    //TODO: Hämta plantor som tillhör currentuser från databasen och lägg dom i currentUserLibrary
+  }
+
+  private void addCurrentUserLibraryToHomeScreen() {
+    //TODO: Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
+  }
+
+  private void updateDatabaseWithCurrentUserLibrary() {
+    //TODO: Uppdatera databasen med senaste currentUserLibrary. Denna anropas när applikationen stängs ner
+  }
+
+  @FXML
+  private void addPlantToCurrentUserLibrary() {
+    //Add to GUI
+    APIPlant selectedPlant = (APIPlant) resultPane.getSelectionModel().getSelectedItem();
+    ObservableList<APIPlant> plants = FXCollections.observableArrayList();
+    plants.add(selectedPlant);
+    userPlantLibrary.setItems(plants);
+
+    //Add to library
+//    DBPlant plantToAdd = new DBPlant(selectedPlant.common_name, selectedPlant.getLinks().getPlant(), null);
+//    currentUserLibrary.addPlantToLibrary(plantToAdd);
+
   }
 }

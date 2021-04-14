@@ -18,4 +18,9 @@ public class DBPlant {
         this.apiURL = apiURL;
         this.lastWatered = lastWatered;
     }
+
+    @Override
+    public String toString() {
+        return nickname;
+    }
 }

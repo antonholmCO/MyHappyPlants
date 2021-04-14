@@ -97,4 +97,12 @@ public class User implements Serializable {
     public void setIsNotificationsActivated(boolean notificationsActivated) {
         this.isNotificationsActivated = notificationsActivated;
     }
+
+    public PlantLibrary getPlantLibrary() {
+        return plantLibrary;
+    }
+
+    public void setPlantLibrary(PlantLibrary plantLibrary) {
+        this.plantLibrary = plantLibrary;
+    }
 }
