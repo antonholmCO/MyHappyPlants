@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@Stylesheet.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SecondaryController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@Stylesheet.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SecondaryController">
   <tabs>
     <Tab text="Home">
          <content>
@@ -37,7 +37,7 @@
                <center>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <ListView fx:id="userPlantLibrary" layoutX="54.0" layoutY="54.0" prefHeight="372.0" prefWidth="693.0" />
+                        <ListView fx:id="userPlantLibrary" layoutX="10.0" layoutY="-1.0" prefHeight="477.0" prefWidth="781.0" />
                      </children>
                   </AnchorPane>
                </center>
@@ -105,10 +105,10 @@
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
                      <children>
                         <Label layoutX="94.0" layoutY="78.0" text="Notifications ON/OFF" />
-                        <Label layoutX="94.0" layoutY="148.0" text="Do you want curious about plants" />
+                        <Label layoutX="94.0" layoutY="148.0" text="Do you want curios about plants" />
                         <Label layoutX="94.0" layoutY="220.0" text="Change profile picture" />
                         <ToggleButton layoutX="378.0" layoutY="74.0" mnemonicParsing="false" text="Notifications" />
-                        <ToggleButton layoutX="377.0" layoutY="144.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Curious" />
+                        <ToggleButton layoutX="377.0" layoutY="144.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Curios" />
                         <Button layoutX="378.0" layoutY="216.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="pictures" />
                      </children>
                   </AnchorPane>

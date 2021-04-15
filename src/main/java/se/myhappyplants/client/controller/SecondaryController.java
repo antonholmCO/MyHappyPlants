@@ -12,8 +12,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.APIPlant;
+import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.PlantLibrary;
 
@@ -165,6 +167,11 @@ public class SecondaryController {
     ObservableList<APIPlant> plants = FXCollections.observableArrayList();
     plants.add(selectedPlant);
     userPlantLibrary.setItems(plants);
+
+    //Add a Pane for the plant
+    ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
+    plantpane.add(new LibraryPlantPane(null, "Erics blomma", 0.5, new DBPlant("Erics blomma", null, null)));
+    userPlantLibrary.setItems(plantpane);
 
     //Add to library
 //    DBPlant plantToAdd = new DBPlant(selectedPlant.common_name, selectedPlant.getLinks().getPlant(), null);
