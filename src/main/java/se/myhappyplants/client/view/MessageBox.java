@@ -48,6 +48,8 @@ public class MessageBox {
      * Displays a yes/no input box
      * Created by: Anton Holm
      *
+     * @param title The title of the message box stage/window
+     * @param question The question which the user should answer yes or no
      * @return 1 if yes, 0 if no and -1 if no answer chosen
      */
     public static int askYesNo(String title, String question) {
@@ -87,6 +89,14 @@ public class MessageBox {
         return answer.get();
     }
 
+    /**
+     * Displays a input box with a text field
+     * Created by: Anton Holm
+     *
+     * @param title The title of the message box stage/window
+     * @param question The question that the user should answer with their input
+     * @return String entered by user
+     */
     public static String askForStringInput(String title, String question) {
         Stage window = new Stage();
         AtomicReference<String> input = new AtomicReference<>("");
