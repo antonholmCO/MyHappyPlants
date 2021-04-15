@@ -173,9 +173,8 @@ public class SecondaryController {
 
     //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
     ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
-    for (DBPlant plant: currentUserLibrary
-    ) {
-      plantpane.add(new LibraryPlantPane(null, 0.5, plant));
+    for (DBPlant plant: currentUserLibrary) {
+      plantpane.add(new LibraryPlantPane("resources/images/sapling_in_pot.png", 0.5, plant));
     }
     userPlantLibrary.setItems(plantpane);
   }
