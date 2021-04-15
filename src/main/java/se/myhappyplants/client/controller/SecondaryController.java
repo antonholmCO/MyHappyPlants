@@ -209,8 +209,14 @@ public class SecondaryController {
   private void addPlantToCurrentUserLibrary() {
     //Add to GUI
     APIPlant selectedPlant = (APIPlant) resultPane.getSelectionModel().getSelectedItem();
-    //todo give option to edit nickname
-    DBPlant plantToAdd = new DBPlant(selectedPlant.common_name, selectedPlant.getLinks().getPlant(), "2021-04-15");
+    String plantNickname = selectedPlant.common_name;
+
+    int answer = MessageBox.askYesNo("Want to add a nickname?", "Do you want to add a nickname for your plant?");
+    if (answer == 1) {
+      plantNickname = MessageBox.askForStringInput("Add a nickname", "What do you want to call your plant?");
+    }
+
+    DBPlant plantToAdd = new DBPlant(plantNickname, selectedPlant.getLinks().getPlant(), "2021-04-15");
     addPlantToDatabase(plantToAdd);
 
     //Add to library
