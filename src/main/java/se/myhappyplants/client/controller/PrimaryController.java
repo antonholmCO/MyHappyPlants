@@ -1,6 +1,7 @@
 package se.myhappyplants.client.controller;
 
-import java.io.IOException;
+import java.io.*;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -43,6 +44,20 @@ public class PrimaryController {
      * @throws IOException
      */
     @FXML
+    public void initialize(){
+        String lastLoggedInUser;
+
+        try(BufferedReader bw = new BufferedReader(new FileReader( "resources/lastLogin.txt"));){
+            lastLoggedInUser = bw.readLine();
+            txtFldEmail.setText(lastLoggedInUser);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+    }
+    @FXML
     private void switchToSecondary() throws IOException {
         StartClient.setRoot("secondary");
     }
@@ -64,7 +79,6 @@ public class PrimaryController {
         if(loginResponse!=null) {
             if(loginResponse.isSuccess()) {
                 LoggedInUser.getInstance().setUser(loginResponse.getUser());
-                MessageBox.display("Success", "Now logged in as " + LoggedInUser.getInstance().getUser().getUsername());
                 switchToSecondary();
             }
             else {

@@ -2,6 +2,7 @@ package se.myhappyplants.server.controller;
 
 import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.server.model.service.PlantService;
+import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
 
@@ -10,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * Server that listens for incoming connections
@@ -98,8 +100,8 @@ public class Server implements Runnable {
 
         switch (messageType) {
             case "login":
-                response = new Message("login", new User(request.getUser().getEmail()), true);
-                /*String email = request.getUser().getEmail();
+                /*response = new Message("login", new User(request.getUser().getEmail(), request.getUser().getEmail(), true), true);*/
+                String email = request.getUser().getEmail();
                 String password = request.getUser().getPassword();
 
                 boolean loginSuccess = userRepository.checkLogin(email, password);
@@ -108,16 +110,25 @@ public class Server implements Runnable {
                     response = new Message("login", user, true);
                 } else {
                     response = new Message("login", false);
-                }*/
+                }
                 break;
             case "register":
-                response = new Message("register", request.getUser(), true);
-                /*User user = request.getUser();
+                /*response = new Message("register", request.getUser(), true);*/
+                User user = request.getUser();
                 if (userRepository.saveUser(user)) {
                     response = new Message("registration", user, true);
                 } else {
                     response = new Message("registration",false);
-                }*/
+                }
+                break;
+            case "search":
+                try {
+                    ArrayList<APIPlant> plantList = plantService.getResult(request.getSearchWord());
+                    response = new Message("search", plantList, true);
+                } catch (Exception e) {
+                    response = new Message("search", false);
+                    e.printStackTrace();
+                }
                 break;
             default:
                 response = new Message("fail", false);

@@ -1,5 +1,8 @@
 package se.myhappyplants.client.controller;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -54,6 +57,7 @@ public class SecondaryController {
     lblUsernameSettings.setText(loggedInUser.getUser().getUsername());
     //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
 
+
     //populateListView(testPlantArray());
   }
 
@@ -85,6 +89,18 @@ public class SecondaryController {
   private void logoutButtonPressed() throws IOException {
 
     //ToDo - Some code to handle what happens when user wants to log out
+    String email = LoggedInUser.getInstance().getUser().getEmail();
+
+    try(BufferedWriter bw = new BufferedWriter(new FileWriter("resources/lastLogin.txt"))){
+      bw.write(email);
+      bw.flush();
+    }
+    catch (IOException e){
+      e.printStackTrace();
+    }
+
+    LoggedInUser.getInstance().setUser(null);
+
     switchToPrimary();
   }
 
@@ -99,7 +115,9 @@ public class SecondaryController {
         progressIndicator.setProgress(50);
         showResultsOnPane(apiResponse);
       } else {
+
         MessageBox.display("No results", "No results on "+txtFldSearchText.getText() +", sorry!");
+
       }
     } else {
       MessageBox.display("No response", "No response from the server");
