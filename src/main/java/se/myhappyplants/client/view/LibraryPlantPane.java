@@ -24,6 +24,8 @@ public class LibraryPlantPane extends Pane {
     private Button infoButton;
     private Button waterButton;
 
+    private boolean extended;
+
     public LibraryPlantPane(ImageView image, double progress, DBPlant plant) {
 
         //this.image = image;
@@ -63,23 +65,44 @@ public class LibraryPlantPane extends Pane {
         infoButton.setLayoutX(196.0);
         infoButton.setLayoutY(59.0);
         infoButton.setMnemonicParsing(false);
+        infoButton.setOnAction(action -> {
+            if(!extended) {
+                extendPane();
+            }
+            else {
+                retractPane();
+            }
+        });
 
 
         this.setPrefHeight(92.0);
         this.setPrefWidth(800.0);
         this.getChildren().addAll(this.nickname, progressBar, waterButton, editButton, infoButton);
 
-//        Timeline timeline = new Timeline(
-//                new KeyFrame(Duration.millis(1000), event -> {
-//                    this.setHeight(200);
-//                })
-//        );
-//        timeline.setCycleCount(1);
-//        timeline.play();
     }
 
-    public ProgressBar getProgressBar() {
-        return progressBar;
+    public void extendPane() {
+
+            Timeline timeline = new Timeline(
+                    new KeyFrame(Duration.millis(100), event -> {
+                            this.setPrefHeight(this.getHeight() + 50);
+                    })
+            );
+            timeline.setCycleCount(4);
+            timeline.play();
+            extended = true;
+
+    }
+    public void retractPane() {
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(100), event -> {
+                        this.setPrefHeight(this.getHeight() - 50);
+                })
+        );
+        timeline.setCycleCount(4);
+        timeline.play();
+        extended = false;
+
     }
 
 }
