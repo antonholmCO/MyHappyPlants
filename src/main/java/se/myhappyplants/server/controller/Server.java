@@ -116,7 +116,8 @@ public class Server implements Runnable {
                 /*response = new Message("register", request.getUser(), true);*/
                 User user = request.getUser();
                 if (userRepository.saveUser(user)) {
-                    response = new Message("registration", user, true);
+                    User savedUser = userRepository.getUserDetails(user.getEmail());
+                    response = new Message("registration", savedUser, true);
                 } else {
                     response = new Message("registration",false);
                 }

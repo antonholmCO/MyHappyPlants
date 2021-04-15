@@ -11,9 +11,9 @@ public class DBPlant {
 
     private String nickname;
     private String apiURL;
-    private Date lastWatered;
+    private String lastWatered;
 
-    public DBPlant(String nickname, String apiURL, Date lastWatered) {
+    public DBPlant(String nickname, String apiURL, String lastWatered) {
         this.nickname = nickname;
         this.apiURL = apiURL;
         this.lastWatered = lastWatered;
@@ -22,5 +22,17 @@ public class DBPlant {
     @Override
     public String toString() {
         return nickname;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getURL() {
+        return apiURL;
+    }
+
+    public String getLastWatered() {
+        return lastWatered;
     }
 }

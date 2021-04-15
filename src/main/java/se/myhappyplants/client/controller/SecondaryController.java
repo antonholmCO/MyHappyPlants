@@ -4,7 +4,12 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.UnknownHostException;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,10 +19,11 @@ import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.server.model.repository.PlantRepository;
+import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
-import se.myhappyplants.shared.PlantLibrary;
 
 /**
  * Controls the inputs from a 'logged in' user
@@ -28,7 +34,7 @@ import se.myhappyplants.shared.PlantLibrary;
 public class SecondaryController {
 
   private ClientConnection connection;
-  private PlantLibrary currentUserLibrary;
+  private ArrayList<DBPlant> currentUserLibrary;
 
 
   @FXML
@@ -60,7 +66,7 @@ public class SecondaryController {
     lblUsernameSettings.setText(loggedInUser.getUser().getUsername());
 
     //Gets users plant library
-    currentUserLibrary = LoggedInUser.getInstance().getUser().getPlantLibrary();
+
     createCurrentUserLibraryFromDB();
     addCurrentUserLibraryToHomeScreen();
 
@@ -150,32 +156,67 @@ public class SecondaryController {
 
   private void createCurrentUserLibraryFromDB() {
     //TODO: Hämta plantor som tillhör currentuser från databasen och lägg dom i currentUserLibrary
+    try {
+      PlantRepository plantRepository = new PlantRepository(LoggedInUser.getInstance().getUser());
+      currentUserLibrary = plantRepository.getAllPlants();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+    }
+
+
   }
 
   private void addCurrentUserLibraryToHomeScreen() {
-    //TODO: Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
+    //Add a Pane for each plant
+
+    //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
+    ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
+    for (DBPlant plant: currentUserLibrary
+    ) {
+      plantpane.add(new LibraryPlantPane(null, 0.5, plant));
+    }
+    userPlantLibrary.setItems(plantpane);
   }
 
   private void updateDatabaseWithCurrentUserLibrary() {
     //TODO: Uppdatera databasen med senaste currentUserLibrary. Denna anropas när applikationen stängs ner
+
+  }
+
+  private void addPlantToDatabase(DBPlant plant) {
+
+    try {
+      PlantRepository plantRepository= new PlantRepository(LoggedInUser.getInstance().getUser());
+      if(plantRepository.savePlant(plant)) {
+        createCurrentUserLibraryFromDB();
+        addCurrentUserLibraryToHomeScreen();
+      }
+    else {
+      MessageBox.display("Fail", "Failed to add to database");
+      }
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+    }
+  }
+  private void removePlantFromDatabase(DBPlant plant) {
+
   }
 
   @FXML
   private void addPlantToCurrentUserLibrary() {
     //Add to GUI
     APIPlant selectedPlant = (APIPlant) resultPane.getSelectionModel().getSelectedItem();
-    ObservableList<APIPlant> plants = FXCollections.observableArrayList();
-    plants.add(selectedPlant);
-    userPlantLibrary.setItems(plants);
-
-    //Add a Pane for the plant
-    ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
-    plantpane.add(new LibraryPlantPane(null, "Erics blomma", 0.5, new DBPlant("Erics blomma", null, null)));
-    userPlantLibrary.setItems(plantpane);
+    //todo give option to edit nickname
+    DBPlant plantToAdd = new DBPlant(selectedPlant.common_name, selectedPlant.getLinks().getPlant(), "2021-04-15");
+    addPlantToDatabase(plantToAdd);
 
     //Add to library
 //    DBPlant plantToAdd = new DBPlant(selectedPlant.common_name, selectedPlant.getLinks().getPlant(), null);
-//    currentUserLibrary.addPlantToLibrary(plantToAdd);
+
 
   }
 }

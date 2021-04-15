@@ -1,6 +1,7 @@
 package se.myhappyplants.shared;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by: Author: Frida Jacobsson Linn Borgström
@@ -12,7 +13,7 @@ public class User implements Serializable {
     private String email;
     private String username;
     private String password;
-    private PlantLibrary plantLibrary;
+    private ArrayList<DBPlant> plantLibrary;
     private boolean isNotificationsActivated = true;
 
     /**
@@ -64,6 +65,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public User(int uniqueID, String email, String username, boolean notificationsActivated) {
+
+        this.uniqueId = uniqueID;
+        this.email = email;
+        this.username = username;
+        this.isNotificationsActivated = notificationsActivated;
+    }
+
     public int getUniqueId() {
         return uniqueId;
     }
@@ -98,11 +107,11 @@ public class User implements Serializable {
         this.isNotificationsActivated = notificationsActivated;
     }
 
-    public PlantLibrary getPlantLibrary() {
+    public ArrayList<DBPlant> getPlantLibrary() {
         return plantLibrary;
     }
 
-    public void setPlantLibrary(PlantLibrary plantLibrary) {
+    public void setPlantLibrary(ArrayList<DBPlant> plantLibrary) {
         this.plantLibrary = plantLibrary;
     }
 }

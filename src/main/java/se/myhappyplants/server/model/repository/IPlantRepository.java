@@ -13,5 +13,5 @@ public interface IPlantRepository {
 
   ArrayList<DBPlant> getAllPlants();
   DBPlant getPlant(String nickname);
-  void savePlant(DBPlant plant);
+  boolean savePlant(DBPlant plant);
 }

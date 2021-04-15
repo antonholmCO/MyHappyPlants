@@ -1,10 +1,13 @@
 package se.myhappyplants.client.view;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 import se.myhappyplants.shared.DBPlant;
 
 /**
@@ -21,7 +24,7 @@ public class LibraryPlantPane extends Pane {
     private Button infoButton;
     private Button waterButton;
 
-    public LibraryPlantPane(ImageView image, String nickname, double progress, DBPlant plant) {
+    public LibraryPlantPane(ImageView image, double progress, DBPlant plant) {
 
         //this.image = image;
         //image.setFitHeight(45.0);
@@ -32,12 +35,12 @@ public class LibraryPlantPane extends Pane {
         //image.setPreserveRatio(true);
 
 
-        this.nickname =  new Label(nickname);
+        this.nickname =  new Label(plant.getNickname());
         this.nickname.setLayoutX(117.0);
         this.nickname.setLayoutY(28.0);
-        this.nickname.setText(plant.toString());
         //Region region = new Region();
         //region.setMinWidth(USE_COMPUTED_SIZE);
+
 
 
         this.progressBar = new ProgressBar(0.5);
@@ -65,6 +68,14 @@ public class LibraryPlantPane extends Pane {
         this.setPrefHeight(92.0);
         this.setPrefWidth(800.0);
         this.getChildren().addAll(this.nickname, progressBar, waterButton, editButton, infoButton);
+
+//        Timeline timeline = new Timeline(
+//                new KeyFrame(Duration.millis(1000), event -> {
+//                    this.setHeight(200);
+//                })
+//        );
+//        timeline.setCycleCount(1);
+//        timeline.play();
     }
 
     public ProgressBar getProgressBar() {
