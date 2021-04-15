@@ -32,8 +32,6 @@ public class LibraryPlantPane extends Pane {
     public LibraryPlantPane(String imgPath, double progress, DBPlant plant) {
         File fileImg = new File(imgPath);
         Image img = new Image(fileImg.toURI().toString());
-        System.out.println(fileImg);
-        System.out.println(fileImg.toURI());
 
         this.image = new ImageView();
         image.setFitHeight(45.0);
@@ -50,7 +48,7 @@ public class LibraryPlantPane extends Pane {
         //Region region = new Region();
         //region.setMinWidth(USE_COMPUTED_SIZE);
 
-        
+
         this.progressBar = new ProgressBar(0.5);
         progressBar.setLayoutX(196.0);
         progressBar.setLayoutY(27.0);
