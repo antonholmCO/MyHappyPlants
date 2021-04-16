@@ -216,6 +216,16 @@ public class SecondaryController {
       plantNickname = MessageBox.askForStringInput("Add a nickname", "What do you want to call your plant?");
     }
 
+    int plantsWithThisNickname = 1;
+    for (DBPlant plant: currentUserLibrary) {
+      if (plant.getNickname().equals(plantNickname)) {
+        plantsWithThisNickname++;
+      }
+    }
+    if (plantsWithThisNickname>1) {
+      plantNickname = plantNickname + plantsWithThisNickname;
+    }
+
     DBPlant plantToAdd = new DBPlant(plantNickname, selectedPlant.getLinks().getPlant(), "2021-04-15");
     addPlantToDatabase(plantToAdd);
 
