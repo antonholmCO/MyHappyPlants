@@ -19,7 +19,6 @@ public class Driver {
     String dbServerPort = PasswordsAndKeys.dbServerPort;
     String dbUser = PasswordsAndKeys.dbUsername;
     String dbPassword = PasswordsAndKeys.dbPassword;
-
     // String dbLinnLocal = PasswordsAndKeys.dbLinnLocal;
 
 
@@ -29,8 +28,6 @@ public class Driver {
     }
     String dbURL = String.format("jdbc:sqlserver://%s:%s;databaseName=MyHappyPlants;user=%s;password=%s", dbServerIp, dbServerPort, dbUser, dbPassword);
 
-    //Linns lokala
-    //String dbURL = String.format(dbLinnLocal);
 
     Connection conn = DriverManager.getConnection(dbURL);
 
