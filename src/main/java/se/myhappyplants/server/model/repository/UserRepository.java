@@ -75,19 +75,22 @@ public class UserRepository implements IUserRepository {
     User user = null;
     String username = null;
     boolean notificationActivated = false;
+    int uniqueID = 0;
     try {
-      String query = "SELECT username, notification_activated FROM [User] WHERE email = '" +email +"';";
+      String query = "SELECT id, username, notification_activated FROM [User] WHERE email = '" +email +"';";
       ResultSet resultSet = statement.executeQuery(query);
       while (resultSet.next()) {
-        username = resultSet.getString(1);
-        notificationActivated = resultSet.getBoolean(2);
+        uniqueID = resultSet.getInt(1);
+        username = resultSet.getString(2);
+        notificationActivated = resultSet.getBoolean(3);
         System.out.println(username);
         System.out.println(notificationActivated);
       }
-      user = new User(email, username, notificationActivated);
+      user = new User(uniqueID, email, username, notificationActivated);
     }
     catch(SQLException sqlException) {
       sqlException.printStackTrace();
+      System.out.println("Hejj");
     }
     return user;
   }

@@ -4,19 +4,25 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.UnknownHostException;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.server.model.repository.PlantRepository;
+import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.shared.APIPlant;
+import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
 
 /**
@@ -28,6 +34,7 @@ import se.myhappyplants.shared.Message;
 public class SecondaryController {
 
   private ClientConnection connection;
+  private ArrayList<DBPlant> currentUserLibrary;
 
 
   @FXML
@@ -44,6 +51,8 @@ public class SecondaryController {
   ProgressIndicator progressIndicator;
   @FXML
   ImageView imageViewImageUrl;
+  @FXML
+  ListView userPlantLibrary;
 
   /**
    * Constructor that has access to FXML variables
@@ -55,6 +64,12 @@ public class SecondaryController {
     lblUsernameHome.setText(loggedInUser.getUser().getUsername());
     lblUsernameSearch.setText(loggedInUser.getUser().getUsername());
     lblUsernameSettings.setText(loggedInUser.getUser().getUsername());
+
+    //Gets users plant library
+
+    createCurrentUserLibraryFromDB();
+    addCurrentUserLibraryToHomeScreen();
+
     //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
 
 
@@ -127,13 +142,96 @@ public class SecondaryController {
   private void showResultsOnPane(Message apiResponse) {
     progressIndicator.setProgress(75);
     ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
-    ObservableList<String> items = FXCollections.observableArrayList ();
+    ObservableList<APIPlant> items = FXCollections.observableArrayList ();
     for(APIPlant plant: searchedPlant) {
-      items.add(plant.toString());
+//      arrayItem.add(plant);
+      items.add(plant);
       //Image image = new Image(String.valueOf(plant.getImage_url()));
       //imageViewImageUrl.setImage(image);
     }
     resultPane.setItems(items);
     progressIndicator.setProgress(100);
+  }
+
+
+  private void createCurrentUserLibraryFromDB() {
+    //TODO: Hämta plantor som tillhör currentuser från databasen och lägg dom i currentUserLibrary
+    try {
+      PlantRepository plantRepository = new PlantRepository(LoggedInUser.getInstance().getUser());
+      currentUserLibrary = plantRepository.getAllPlants();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+    }
+
+
+  }
+
+  private void addCurrentUserLibraryToHomeScreen() {
+    //Add a Pane for each plant
+
+    //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
+    ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
+    for (DBPlant plant: currentUserLibrary) {
+      plantpane.add(new LibraryPlantPane("resources/images/sapling_in_pot.png", 0.5, plant));
+    }
+    userPlantLibrary.setItems(plantpane);
+  }
+
+  private void updateDatabaseWithCurrentUserLibrary() {
+    //TODO: Uppdatera databasen med senaste currentUserLibrary. Denna anropas när applikationen stängs ner
+
+  }
+
+  private void addPlantToDatabase(DBPlant plant) {
+
+    try {
+      PlantRepository plantRepository= new PlantRepository(LoggedInUser.getInstance().getUser());
+      if(plantRepository.savePlant(plant)) {
+        createCurrentUserLibraryFromDB();
+        addCurrentUserLibraryToHomeScreen();
+      }
+    else {
+      MessageBox.display("Fail", "Failed to add to database");
+      }
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+    }
+  }
+  private void removePlantFromDatabase(DBPlant plant) {
+
+  }
+
+  @FXML
+  private void addPlantToCurrentUserLibrary() {
+    //Add to GUI
+    APIPlant selectedPlant = (APIPlant) resultPane.getSelectionModel().getSelectedItem();
+    String plantNickname = selectedPlant.common_name;
+
+    int answer = MessageBox.askYesNo("Want to add a nickname?", "Do you want to add a nickname for your plant?");
+    if (answer == 1) {
+      plantNickname = MessageBox.askForStringInput("Add a nickname", "What do you want to call your plant?");
+    }
+
+    int plantsWithThisNickname = 1;
+    for (DBPlant plant: currentUserLibrary) {
+      if (plant.getNickname().equals(plantNickname)) {
+        plantsWithThisNickname++;
+      }
+    }
+    if (plantsWithThisNickname>1) {
+      plantNickname = plantNickname + plantsWithThisNickname;
+    }
+
+    DBPlant plantToAdd = new DBPlant(plantNickname, selectedPlant.getLinks().getPlant(), "2021-04-15");
+    addPlantToDatabase(plantToAdd);
+
+    //Add to library
+//    DBPlant plantToAdd = new DBPlant(selectedPlant.common_name, selectedPlant.getLinks().getPlant(), null);
+
+
   }
 }
