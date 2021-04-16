@@ -5,10 +5,13 @@ import javafx.animation.Timeline;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 import se.myhappyplants.shared.DBPlant;
+
+import java.io.File;
 
 /**
  * Simple pane that displays a DBPlant's information
@@ -26,23 +29,24 @@ public class LibraryPlantPane extends Pane {
 
     private boolean extended;
 
-    public LibraryPlantPane(ImageView image, double progress, DBPlant plant) {
+    public LibraryPlantPane(String imgPath, double progress, DBPlant plant) {
+        File fileImg = new File(imgPath);
+        Image img = new Image(fileImg.toURI().toString());
 
-        //this.image = image;
-        //image.setFitHeight(45.0);
-        //image.setFitWidth(45.0);
-        //image.setLayoutX(50.0);
-        //image.setLayoutY(14.0);
-        //image.setPickOnBounds(true);
-        //image.setPreserveRatio(true);
-
+        this.image = new ImageView();
+        image.setFitHeight(45.0);
+        image.setFitWidth(45.0);
+        image.setLayoutX(50.0);
+        image.setLayoutY(14.0);
+        image.setPickOnBounds(true);
+        image.setPreserveRatio(true);
+        image.setImage(img);
 
         this.nickname =  new Label(plant.getNickname());
         this.nickname.setLayoutX(117.0);
         this.nickname.setLayoutY(28.0);
         //Region region = new Region();
         //region.setMinWidth(USE_COMPUTED_SIZE);
-
 
 
         this.progressBar = new ProgressBar(0.5);
@@ -77,7 +81,7 @@ public class LibraryPlantPane extends Pane {
 
         this.setPrefHeight(92.0);
         this.setPrefWidth(800.0);
-        this.getChildren().addAll(this.nickname, progressBar, waterButton, editButton, infoButton);
+        this.getChildren().addAll(image, this.nickname, progressBar, waterButton, editButton, infoButton);
 
     }
 
