@@ -206,7 +206,7 @@ public class SecondaryController {
   }
 
   @FXML
-  private void addPlantToCurrentUserLibrary() {
+  public void addPlantToCurrentUserLibrary() {
     //Add to GUI
     APIPlant selectedPlant = (APIPlant) resultPane.getSelectionModel().getSelectedItem();
     String plantNickname = selectedPlant.common_name;
