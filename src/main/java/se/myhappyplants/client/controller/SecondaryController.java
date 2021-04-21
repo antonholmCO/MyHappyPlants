@@ -29,8 +29,8 @@ import se.myhappyplants.shared.Message;
 /**
  * Controls the inputs from a 'logged in' user
  *
- * @author Christopher O'Driscoll
- * @author Eric Simonsson
+ * Created by: Christopher O'Driscoll, Eric Simonsson
+ * Updated by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
  */
 public class SecondaryController {
 
@@ -145,9 +145,12 @@ public class SecondaryController {
     ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
     ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList ();
     for(APIPlant plant: searchedPlant) {
-//      arrayItem.add(plant);
       //items.add(plant);
-      searchPlantPanes.add(new SearchPlantPane(this,plant));
+      if (plant.image_url == null) {
+        System.out.println("pic is null");
+      } else {
+        searchPlantPanes.add(new SearchPlantPane(this,plant));
+      }
       //Image image = new Image(String.valueOf(plant.getImage_url()));
       //imageViewImageUrl.setImage(image);
     }

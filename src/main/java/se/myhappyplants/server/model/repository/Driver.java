@@ -27,10 +27,7 @@ public class Driver {
       dbServerIp = "localhost";
     }
     String dbURL = String.format("jdbc:sqlserver://%s:%s;databaseName=MyHappyPlants;user=%s;password=%s", dbServerIp, dbServerPort, dbUser, dbPassword);
-
-
     Connection conn = DriverManager.getConnection(dbURL);
-
     if (conn != null) {
       System.out.println("Connected");
     }
