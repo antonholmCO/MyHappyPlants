@@ -69,21 +69,8 @@
                         </TextField>
                         <Button fx:id="btnSearch" layoutX="467.0" layoutY="15.0" mnemonicParsing="false" onAction="#searchButtonPressed" prefHeight="23.0" text="Search" />
                         <ProgressIndicator fx:id="progressIndicator" layoutX="545.0" layoutY="7.0" progress="0.0" />
-                        <ListView fx:id="resultPane" accessibleRole="IMAGE_VIEW" fixedCellSize="-2.0" layoutX="18.0" layoutY="86.0" minHeight="50.0" prefHeight="388.0" prefWidth="763.0" />
+                        <ListView fx:id="resultPane" accessibleRole="IMAGE_VIEW" fixedCellSize="-2.0" layoutX="12.0" layoutY="86.0" minHeight="50.0" prefHeight="388.0" prefWidth="778.0" />
                         <Label layoutX="14.0" layoutY="61.0" text="Your results:" />
-                        <Pane layoutX="19.0" layoutY="86.0" prefHeight="56.0" prefWidth="761.0">
-                           <children>
-                              <Button layoutX="723.0" layoutY="16.0" mnemonicParsing="false" onAction="#addPlantToCurrentUserLibrary" text="+">
-                                 <font>
-                                    <Font name="Arial Black" size="12.0" />
-                                 </font>
-                              </Button>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
-                              <Button layoutX="570.0" layoutY="16.0" mnemonicParsing="false" text="Show more information" />
-                              <Label layoutX="50.0" layoutY="20.0" prefHeight="17.0" prefWidth="264.0" text="Common name:" />
-                              <Label layoutX="315.0" layoutY="20.0" prefHeight="17.0" prefWidth="254.0" text="Scientific name:" />
-                           </children>
-                        </Pane>
                      </children>
                   </Pane>
                </center>

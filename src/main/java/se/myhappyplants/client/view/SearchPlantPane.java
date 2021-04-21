@@ -2,6 +2,7 @@ package se.myhappyplants.client.view;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import se.myhappyplants.client.controller.SecondaryController;
@@ -25,14 +26,15 @@ public class SearchPlantPane extends Pane {
         this.apiPlant = apiPlant;
 
         File fileImg = new File(String.valueOf(apiPlant.getImage_url()));
+        //Image img = new Image(fileImg.toURI().toString());
 
-
-        this.image = new ImageView(fileImg.getAbsolutePath());
+        this.image = new ImageView();
         image.setFitHeight(50.0);
         image.setFitWidth(50.0);
         image.setLayoutY(3.0);
         image.setPickOnBounds(true);
         image.setPreserveRatio(true);
+        //image.setImage(img);
 
         this.commonName =  new Label(apiPlant.getCommon_name());
         commonName.setLayoutX(50.0);

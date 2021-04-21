@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.client.view.SearchPlantPane;
 import se.myhappyplants.server.model.repository.PlantRepository;
 import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.shared.APIPlant;
@@ -142,17 +143,27 @@ public class SecondaryController {
   private void showResultsOnPane(Message apiResponse) {
     progressIndicator.setProgress(75);
     ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
-    ObservableList<APIPlant> items = FXCollections.observableArrayList ();
+    ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList ();
     for(APIPlant plant: searchedPlant) {
 //      arrayItem.add(plant);
-      items.add(plant);
+      //items.add(plant);
+      searchPlantPanes.add(new SearchPlantPane(this,plant));
       //Image image = new Image(String.valueOf(plant.getImage_url()));
       //imageViewImageUrl.setImage(image);
     }
-    resultPane.setItems(items);
+    resultPane.setItems(searchPlantPanes);
     progressIndicator.setProgress(100);
   }
+  private void addCurrentUserLibraryToHomeScreen() {
+    //Add a Pane for each plant
 
+    //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
+    ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
+    for (DBPlant plant: currentUserLibrary) {
+      plantpane.add(new LibraryPlantPane("resources/images/sapling_in_pot.png", 0.5, plant));
+    }
+    userPlantLibrary.setItems(plantpane);
+  }
 
   private void createCurrentUserLibraryFromDB() {
     //TODO: Hämta plantor som tillhör currentuser från databasen och lägg dom i currentUserLibrary
@@ -168,16 +179,7 @@ public class SecondaryController {
 
   }
 
-  private void addCurrentUserLibraryToHomeScreen() {
-    //Add a Pane for each plant
 
-    //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
-    ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
-    for (DBPlant plant: currentUserLibrary) {
-      plantpane.add(new LibraryPlantPane("resources/images/sapling_in_pot.png", 0.5, plant));
-    }
-    userPlantLibrary.setItems(plantpane);
-  }
 
   private void updateDatabaseWithCurrentUserLibrary() {
     //TODO: Uppdatera databasen med senaste currentUserLibrary. Denna anropas när applikationen stängs ner
