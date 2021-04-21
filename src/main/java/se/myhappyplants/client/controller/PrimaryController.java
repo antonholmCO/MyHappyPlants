@@ -93,20 +93,10 @@ public class PrimaryController {
     }
     @FXML
     private void registerButtonPressed() throws IOException {
-        String email = txtFldNewEmail.getText();
-        if(!validateEmail(email)) {
-            MessageBox.display("Error", "Not a valid email");
+        if(!validateAndDisplayErrors()) {
             return;
         }
-        if(txtFldNewUsername.getText().isEmpty()) {
-            MessageBox.display("Failed", "Username is required");
-            return;
-        }
-        if(passFldNewPassword.getText().isEmpty()) {
-            MessageBox.display("Failed", "Password is required");
-            return;
-        }
-        Message registerRequest = new Message("register", new User(email, txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
+        Message registerRequest = new Message("register", new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
         Message registerResponse = ClientConnection.getInstance().makeRequest(registerRequest);
 
         if(registerResponse!=null) {
@@ -122,6 +112,27 @@ public class PrimaryController {
         else {
             MessageBox.display("No response", "No response from server");
         }
+    }
+
+    /**
+     *
+     * @return
+     */
+    private boolean validateAndDisplayErrors() {
+        String email = txtFldNewEmail.getText();
+        if(!validateEmail(email)) {
+            MessageBox.display("Error", "Not a valid email");
+            return false;
+        }
+        if(txtFldNewUsername.getText().isEmpty()) {
+            MessageBox.display("Failed", "Username is required");
+            return false;
+        }
+        if(passFldNewPassword.getText().isEmpty()) {
+            MessageBox.display("Failed", "Password is required");
+            return false;
+        }
+        return true;
     }
 
     /**
