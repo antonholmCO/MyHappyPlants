@@ -1,6 +1,7 @@
 package se.myhappyplants.client.controller;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -143,7 +144,8 @@ public class SecondaryController {
       //items.add(plant);
       if (plant.image_url == null) {
         String imgPath = "resources/images/Grn_vxt.png";
-        searchPlantPanes.add(new SearchPlantPane(this,imgPath,plant));
+        File imgFile = new File(imgPath);
+        searchPlantPanes.add(new SearchPlantPane(this,String.valueOf(imgFile),plant));
         System.out.println("pic is null");
       } else {
 
