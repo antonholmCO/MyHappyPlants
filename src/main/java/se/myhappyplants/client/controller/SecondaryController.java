@@ -176,7 +176,7 @@ public class SecondaryController {
     //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
     ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
     for (DBPlant plant: currentUserLibrary) {
-      plantpane.add(new LibraryPlantPane("resources/images/sapling_in_pot.png", 0.5, plant));
+      plantpane.add(new LibraryPlantPane(this, "resources/images/sapling_in_pot.png", 0.5, plant));
     }
     userPlantLibrary.setItems(plantpane);
   }
@@ -203,7 +203,19 @@ public class SecondaryController {
       e.printStackTrace();
     }
   }
-  private void removePlantFromDatabase(DBPlant plant) {
+
+  public void removePlantFromDatabase(DBPlant plant) {
+    System.out.println("hej");
+    Message deletePlant = new Message("deletePlantFromLibrary", LoggedInUser.getInstance().getUser(), plant);
+    Message response = ClientConnection.getInstance().makeRequest(deletePlant);
+
+    if (response.isSuccess()) {
+      createCurrentUserLibraryFromDB();
+      addCurrentUserLibraryToHomeScreen();
+    }
+    else {
+      MessageBox.display("Error", "Could not delete plant");
+    }
 
   }
 

@@ -17,6 +17,7 @@ public class Message implements Serializable {
     private User user;
     private boolean success;
     private ArrayList<APIPlant> plantList;
+    private DBPlant dbPlant;
 
     public Message(String messageType, User user, boolean success) {
         this(messageType, success);
@@ -44,6 +45,12 @@ public class Message implements Serializable {
         this.user = user;
     }
 
+    public Message(String messageType, User user, DBPlant plant) {
+        this.messageType = messageType;
+        this.user = user;
+        this.dbPlant = plant;
+    }
+
     public String getMessageType() {
         return messageType;
     }
@@ -62,6 +69,10 @@ public class Message implements Serializable {
 
     public String getSearchWord() {
         return searchWord;
+    }
+
+    public DBPlant getDbPlant() {
+        return dbPlant;
     }
 
 }

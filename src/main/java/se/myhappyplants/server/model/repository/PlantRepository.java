@@ -96,7 +96,6 @@ public class PlantRepository implements IPlantRepository {
    * @param nickname
    * @return an instance of a specific plant from the database, null if no plant with the specific nickname exists
    */
-  @Override
   public DBPlant getPlant(String nickname) {
     try {
       String query = "SELECT nickname, api_url, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() + "AND nickname =" + nickname;
@@ -110,4 +109,18 @@ public class PlantRepository implements IPlantRepository {
       return null;
     }
   }
+
+  public boolean deletePlant(User user, String nickname) {
+    try {
+      System.out.println(nickname);
+      String query = "DELETE FROM [plant] WHERE user_id =" + user.getUniqueId() + "AND nickname = '" + nickname + "';";
+      statement.executeUpdate(query);
+      return true;
+
+    } catch (SQLException sqlException) {
+      System.out.println(sqlException);
+      return false;
+    }
+  }
+
 }

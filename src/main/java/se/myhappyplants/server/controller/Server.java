@@ -1,5 +1,7 @@
 package se.myhappyplants.server.controller;
 
+import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.server.model.repository.PlantRepository;
 import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.server.model.service.PlantService;
 import se.myhappyplants.shared.APIPlant;
@@ -11,6 +13,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -128,6 +132,18 @@ public class Server implements Runnable {
                     response = new Message("search", plantList, true);
                 } catch (Exception e) {
                     response = new Message("search", false);
+                    e.printStackTrace();
+                }
+                break;
+            case "deletePlantFromLibrary":
+                try {
+                    PlantRepository plantRepository = new PlantRepository(request.getUser());
+                    boolean success = plantRepository.deletePlant(request.getUser(), request.getDbPlant().getNickname());
+
+                    response = new Message("success", success);
+
+                } catch (SQLException | UnknownHostException e) {
+                    response = new Message("fail", false);
                     e.printStackTrace();
                 }
                 break;

@@ -1,5 +1,6 @@
 package se.myhappyplants.shared;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.sql.Date;
  * Created by: Frida Jacobsson
  * Updated by:
  */
-public class DBPlant {
+public class DBPlant implements Serializable {
 
   private String nickname;
   private String apiURL;
