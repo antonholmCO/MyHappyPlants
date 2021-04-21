@@ -3,16 +3,12 @@ package se.myhappyplants.server.controller;
 
 import se.myhappyplants.shared.User;
 import se.myhappyplants.server.model.repository.UserRepository;
-
 import java.util.Scanner;
-/*
-
- */
 
 /**
  * Test-class for testing DB, logging in and create account
  * Created by: Linn Borgström
- * Updated by: Frida
+ * Updated by: Frida Jacobsson
  */
 
 public class Controller {

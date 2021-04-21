@@ -1,16 +1,15 @@
 package se.myhappyplants.shared;
 
-/**
- * Created by: Frida Jacobsson
- * Updated by: Linn Borgström
- */
-
-
 import se.myhappyplants.server.model.plant.Links;
 
 import java.io.Serializable;
 import java.net.URL;
 
+/**
+ * Class defining a plant from the API
+ * Created by: Frida Jacobsson
+ * Updated by: Linn Borgström
+ */
 public class APIPlant implements Serializable {
 
   public String common_name;
@@ -18,6 +17,16 @@ public class APIPlant implements Serializable {
   public String family_common_name;
   public URL image_url;
   public Links links;
+
+  /**
+   * Constructor used to create a plant based on information from API
+   *
+   * @param common_name
+   * @param scientific_name
+   * @param family_common_name
+   * @param image_url
+   * @param links
+   */
 
   public APIPlant(String common_name, String scientific_name, String family_common_name, URL image_url, Links links) {
     this.common_name = common_name;
@@ -68,7 +77,7 @@ public class APIPlant implements Serializable {
   }
 
   public String toString() {
-    String toString = String.format("Common name: %s \tFamily name: %s \tScientific name: %s ",common_name,family_common_name,scientific_name);
+    String toString = String.format("Common name: %s \tFamily name: %s \tScientific name: %s ", common_name, family_common_name, scientific_name);
     return toString;
   }
 }

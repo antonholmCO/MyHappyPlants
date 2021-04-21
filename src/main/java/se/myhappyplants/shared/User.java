@@ -4,114 +4,115 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by: Author: Frida Jacobsson Linn Borgström
+ * Created by: Linn Borgström
  * Updated by: Christopher, 2021-04-13
  */
 public class User implements Serializable {
 
-    private int uniqueId;
-    private String email;
-    private String username;
-    private String password;
-    private ArrayList<DBPlant> plantLibrary;
-    private boolean isNotificationsActivated = true;
+  private int uniqueId;
+  private String email;
+  private String username;
+  private String password;
+  private ArrayList<DBPlant> plantLibrary;
+  private boolean isNotificationsActivated = true;
 
-    /**
-     * Constructor used when registering a new user account
-     *
-     * @param email
-     * @param username
-     * @param password
-     * @param isNotificationsActivated
-     */
-    public User(String email, String username, String password, boolean isNotificationsActivated) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.isNotificationsActivated = isNotificationsActivated;
-    }
+  /**
+   * Constructor used when registering a new user account
+   *
+   * @param email
+   * @param username
+   * @param password
+   * @param isNotificationsActivated
+   */
+  public User(String email, String username, String password, boolean isNotificationsActivated) {
+    this.email = email;
+    this.username = username;
+    this.password = password;
+    this.isNotificationsActivated = isNotificationsActivated;
+  }
 
-    /**
-     * Constructor for login responses from database
-     *
-     * @param email
-     * @param username
-     * @param isNotificationsActivated
-     */
-    public User(String email, String username, boolean isNotificationsActivated) {
-        this.email = email;
-        this.username = username;
-        this.isNotificationsActivated = isNotificationsActivated;
-    }
+  /**
+   * Constructor for login responses from database
+   *
+   * @param email
+   * @param username
+   * @param isNotificationsActivated
+   */
+  public User(String email, String username, boolean isNotificationsActivated) {
+    this.email = email;
+    this.username = username;
+    this.isNotificationsActivated = isNotificationsActivated;
+  }
 
-    /**
-     * Simple constructor for when login/registration requests fail
-     *
-     * @param username
-     */
-    public User(String username) {
-        this.username = username;
+  /**
+   * Simple constructor for when login/registration requests fail
+   *
+   * @param username
+   */
+  public User(String username) {
+    this.username = username;
 
-    }
+  }
 
-    /**
-     * Simple constructor for login requests
-     * @param email
-     * @param password
-     */
-    public User(String email, String password) {
+  /**
+   * Simple constructor for login requests
+   *
+   * @param email
+   * @param password
+   */
+  public User(String email, String password) {
 
-        this.email = email;
-        this.password = password;
-    }
+    this.email = email;
+    this.password = password;
+  }
 
-    public User(int uniqueID, String email, String username, boolean notificationsActivated) {
+  public User(int uniqueID, String email, String username, boolean notificationsActivated) {
 
-        this.uniqueId = uniqueID;
-        this.email = email;
-        this.username = username;
-        this.isNotificationsActivated = notificationsActivated;
-    }
+    this.uniqueId = uniqueID;
+    this.email = email;
+    this.username = username;
+    this.isNotificationsActivated = notificationsActivated;
+  }
 
-    public int getUniqueId() {
-        return uniqueId;
-    }
+  public int getUniqueId() {
+    return uniqueId;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-
-    public String getEmail() {
-        return email;
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
 
-    public String getPassword() {
-        return password;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
-    public boolean getIsNotificationsActivated() {
-        return isNotificationsActivated;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public void setIsNotificationsActivated(boolean notificationsActivated) {
-        this.isNotificationsActivated = notificationsActivated;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public ArrayList<DBPlant> getPlantLibrary() {
-        return plantLibrary;
-    }
+  public boolean getIsNotificationsActivated() {
+    return isNotificationsActivated;
+  }
 
-    public void setPlantLibrary(ArrayList<DBPlant> plantLibrary) {
-        this.plantLibrary = plantLibrary;
-    }
+  public void setIsNotificationsActivated(boolean notificationsActivated) {
+    this.isNotificationsActivated = notificationsActivated;
+  }
+
+  public ArrayList<DBPlant> getPlantLibrary() {
+    return plantLibrary;
+  }
+
+  public void setPlantLibrary(ArrayList<DBPlant> plantLibrary) {
+    this.plantLibrary = plantLibrary;
+  }
 }
