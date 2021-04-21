@@ -145,7 +145,7 @@ public class SecondaryController {
       if (plant.image_url == null) {
         String imgPath = "resources/images/Grn_vxt.png";
         File imgFile = new File(imgPath);
-        searchPlantPanes.add(new SearchPlantPane(this,String.valueOf(imgFile),plant));
+        searchPlantPanes.add(new SearchPlantPane(this,imgFile.toURI().toString(),plant));
         System.out.println("pic is null");
       } else {
 
@@ -178,8 +178,6 @@ public class SecondaryController {
     } catch (UnknownHostException e) {
       e.printStackTrace();
     }
-
-
   }
 
 

@@ -37,13 +37,13 @@ public class SearchPlantPane extends Pane {
         image.setPreserveRatio(true);
         image.setImage(img);
 
-        this.commonName =  new Label(apiPlant.getCommon_name());
-        commonName.setLayoutX(50.0);
+        this.commonName =  new Label("Common name: " + apiPlant.getCommon_name());
+        commonName.setLayoutX(60.0);
         commonName.setLayoutY(20.0);
         commonName.prefHeight(17.0);
         commonName.prefWidth(264.0);
 
-        this.scientificName =  new Label(apiPlant.getScientific_name());
+        this.scientificName =  new Label("Scientific name: " + apiPlant.getScientific_name());
         scientificName.setLayoutX(315.0);
         scientificName.setLayoutY(20.0);
         scientificName.prefHeight(17.0);
