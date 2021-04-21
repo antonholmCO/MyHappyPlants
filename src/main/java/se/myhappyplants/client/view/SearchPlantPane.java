@@ -8,8 +8,6 @@ import javafx.scene.layout.Pane;
 import se.myhappyplants.client.controller.SecondaryController;
 import se.myhappyplants.shared.APIPlant;
 
-import java.io.File;
-
 /**
  *  * Created by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
  *  * Updated by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
@@ -24,13 +22,12 @@ public class SearchPlantPane extends Pane {
     private SecondaryController secondaryController;
     private APIPlant apiPlant;
 
-    public SearchPlantPane(SecondaryController secondaryController, APIPlant apiPlant){
+    public SearchPlantPane(SecondaryController secondaryController, String imgPath, APIPlant apiPlant){
 
         this.secondaryController = secondaryController;
         this.apiPlant = apiPlant;
-
-        //File fileImg = new File(String.valueOf(apiPlant.getImage_url()));
-        Image img = new Image(String.valueOf(apiPlant.image_url));
+        
+        Image img = new Image(imgPath);
 
         this.image = new ImageView();
         image.setFitHeight(50.0);

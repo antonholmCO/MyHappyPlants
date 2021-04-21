@@ -1,15 +1,11 @@
 package se.myhappyplants.client.controller;
 
 import java.io.BufferedWriter;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,7 +17,6 @@ import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
 import se.myhappyplants.server.model.repository.PlantRepository;
-import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
@@ -147,9 +142,12 @@ public class SecondaryController {
     for(APIPlant plant: searchedPlant) {
       //items.add(plant);
       if (plant.image_url == null) {
+        String imgPath = "resources/images/Grn_vxt.png";
+        searchPlantPanes.add(new SearchPlantPane(this,imgPath,plant));
         System.out.println("pic is null");
       } else {
-        searchPlantPanes.add(new SearchPlantPane(this,plant));
+
+        searchPlantPanes.add(new SearchPlantPane(this,String.valueOf(plant.getImage_url()), plant));
       }
       //Image image = new Image(String.valueOf(plant.getImage_url()));
       //imageViewImageUrl.setImage(image);
