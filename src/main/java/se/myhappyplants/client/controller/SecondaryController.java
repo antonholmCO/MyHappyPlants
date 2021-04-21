@@ -153,7 +153,6 @@ public class SecondaryController {
     progressIndicator.setProgress(100);
   }
 
-
   private void createCurrentUserLibraryFromDB() {
     //TODO: Hämta plantor som tillhör currentuser från databasen och lägg dom i currentUserLibrary
     try {

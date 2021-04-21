@@ -93,11 +93,17 @@ public class PrimaryController {
     }
     @FXML
     private void registerButtonPressed() throws IOException {
-
-        //todo - code that creates a registration request
         String email = txtFldNewEmail.getText();
         if(!validateEmail(email)) {
             MessageBox.display("Error", "Not a valid email");
+            return;
+        }
+        if(txtFldNewUsername.getText().isEmpty()) {
+            MessageBox.display("Failed", "Username is required");
+            return;
+        }
+        if(passFldNewPassword.getText().isEmpty()) {
+            MessageBox.display("Failed", "Password is required");
             return;
         }
         Message registerRequest = new Message("register", new User(email, txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
