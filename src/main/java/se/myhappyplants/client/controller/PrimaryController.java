@@ -93,8 +93,13 @@ public class PrimaryController {
     private void registerButtonPressed() throws IOException {
 
         //todo - code that creates a registration request
-
-        Message registerRequest = new Message("register", new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
+        //validate email
+        String email = txtFldNewEmail.getText();
+        if(!validateEmail(email)) {
+            MessageBox.display("Error", "Not a valid email");
+            return;
+        }
+        Message registerRequest = new Message("register", new User(email, txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
         Message registerResponse = ClientConnection.getInstance().makeRequest(registerRequest);
 
         if(registerResponse!=null) {
@@ -112,4 +117,7 @@ public class PrimaryController {
         }
     }
 
+    private boolean validateEmail(String email) {
+        return email.contains("@");
+    }
 }
