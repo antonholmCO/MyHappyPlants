@@ -139,20 +139,16 @@ public class SecondaryController {
   private void showResultsOnPane(Message apiResponse) {
     progressIndicator.setProgress(75);
     ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
-    ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList ();
+    ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
     for(APIPlant plant: searchedPlant) {
-      //items.add(plant);
       if (plant.image_url == null) {
-        String imgPath = "resources/images/Grn_vxt.png";
+        String imgPath = "resources/images/sampling_in_pot.png";
         File imgFile = new File(imgPath);
         searchPlantPanes.add(new SearchPlantPane(this,String.valueOf(imgFile),plant));
         System.out.println("pic is null");
       } else {
-
         searchPlantPanes.add(new SearchPlantPane(this,String.valueOf(plant.image_url), plant));
       }
-      //Image image = new Image(String.valueOf(plant.getImage_url()));
-      //imageViewImageUrl.setImage(image);
     }
     resultPane.setItems(searchPlantPanes);
     progressIndicator.setProgress(100);
