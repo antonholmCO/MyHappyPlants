@@ -31,7 +31,7 @@ import se.myhappyplants.shared.Message;
 public class SecondaryController {
 
   private ClientConnection connection;
-  private ArrayList<DBPlant> currentUserLibrary;
+  public ArrayList<DBPlant> currentUserLibrary;
 
 
   @FXML
@@ -142,7 +142,7 @@ public class SecondaryController {
     ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
     for(APIPlant plant: searchedPlant) {
       if (plant.image_url == null) {
-        String imgPath = "resources/images/sampling_in_pot.png";
+        String imgPath = "resources/images/Grn_vxt.png";
         File imgFile = new File(imgPath);
         searchPlantPanes.add(new SearchPlantPane(this,imgFile.toURI().toString(),plant));
         System.out.println("pic is null");
@@ -183,7 +183,7 @@ public class SecondaryController {
 
   }
 
-  private void addPlantToDatabase(DBPlant plant) {
+  public void addPlantToDatabase(DBPlant plant) {
 
     try {
       PlantRepository plantRepository= new PlantRepository(LoggedInUser.getInstance().getUser());

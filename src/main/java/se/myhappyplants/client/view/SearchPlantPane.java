@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import se.myhappyplants.client.controller.SecondaryController;
 import se.myhappyplants.shared.APIPlant;
+import se.myhappyplants.shared.DBPlant;
 
 /**
  *  * Created by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
@@ -58,13 +59,39 @@ public class SearchPlantPane extends Pane {
         addButton.setLayoutX(723.0);
         addButton.setLayoutY(16.0);
         addButton.setMnemonicParsing(false);
-        addButton.setOnAction(action -> secondaryController.addPlantToCurrentUserLibrary());
+        addButton.setOnAction(action -> addPlantToCurrentUserLibrary());
 
 
         this.prefHeight(56.0);
         this.prefWidth(761.0);
         this.getChildren().addAll(image, commonName, scientificName, infoButton, addButton);
     }
+    public void addPlantToCurrentUserLibrary() {
+        //Add to GUI
+        String plantNickname = this.commonName.toString();
 
+        int answer = MessageBox.askYesNo("Want to add a nickname?", "Do you want to add a nickname for your plant?");
+        if (answer == 1) {
+            plantNickname = MessageBox.askForStringInput("Add a nickname", "What do you want to call your plant?");
+        }
+
+        int plantsWithThisNickname = 1;
+        for (DBPlant plant: secondaryController.currentUserLibrary) {
+            if (plant.getNickname().equals(plantNickname)) {
+                plantsWithThisNickname++;
+            }
+        }
+        if (plantsWithThisNickname>1) {
+            plantNickname = plantNickname + plantsWithThisNickname;
+        }
+
+        DBPlant plantToAdd = new DBPlant(plantNickname, apiPlant.getLinks().getPlant(), "2021-04-15");
+        secondaryController.addPlantToDatabase(plantToAdd);
+
+        //Add to library
+//    DBPlant plantToAdd = new DBPlant(selectedPlant.common_name, selectedPlant.getLinks().getPlant(), null);
+
+
+    }
 }
 
