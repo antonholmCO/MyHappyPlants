@@ -49,7 +49,7 @@ public class LibraryPlantPane extends Pane {
         //region.setMinWidth(USE_COMPUTED_SIZE);
 
 
-        this.progressBar = new ProgressBar(0.5);
+        this.progressBar = new ProgressBar(plant.getProgress());
         progressBar.setLayoutX(196.0);
         progressBar.setLayoutY(27.0);
         progressBar.setPrefHeight(18.0);

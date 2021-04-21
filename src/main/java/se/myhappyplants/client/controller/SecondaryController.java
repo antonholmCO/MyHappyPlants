@@ -5,11 +5,13 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -226,7 +228,9 @@ public class SecondaryController {
       plantNickname = plantNickname + plantsWithThisNickname;
     }
 
-    DBPlant plantToAdd = new DBPlant(plantNickname, selectedPlant.getLinks().getPlant(), "2021-04-15");
+    long currentDateMilli = System.currentTimeMillis();
+    Date date = new Date(currentDateMilli);
+    DBPlant plantToAdd = new DBPlant(plantNickname, selectedPlant.getLinks().getPlant(), date);
     addPlantToDatabase(plantToAdd);
 
     //Add to library

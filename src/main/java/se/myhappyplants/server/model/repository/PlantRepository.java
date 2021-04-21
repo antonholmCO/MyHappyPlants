@@ -1,12 +1,13 @@
 package se.myhappyplants.server.model.repository;
 
+import se.myhappyplants.server.model.service.PlantService;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.User;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Class responsable for calling the database about plants.
@@ -72,12 +73,19 @@ public class PlantRepository implements IPlantRepository {
         String nickname = resultSet.getString("nickname");
         String APIUrl = resultSet.getString("api_url");
         Date lastWatered = resultSet.getDate("last_watered");
+        long millis = lastWatered.getTime();
         System.out.println("date format of last watered = " + lastWatered);
-        plantList.add(new DBPlant(nickname, APIUrl, lastWatered.toString()));
+        PlantService plantService = new PlantService();
+        long waterFrequency = plantService.getWaterFrequency(APIUrl);
+        plantList.add(new DBPlant(nickname, APIUrl, lastWatered, waterFrequency));
       }
     } catch (SQLException sqlException) {
       System.out.println(sqlException.fillInStackTrace());
       return null;
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
     return plantList;
   }
@@ -97,7 +105,7 @@ public class PlantRepository implements IPlantRepository {
       String APIUrl = resultSet.getString(4);
       Date lastWatered = resultSet.getDate(5);
       System.out.println("date format oflast watered = " + lastWatered);
-      return new DBPlant(nickname, APIUrl, lastWatered.toString());
+      return new DBPlant(nickname, APIUrl, lastWatered);
     } catch (SQLException sqlException) {
       System.out.println(sqlException.fillInStackTrace());
       return null;
