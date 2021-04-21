@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class PlantService {
 
   private String trefleURL = "https://trefle.io";
-  private String searchURL = trefleURL + "/api/v1/plants/search?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k&filter_not[common_name]=null&q=";
+  private String searchURL = trefleURL + "/api/v1/plants/search?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k&filter_not[maximum_precipitation_mm]=null&q=";
 
   /**
    * Method for getting common name, family name and scientific name based on a search word

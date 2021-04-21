@@ -51,7 +51,7 @@ public class DBPlant {
     long difference = System.currentTimeMillis()-lastWatered.getTime();
     double progress = 1.0 - (difference/waterFrequency);
     if(progress<=0) {
-      return 0.01;
+      return 0.05;
     }
     return progress;
   }
