@@ -147,7 +147,7 @@ public class SecondaryController {
         System.out.println("pic is null");
       } else {
 
-        searchPlantPanes.add(new SearchPlantPane(this,String.valueOf(plant.getImage_url()), plant));
+        searchPlantPanes.add(new SearchPlantPane(this,String.valueOf(plant.image_url), plant));
       }
       //Image image = new Image(String.valueOf(plant.getImage_url()));
       //imageViewImageUrl.setImage(image);

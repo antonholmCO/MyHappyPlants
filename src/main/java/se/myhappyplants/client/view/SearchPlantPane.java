@@ -26,7 +26,7 @@ public class SearchPlantPane extends Pane {
 
         this.secondaryController = secondaryController;
         this.apiPlant = apiPlant;
-        
+
         Image img = new Image(imgPath);
 
         this.image = new ImageView();
