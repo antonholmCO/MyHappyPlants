@@ -1,6 +1,8 @@
 package se.myhappyplants.client.controller;
 
 import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -93,7 +95,6 @@ public class PrimaryController {
     private void registerButtonPressed() throws IOException {
 
         //todo - code that creates a registration request
-        //validate email
         String email = txtFldNewEmail.getText();
         if(!validateEmail(email)) {
             MessageBox.display("Error", "Not a valid email");
@@ -117,7 +118,15 @@ public class PrimaryController {
         }
     }
 
+    /**
+     * Method for validating an email by checking that it contains @
+     * @param email input email from user in application
+     * @return true if the email contains @, false if it is not valid
+     */
     private boolean validateEmail(String email) {
-        return email.contains("@");
+        final String regex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 }

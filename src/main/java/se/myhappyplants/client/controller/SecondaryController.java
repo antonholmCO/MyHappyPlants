@@ -164,8 +164,6 @@ public class SecondaryController {
     } catch (UnknownHostException e) {
       e.printStackTrace();
     }
-
-
   }
 
   private void addCurrentUserLibraryToHomeScreen() {
