@@ -74,7 +74,6 @@ public class PlantRepository implements IPlantRepository {
         String APIUrl = resultSet.getString("api_url");
         Date lastWatered = resultSet.getDate("last_watered");
         long millis = lastWatered.getTime();
-        System.out.println("date format of last watered = " + lastWatered);
         PlantService plantService = new PlantService();
         long waterFrequency = plantService.getWaterFrequency(APIUrl);
         plantList.add(new DBPlant(nickname, APIUrl, lastWatered, waterFrequency));

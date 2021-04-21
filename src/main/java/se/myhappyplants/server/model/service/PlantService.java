@@ -81,16 +81,12 @@ public class PlantService {
 
     Gson gson = new Gson();
     PlantDetail plantDetail = gson.fromJson(response.body(), PlantDetail.class);
-    System.out.println(plantDetail.data.main_species.growth.maximum_precipitation); //mm per år
-    System.out.println(plantDetail.data.main_species.growth.minimum_precipitation);
-
     String waterFreqMin = plantDetail.data.main_species.growth.minimum_precipitation.toString();
-//    System.out.println(waterFreqMin.substring(4, waterFreqMin.length()-1));
-//    String waterFreq = plantDetail.data.main_species.growth.maximum_precipitation.toString();
     String parsedWaterFreq = waterFreqMin.substring(4, waterFreqMin.length()-3);
     long waterFrequencyMilli = 0;
     try {
       long week = 604000000l;
+      //todo find better calculation for how often each plant needs watering
       //1 day = 86 000 000
       //min water = 200mm/year -> 4 weeks
       //min water = 1000mm/year -> 1 week
@@ -110,7 +106,6 @@ public class PlantService {
       else if(waterFrequencyInt>800) {
         waterFrequencyMilli = week / 2;
       }
-      System.out.println(waterFrequencyMilli);
     }
     catch (NumberFormatException e) {
 
