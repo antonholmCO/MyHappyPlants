@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 //        UserRepository userRepository = new UserRepository();
 //        Controller controller = new Controller((UserRepository) userRepository);
-//        controller.logIn();
+//        controller.createNewUser();
 //        controller.deleteAccount();
         //Testa logga in och spara användare på DB samt skapa en ny User
         //controller.createNewUser();

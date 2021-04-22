@@ -236,11 +236,9 @@ public class SecondaryController {
   private void deleteAccountButtonPressed() throws IOException {
     int answer = MessageBox.askYesNo("Delete account", "Are you sure you want to delete your account? \n All your personal information will be deleted. \nA deleted account can't be restored. ");
     if (answer == 1) {
-      System.out.println(deleteAccountPassField.getText());
-      Message deleteMessage = new Message("delete account", LoggedInUser.getInstance().getUser(), deleteAccountPassField.getText());
+      Message deleteMessage = new Message("delete account", new User(LoggedInUser.getInstance().getUser().getEmail(), deleteAccountPassField.getText()));
       Message deleteResponse = ClientConnection.getInstance().makeRequest(deleteMessage);
       if (deleteResponse != null) {
-        System.out.println(deleteResponse);
         if (deleteResponse.isSuccess()) {
           MessageBox.display("Account deleted successfully", "Sorry to see you go");
           logoutButtonPressed();
