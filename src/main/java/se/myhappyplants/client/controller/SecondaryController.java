@@ -232,6 +232,10 @@ public class SecondaryController {
 //    DBPlant plantToAdd = new DBPlant(selectedPlant.common_name, selectedPlant.getLinks().getPlant(), null);
   }
 
+  /**
+   * author: Frida Jacobsson
+   * @throws IOException
+   */
   @FXML
   private void deleteAccountButtonPressed() throws IOException {
     int answer = MessageBox.askYesNo("Delete account", "Are you sure you want to delete your account? \n All your personal information will be deleted. \nA deleted account can't be restored. ");

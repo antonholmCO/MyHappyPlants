@@ -14,6 +14,7 @@ import java.sql.*;
 public class UserRepository implements IUserRepository {
 
   Statement statement;
+  Connection conn;
 
   /**
    * Constructor that creates a connection to the database.
@@ -22,7 +23,7 @@ public class UserRepository implements IUserRepository {
    * @throws UnknownHostException
    */
   public UserRepository() throws SQLException, UnknownHostException {
-    Connection conn = Driver.getConnection();
+    conn = Driver.getConnection();
     statement = conn.createStatement();
   }
 
@@ -97,18 +98,37 @@ public class UserRepository implements IUserRepository {
     return user;
   }
 
+  /**
+   * Method to delete a user and all plants in user library at once
+   * author: Frida Jacobsson
+   * @param email
+   * @param password
+   * @return boolean value, false if transaction is rolled back
+   * @throws SQLException
+   */
   public boolean deleteAccount(String email, String password) throws SQLException {
     if (!checkLogin(email, password)) {
       return false;
     }
     try {
-      String query = "DELETE FROM [User] WHERE email = '" + email + "';";
-      System.out.println("right password!");
-      statement.executeUpdate(query);
-      return true;
-    } catch (SQLException sqlException) {
-      sqlException.printStackTrace();
-      return false;
-    }
+      conn.setAutoCommit(false);
+      String querySelect = "SELECT [User].id from [User] WHERE [User].email = '" + email + "';";
+      ResultSet resultSet = statement.executeQuery(querySelect);
+      if (!resultSet.next()) {
+        throw new SQLException();
+      }
+      int id = resultSet.getInt(1);
+      String queryDeletePlants = "DELETE FROM [Plant] WHERE user_id = " + id + ";";
+      statement.executeUpdate(queryDeletePlants);
+      String queryDeleteUser = "DELETE FROM [User] WHERE id = " + id + ";";
+      statement.executeUpdate(queryDeleteUser);
+      conn.commit();
+      conn.setAutoCommit(true);
+  } catch(SQLException sqlException) {
+    conn.rollback();
+    return false;
+  }
+   return true;
   }
 }
+
