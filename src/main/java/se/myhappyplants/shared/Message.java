@@ -1,5 +1,7 @@
 package se.myhappyplants.shared;
 
+import se.myhappyplants.client.model.LoggedInUser;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -42,6 +44,11 @@ public class Message implements Serializable {
 
         this.messageType = messageType;
         this.user = user;
+    }
+
+    public Message(String messageType, User user, String password) {
+    this.messageType = messageType;
+    this.user = user;
     }
 
     public String getMessageType() {

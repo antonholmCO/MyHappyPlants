@@ -93,4 +93,20 @@ public class UserRepository implements IUserRepository {
     }
     return user;
   }
+
+  public boolean deleteAccount(String email, String password) throws SQLException {
+    if (!checkLogin(email, password)) {
+      System.out.println("nooope wrong password");
+      return false;
+    }
+    try {
+      String query = "DELETE FROM [User] WHERE email = '" + email + "';";
+      System.out.println("right password!");
+      statement.executeQuery(query);
+      return true;
+    } catch (SQLException sqlException) {
+      sqlException.printStackTrace();
+      return false;
+    }
+  }
 }
