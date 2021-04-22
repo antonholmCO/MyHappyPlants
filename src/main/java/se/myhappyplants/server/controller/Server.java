@@ -5,6 +5,7 @@ import se.myhappyplants.server.model.repository.PlantRepository;
 import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.server.model.service.PlantService;
 import se.myhappyplants.shared.APIPlant;
+import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
 
@@ -30,7 +31,9 @@ public class Server implements Runnable {
     private ServerSocket serverSocket;
     private final Thread serverThread = new Thread(this);
     private boolean serverRunning;
+
     private UserRepository userRepository;
+    private PlantRepository plantRepository;
     private PlantService plantService;
 
     /**
@@ -40,9 +43,10 @@ public class Server implements Runnable {
      * @param userRepository to handle db requests
      * @param plantService   to handle api requests
      */
-    public Server(int port, UserRepository userRepository, PlantService plantService) {
+    public Server(int port, UserRepository userRepository, PlantRepository plantRepository, PlantService plantService) {
         this(port);
         this.userRepository = userRepository;
+        this.plantRepository = plantRepository;
         this.plantService = plantService;
     }
 
@@ -126,6 +130,10 @@ public class Server implements Runnable {
                     response = new Message("registration",false);
                 }
                 break;
+            case "getLibrary":
+                ArrayList<DBPlant> userLibrary = plantRepository.getUserLibrary(request.getUser());
+                response = new Message("library", request.getUser(), userLibrary, true);
+                break;
             case "search":
                 try {
                     ArrayList<APIPlant> plantList = plantService.getResult(request.getSearchWord());
@@ -135,17 +143,13 @@ public class Server implements Runnable {
                     e.printStackTrace();
                 }
                 break;
+            case "savePlant":
+                boolean saveSuccess = plantRepository.savePlant(request.getUser(), request.getDbPlant());
+                response = new Message("success", saveSuccess);
+                break;
             case "deletePlantFromLibrary":
-                try {
-                    PlantRepository plantRepository = new PlantRepository(request.getUser());
-                    boolean success = plantRepository.deletePlant(request.getUser(), request.getDbPlant().getNickname());
-
-                    response = new Message("success", success);
-
-                } catch (SQLException | UnknownHostException e) {
-                    response = new Message("fail", false);
-                    e.printStackTrace();
-                }
+                boolean deleteSuccess = plantRepository.deletePlant(request.getUser(), request.getDbPlant().getNickname());
+                response = new Message("success", deleteSuccess);
                 break;
             default:
                 response = new Message("fail", false);

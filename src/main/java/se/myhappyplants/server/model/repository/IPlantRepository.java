@@ -1,6 +1,7 @@
 package se.myhappyplants.server.model.repository;
 
 import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.User;
 
 import java.util.ArrayList;
 
@@ -11,9 +12,9 @@ import java.util.ArrayList;
  */
 public interface IPlantRepository {
 
-  ArrayList<DBPlant> getAllPlants();
+  ArrayList<DBPlant> getUserLibrary(User user);
 
-  DBPlant getPlant(String nickname);
+  DBPlant getPlant(User user, String nickname);
 
-  boolean savePlant(DBPlant plant);
+  boolean savePlant(User user, DBPlant plant);
 }

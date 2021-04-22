@@ -17,19 +17,16 @@ import java.util.ArrayList;
 public class PlantRepository implements IPlantRepository {
 
   private Statement statement;
-  private User user;
 
   /**
    * Constructor that creates a connection to the database.
    *
-   * @param user sets the logged in user
    * @throws SQLException
    * @throws UnknownHostException
    */
-  public PlantRepository(User user) throws SQLException, UnknownHostException {
+  public PlantRepository() throws SQLException, UnknownHostException {
     Connection conn = Driver.getConnection();
     statement = conn.createStatement();
-    this.user = user;
   }
 
   /**
@@ -41,7 +38,7 @@ public class PlantRepository implements IPlantRepository {
    * @return a boolean value, true if the plant was stored successfully
    */
   @Override
-  public boolean savePlant(DBPlant plant) {
+  public boolean savePlant(User user, DBPlant plant) {
     boolean success = false;
     String query = "INSERT INTO Plant (user_id, nickname, api_url, last_watered) values ('" + user.getUniqueId() + "', '" + plant.getNickname() + "', '" + plant.getURL() + "', '" + plant.getLastWatered() + "')";
     try {
@@ -63,8 +60,7 @@ public class PlantRepository implements IPlantRepository {
    *
    * @return an arraylist if plants stored in the database
    */
-  @Override
-  public ArrayList<DBPlant> getAllPlants() {
+  public ArrayList<DBPlant> getUserLibrary(User user) {
     ArrayList<DBPlant> plantList = new ArrayList<DBPlant>();
     try {
       String query = "SELECT nickname, api_url, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() + ";";
@@ -96,7 +92,7 @@ public class PlantRepository implements IPlantRepository {
    * @param nickname
    * @return an instance of a specific plant from the database, null if no plant with the specific nickname exists
    */
-  public DBPlant getPlant(String nickname) {
+  public DBPlant getPlant(User user, String nickname) {
     try {
       String query = "SELECT nickname, api_url, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() + "AND nickname =" + nickname;
       ResultSet resultSet = statement.executeQuery(query);

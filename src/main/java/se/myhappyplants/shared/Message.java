@@ -17,22 +17,8 @@ public class Message implements Serializable {
     private User user;
     private boolean success;
     private ArrayList<APIPlant> plantList;
+    private ArrayList<DBPlant> plantLibrary;
     private DBPlant dbPlant;
-
-    public Message(String messageType, User user, boolean success) {
-        this(messageType, success);
-        this.user = user;
-    }
-
-    public Message(String messageType, boolean success) {
-        this.messageType = messageType;
-        this.success = success;
-    }
-
-    public Message(String messageType, ArrayList<APIPlant> plantList, boolean success) {
-        this(messageType, success);
-        this.plantList = plantList;
-    }
 
     public Message(String messageType, String searchWord) {
         this.messageType = messageType;
@@ -45,9 +31,27 @@ public class Message implements Serializable {
         this.user = user;
     }
 
-    public Message(String messageType, User user, DBPlant plant) {
+    public Message(String messageType, boolean success) {
         this.messageType = messageType;
+        this.success = success;
+    }
+
+    public Message(String messageType, User user, boolean success) {
+        this(messageType, success);
         this.user = user;
+    }
+    public Message(String messageType, User user, ArrayList<DBPlant> plantLibrary, boolean success) {
+        this(messageType, user, success);
+        this.plantLibrary = plantLibrary;
+    }
+
+    public Message(String messageType, ArrayList<APIPlant> plantList, boolean success) {
+        this(messageType, success);
+        this.plantList = plantList;
+    }
+
+    public Message(String messageType, User user, DBPlant plant) {
+        this(messageType, user);
         this.dbPlant = plant;
     }
 
@@ -55,8 +59,8 @@ public class Message implements Serializable {
         return messageType;
     }
 
-    public ArrayList<APIPlant> getPlantList() {
-        return plantList;
+    public String getSearchWord() {
+        return searchWord;
     }
 
     public User getUser() {
@@ -67,12 +71,15 @@ public class Message implements Serializable {
         return success;
     }
 
-    public String getSearchWord() {
-        return searchWord;
-    }
-
     public DBPlant getDbPlant() {
         return dbPlant;
     }
 
+    public ArrayList<APIPlant> getPlantList() {
+        return plantList;
+    }
+
+    public ArrayList<DBPlant> getPlantLibrary() {
+        return plantLibrary;
+    }
 }

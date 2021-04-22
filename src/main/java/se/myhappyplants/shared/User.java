@@ -13,7 +13,6 @@ public class User implements Serializable {
   private String email;
   private String username;
   private String password;
-  private ArrayList<DBPlant> plantLibrary;
   private boolean isNotificationsActivated = true;
 
   /**
@@ -106,13 +105,5 @@ public class User implements Serializable {
 
   public void setIsNotificationsActivated(boolean notificationsActivated) {
     this.isNotificationsActivated = notificationsActivated;
-  }
-
-  public ArrayList<DBPlant> getPlantLibrary() {
-    return plantLibrary;
-  }
-
-  public void setPlantLibrary(ArrayList<DBPlant> plantLibrary) {
-    this.plantLibrary = plantLibrary;
   }
 }
