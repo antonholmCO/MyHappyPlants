@@ -24,6 +24,7 @@ import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.User;
 
 /**
  * Controls the inputs from a 'logged in' user
@@ -53,6 +54,8 @@ public class SecondaryController {
   ImageView imageViewImageUrl;
   @FXML
   ListView userPlantLibrary;
+  @FXML
+  PasswordField deleteAccountPassField;
 
   /**
    * Constructor that has access to FXML variables
@@ -106,11 +109,10 @@ public class SecondaryController {
     //ToDo - Some code to handle what happens when user wants to log out
     String email = LoggedInUser.getInstance().getUser().getEmail();
 
-    try(BufferedWriter bw = new BufferedWriter(new FileWriter("resources/lastLogin.txt"))){
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/lastLogin.txt"))) {
       bw.write(email);
       bw.flush();
-    }
-    catch (IOException e){
+    } catch (IOException e) {
       e.printStackTrace();
     }
 
@@ -131,7 +133,7 @@ public class SecondaryController {
         showResultsOnPane(apiResponse);
       } else {
 
-        MessageBox.display("No results", "No results on "+txtFldSearchText.getText() +", sorry!");
+        MessageBox.display("No results", "No results on " + txtFldSearchText.getText() + ", sorry!");
 
       }
     } else {
@@ -142,8 +144,8 @@ public class SecondaryController {
   private void showResultsOnPane(Message apiResponse) {
     progressIndicator.setProgress(75);
     ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
-    ObservableList<APIPlant> items = FXCollections.observableArrayList ();
-    for(APIPlant plant: searchedPlant) {
+    ObservableList<APIPlant> items = FXCollections.observableArrayList();
+    for (APIPlant plant : searchedPlant) {
 //      arrayItem.add(plant);
       items.add(plant);
       //Image image = new Image(String.valueOf(plant.getImage_url()));
@@ -170,7 +172,7 @@ public class SecondaryController {
 
     //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
     ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
-    for (DBPlant plant: currentUserLibrary) {
+    for (DBPlant plant : currentUserLibrary) {
       plantpane.add(new LibraryPlantPane("resources/images/sapling_in_pot.png", 0.5, plant));
     }
     userPlantLibrary.setItems(plantpane);
@@ -184,13 +186,12 @@ public class SecondaryController {
   private void addPlantToDatabase(DBPlant plant) {
 
     try {
-      PlantRepository plantRepository= new PlantRepository(LoggedInUser.getInstance().getUser());
-      if(plantRepository.savePlant(plant)) {
+      PlantRepository plantRepository = new PlantRepository(LoggedInUser.getInstance().getUser());
+      if (plantRepository.savePlant(plant)) {
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
-      }
-    else {
-      MessageBox.display("Fail", "Failed to add to database");
+      } else {
+        MessageBox.display("Fail", "Failed to add to database");
       }
     } catch (SQLException throwables) {
       throwables.printStackTrace();
@@ -198,6 +199,7 @@ public class SecondaryController {
       e.printStackTrace();
     }
   }
+
   private void removePlantFromDatabase(DBPlant plant) {
 
   }
@@ -214,12 +216,12 @@ public class SecondaryController {
     }
 
     int plantsWithThisNickname = 1;
-    for (DBPlant plant: currentUserLibrary) {
+    for (DBPlant plant : currentUserLibrary) {
       if (plant.getNickname().equals(plantNickname)) {
         plantsWithThisNickname++;
       }
     }
-    if (plantsWithThisNickname>1) {
+    if (plantsWithThisNickname > 1) {
       plantNickname = plantNickname + plantsWithThisNickname;
     }
 
@@ -228,7 +230,28 @@ public class SecondaryController {
 
     //Add to library
 //    DBPlant plantToAdd = new DBPlant(selectedPlant.common_name, selectedPlant.getLinks().getPlant(), null);
+  }
 
-
+  /**
+   * author: Frida Jacobsson
+   * @throws IOException
+   */
+  @FXML
+  private void deleteAccountButtonPressed() throws IOException {
+    int answer = MessageBox.askYesNo("Delete account", "Are you sure you want to delete your account? \n All your personal information will be deleted. \nA deleted account can't be restored. ");
+    if (answer == 1) {
+      Message deleteMessage = new Message("delete account", new User(LoggedInUser.getInstance().getUser().getEmail(), deleteAccountPassField.getText()));
+      Message deleteResponse = ClientConnection.getInstance().makeRequest(deleteMessage);
+      if (deleteResponse != null) {
+        if (deleteResponse.isSuccess()) {
+          MessageBox.display("Account deleted successfully", "Sorry to see you go");
+          logoutButtonPressed();
+        } else {
+          MessageBox.display("Failed to delete account", "Invalid password");
+        }
+      } else {
+        MessageBox.display("Failed to delete account", "No contact with server");
+      }
+    }
   }
 }
