@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class PlantService {
 
   private String trefleURL = "https://trefle.io";
-  private String searchURL = trefleURL + "/api/v1/plants/search?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k&q=";
+  private String searchURL = trefleURL + "/api/v1/plants/search?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k&filter_not[maximum_precipitation_mm]=null&q=";
 
   /**
    * Method for getting common name, family name and scientific name based on a search word
@@ -68,5 +68,48 @@ public class PlantService {
     System.out.println(plantDetail.data.main_species.growth.light); //hur mycket ljus växten behöver.
     System.out.println(plantDetail.data.main_species.growth.maximum_precipitation); //mm per år
     System.out.println(plantDetail.data.main_species.growth.minimum_precipitation); //mm per år
+  }
+  public long getWaterFrequency (String apiURL) throws IOException, InterruptedException {
+    String plantURL = trefleURL + apiURL + "?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k";
+    HttpClient client = HttpClient.newHttpClient();
+    HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(plantURL))
+            .build();
+
+    HttpResponse<String> response =
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+
+    Gson gson = new Gson();
+    PlantDetail plantDetail = gson.fromJson(response.body(), PlantDetail.class);
+    String waterFreqMin = plantDetail.data.main_species.growth.minimum_precipitation.toString();
+    String parsedWaterFreq = waterFreqMin.substring(4, waterFreqMin.length()-3);
+    long waterFrequencyMilli = 0;
+    try {
+      long week = 604000000l;
+      //todo find better calculation for how often each plant needs watering
+      //1 day = 86 000 000
+      //min water = 200mm/year -> 4 weeks
+      //min water = 1000mm/year -> 1 week
+      int waterFrequencyInt = Integer.parseInt(parsedWaterFreq);
+      if(waterFrequencyInt<=200) {
+        waterFrequencyMilli = week * 4;
+      }
+      else if(waterFrequencyInt>200 && waterFrequencyInt<=400) {
+        waterFrequencyMilli = week * 3;
+      }
+      else if(waterFrequencyInt>400 && waterFrequencyInt<=600) {
+        waterFrequencyMilli = week * 2;
+      }
+      else if(waterFrequencyInt>600 && waterFrequencyInt<=800) {
+        waterFrequencyMilli = week * 1;
+      }
+      else if(waterFrequencyInt>800) {
+        waterFrequencyMilli = week / 2;
+      }
+    }
+    catch (NumberFormatException e) {
+
+    }
+    return waterFrequencyMilli;
   }
 }

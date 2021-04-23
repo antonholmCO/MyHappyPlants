@@ -1,6 +1,8 @@
 package se.myhappyplants.client.controller;
 
 import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -91,9 +93,9 @@ public class PrimaryController {
     }
     @FXML
     private void registerButtonPressed() throws IOException {
-
-        //todo - code that creates a registration request
-
+        if(!validateAndDisplayErrors()) {
+            return;
+        }
         Message registerRequest = new Message("register", new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
         Message registerResponse = ClientConnection.getInstance().makeRequest(registerRequest);
 
@@ -112,4 +114,36 @@ public class PrimaryController {
         }
     }
 
+    /**
+     *
+     * @return
+     */
+    private boolean validateAndDisplayErrors() {
+        String email = txtFldNewEmail.getText();
+        if(!validateEmail(email)) {
+            MessageBox.display("Error", "Not a valid email");
+            return false;
+        }
+        if(txtFldNewUsername.getText().isEmpty()) {
+            MessageBox.display("Failed", "Username is required");
+            return false;
+        }
+        if(passFldNewPassword.getText().isEmpty()) {
+            MessageBox.display("Failed", "Password is required");
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Method for validating an email by checking that it contains @
+     * @param email input email from user in application
+     * @return true if the email contains @, false if it is not valid
+     */
+    private boolean validateEmail(String email) {
+        final String regex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
 }

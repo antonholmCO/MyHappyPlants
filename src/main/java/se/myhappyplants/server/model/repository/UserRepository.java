@@ -14,6 +14,7 @@ import java.sql.*;
 public class UserRepository implements IUserRepository {
 
   Statement statement;
+  Connection conn;
 
   /**
    * Constructor that creates a connection to the database.
@@ -22,7 +23,7 @@ public class UserRepository implements IUserRepository {
    * @throws UnknownHostException
    */
   public UserRepository() throws SQLException, UnknownHostException {
-    Connection conn = Driver.getConnection();
+    conn = Driver.getConnection();
     statement = conn.createStatement();
   }
 
@@ -58,7 +59,10 @@ public class UserRepository implements IUserRepository {
     boolean isVerified = false;
     try {
       String query = "SELECT password FROM [User] WHERE email = '" + email + "';";
-      System.out.println("yas du logga in");
+
+      System.out.println(email);
+      System.out.println(password);
+
       ResultSet resultSet = statement.executeQuery(query);
       if (resultSet.next()) {
         String hashedPassword = resultSet.getString(1);
@@ -68,6 +72,7 @@ public class UserRepository implements IUserRepository {
       sqlException.printStackTrace();
       System.out.println("nej du! du logga ej in!");
     }
+    System.out.println(isVerified);
     return isVerified;
   }
 
@@ -96,4 +101,44 @@ public class UserRepository implements IUserRepository {
     }
     return user;
   }
+
+  /**
+   * Method to delete a user and all plants in user library at once
+   * author: Frida Jacobsson
+   * @param email
+   * @param password
+   * @return boolean value, false if transaction is rolled back
+   * @throws SQLException
+   */
+  public boolean deleteAccount(String email, String password) {
+    if (!checkLogin(email, password)) {
+      return false;
+    }
+    try {
+      conn.setAutoCommit(false);
+      String querySelect = "SELECT [User].id from [User] WHERE [User].email = '" + email + "';";
+      ResultSet resultSet = statement.executeQuery(querySelect);
+      if (!resultSet.next()) {
+        throw new SQLException();
+      }
+      int id = resultSet.getInt(1);
+      String queryDeletePlants = "DELETE FROM [Plant] WHERE user_id = " + id + ";";
+      statement.executeUpdate(queryDeletePlants);
+      String queryDeleteUser = "DELETE FROM [User] WHERE id = " + id + ";";
+      statement.executeUpdate(queryDeleteUser);
+      conn.commit();
+      conn.setAutoCommit(true);
+  } catch(SQLException sqlException) {
+      try {
+        conn.rollback();
+      }
+      catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+
+      return false;
+  }
+   return true;
+  }
 }
+

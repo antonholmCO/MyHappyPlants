@@ -21,6 +21,15 @@ import se.myhappyplants.server.model.repository.PlantRepository;
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.User;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Controls the inputs from a 'logged in' user
@@ -32,6 +41,7 @@ public class SecondaryController {
 
   private ClientConnection connection;
   public ArrayList<DBPlant> currentUserLibrary;
+
 
 
   @FXML
@@ -50,6 +60,8 @@ public class SecondaryController {
   ImageView imageViewImageUrl;
   @FXML
   ListView userPlantLibrary;
+  @FXML
+  PasswordField deleteAccountPassField;
 
   /**
    * Constructor that has access to FXML variables
@@ -103,11 +115,10 @@ public class SecondaryController {
     //ToDo - Some code to handle what happens when user wants to log out
     String email = LoggedInUser.getInstance().getUser().getEmail();
 
-    try(BufferedWriter bw = new BufferedWriter(new FileWriter("resources/lastLogin.txt"))){
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/lastLogin.txt"))) {
       bw.write(email);
       bw.flush();
-    }
-    catch (IOException e){
+    } catch (IOException e) {
       e.printStackTrace();
     }
 
@@ -128,7 +139,7 @@ public class SecondaryController {
         showResultsOnPane(apiResponse);
       } else {
 
-        MessageBox.display("No results", "No results on "+txtFldSearchText.getText() +", sorry!");
+        MessageBox.display("No results", "No results on " + txtFldSearchText.getText() + ", sorry!");
 
       }
     } else {
@@ -139,6 +150,7 @@ public class SecondaryController {
   private void showResultsOnPane(Message apiResponse) {
     progressIndicator.setProgress(75);
     ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
+
     ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
     for(APIPlant plant: searchedPlant) {
       if (plant.image_url == null) {
@@ -164,18 +176,20 @@ public class SecondaryController {
     userPlantLibrary.setItems(plantpane);
   }
 
-  private void createCurrentUserLibraryFromDB() {
-    //TODO: Hämta plantor som tillhör currentuser från databasen och lägg dom i currentUserLibrary
-    try {
-      PlantRepository plantRepository = new PlantRepository(LoggedInUser.getInstance().getUser());
-      currentUserLibrary = plantRepository.getAllPlants();
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (UnknownHostException e) {
-      e.printStackTrace();
-    }
-  }
 
+    private void createCurrentUserLibraryFromDB() {
+        //TODO: Hämta plantor som tillhör currentuser från databasen och lägg dom i currentUserLibrary
+        Message getLibrary = new Message("getLibrary", LoggedInUser.getInstance().getUser());
+        Message response = ClientConnection.getInstance().makeRequest(getLibrary);
+
+        if (response.isSuccess()) {
+            currentUserLibrary = response.getPlantLibrary();
+        } else {
+            MessageBox.display("Fail", "Failed to add to database");
+        }
+
+
+    }
 
 
   private void updateDatabaseWithCurrentUserLibrary() {
@@ -185,22 +199,28 @@ public class SecondaryController {
 
   public void addPlantToDatabase(DBPlant plant) {
 
-    try {
-      PlantRepository plantRepository= new PlantRepository(LoggedInUser.getInstance().getUser());
-      if(plantRepository.savePlant(plant)) {
-        createCurrentUserLibraryFromDB();
-        addCurrentUserLibraryToHomeScreen();
-      }
-    else {
-      MessageBox.display("Fail", "Failed to add to database");
-      }
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (UnknownHostException e) {
-      e.printStackTrace();
+        Message savePlant = new Message("savePlant", LoggedInUser.getInstance().getUser(), plant);
+        Message response = ClientConnection.getInstance().makeRequest(savePlant);
+        if (response.isSuccess()) {
+            createCurrentUserLibraryFromDB();
+            addCurrentUserLibraryToHomeScreen();
+        } else {
+            MessageBox.display("Fail", "Failed to add to database");
+        }
+
     }
-  }
-  private void removePlantFromDatabase(DBPlant plant) {
+
+    public void removePlantFromDatabase(DBPlant plant) {
+        System.out.println("hej");
+        Message deletePlant = new Message("deletePlantFromLibrary", LoggedInUser.getInstance().getUser(), plant);
+        Message response = ClientConnection.getInstance().makeRequest(deletePlant);
+
+        if (response.isSuccess()) {
+            createCurrentUserLibraryFromDB();
+            addCurrentUserLibraryToHomeScreen();
+        } else {
+            MessageBox.display("Error", "Could not delete plant");
+        }
 
   }
 
@@ -215,22 +235,46 @@ public class SecondaryController {
       plantNickname = MessageBox.askForStringInput("Add a nickname", "What do you want to call your plant?");
     }
 
-    int plantsWithThisNickname = 1;
-    for (DBPlant plant: currentUserLibrary) {
-      if (plant.getNickname().equals(plantNickname)) {
-        plantsWithThisNickname++;
-      }
-    }
-    if (plantsWithThisNickname>1) {
-      plantNickname = plantNickname + plantsWithThisNickname;
-    }
+        int plantsWithThisNickname = 1;
+        for (DBPlant plant : currentUserLibrary) {
+            if (plant.getNickname().equals(plantNickname)) {
+                plantsWithThisNickname++;
+            }
+        }
+        if (plantsWithThisNickname > 1) {
+            plantNickname = plantNickname + plantsWithThisNickname;
+        }
 
-    DBPlant plantToAdd = new DBPlant(plantNickname, plantAdd.getLinks().getPlant(), "2021-04-15");
-    addPlantToDatabase(plantToAdd);
+        long currentDateMilli = System.currentTimeMillis();
+        Date date = new Date(currentDateMilli);
+        DBPlant plantToAdd = new DBPlant(plantNickname, selectedPlant.getLinks().getPlant(), date);
+        addPlantToDatabase(plantToAdd);
+
 
     //Add to library
 //    DBPlant plantToAdd = new DBPlant(selectedPlant.common_name, selectedPlant.getLinks().getPlant(), null);
+  }
 
-
+  /**
+   * author: Frida Jacobsson
+   * @throws IOException
+   */
+  @FXML
+  private void deleteAccountButtonPressed() throws IOException {
+    int answer = MessageBox.askYesNo("Delete account", "Are you sure you want to delete your account? \n All your personal information will be deleted. \nA deleted account can't be restored. ");
+    if (answer == 1) {
+      Message deleteMessage = new Message("delete account", new User(LoggedInUser.getInstance().getUser().getEmail(), deleteAccountPassField.getText()));
+      Message deleteResponse = ClientConnection.getInstance().makeRequest(deleteMessage);
+      if (deleteResponse != null) {
+        if (deleteResponse.isSuccess()) {
+          MessageBox.display("Account deleted successfully", "Sorry to see you go");
+          logoutButtonPressed();
+        } else {
+          MessageBox.display("Failed to delete account", "Invalid password");
+        }
+      } else {
+        MessageBox.display("Failed to delete account", "No contact with server");
+      }
+    }
   }
 }

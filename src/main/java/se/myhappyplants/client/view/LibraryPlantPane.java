@@ -2,6 +2,7 @@ package se.myhappyplants.client.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -9,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
+import se.myhappyplants.client.controller.SecondaryController;
 import se.myhappyplants.shared.DBPlant;
 
 import java.io.File;
@@ -19,7 +21,9 @@ import java.io.File;
  * Created by: Christopher O'Driscoll
  */
 public class LibraryPlantPane extends Pane {
+    private SecondaryController controller;
 
+    //Always shown
     private ImageView image;
     private Label nickname;
     private ProgressBar progressBar;
@@ -27,9 +31,16 @@ public class LibraryPlantPane extends Pane {
     private Button infoButton;
     private Button waterButton;
 
+    //Shown when plant info pressed
+    private Button changeNameButton;
+    private Button changePictureButton;
+    private Button deleteButton;
+
+
     private boolean extended;
 
-    public LibraryPlantPane(String imgPath, double progress, DBPlant plant) {
+    public LibraryPlantPane(SecondaryController controller, String imgPath, double progress, DBPlant plant) {
+        this.controller = controller;
         File fileImg = new File(imgPath);
         Image img = new Image(fileImg.toURI().toString());
 
@@ -43,15 +54,18 @@ public class LibraryPlantPane extends Pane {
         image.setImage(img);
 
         this.nickname =  new Label(plant.getNickname());
-        this.nickname.setLayoutX(117.0);
-        this.nickname.setLayoutY(28.0);
+        double nicknameWidth = this.nickname.getWidth();
+        this.nickname.setLayoutX(0);
+        this.nickname.setLayoutY(65);
+        this.nickname.setPrefWidth(145);
+        this.nickname.setAlignment(Pos.CENTER);
         //Region region = new Region();
         //region.setMinWidth(USE_COMPUTED_SIZE);
 
 
-        this.progressBar = new ProgressBar(0.5);
+        this.progressBar = new ProgressBar(plant.getProgress());
         progressBar.setLayoutX(196.0);
-        progressBar.setLayoutY(27.0);
+        progressBar.setLayoutY(28.0);
         progressBar.setPrefHeight(18.0);
         progressBar.setPrefWidth(545.0);
 
@@ -78,10 +92,28 @@ public class LibraryPlantPane extends Pane {
             }
         });
 
+        this.changeNameButton = new Button("Change nickname");
+        changeNameButton.setLayoutX(370.0);
+        changeNameButton.setLayoutY(250.0);
+        changeNameButton.setMnemonicParsing(false);
+
+        this.changePictureButton = new Button("Change plant picture");
+        changePictureButton.setLayoutX(500);
+        changePictureButton.setLayoutY(250.0);
+        changePictureButton.setMnemonicParsing(false);
+
+        this.deleteButton = new Button("Delete plant");
+        deleteButton.setLayoutX(650.0);
+        deleteButton.setLayoutY(250.0);
+        deleteButton.setMnemonicParsing(false);
+        deleteButton.setOnAction(onPress -> {
+            controller.removePlantFromDatabase(plant);
+        });
+
 
         this.setPrefHeight(92.0);
         this.setPrefWidth(800.0);
-        this.getChildren().addAll(image, this.nickname, progressBar, waterButton, editButton, infoButton);
+        this.getChildren().addAll(image, this.nickname, progressBar, waterButton, editButton, infoButton, changeNameButton, changePictureButton, deleteButton);
 
     }
 

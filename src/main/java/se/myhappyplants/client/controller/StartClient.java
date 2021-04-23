@@ -51,12 +51,12 @@ public class StartClient extends Application {
         return fxmlLoader.load();
     }
 
-    /*
-      Alternative run method (not needed)
-      @param args
-     */
-//    public static void main(String[] args) {
-//        launch();
-//    }
+    /**
+      *Alternative run method (not needed)
+      *@param args
+     **/
+    public static void main(String[] args) {
+        launch();
+    }
 
 }

@@ -1,8 +1,11 @@
 package se.myhappyplants.server.controller;
 
+import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.server.model.repository.PlantRepository;
 import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.server.model.service.PlantService;
 import se.myhappyplants.shared.APIPlant;
+import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
 
@@ -11,6 +14,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
+import java.net.UnknownHostException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -26,7 +32,9 @@ public class Server implements Runnable {
     private ServerSocket serverSocket;
     private final Thread serverThread = new Thread(this);
     private boolean serverRunning;
+
     private UserRepository userRepository;
+    private PlantRepository plantRepository;
     private PlantService plantService;
 
     /**
@@ -36,9 +44,10 @@ public class Server implements Runnable {
      * @param userRepository to handle db requests
      * @param plantService   to handle api requests
      */
-    public Server(int port, UserRepository userRepository, PlantService plantService) {
+    public Server(int port, UserRepository userRepository, PlantRepository plantRepository, PlantService plantService) {
         this(port);
         this.userRepository = userRepository;
+        this.plantRepository = plantRepository;
         this.plantService = plantService;
     }
 
@@ -106,36 +115,56 @@ public class Server implements Runnable {
 
                 boolean loginSuccess = userRepository.checkLogin(email, password);
                 if (loginSuccess) {
-                    User user = userRepository.getUserDetails(email);
-                    response = new Message("login", user, true);
+                  User user = userRepository.getUserDetails(email);
+                  response = new Message("login", user, true);
                 } else {
-                    response = new Message("login", false);
+                  response = new Message("login", false);
                 }
                 break;
             case "register":
                 /*response = new Message("register", request.getUser(), true);*/
                 User user = request.getUser();
                 if (userRepository.saveUser(user)) {
-                    User savedUser = userRepository.getUserDetails(user.getEmail());
-                    response = new Message("registration", savedUser, true);
+                  User savedUser = userRepository.getUserDetails(user.getEmail());
+                  response = new Message("registration", savedUser, true);
                 } else {
-                    response = new Message("registration",false);
+                  response = new Message("registration", false);
+                }
+                break;
+            case "delete account":
+                User userToDelete = request.getUser();
+                if (userRepository.deleteAccount(userToDelete.getEmail(), userToDelete.getPassword())) {
+                  response = new Message("delete account", true);
+                } else {
+                  response = new Message("delete account", false);
                 }
                 break;
             case "search":
                 try {
-                    ArrayList<APIPlant> plantList = plantService.getResult(request.getSearchWord());
-                    response = new Message("search", plantList, true);
+                  ArrayList<APIPlant> plantList = plantService.getResult(request.getSearchWord());
+                  response = new Message("search", plantList, true);
                 } catch (Exception e) {
-                    response = new Message("search", false);
-                    e.printStackTrace();
+                  response = new Message("search", false);
+                  e.printStackTrace();
                 }
                 break;
+            case "getLibrary":
+                ArrayList<DBPlant> userLibrary = plantRepository.getUserLibrary(request.getUser());
+                response = new Message("library", request.getUser(), userLibrary, true);
+                break;
+            case "savePlant":
+                boolean saveSuccess = plantRepository.savePlant(request.getUser(), request.getDbPlant());
+                response = new Message("success", saveSuccess);
+                break;
+            case "deletePlantFromLibrary":
+                boolean deleteSuccess = plantRepository.deletePlant(request.getUser(), request.getDbPlant().getNickname());
+                response = new Message("success", deleteSuccess);
+                break;
             default:
-                response = new Message("fail", false);
-        }
+            response = new Message("fail", false);
+            }
         return response;
-    }
+  }
 
         /**
          * Thread that accepts requests and delivers responses to a connected client
