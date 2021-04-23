@@ -171,7 +171,7 @@ public class SecondaryController {
     //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
     ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
     for (DBPlant plant: currentUserLibrary) {
-      plantpane.add(new LibraryPlantPane("resources/images/sapling_in_pot.png", 0.5, plant));
+      plantpane.add(new LibraryPlantPane(this, "resources/images/sapling_in_pot.png", 0.5, plant));
     }
     userPlantLibrary.setItems(plantpane);
   }
@@ -247,7 +247,7 @@ public class SecondaryController {
 
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
-        DBPlant plantToAdd = new DBPlant(plantNickname, selectedPlant.getLinks().getPlant(), date);
+        DBPlant plantToAdd = new DBPlant(plantNickname, plantAdd.getLinks().getPlant(), date);
         addPlantToDatabase(plantToAdd);
 
 
