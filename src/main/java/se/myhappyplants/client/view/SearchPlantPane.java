@@ -67,5 +67,18 @@ public class SearchPlantPane extends Pane {
         this.getChildren().addAll(image, commonName, scientificName, infoButton, addButton);
     }
 
+    public void updateImage() {
+        Image img = new Image(String.valueOf(apiPlant.image_url));
+        image.setImage(img);
+    }
+
+    public APIPlant getApiPlant() {
+        return apiPlant;
+    }
+
+    public void setDefaultImage(String defaultImage) {
+        Image img = new Image(defaultImage);
+        image.setImage(img);
+    }
 }
 

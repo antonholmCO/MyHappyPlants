@@ -153,17 +153,27 @@ public class SecondaryController {
 
     ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
     for(APIPlant plant: searchedPlant) {
-      if (plant.image_url == null) {
-        String imgPath = "resources/images/Grn_vxt.png";
-        File imgFile = new File(imgPath);
-        searchPlantPanes.add(new SearchPlantPane(this,imgFile.toURI().toString(),plant));
-        System.out.println("pic is null");
-      } else {
-        searchPlantPanes.add(new SearchPlantPane(this,String.valueOf(plant.image_url), plant));
-      }
+
+        searchPlantPanes.add(new SearchPlantPane(this,new File("resources/images/img.png").toURI().toString()/*String.valueOf(plant.image_url)*/, plant));
+
     }
     resultPane.setItems(searchPlantPanes);
     progressIndicator.setProgress(100);
+    Thread imageThread = new Thread() {
+        @Override
+        public void run() {
+            for(SearchPlantPane spp: searchPlantPanes) {
+                APIPlant apiPlant = spp.getApiPlant();
+                if (apiPlant.image_url == null) {
+                   spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
+                } else {
+                    spp.updateImage();
+                }
+            }
+        }
+    };
+    imageThread.start();
+      //resultPane.setItems(searchPlantPanes);
   }
   private void addCurrentUserLibraryToHomeScreen() {
     //Add a Pane for each plant
