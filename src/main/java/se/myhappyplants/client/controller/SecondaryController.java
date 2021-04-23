@@ -205,10 +205,10 @@ public class SecondaryController {
   }
 
   @FXML
-  public void addPlantToCurrentUserLibrary() {
+  public void addPlantToCurrentUserLibrary(APIPlant plantAdd) {
     //Add to GUI
-    APIPlant selectedPlant = (APIPlant) resultPane.getSelectionModel().getSelectedItem();
-    String plantNickname = selectedPlant.common_name;
+    //APIPlant selectedPlant = (APIPlant) resultPane.getSelectionModel().getSelectedItem();
+    String plantNickname = plantAdd.common_name;
 
     int answer = MessageBox.askYesNo("Want to add a nickname?", "Do you want to add a nickname for your plant?");
     if (answer == 1) {
@@ -225,7 +225,7 @@ public class SecondaryController {
       plantNickname = plantNickname + plantsWithThisNickname;
     }
 
-    DBPlant plantToAdd = new DBPlant(plantNickname, selectedPlant.getLinks().getPlant(), "2021-04-15");
+    DBPlant plantToAdd = new DBPlant(plantNickname, plantAdd.getLinks().getPlant(), "2021-04-15");
     addPlantToDatabase(plantToAdd);
 
     //Add to library
