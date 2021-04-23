@@ -20,17 +20,14 @@ public class Driver {
     String dbUser = PasswordsAndKeys.dbUsername;
     String dbPassword = PasswordsAndKeys.dbPassword;
     // String dbLinnLocal = PasswordsAndKeys.dbLinnLocal;
-
+    DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
 
     //If the DB host connects from their own IP then change connection to localhost
     if (InetAddress.getLocalHost().getHostName().equals(PasswordsAndKeys.dbHostName)) {
       dbServerIp = "localhost";
     }
     String dbURL = String.format("jdbc:sqlserver://%s:%s;databaseName=MyHappyPlants;user=%s;password=%s", dbServerIp, dbServerPort, dbUser, dbPassword);
-
-
     Connection conn = DriverManager.getConnection(dbURL);
-
     if (conn != null) {
       System.out.println("Connected");
     }

@@ -203,6 +203,7 @@ public class Server implements Runnable {
                     oos.flush();
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
+                    System.out.println("nej du");
                 }
 //                finally {
 //                    if (socket != null) {

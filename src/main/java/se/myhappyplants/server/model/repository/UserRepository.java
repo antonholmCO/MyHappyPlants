@@ -37,6 +37,7 @@ public class UserRepository implements IUserRepository {
     String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()); //hashing the password
     try {
       String query = "INSERT INTO [User] VALUES ('" + user.getUsername() + "', " + "'" + user.getEmail() + "', '" + hashedPassword + "'," + 1 + ");";
+      System.out.println("yas du savade en user");
       statement.executeUpdate(query);
       return true;
     } catch (SQLException sqlException) {
@@ -58,8 +59,10 @@ public class UserRepository implements IUserRepository {
     boolean isVerified = false;
     try {
       String query = "SELECT password FROM [User] WHERE email = '" + email + "';";
+
       System.out.println(email);
       System.out.println(password);
+
       ResultSet resultSet = statement.executeQuery(query);
       if (resultSet.next()) {
         String hashedPassword = resultSet.getString(1);
@@ -67,6 +70,7 @@ public class UserRepository implements IUserRepository {
       }
     } catch (SQLException sqlException) {
       sqlException.printStackTrace();
+      System.out.println("nej du! du logga ej in!");
     }
     System.out.println(isVerified);
     return isVerified;

@@ -1,13 +1,11 @@
 package se.myhappyplants.client.controller;
 
 import java.io.BufferedWriter;
-import java.io.FileOutputStream;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
@@ -18,8 +16,8 @@ import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.client.view.SearchPlantPane;
 import se.myhappyplants.server.model.repository.PlantRepository;
-import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
@@ -36,13 +34,14 @@ import java.util.ArrayList;
 /**
  * Controls the inputs from a 'logged in' user
  *
- * @author Christopher O'Driscoll
- * @author Eric Simonsson
+ * Created by: Christopher O'Driscoll, Eric Simonsson
+ * Updated by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
  */
 public class SecondaryController {
 
-    private ClientConnection connection;
-    private ArrayList<DBPlant> currentUserLibrary;
+  private ClientConnection connection;
+  public ArrayList<DBPlant> currentUserLibrary;
+
 
 
   @FXML
@@ -151,15 +150,30 @@ public class SecondaryController {
   private void showResultsOnPane(Message apiResponse) {
     progressIndicator.setProgress(75);
     ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
-    ObservableList<APIPlant> items = FXCollections.observableArrayList();
-    for (APIPlant plant : searchedPlant) {
-//      arrayItem.add(plant);
-      items.add(plant);
-      //Image image = new Image(String.valueOf(plant.getImage_url()));
-      //imageViewImageUrl.setImage(image);
+
+    ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
+    for(APIPlant plant: searchedPlant) {
+      if (plant.image_url == null) {
+        String imgPath = "resources/images/Grn_vxt.png";
+        File imgFile = new File(imgPath);
+        searchPlantPanes.add(new SearchPlantPane(this,imgFile.toURI().toString(),plant));
+        System.out.println("pic is null");
+      } else {
+        searchPlantPanes.add(new SearchPlantPane(this,String.valueOf(plant.image_url), plant));
+      }
     }
-    resultPane.setItems(items);
+    resultPane.setItems(searchPlantPanes);
     progressIndicator.setProgress(100);
+  }
+  private void addCurrentUserLibraryToHomeScreen() {
+    //Add a Pane for each plant
+
+    //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
+    ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
+    for (DBPlant plant: currentUserLibrary) {
+      plantpane.add(new LibraryPlantPane("resources/images/sapling_in_pot.png", 0.5, plant));
+    }
+    userPlantLibrary.setItems(plantpane);
   }
 
 
@@ -177,23 +191,13 @@ public class SecondaryController {
 
     }
 
-  private void addCurrentUserLibraryToHomeScreen() {
-    //Add a Pane for each plant
-
-        //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
-        ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
-        for (DBPlant plant : currentUserLibrary) {
-            plantpane.add(new LibraryPlantPane(this, "resources/images/sapling_in_pot.png", 0.5, plant));
-        }
-        userPlantLibrary.setItems(plantpane);
-    }
 
   private void updateDatabaseWithCurrentUserLibrary() {
     //TODO: Uppdatera databasen med senaste currentUserLibrary. Denna anropas när applikationen stängs ner
 
   }
 
-  private void addPlantToDatabase(DBPlant plant) {
+  public void addPlantToDatabase(DBPlant plant) {
 
         Message savePlant = new Message("savePlant", LoggedInUser.getInstance().getUser(), plant);
         Message response = ClientConnection.getInstance().makeRequest(savePlant);
@@ -221,10 +225,10 @@ public class SecondaryController {
   }
 
   @FXML
-  private void addPlantToCurrentUserLibrary() {
+  public void addPlantToCurrentUserLibrary(APIPlant plantAdd) {
     //Add to GUI
-    APIPlant selectedPlant = (APIPlant) resultPane.getSelectionModel().getSelectedItem();
-    String plantNickname = selectedPlant.common_name;
+    //APIPlant selectedPlant = (APIPlant) resultPane.getSelectionModel().getSelectedItem();
+    String plantNickname = plantAdd.common_name;
 
     int answer = MessageBox.askYesNo("Want to add a nickname?", "Do you want to add a nickname for your plant?");
     if (answer == 1) {
@@ -245,6 +249,7 @@ public class SecondaryController {
         Date date = new Date(currentDateMilli);
         DBPlant plantToAdd = new DBPlant(plantNickname, selectedPlant.getLinks().getPlant(), date);
         addPlantToDatabase(plantToAdd);
+
 
     //Add to library
 //    DBPlant plantToAdd = new DBPlant(selectedPlant.common_name, selectedPlant.getLinks().getPlant(), null);
