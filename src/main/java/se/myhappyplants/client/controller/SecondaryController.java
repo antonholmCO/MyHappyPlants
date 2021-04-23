@@ -1,20 +1,29 @@
 package se.myhappyplants.client.controller;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.server.model.repository.PlantRepository;
+import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.User;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -36,120 +45,122 @@ public class SecondaryController {
     private ArrayList<DBPlant> currentUserLibrary;
 
 
-    @FXML
-    Label lblUsernameHome; //vi borde ändra namn
-    @FXML
-    Label lblUsernameSearch;
-    @FXML
-    Label lblUsernameSettings;
-    @FXML
-    TextField txtFldSearchText;
-    @FXML
-    ListView resultPane;
-    @FXML
-    ProgressIndicator progressIndicator;
-    @FXML
-    ImageView imageViewImageUrl;
-    @FXML
-    ListView userPlantLibrary;
+  @FXML
+  Label lblUsernameHome; //vi borde ändra namn
+  @FXML
+  Label lblUsernameSearch;
+  @FXML
+  Label lblUsernameSettings;
+  @FXML
+  TextField txtFldSearchText;
+  @FXML
+  ListView resultPane;
+  @FXML
+  ProgressIndicator progressIndicator;
+  @FXML
+  ImageView imageViewImageUrl;
+  @FXML
+  ListView userPlantLibrary;
+  @FXML
+  PasswordField deleteAccountPassField;
 
-    /**
-     * Constructor that has access to FXML variables
-     */
-    @FXML
-    public void initialize() {
+  /**
+   * Constructor that has access to FXML variables
+   */
+  @FXML
+  public void initialize() {
 
-        LoggedInUser loggedInUser = LoggedInUser.getInstance();
-        lblUsernameHome.setText(loggedInUser.getUser().getUsername());
-        lblUsernameSearch.setText(loggedInUser.getUser().getUsername());
-        lblUsernameSettings.setText(loggedInUser.getUser().getUsername());
+    LoggedInUser loggedInUser = LoggedInUser.getInstance();
+    lblUsernameHome.setText(loggedInUser.getUser().getUsername());
+    lblUsernameSearch.setText(loggedInUser.getUser().getUsername());
+    lblUsernameSettings.setText(loggedInUser.getUser().getUsername());
 
-        //Gets users plant library
+    //Gets users plant library
 
-        createCurrentUserLibraryFromDB();
-        addCurrentUserLibraryToHomeScreen();
+    createCurrentUserLibraryFromDB();
+    addCurrentUserLibraryToHomeScreen();
 
-        //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+    //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
 
 
-        //populateListView(testPlantArray());
+    //populateListView(testPlantArray());
+  }
+
+  /**
+   * Default constructor, probably unnecessary
+   *
+   * @param connection
+   */
+  public void SecondaryController(ClientConnection connection) {
+    this.connection = connection;
+  }
+
+  /**
+   * Switches to 'logged out' scene
+   *
+   * @throws IOException
+   */
+  @FXML
+  private void switchToPrimary() throws IOException {
+    StartClient.setRoot("primary");
+  }
+
+  /**
+   * Logs out user, then switches scenes
+   *
+   * @throws IOException
+   */
+  @FXML
+  private void logoutButtonPressed() throws IOException {
+
+    //ToDo - Some code to handle what happens when user wants to log out
+    String email = LoggedInUser.getInstance().getUser().getEmail();
+
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/lastLogin.txt"))) {
+      bw.write(email);
+      bw.flush();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
-    /**
-     * Default constructor, probably unnecessary
-     *
-     * @param connection
-     */
-    public void SecondaryController(ClientConnection connection) {
-        this.connection = connection;
+    LoggedInUser.getInstance().setUser(null);
+
+    switchToPrimary();
+  }
+
+  @FXML
+  private void searchButtonPressed() {
+    Message apiRequest = new Message("search", txtFldSearchText.getText());
+    progressIndicator.setProgress(25);
+    Message apiResponse = ClientConnection.getInstance().makeRequest(apiRequest);
+
+    if (apiResponse != null) {
+      if (apiResponse.isSuccess()) {
+        progressIndicator.setProgress(50);
+        showResultsOnPane(apiResponse);
+      } else {
+
+        MessageBox.display("No results", "No results on " + txtFldSearchText.getText() + ", sorry!");
+
+      }
+    } else {
+      MessageBox.display("No response", "No response from the server");
     }
+  }
 
-    /**
-     * Switches to 'logged out' scene
-     *
-     * @throws IOException
-     */
-    @FXML
-    private void switchToPrimary() throws IOException {
-        StartClient.setRoot("primary");
-    }
-
-    /**
-     * Logs out user, then switches scenes
-     *
-     * @throws IOException
-     */
-    @FXML
-    private void logoutButtonPressed() throws IOException {
-
-        //ToDo - Some code to handle what happens when user wants to log out
-        String email = LoggedInUser.getInstance().getUser().getEmail();
-
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/lastLogin.txt"))) {
-            bw.write(email);
-            bw.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        LoggedInUser.getInstance().setUser(null);
-
-        switchToPrimary();
-    }
-
-    @FXML
-    private void searchButtonPressed() {
-        Message apiRequest = new Message("search", txtFldSearchText.getText());
-        progressIndicator.setProgress(25);
-        Message apiResponse = ClientConnection.getInstance().makeRequest(apiRequest);
-
-        if (apiResponse != null) {
-            if (apiResponse.isSuccess()) {
-                progressIndicator.setProgress(50);
-                showResultsOnPane(apiResponse);
-            } else {
-
-                MessageBox.display("No results", "No results on " + txtFldSearchText.getText() + ", sorry!");
-
-            }
-        } else {
-            MessageBox.display("No response", "No response from the server");
-        }
-    }
-
-    private void showResultsOnPane(Message apiResponse) {
-        progressIndicator.setProgress(75);
-        ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
-        ObservableList<APIPlant> items = FXCollections.observableArrayList();
-        for (APIPlant plant : searchedPlant) {
+  private void showResultsOnPane(Message apiResponse) {
+    progressIndicator.setProgress(75);
+    ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
+    ObservableList<APIPlant> items = FXCollections.observableArrayList();
+    for (APIPlant plant : searchedPlant) {
 //      arrayItem.add(plant);
-            items.add(plant);
-            //Image image = new Image(String.valueOf(plant.getImage_url()));
-            //imageViewImageUrl.setImage(image);
-        }
-        resultPane.setItems(items);
-        progressIndicator.setProgress(100);
+      items.add(plant);
+      //Image image = new Image(String.valueOf(plant.getImage_url()));
+      //imageViewImageUrl.setImage(image);
     }
+    resultPane.setItems(items);
+    progressIndicator.setProgress(100);
+  }
 
 
     private void createCurrentUserLibraryFromDB() {
@@ -166,8 +177,8 @@ public class SecondaryController {
 
     }
 
-    private void addCurrentUserLibraryToHomeScreen() {
-        //Add a Pane for each plant
+  private void addCurrentUserLibraryToHomeScreen() {
+    //Add a Pane for each plant
 
         //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
         ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
@@ -177,12 +188,12 @@ public class SecondaryController {
         userPlantLibrary.setItems(plantpane);
     }
 
-    private void updateDatabaseWithCurrentUserLibrary() {
-        //TODO: Uppdatera databasen med senaste currentUserLibrary. Denna anropas när applikationen stängs ner
+  private void updateDatabaseWithCurrentUserLibrary() {
+    //TODO: Uppdatera databasen med senaste currentUserLibrary. Denna anropas när applikationen stängs ner
 
-    }
+  }
 
-    private void addPlantToDatabase(DBPlant plant) {
+  private void addPlantToDatabase(DBPlant plant) {
 
         Message savePlant = new Message("savePlant", LoggedInUser.getInstance().getUser(), plant);
         Message response = ClientConnection.getInstance().makeRequest(savePlant);
@@ -207,18 +218,18 @@ public class SecondaryController {
             MessageBox.display("Error", "Could not delete plant");
         }
 
+  }
+
+  @FXML
+  private void addPlantToCurrentUserLibrary() {
+    //Add to GUI
+    APIPlant selectedPlant = (APIPlant) resultPane.getSelectionModel().getSelectedItem();
+    String plantNickname = selectedPlant.common_name;
+
+    int answer = MessageBox.askYesNo("Want to add a nickname?", "Do you want to add a nickname for your plant?");
+    if (answer == 1) {
+      plantNickname = MessageBox.askForStringInput("Add a nickname", "What do you want to call your plant?");
     }
-
-    @FXML
-    private void addPlantToCurrentUserLibrary() {
-        //Add to GUI
-        APIPlant selectedPlant = (APIPlant) resultPane.getSelectionModel().getSelectedItem();
-        String plantNickname = selectedPlant.common_name;
-
-        int answer = MessageBox.askYesNo("Want to add a nickname?", "Do you want to add a nickname for your plant?");
-        if (answer == 1) {
-            plantNickname = MessageBox.askForStringInput("Add a nickname", "What do you want to call your plant?");
-        }
 
         int plantsWithThisNickname = 1;
         for (DBPlant plant : currentUserLibrary) {
@@ -235,9 +246,30 @@ public class SecondaryController {
         DBPlant plantToAdd = new DBPlant(plantNickname, selectedPlant.getLinks().getPlant(), date);
         addPlantToDatabase(plantToAdd);
 
-        //Add to library
+    //Add to library
 //    DBPlant plantToAdd = new DBPlant(selectedPlant.common_name, selectedPlant.getLinks().getPlant(), null);
+  }
 
-
+  /**
+   * author: Frida Jacobsson
+   * @throws IOException
+   */
+  @FXML
+  private void deleteAccountButtonPressed() throws IOException {
+    int answer = MessageBox.askYesNo("Delete account", "Are you sure you want to delete your account? \n All your personal information will be deleted. \nA deleted account can't be restored. ");
+    if (answer == 1) {
+      Message deleteMessage = new Message("delete account", new User(LoggedInUser.getInstance().getUser().getEmail(), deleteAccountPassField.getText()));
+      Message deleteResponse = ClientConnection.getInstance().makeRequest(deleteMessage);
+      if (deleteResponse != null) {
+        if (deleteResponse.isSuccess()) {
+          MessageBox.display("Account deleted successfully", "Sorry to see you go");
+          logoutButtonPressed();
+        } else {
+          MessageBox.display("Failed to delete account", "Invalid password");
+        }
+      } else {
+        MessageBox.display("Failed to delete account", "No contact with server");
+      }
     }
+  }
 }
