@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +25,14 @@ import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 /**
  * Controls the inputs from a 'logged in' user
  *
@@ -34,8 +41,8 @@ import se.myhappyplants.shared.User;
  */
 public class SecondaryController {
 
-  private ClientConnection connection;
-  private ArrayList<DBPlant> currentUserLibrary;
+    private ClientConnection connection;
+    private ArrayList<DBPlant> currentUserLibrary;
 
 
   @FXML
@@ -155,28 +162,31 @@ public class SecondaryController {
     progressIndicator.setProgress(100);
   }
 
-  private void createCurrentUserLibraryFromDB() {
-    //TODO: Hämta plantor som tillhör currentuser från databasen och lägg dom i currentUserLibrary
-    try {
-      PlantRepository plantRepository = new PlantRepository(LoggedInUser.getInstance().getUser());
-      currentUserLibrary = plantRepository.getAllPlants();
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (UnknownHostException e) {
-      e.printStackTrace();
+
+    private void createCurrentUserLibraryFromDB() {
+        //TODO: Hämta plantor som tillhör currentuser från databasen och lägg dom i currentUserLibrary
+        Message getLibrary = new Message("getLibrary", LoggedInUser.getInstance().getUser());
+        Message response = ClientConnection.getInstance().makeRequest(getLibrary);
+
+        if (response.isSuccess()) {
+            currentUserLibrary = response.getPlantLibrary();
+        } else {
+            MessageBox.display("Fail", "Failed to add to database");
+        }
+
+
     }
-  }
 
   private void addCurrentUserLibraryToHomeScreen() {
     //Add a Pane for each plant
 
-    //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
-    ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
-    for (DBPlant plant : currentUserLibrary) {
-      plantpane.add(new LibraryPlantPane("resources/images/sapling_in_pot.png", 0.5, plant));
+        //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
+        ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
+        for (DBPlant plant : currentUserLibrary) {
+            plantpane.add(new LibraryPlantPane(this, "resources/images/sapling_in_pot.png", 0.5, plant));
+        }
+        userPlantLibrary.setItems(plantpane);
     }
-    userPlantLibrary.setItems(plantpane);
-  }
 
   private void updateDatabaseWithCurrentUserLibrary() {
     //TODO: Uppdatera databasen med senaste currentUserLibrary. Denna anropas när applikationen stängs ner
@@ -185,22 +195,28 @@ public class SecondaryController {
 
   private void addPlantToDatabase(DBPlant plant) {
 
-    try {
-      PlantRepository plantRepository = new PlantRepository(LoggedInUser.getInstance().getUser());
-      if (plantRepository.savePlant(plant)) {
-        createCurrentUserLibraryFromDB();
-        addCurrentUserLibraryToHomeScreen();
-      } else {
-        MessageBox.display("Fail", "Failed to add to database");
-      }
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (UnknownHostException e) {
-      e.printStackTrace();
-    }
-  }
+        Message savePlant = new Message("savePlant", LoggedInUser.getInstance().getUser(), plant);
+        Message response = ClientConnection.getInstance().makeRequest(savePlant);
+        if (response.isSuccess()) {
+            createCurrentUserLibraryFromDB();
+            addCurrentUserLibraryToHomeScreen();
+        } else {
+            MessageBox.display("Fail", "Failed to add to database");
+        }
 
-  private void removePlantFromDatabase(DBPlant plant) {
+    }
+
+    public void removePlantFromDatabase(DBPlant plant) {
+        System.out.println("hej");
+        Message deletePlant = new Message("deletePlantFromLibrary", LoggedInUser.getInstance().getUser(), plant);
+        Message response = ClientConnection.getInstance().makeRequest(deletePlant);
+
+        if (response.isSuccess()) {
+            createCurrentUserLibraryFromDB();
+            addCurrentUserLibraryToHomeScreen();
+        } else {
+            MessageBox.display("Error", "Could not delete plant");
+        }
 
   }
 
@@ -215,18 +231,20 @@ public class SecondaryController {
       plantNickname = MessageBox.askForStringInput("Add a nickname", "What do you want to call your plant?");
     }
 
-    int plantsWithThisNickname = 1;
-    for (DBPlant plant : currentUserLibrary) {
-      if (plant.getNickname().equals(plantNickname)) {
-        plantsWithThisNickname++;
-      }
-    }
-    if (plantsWithThisNickname > 1) {
-      plantNickname = plantNickname + plantsWithThisNickname;
-    }
+        int plantsWithThisNickname = 1;
+        for (DBPlant plant : currentUserLibrary) {
+            if (plant.getNickname().equals(plantNickname)) {
+                plantsWithThisNickname++;
+            }
+        }
+        if (plantsWithThisNickname > 1) {
+            plantNickname = plantNickname + plantsWithThisNickname;
+        }
 
-    DBPlant plantToAdd = new DBPlant(plantNickname, selectedPlant.getLinks().getPlant(), "2021-04-15");
-    addPlantToDatabase(plantToAdd);
+        long currentDateMilli = System.currentTimeMillis();
+        Date date = new Date(currentDateMilli);
+        DBPlant plantToAdd = new DBPlant(plantNickname, selectedPlant.getLinks().getPlant(), date);
+        addPlantToDatabase(plantToAdd);
 
     //Add to library
 //    DBPlant plantToAdd = new DBPlant(selectedPlant.common_name, selectedPlant.getLinks().getPlant(), null);

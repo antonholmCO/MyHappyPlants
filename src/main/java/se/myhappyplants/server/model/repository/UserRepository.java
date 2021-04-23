@@ -106,7 +106,7 @@ public class UserRepository implements IUserRepository {
    * @return boolean value, false if transaction is rolled back
    * @throws SQLException
    */
-  public boolean deleteAccount(String email, String password) throws SQLException {
+  public boolean deleteAccount(String email, String password) {
     if (!checkLogin(email, password)) {
       return false;
     }
@@ -125,8 +125,14 @@ public class UserRepository implements IUserRepository {
       conn.commit();
       conn.setAutoCommit(true);
   } catch(SQLException sqlException) {
-    conn.rollback();
-    return false;
+      try {
+        conn.rollback();
+      }
+      catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+
+      return false;
   }
    return true;
   }

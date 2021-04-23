@@ -1,5 +1,6 @@
 package se.myhappyplants.server.controller;
 
+import se.myhappyplants.server.model.repository.PlantRepository;
 import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.server.model.service.PlantService;
 
@@ -16,7 +17,7 @@ public class Main {
         //controller.createNewUser();
         //controller.logIn();
 
-        new Server(2555, new UserRepository(), new PlantService());
+        new Server(2555, new UserRepository(), new PlantRepository(), new PlantService());
         //new Server(2555);
 
 //        för att testa API:et används koden nedan
