@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.text.Font?>
+
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="se.myhappyplants.client.controller.LibraryTabController"
+            fx:controller="se.myhappyplants.client.controller.HomeTabController"
             prefHeight="400.0" prefWidth="600.0">
 <top>
     <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
         <children>
-            <Button layoutX="700.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" style="-fx-color: Darkred;" text="Log Out" />
             <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
             <Label fx:id="lblUsernameHome" layoutX="74.0" layoutY="18.0" text="Username">
                 <font>
                     <Font size="13.0" />
                 </font>
             </Label>
+            <Button layoutX="700.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" style="-fx-color: Darkred;" text="Log Out" />
         </children>
     </AnchorPane>
 </top>

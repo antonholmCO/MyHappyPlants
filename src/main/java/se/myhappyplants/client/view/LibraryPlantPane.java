@@ -10,8 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
-import se.myhappyplants.client.controller.LibraryTabController;
-import se.myhappyplants.client.controller.SecondaryController;
+import se.myhappyplants.client.controller.HomeTabController;
 import se.myhappyplants.shared.DBPlant;
 
 import java.io.File;
@@ -22,7 +21,7 @@ import java.io.File;
  * Created by: Christopher O'Driscoll
  */
 public class LibraryPlantPane extends Pane {
-    private LibraryTabController controller;
+    private HomeTabController controller;
 
     //Always shown
     private ImageView image;
@@ -40,7 +39,7 @@ public class LibraryPlantPane extends Pane {
 
     private boolean extended;
 
-    public LibraryPlantPane(LibraryTabController controller, String imgPath, double progress, DBPlant plant) {
+    public LibraryPlantPane(HomeTabController controller, String imgPath, double progress, DBPlant plant) {
         this.controller = controller;
         File fileImg = new File(imgPath);
         Image img = new Image(fileImg.toURI().toString());
@@ -113,8 +112,8 @@ public class LibraryPlantPane extends Pane {
 
 
         this.setPrefHeight(92.0);
-        this.setPrefWidth(800.0);
-        this.getChildren().addAll(image, this.nickname, progressBar, waterButton, editButton, infoButton, changeNameButton, changePictureButton, deleteButton);
+        this.setPrefWidth(761.0);
+        this.getChildren().addAll(image, this.nickname, progressBar, waterButton, editButton, infoButton);
 
     }
 
@@ -127,10 +126,14 @@ public class LibraryPlantPane extends Pane {
             );
             timeline.setCycleCount(4);
             timeline.play();
+            timeline.setOnFinished(action -> {
+                this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton);
+            });
             extended = true;
 
     }
     public void retractPane() {
+
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(100), event -> {
                         this.setPrefHeight(this.getHeight() - 50);
@@ -138,6 +141,7 @@ public class LibraryPlantPane extends Pane {
         );
         timeline.setCycleCount(4);
         timeline.play();
+        this.getChildren().removeAll(changeNameButton, changePictureButton, deleteButton);
         extended = false;
 
     }

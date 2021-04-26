@@ -12,63 +12,29 @@ import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 
-public class LibraryTabController {
+public class HomeTabController {
 
-    public ArrayList<DBPlant> currentUserLibrary;
+    private ArrayList<DBPlant> currentUserLibrary;
+
+    @FXML private SecondaryController secondaryController = new SecondaryController();
 
     @FXML private Label lblUsernameHome;
-
     @FXML private ListView userPlantLibrary;
-    @FXML
-    public void initialize() {
+
+    @FXML public void initialize() {
 
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameHome.setText(loggedInUser.getUser().getUsername());
-
-
-        //Gets users plant library
+        //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
 
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
-
-        //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
-
-
-        //populateListView(testPlantArray());
     }
 
-    @FXML
-    private void switchToPrimary() throws IOException {
-        StartClient.setRoot("primary");
-    }
-    /**
-     * Logs out user, then switches scenes
-     *
-     * @throws IOException
-     */
-    @FXML
-    private void logoutButtonPressed() throws IOException {
-
-        //ToDo - Some code to handle what happens when user wants to log out
-        String email = LoggedInUser.getInstance().getUser().getEmail();
-
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/lastLogin.txt"))) {
-            bw.write(email);
-            bw.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        LoggedInUser.getInstance().setUser(null);
-
-        switchToPrimary();
-    }
     void addCurrentUserLibraryToHomeScreen() {
         //Add a Pane for each plant
 
@@ -106,14 +72,6 @@ public class LibraryTabController {
     }
     @FXML
     public void addPlantToCurrentUserLibrary(APIPlant plantAdd, String plantNickname) {
-        //Add to GUI
-        //APIPlant selectedPlant = (APIPlant) resultPane.getSelectionModel().getSelectedItem();
-//        String plantNickname = plantAdd.common_name;
-//
-//        int answer = MessageBox.askYesNo("Want to add a nickname?", "Do you want to add a nickname for your plant?");
-//        if (answer == 1) {
-//            plantNickname = MessageBox.askForStringInput("Add a nickname", "What do you want to call your plant?");
-//        }
 
         int plantsWithThisNickname = 1;
         for (DBPlant plant : currentUserLibrary) {
@@ -129,11 +87,8 @@ public class LibraryTabController {
         Date date = new Date(currentDateMilli);
         DBPlant plantToAdd = new DBPlant(plantNickname, plantAdd.getLinks().getPlant(), date);
         addPlantToDatabase(plantToAdd);
-
-
-        //Add to library
-//    DBPlant plantToAdd = new DBPlant(selectedPlant.common_name, selectedPlant.getLinks().getPlant(), null);
     }
+
     public void addPlantToDatabase(DBPlant plant) {
 
         Message savePlant = new Message("savePlant", LoggedInUser.getInstance().getUser(), plant);
@@ -145,5 +100,10 @@ public class LibraryTabController {
             MessageBox.display("Fail", "Failed to add to database");
         }
 
+    }
+
+    @FXML private void logoutButtonPressed() throws IOException {
+
+        secondaryController.logoutButtonPressed();
     }
 }

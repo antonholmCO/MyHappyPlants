@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import se.myhappyplants.client.controller.PlantsTabController;
 import se.myhappyplants.client.controller.SecondaryController;
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
@@ -20,12 +21,12 @@ public class SearchPlantPane extends Pane {
     private Button infoButton;
     private Button addButton;
 
-    private SecondaryController secondaryController;
     private APIPlant apiPlant;
+    private PlantsTabController plantsTabController;
 
-    public SearchPlantPane(SecondaryController secondaryController, String imgPath, APIPlant apiPlant){
+    public SearchPlantPane(PlantsTabController plantsTabController, String imgPath, APIPlant apiPlant){
+        this.plantsTabController = plantsTabController;
 
-        this.secondaryController = secondaryController;
         this.apiPlant = apiPlant;
 
         Image img = new Image(imgPath);
@@ -59,7 +60,7 @@ public class SearchPlantPane extends Pane {
         addButton.setLayoutX(723.0);
         addButton.setLayoutY(16.0);
         addButton.setMnemonicParsing(false);
-        addButton.setOnAction(action -> secondaryController.addPlantToCurrentUserLibrary(apiPlant));
+        addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(apiPlant));
 
 
         this.prefHeight(56.0);
