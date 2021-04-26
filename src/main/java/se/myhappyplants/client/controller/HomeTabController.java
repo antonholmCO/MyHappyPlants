@@ -41,7 +41,7 @@ public class HomeTabController {
         //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
         ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
         for (DBPlant plant: currentUserLibrary) {
-            plantpane.add(new LibraryPlantPane(this, "resources/images/sapling_in_pot.png", 0.5, plant));
+            plantpane.add(new LibraryPlantPane(this, "resources/images/sapling_in_pot.png", plant));
         }
         userPlantLibrary.setItems(plantpane);
     }

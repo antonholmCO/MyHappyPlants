@@ -1,21 +1,11 @@
 package se.myhappyplants.client.controller;
 
+import javafx.fxml.FXML;
+import se.myhappyplants.client.model.LoggedInUser;
+
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import se.myhappyplants.client.model.LoggedInUser;
-import se.myhappyplants.client.view.MessageBox;
-import se.myhappyplants.client.view.SearchPlantPane;
-import se.myhappyplants.shared.APIPlant;
-import se.myhappyplants.shared.Message;
-import se.myhappyplants.shared.User;
 
 /**
  * Controls the inputs from a 'logged in' user

@@ -39,7 +39,7 @@ public class LibraryPlantPane extends Pane {
 
     private boolean extended;
 
-    public LibraryPlantPane(HomeTabController controller, String imgPath, double progress, DBPlant plant) {
+    public LibraryPlantPane(HomeTabController controller, String imgPath, DBPlant plant) {
         this.controller = controller;
         File fileImg = new File(imgPath);
         Image img = new Image(fileImg.toURI().toString());
@@ -53,37 +53,29 @@ public class LibraryPlantPane extends Pane {
         image.setPreserveRatio(true);
         image.setImage(img);
 
-        this.nickname =  new Label(plant.getNickname());
-        double nicknameWidth = this.nickname.getWidth();
-        this.nickname.setLayoutX(0);
-        this.nickname.setLayoutY(65);
-        this.nickname.setPrefWidth(145);
-        this.nickname.setAlignment(Pos.CENTER);
-        //Region region = new Region();
-        //region.setMinWidth(USE_COMPUTED_SIZE);
+        nickname =  new Label(plant.getNickname());
+        nickname.setLayoutX(0);
+        nickname.setLayoutY(65);
+        nickname.setPrefWidth(145);
+        nickname.setAlignment(Pos.CENTER);
 
 
         this.progressBar = new ProgressBar(plant.getProgress());
-        progressBar.setLayoutX(196.0);
+        progressBar.setLayoutX(150.0);
         progressBar.setLayoutY(28.0);
         progressBar.setPrefHeight(18.0);
-        progressBar.setPrefWidth(545.0);
+        progressBar.setPrefWidth(575.0);
 
         this.waterButton = new Button("Water");
-        waterButton.setLayoutX(436.0);
+        waterButton.setLayoutX(400.0);
         waterButton.setLayoutY(59.0);
         waterButton.setMnemonicParsing(false);
 
-        this.editButton = new Button("Edit plant");
-        editButton.setLayoutX(675.0);
-        editButton.setLayoutY(59.0);
-        editButton.setMnemonicParsing(false);
-
         this.infoButton = new Button("Show plant info");
-        infoButton.setLayoutX(196.0);
+        infoButton.setLayoutX(150.0);
         infoButton.setLayoutY(59.0);
         infoButton.setMnemonicParsing(false);
-        infoButton.setOnAction(action -> {
+        infoButton.setOnAction(onPress -> {
             if(!extended) {
                 extendPane();
             }
@@ -92,58 +84,52 @@ public class LibraryPlantPane extends Pane {
             }
         });
 
+        this.editButton = new Button("Edit plant");
+        editButton.setLayoutX(650.0);
+        editButton.setLayoutY(59.0);
+        editButton.setMnemonicParsing(false);
+
         this.changeNameButton = new Button("Change nickname");
-        changeNameButton.setLayoutX(370.0);
+        changeNameButton.setLayoutX(350.0);
         changeNameButton.setLayoutY(250.0);
         changeNameButton.setMnemonicParsing(false);
 
         this.changePictureButton = new Button("Change plant picture");
-        changePictureButton.setLayoutX(500);
+        changePictureButton.setLayoutX(480);
         changePictureButton.setLayoutY(250.0);
         changePictureButton.setMnemonicParsing(false);
 
         this.deleteButton = new Button("Delete plant");
-        deleteButton.setLayoutX(650.0);
+        deleteButton.setLayoutX(625.0);
         deleteButton.setLayoutY(250.0);
         deleteButton.setMnemonicParsing(false);
-        deleteButton.setOnAction(onPress -> {
-            controller.removePlantFromDatabase(plant);
-        });
-
+        deleteButton.setOnAction(onPress -> controller.removePlantFromDatabase(plant));
 
         this.setPrefHeight(92.0);
-        this.setPrefWidth(761.0);
-        this.getChildren().addAll(image, this.nickname, progressBar, waterButton, editButton, infoButton);
+        this.setPrefWidth(750.0);
+        this.getChildren().addAll(image, nickname, progressBar, waterButton, editButton, infoButton);
 
     }
 
     public void extendPane() {
 
             Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.millis(100), event -> {
-                            this.setPrefHeight(this.getHeight() + 50);
-                    })
+                    new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() + 50))
             );
             timeline.setCycleCount(4);
             timeline.play();
-            timeline.setOnFinished(action -> {
-                this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton);
-            });
+            timeline.setOnFinished(action -> this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton));
             extended = true;
-
     }
+
     public void retractPane() {
 
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(100), event -> {
-                        this.setPrefHeight(this.getHeight() - 50);
-                })
+                new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() - 50))
         );
         timeline.setCycleCount(4);
         timeline.play();
         this.getChildren().removeAll(changeNameButton, changePictureButton, deleteButton);
         extended = false;
-
     }
-
 }
