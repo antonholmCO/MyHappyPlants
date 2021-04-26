@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
+import se.myhappyplants.client.controller.LibraryTabController;
 import se.myhappyplants.client.controller.SecondaryController;
 import se.myhappyplants.shared.DBPlant;
 
@@ -21,7 +22,7 @@ import java.io.File;
  * Created by: Christopher O'Driscoll
  */
 public class LibraryPlantPane extends Pane {
-    private SecondaryController controller;
+    private LibraryTabController controller;
 
     //Always shown
     private ImageView image;
@@ -39,7 +40,7 @@ public class LibraryPlantPane extends Pane {
 
     private boolean extended;
 
-    public LibraryPlantPane(SecondaryController controller, String imgPath, double progress, DBPlant plant) {
+    public LibraryPlantPane(LibraryTabController controller, String imgPath, double progress, DBPlant plant) {
         this.controller = controller;
         File fileImg = new File(imgPath);
         Image img = new Image(fileImg.toURI().toString());
