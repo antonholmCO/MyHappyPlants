@@ -100,9 +100,9 @@ public class PlantRepository implements IPlantRepository {
       ResultSet resultSet = statement.executeQuery(query);
       String APIUrl = resultSet.getString(4);
       Date lastWatered = resultSet.getDate(5);
-      System.out.println("date format oflast watered = " + lastWatered);
       return new DBPlant(nickname, APIUrl, lastWatered);
-    } catch (SQLException sqlException) {
+    }
+    catch (SQLException sqlException) {
       System.out.println(sqlException.fillInStackTrace());
       return null;
     }
@@ -110,12 +110,12 @@ public class PlantRepository implements IPlantRepository {
 
   public boolean deletePlant(User user, String nickname) {
     try {
-      System.out.println(nickname);
-      String query = "DELETE FROM [plant] WHERE user_id =" + user.getUniqueId() + "AND nickname = '" + nickname + "';";
+      String sqlSafeNickname = nickname.replace("'", "''");
+      String query = "DELETE FROM [plant] WHERE user_id =" + user.getUniqueId() + "AND nickname = '" + sqlSafeNickname + "';";
       statement.executeUpdate(query);
       return true;
-
-    } catch (SQLException sqlException) {
+    }
+    catch (SQLException sqlException) {
       System.out.println(sqlException);
       return false;
     }
