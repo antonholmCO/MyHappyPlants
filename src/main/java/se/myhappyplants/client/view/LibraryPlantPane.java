@@ -76,7 +76,7 @@ public class LibraryPlantPane extends Pane {
         waterButton.setMnemonicParsing(false);
         waterButton.setOnAction(action -> {
             progressBar.setProgress(100);
-            progressBar.setStyle("-fx-accent: green");
+            progressBar.setStyle("-fx-accent: 2D88AA");
         });
 
         this.editButton = new Button("Edit plant");
@@ -145,14 +145,9 @@ public class LibraryPlantPane extends Pane {
         extended = false;
 
     }
-
+    //TODO: decide how we want colors in progressbar
     private void setColorProgressBar(double progress) {
-        if (progress > 0.50) {
-            progressBar.setStyle("-fx-accent: green");
-        }
-        if (progress > 0.25) {
-            progressBar.setStyle("-fx-accent: orange");
-        } else {
+        if(progress < 0.15) {
             progressBar.setStyle("-fx-accent: red");
         }
     }
