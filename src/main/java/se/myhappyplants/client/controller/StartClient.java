@@ -21,6 +21,11 @@ public class StartClient extends Application {
     private static Scene scene;
     private Stage window;
 
+    /**
+     * Starts the application by opening window. Method handles close on request.
+     * @param stage instance of Stage to start
+     * @throws IOException
+     */
     @Override
     public void start(Stage stage) throws IOException {
         window = stage;
@@ -33,6 +38,9 @@ public class StartClient extends Application {
         window.show();
     }
 
+    /**
+     * Method handles close on request.
+     */
     private void closeProgram() {
         if(ConfirmationBox.display("Exit", "Are you sure?")) {
             //ToDo - some code here to save user profile,
