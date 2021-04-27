@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
@@ -20,7 +21,6 @@ import java.util.ArrayList;
 public class PlantsTabController {
 
     @FXML private SecondaryController secondaryController;
-    @FXML private HomeTabController homeTabController;
 
     @FXML private Label lblUsernamePlants;
     @FXML private TextField txtFldSearchText;
@@ -34,6 +34,10 @@ public class PlantsTabController {
         //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
     }
 
+    public void setSecondaryController (SecondaryController secondaryController) {
+        this.secondaryController = secondaryController;
+    }
+
     @FXML
     public void addPlantToCurrentUserLibrary(APIPlant plantAdd) {
 
@@ -43,8 +47,7 @@ public class PlantsTabController {
         if (answer == 1) {
             plantNickname = MessageBox.askForStringInput("Add a nickname", "What do you want to call your plant?");
         }
-
-        homeTabController.addPlantToCurrentUserLibrary(plantAdd, plantNickname);
+        secondaryController.getHomePaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
     }
     private void showResultsOnPane(Message apiResponse) {
         progressIndicator.setProgress(75);
@@ -92,7 +95,6 @@ public class PlantsTabController {
     @FXML
     private void logoutButtonPressed() throws IOException {
 
-        SecondaryController secondaryController = new SecondaryController();
         secondaryController.logoutButtonPressed();
 
     }

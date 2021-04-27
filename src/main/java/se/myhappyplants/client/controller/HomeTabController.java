@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
@@ -20,7 +21,7 @@ public class HomeTabController {
 
     private ArrayList<DBPlant> currentUserLibrary;
 
-    @FXML private SecondaryController secondaryController = new SecondaryController();
+    @FXML private SecondaryController secondaryController;
 
     @FXML private Label lblUsernameHome;
     @FXML private ListView userPlantLibrary;
@@ -35,6 +36,10 @@ public class HomeTabController {
         addCurrentUserLibraryToHomeScreen();
     }
 
+    public void setSecondaryController (SecondaryController secondaryController) {
+        this.secondaryController = secondaryController;
+    }
+    @FXML
     void addCurrentUserLibraryToHomeScreen() {
         //Add a Pane for each plant
 
@@ -46,7 +51,7 @@ public class HomeTabController {
         userPlantLibrary.setItems(plantpane);
     }
 
-
+    @FXML
     void createCurrentUserLibraryFromDB() {
         //TODO: Hämta plantor som tillhör currentuser från databasen och lägg dom i currentUserLibrary
         Message getLibrary = new Message("getLibrary", LoggedInUser.getInstance().getUser());
@@ -58,6 +63,7 @@ public class HomeTabController {
             MessageBox.display("Fail", "Failed to add to database");
         }
     }
+    @FXML
     public void removePlantFromDatabase(DBPlant plant) {
         System.out.println("hej");
         Message deletePlant = new Message("deletePlantFromLibrary", LoggedInUser.getInstance().getUser(), plant);
@@ -88,7 +94,7 @@ public class HomeTabController {
         DBPlant plantToAdd = new DBPlant(plantNickname, plantAdd.getLinks().getPlant(), date);
         addPlantToDatabase(plantToAdd);
     }
-
+    @FXML
     public void addPlantToDatabase(DBPlant plant) {
 
         Message savePlant = new Message("savePlant", LoggedInUser.getInstance().getUser(), plant);

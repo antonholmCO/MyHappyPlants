@@ -1,6 +1,10 @@
 package se.myhappyplants.client.controller;
 
+import javafx.event.Event;
+import javafx.event.WeakEventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Tab;
+import javafx.scene.layout.BorderPane;
 import se.myhappyplants.client.model.LoggedInUser;
 
 import java.io.BufferedWriter;
@@ -15,17 +19,28 @@ import java.io.IOException;
  */
 public class SecondaryController {
 
-  @FXML private HomeTabController homeTabController;
-  @FXML private PlantsTabController plantsTabController;
-  @FXML private SettingsTabController settingsTabController;
+  @FXML private Tab homeTab;
+  @FXML private Tab plantsTab;
+  @FXML private Tab settingsTab;
+
+  @FXML private HomeTabController homePaneController;
+  @FXML private PlantsTabController plantsPaneController;
+  @FXML private SettingsTabController settingsPaneController;
 
   /**
    * Constructor that has access to FXML variables
    */
   @FXML
   public void initialize() {
-
+    homePaneController.setSecondaryController(this);
+    plantsPaneController.setSecondaryController(this);
+    settingsPaneController.setSecondaryController(this);
   }
+
+  public HomeTabController getHomePaneController() {
+    return homePaneController;
+  }
+
   /**
    * Logs out user, then switches scenes
    *

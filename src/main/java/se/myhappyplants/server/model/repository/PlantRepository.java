@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 /**
- * Class responsable for calling the database about plants.
+ * Class responsible for calling the database about plants.
  * Created by: Linn Borgström
  * Updated by: Frida Jacobsson
  */
@@ -40,7 +40,8 @@ public class PlantRepository implements IPlantRepository {
   @Override
   public boolean savePlant(User user, DBPlant plant) {
     boolean success = false;
-    String query = "INSERT INTO Plant (user_id, nickname, api_url, last_watered) values ('" + user.getUniqueId() + "', '" + plant.getNickname() + "', '" + plant.getURL() + "', '" + plant.getLastWatered() + "')";
+    String sqlSafeNickname = plant.getNickname().replace("'", "''");
+    String query = "INSERT INTO Plant (user_id, nickname, api_url, last_watered) values (" + user.getUniqueId() + ", '" + sqlSafeNickname + "', '" + plant.getURL() + "', '" + plant.getLastWatered() + "')";
     try {
       CallableStatement callableStatement = Driver.getConnection().prepareCall(query);
       callableStatement.execute();
@@ -94,7 +95,8 @@ public class PlantRepository implements IPlantRepository {
    */
   public DBPlant getPlant(User user, String nickname) {
     try {
-      String query = "SELECT nickname, api_url, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() + "AND nickname =" + nickname;
+      String sqlSafeNickname = nickname.replace("'", "''");
+      String query = "SELECT nickname, api_url, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() + "AND nickname = '" + sqlSafeNickname + "';";
       ResultSet resultSet = statement.executeQuery(query);
       String APIUrl = resultSet.getString(4);
       Date lastWatered = resultSet.getDate(5);

@@ -3,6 +3,8 @@ package se.myhappyplants.client.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.BorderPane;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.Message;
@@ -12,7 +14,9 @@ import java.io.IOException;
 
 public class SettingsTabController {
 
-    @FXML private SecondaryController secondaryController = new SecondaryController();
+    @FXML private BorderPane settingsPane;
+    @FXML private SecondaryController secondaryController;
+    @FXML private TabPane secondaryPane;
 
     @FXML private Label lblUsernameSettings;
     @FXML private PasswordField deleteAccountPassField;
@@ -23,6 +27,10 @@ public class SettingsTabController {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameSettings.setText(loggedInUser.getUser().getUsername());
         //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+    }
+
+    public void setSecondaryController (SecondaryController secondaryController) {
+        this.secondaryController = secondaryController;
     }
 
     /**

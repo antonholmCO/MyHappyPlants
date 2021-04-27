@@ -3,19 +3,21 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@Stylesheet.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SecondaryController">
+<TabPane fx:id="secondaryPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@Stylesheet.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SecondaryController">
   <tabs>
-     <Tab text="Home">
+     <Tab text="Home" fx:id="homeTab">
         <content>
-           <fx:include fx:id="homeTab" source="homeTab.fxml"/>
-        </content></Tab>
-    <Tab text="Plants">
+           <fx:include fx:id="homePane" source="homeTab.fxml"/>
+        </content>
+     </Tab>
+    <Tab text="Plants" fx:id="plantsTab">
          <content>
-            <fx:include fx:id="plantsTab" source="plantsTab.fxml"/>
-         </content></Tab>
-      <Tab text="Settings">
+            <fx:include fx:id="plantsPane" source="plantsTab.fxml"/>
+         </content>
+    </Tab>
+      <Tab text="Settings" fx:id="settingsTab">
          <content>
-            <fx:include fx:id="settingsTab" source="settingsTab.fxml"/>
+            <fx:include fx:id="settingsPane" source="settingsTab.fxml"/>
          </content>
       </Tab>
   </tabs>
