@@ -13,6 +13,7 @@ import javafx.util.Duration;
 import se.myhappyplants.client.controller.SecondaryController;
 import se.myhappyplants.shared.DBPlant;
 
+import java.awt.*;
 import java.io.File;
 
 /**
@@ -53,7 +54,7 @@ public class LibraryPlantPane extends Pane {
         image.setPreserveRatio(true);
         image.setImage(img);
 
-        this.nickname =  new Label(plant.getNickname());
+        this.nickname = new Label(plant.getNickname());
         double nicknameWidth = this.nickname.getWidth();
         this.nickname.setLayoutX(0);
         this.nickname.setLayoutY(65);
@@ -62,8 +63,8 @@ public class LibraryPlantPane extends Pane {
         //Region region = new Region();
         //region.setMinWidth(USE_COMPUTED_SIZE);
 
-
         this.progressBar = new ProgressBar(plant.getProgress());
+        setColorProgressBar(plant.getProgress());
         progressBar.setLayoutX(196.0);
         progressBar.setLayoutY(28.0);
         progressBar.setPrefHeight(18.0);
@@ -73,6 +74,10 @@ public class LibraryPlantPane extends Pane {
         waterButton.setLayoutX(436.0);
         waterButton.setLayoutY(59.0);
         waterButton.setMnemonicParsing(false);
+        waterButton.setOnAction(action -> {
+            progressBar.setProgress(100);
+            progressBar.setStyle("-fx-accent: green");
+        });
 
         this.editButton = new Button("Edit plant");
         editButton.setLayoutX(675.0);
@@ -84,10 +89,9 @@ public class LibraryPlantPane extends Pane {
         infoButton.setLayoutY(59.0);
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(action -> {
-            if(!extended) {
+            if (!extended) {
                 extendPane();
-            }
-            else {
+            } else {
                 retractPane();
             }
         });
@@ -119,20 +123,21 @@ public class LibraryPlantPane extends Pane {
 
     public void extendPane() {
 
-            Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.millis(100), event -> {
-                            this.setPrefHeight(this.getHeight() + 50);
-                    })
-            );
-            timeline.setCycleCount(4);
-            timeline.play();
-            extended = true;
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(100), event -> {
+                    this.setPrefHeight(this.getHeight() + 50);
+                })
+        );
+        timeline.setCycleCount(4);
+        timeline.play();
+        extended = true;
 
     }
+
     public void retractPane() {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(100), event -> {
-                        this.setPrefHeight(this.getHeight() - 50);
+                    this.setPrefHeight(this.getHeight() - 50);
                 })
         );
         timeline.setCycleCount(4);
@@ -141,4 +146,14 @@ public class LibraryPlantPane extends Pane {
 
     }
 
-}
+    private void setColorProgressBar(double progress) {
+        if (progress > 0.50) {
+            progressBar.setStyle("-fx-accent: green");
+        }
+        if (progress > 0.25) {
+            progressBar.setStyle("-fx-accent: orange");
+        } else {
+            progressBar.setStyle("-fx-accent: red");
+        }
+    }
+    }
