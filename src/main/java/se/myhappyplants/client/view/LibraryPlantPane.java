@@ -62,7 +62,6 @@ public class LibraryPlantPane extends Pane {
         //Region region = new Region();
         //region.setMinWidth(USE_COMPUTED_SIZE);
 
-
         this.progressBar = new ProgressBar(plant.getProgress());
         progressBar.setLayoutX(196.0);
         progressBar.setLayoutY(28.0);
@@ -107,7 +106,7 @@ public class LibraryPlantPane extends Pane {
         deleteButton.setLayoutY(250.0);
         deleteButton.setMnemonicParsing(false);
         deleteButton.setOnAction(onPress -> {
-            controller.removePlantFromDatabase(plant);
+            removePlant(plant);
         });
 
 
@@ -141,4 +140,11 @@ public class LibraryPlantPane extends Pane {
 
     }
 
+    private void removePlant(DBPlant plant) {
+        int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
+        if (answer == 1) {
+            controller.removePlantFromDatabase(plant);
+            controller.removePlantFromDatabase(plant);
+        }
+    }
 }
