@@ -2,8 +2,6 @@ package se.myhappyplants.client.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -15,6 +13,7 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.HomeTabController;
 import se.myhappyplants.shared.DBPlant;
+
 import java.io.File;
 import java.time.LocalDate;
 
@@ -59,7 +58,7 @@ public class LibraryPlantPane extends Pane {
         image.setPreserveRatio(true);
         image.setImage(img);
 
-        nickname =  new Label(plant.getNickname());
+        nickname = new Label(plant.getNickname());
         nickname.setLayoutX(0);
         nickname.setLayoutY(65);
         nickname.setPrefWidth(145);
@@ -81,7 +80,7 @@ public class LibraryPlantPane extends Pane {
         waterButton.setOnAction(action -> {
             progressBar.setProgress(100);
             progressBar.setStyle("-fx-accent: 2D88AA");
-            controller.changeLastWateredInDB(plant,java.time.LocalDate.now());
+            controller.changeLastWateredInDB(plant, java.time.LocalDate.now());
         });
 
         this.infoButton = new Button("Show plant info");
@@ -89,11 +88,10 @@ public class LibraryPlantPane extends Pane {
         infoButton.setLayoutY(59.0);
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
-            if(!extended) {
-                extendPaneEditPlant();
-            }
-            else {
-                retractPane();
+            if (!extended) {
+                expand();
+            } else {
+                collapse();
             }
         });
 
@@ -141,22 +139,20 @@ public class LibraryPlantPane extends Pane {
         this.setPrefHeight(92.0);
         this.setPrefWidth(750.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
-
+        this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton, changeLastWaterLbl, datePicker, changeOKButton);
     }
 
-    public void extendPaneEditPlant() {
+    public void expand() {
 
-            Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() + 50))
-            );
-            timeline.setCycleCount(4);
-            timeline.play();
-            timeline.setOnFinished(action -> this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton, changeLastWaterLbl, datePicker, changeOKButton));
-            extended = true;
-
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() + 50))
+        );
+        timeline.setCycleCount(4);
+        timeline.play();
+        extended = true;
     }
 
-    public void retractPane() {
+    public void collapse() {
 
         Timeline timeline = new Timeline(
 
@@ -166,23 +162,22 @@ public class LibraryPlantPane extends Pane {
         );
         timeline.setCycleCount(4);
         timeline.play();
-        this.getChildren().removeAll(changeNameButton, changePictureButton, deleteButton);
         extended = false;
     }
 
 
-        //TODO: decide how we want colors in progressbar
-        private void setColorProgressBar(double progress){
-            if (progress < 0.15) {
-                progressBar.setStyle("-fx-accent: red");
-            }
+    //TODO: decide how we want colors in progressbar
+    private void setColorProgressBar(double progress) {
+        if (progress < 0.15) {
+            progressBar.setStyle("-fx-accent: red");
         }
+    }
 
-        private void removePlant(DBPlant plant) {
-            int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
-            if (answer == 1) {
-                controller.removePlantFromDatabase(plant);
-            }
+    private void removePlant(DBPlant plant) {
+        int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
+        if (answer == 1) {
+            controller.removePlantFromDatabase(plant);
         }
+    }
 
 }
