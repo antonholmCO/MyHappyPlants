@@ -42,6 +42,11 @@ public class ClientConnection{
         return INSTANCE;
     }
 
+    /**
+     * Opends a socket and handles Message-requests from client side and send them to server through TCP.
+     * @param request instance of class Message with a certain request
+     * @return instance of Message class with a certain response
+     */
     public Message makeRequest(Message request) {
 
         Message response = null;

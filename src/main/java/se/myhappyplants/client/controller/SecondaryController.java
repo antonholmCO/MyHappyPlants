@@ -221,7 +221,6 @@ public class SecondaryController {
     }
 
     public void removePlantFromDatabase(DBPlant plant) {
-        System.out.println("hej");
         Message deletePlant = new Message("deletePlantFromLibrary", LoggedInUser.getInstance().getUser(), plant);
         Message response = ClientConnection.getInstance().makeRequest(deletePlant);
 
