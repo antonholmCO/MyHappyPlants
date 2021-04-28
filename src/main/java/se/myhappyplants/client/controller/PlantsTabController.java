@@ -87,7 +87,6 @@ public class PlantsTabController {
                 showResultsOnPane(apiResponse);
             } else {
                 Platform.runLater(() ->MessageBox.display("No results", "No results on " + txtFldSearchText.getText() + ", sorry!"));
-
             }
         } else {
             Platform.runLater(() ->MessageBox.display("No response", "No response from the server"));
