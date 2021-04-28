@@ -143,6 +143,7 @@ public class LibraryPlantPane extends Pane {
         extended = true;
 
     }
+
     public void retractPane() {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(100), event -> {
@@ -168,5 +169,4 @@ public class LibraryPlantPane extends Pane {
                 controller.removePlantFromDatabase(plant);
             }
         }
-
 }
