@@ -3,7 +3,6 @@ package se.myhappyplants.client.controller;
 
 import se.myhappyplants.shared.Message;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,32 +15,14 @@ import java.net.Socket;
  */
 public class ClientConnection{
 
-    private final static ClientConnection INSTANCE = new ClientConnection("localhost", 2555);
-
     private String ipAddress;
     private int port;
     private Socket socket;
 
-    /**
-     * Creates class and initialises variables,
-     * can only be called within the class
-     * @param ipAddress the ipAddress of the Server
-     * @param port the port the Server is listening on
-     */
-    private ClientConnection(String ipAddress, int port) {
-        this.ipAddress = ipAddress;
-        this.port = port;
+    public ClientConnection() {
+        ipAddress = "localhost";
+        port = 2555;
     }
-
-    /**
-     * Ensures same instance is used by other classes
-     * May be unnecessary?
-     * @return
-     */
-    public static ClientConnection getInstance() {
-        return INSTANCE;
-    }
-
     /**
      * Opends a socket and handles Message-requests from client side and send them to server through TCP.
      * @param request instance of class Message with a certain request

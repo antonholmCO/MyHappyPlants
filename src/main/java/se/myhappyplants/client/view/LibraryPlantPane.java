@@ -13,7 +13,6 @@ import javafx.util.Duration;
 import se.myhappyplants.client.controller.HomeTabController;
 import se.myhappyplants.shared.DBPlant;
 
-import java.awt.*;
 import java.io.File;
 
 /**
@@ -38,9 +37,36 @@ public class LibraryPlantPane extends Pane {
     private Button changePictureButton;
     private Button deleteButton;
 
-
     private boolean extended;
 
+    /**
+     * Shows a simple pane with loading image
+     * while waiting for response from database
+     */
+    public LibraryPlantPane() {
+        File fileImg = new File("resources/images/img.png");
+        Image img = new Image(fileImg.toURI().toString());
+        image = new ImageView(img);
+        image.setFitHeight(45.0);
+        image.setFitWidth(45.0);
+        image.setLayoutX(50.0);
+        image.setLayoutY(14.0);
+
+        nickname =  new Label("Your plants are being loaded from the database..");
+        nickname.setLayoutX(100);
+        nickname.setLayoutY(25);
+        nickname.setPrefWidth(300);
+        nickname.setAlignment(Pos.CENTER);
+
+        this.getChildren().addAll(image, nickname);
+    }
+
+    /**
+     *
+     * @param controller
+     * @param imgPath
+     * @param plant
+     */
     public LibraryPlantPane(HomeTabController controller, String imgPath, DBPlant plant) {
         this.controller = controller;
         File fileImg = new File(imgPath);
@@ -61,12 +87,9 @@ public class LibraryPlantPane extends Pane {
         nickname.setPrefWidth(145);
         nickname.setAlignment(Pos.CENTER);
 
-
         this.progressBar = new ProgressBar(plant.getProgress());
-
         setColorProgressBar(plant.getProgress());
         progressBar.setLayoutX(196.0);
-
         progressBar.setLayoutY(28.0);
         progressBar.setPrefHeight(18.0);
         progressBar.setPrefWidth(575.0);
@@ -120,11 +143,9 @@ public class LibraryPlantPane extends Pane {
         deleteButton.setLayoutX(625.0);
         deleteButton.setLayoutY(250.0);
         deleteButton.setMnemonicParsing(false);
-
         deleteButton.setOnAction(onPress -> {
             removePlant(plant);
         });
-
 
         this.setPrefHeight(92.0);
         this.setPrefWidth(750.0);
@@ -134,7 +155,6 @@ public class LibraryPlantPane extends Pane {
 
     public void extendPaneEditPlant() {
 
-
             Timeline timeline = new Timeline(
                     new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() + 50))
             );
@@ -142,16 +162,12 @@ public class LibraryPlantPane extends Pane {
             timeline.play();
             timeline.setOnFinished(action -> this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton));
             extended = true;
-
     }
 
     public void retractPane() {
 
         Timeline timeline = new Timeline(
-
                 new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() - 50))
-
-
         );
         timeline.setCycleCount(4);
         timeline.play();
@@ -159,18 +175,15 @@ public class LibraryPlantPane extends Pane {
         extended = false;
     }
 
-
         //TODO: decide how we want colors in progressbar
         private void setColorProgressBar(double progress){
             if (progress < 0.15) {
                 progressBar.setStyle("-fx-accent: red");
             }
         }
-
         private void removePlant(DBPlant plant) {
             int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
             if (answer == 1) {
-                controller.removePlantFromDatabase(plant);
                 controller.removePlantFromDatabase(plant);
             }
         }

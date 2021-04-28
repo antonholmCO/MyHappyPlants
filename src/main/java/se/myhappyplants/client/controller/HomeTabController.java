@@ -1,17 +1,19 @@
 package se.myhappyplants.client.controller;
 
+import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.view.LibraryPlantPane;
+import se.myhappyplants.client.view.MessageBox;
+
+import se.myhappyplants.shared.APIPlant;
+import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.Message;
+
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import se.myhappyplants.client.model.LoggedInUser;
-import se.myhappyplants.client.view.LibraryPlantPane;
-import se.myhappyplants.client.view.MessageBox;
-import se.myhappyplants.shared.APIPlant;
-import se.myhappyplants.shared.DBPlant;
-import se.myhappyplants.shared.Message;
-
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -30,50 +32,61 @@ public class HomeTabController {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameHome.setText(loggedInUser.getUser().getUsername());
         //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
-
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
     }
 
-    public void setSecondaryController (MainPaneController mainPaneController) {
+    public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
+
     @FXML
     void addCurrentUserLibraryToHomeScreen() {
-        //Add a Pane for each plant
 
-        //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
         ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
-        for (DBPlant plant: currentUserLibrary) {
-            plantpane.add(new LibraryPlantPane(this, "resources/images/sapling_in_pot.png", plant));
+        if(currentUserLibrary==null) {
+            plantpane.add(new LibraryPlantPane());
         }
-        userPlantLibrary.setItems(plantpane);
+        else {
+            for (DBPlant plant : currentUserLibrary) {
+                plantpane.add(new LibraryPlantPane(this, "resources/images/sapling_in_pot.png", plant));
+            }
+        }
+        Platform.runLater(() ->userPlantLibrary.setItems(plantpane));
     }
 
     @FXML
     void createCurrentUserLibraryFromDB() {
-        //TODO: Hämta plantor som tillhör currentuser från databasen och lägg dom i currentUserLibrary
+
+        Thread getLibraryThread = new Thread(() -> {
         Message getLibrary = new Message("getLibrary", LoggedInUser.getInstance().getUser());
-        Message response = ClientConnection.getInstance().makeRequest(getLibrary);
+        ClientConnection connection = new ClientConnection();
+        Message response = connection.makeRequest(getLibrary);
 
         if (response.isSuccess()) {
             currentUserLibrary = response.getPlantLibrary();
+            addCurrentUserLibraryToHomeScreen();
         } else {
-            MessageBox.display("Fail", "Failed to add to database");
+            Platform.runLater(() ->MessageBox.display("Fail", "Failed to get library from database"));
         }
+        });
+        getLibraryThread.start();
     }
     @FXML
     public void removePlantFromDatabase(DBPlant plant) {
-        System.out.println("hej");
+
+        Thread removePlantThread = new Thread(() -> {
         Message deletePlant = new Message("deletePlantFromLibrary", LoggedInUser.getInstance().getUser(), plant);
-        Message response = ClientConnection.getInstance().makeRequest(deletePlant);
+        ClientConnection connection = new ClientConnection();
+        Message response = connection.makeRequest(deletePlant);
 
         if (response.isSuccess()) {
             createCurrentUserLibraryFromDB();
-            addCurrentUserLibraryToHomeScreen();
         } else {
-            MessageBox.display("Error", "Could not delete plant");
+            Platform.runLater(() ->MessageBox.display("Error", "Could not delete plant"));
         }
+        });
+        removePlantThread.start();
     }
     @FXML
     public void addPlantToCurrentUserLibrary(APIPlant plantAdd, String plantNickname) {
@@ -96,17 +109,18 @@ public class HomeTabController {
     @FXML
     public void addPlantToDatabase(DBPlant plant) {
 
+        Thread addPlantThread = new Thread(() -> {
         Message savePlant = new Message("savePlant", LoggedInUser.getInstance().getUser(), plant);
-        Message response = ClientConnection.getInstance().makeRequest(savePlant);
+        ClientConnection connection = new ClientConnection();
+        Message response = connection.makeRequest(savePlant);
         if (response.isSuccess()) {
             createCurrentUserLibraryFromDB();
-            addCurrentUserLibraryToHomeScreen();
         } else {
-            MessageBox.display("Fail", "Failed to add to database");
+            Platform.runLater(() ->MessageBox.display("Fail", "Failed to add to database"));
         }
-
+        });
+        addPlantThread.start();
     }
-
     @FXML private void logoutButtonPressed() throws IOException {
 
         mainPaneController.logoutButtonPressed();
