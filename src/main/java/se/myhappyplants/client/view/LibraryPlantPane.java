@@ -19,6 +19,7 @@ import java.io.File;
  * Simple pane that displays a DBPlant's information
  * todo update to prettier pane
  * Created by: Christopher O'Driscoll
+ * Updated by: Frida Jacobsson
  */
 public class LibraryPlantPane extends Pane {
     private SecondaryController controller;
@@ -53,7 +54,7 @@ public class LibraryPlantPane extends Pane {
         image.setPreserveRatio(true);
         image.setImage(img);
 
-        this.nickname =  new Label(plant.getNickname());
+        this.nickname = new Label(plant.getNickname());
         double nicknameWidth = this.nickname.getWidth();
         this.nickname.setLayoutX(0);
         this.nickname.setLayoutY(65);
@@ -61,7 +62,6 @@ public class LibraryPlantPane extends Pane {
         this.nickname.setAlignment(Pos.CENTER);
         //Region region = new Region();
         //region.setMinWidth(USE_COMPUTED_SIZE);
-
 
         this.progressBar = new ProgressBar(plant.getProgress());
         progressBar.setLayoutX(196.0);
@@ -78,19 +78,19 @@ public class LibraryPlantPane extends Pane {
         editButton.setLayoutX(675.0);
         editButton.setLayoutY(59.0);
         editButton.setMnemonicParsing(false);
+        editButton.setOnAction(action -> {
+            if (!extended) {
+                extendPaneEditPlant();
+            } else {
+                retractPane();
+            }
+        });
 
         this.infoButton = new Button("Show plant info");
         infoButton.setLayoutX(196.0);
         infoButton.setLayoutY(59.0);
         infoButton.setMnemonicParsing(false);
-        infoButton.setOnAction(action -> {
-            if(!extended) {
-                extendPane();
-            }
-            else {
-                retractPane();
-            }
-        });
+
 
         this.changeNameButton = new Button("Change nickname");
         changeNameButton.setLayoutX(370.0);
@@ -107,32 +107,32 @@ public class LibraryPlantPane extends Pane {
         deleteButton.setLayoutY(250.0);
         deleteButton.setMnemonicParsing(false);
         deleteButton.setOnAction(onPress -> {
-            controller.removePlantFromDatabase(plant);
+            removePlant(plant);
         });
 
 
         this.setPrefHeight(92.0);
         this.setPrefWidth(800.0);
         this.getChildren().addAll(image, this.nickname, progressBar, waterButton, editButton, infoButton, changeNameButton, changePictureButton, deleteButton);
+    }
+
+    public void extendPaneEditPlant() {
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(100), event -> {
+                    this.setPrefHeight(this.getHeight() + 50);
+                })
+        );
+        timeline.setCycleCount(4);
+        timeline.play();
+        extended = true;
 
     }
 
-    public void extendPane() {
-
-            Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.millis(100), event -> {
-                            this.setPrefHeight(this.getHeight() + 50);
-                    })
-            );
-            timeline.setCycleCount(4);
-            timeline.play();
-            extended = true;
-
-    }
     public void retractPane() {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(100), event -> {
-                        this.setPrefHeight(this.getHeight() - 50);
+                    this.setPrefHeight(this.getHeight() - 50);
                 })
         );
         timeline.setCycleCount(4);
@@ -141,4 +141,11 @@ public class LibraryPlantPane extends Pane {
 
     }
 
+    private void removePlant(DBPlant plant) {
+        int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
+        if (answer == 1) {
+            controller.removePlantFromDatabase(plant);
+            controller.removePlantFromDatabase(plant);
+        }
+    }
 }
