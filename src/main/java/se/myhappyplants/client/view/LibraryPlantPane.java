@@ -2,8 +2,11 @@ package se.myhappyplants.client.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -12,8 +15,8 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.HomeTabController;
 import se.myhappyplants.shared.DBPlant;
-
 import java.io.File;
+import java.time.LocalDate;
 
 /**
  * Simple pane that displays a DBPlant's information
@@ -35,7 +38,9 @@ public class LibraryPlantPane extends Pane {
     private Button changeNameButton;
     private Button changePictureButton;
     private Button deleteButton;
-    private Button changeLastWateredButton;
+    private Label changeLastWaterLbl;
+    private DatePicker datePicker;
+    private Button changeOKButton;
 
 
     private boolean extended;
@@ -59,7 +64,6 @@ public class LibraryPlantPane extends Pane {
         nickname.setLayoutY(65);
         nickname.setPrefWidth(145);
         nickname.setAlignment(Pos.CENTER);
-
 
         this.progressBar = new ProgressBar(plant.getProgress());
 
@@ -97,20 +101,29 @@ public class LibraryPlantPane extends Pane {
         changeNameButton.setLayoutY(250.0);
         changeNameButton.setMnemonicParsing(false);
 
+        this.changeOKButton = new Button("Submit");
+        changeOKButton.setLayoutX(210.0);
+        changeOKButton.setLayoutY(250.0);
+        changeOKButton.setMnemonicParsing(false);
+        changeOKButton.setOnAction(onPress -> {
+            LocalDate date = datePicker.getValue();
+            plant.setLastWatered(date);
+            System.out.println(plant.getLastWatered());
+        });
+
         this.changePictureButton = new Button("Change plant picture");
         changePictureButton.setLayoutX(480.0);
         changePictureButton.setLayoutY(250.0);
         changePictureButton.setMnemonicParsing(false);
 
-        this.changeLastWateredButton = new Button("Change last watered");
-        changeLastWateredButton.setLayoutX(200.0);
-        changeLastWateredButton.setLayoutY(250.0);
-        changeLastWateredButton.setMnemonicParsing(false);
-        changeLastWateredButton.setOnAction(action -> {
-           //datepicker
+        this.changeLastWaterLbl = new Label("Change last watered");
+        changeLastWaterLbl.setLayoutX(10.0);
+        changeLastWaterLbl.setLayoutY(220);
+        changeLastWaterLbl.setMnemonicParsing(false);
 
-        });
-
+        this.datePicker = new DatePicker();
+        datePicker.setLayoutX(10.0);
+        datePicker.setLayoutY(250.0);
 
         this.deleteButton = new Button("Delete plant");
         deleteButton.setLayoutX(625.0);
@@ -135,7 +148,7 @@ public class LibraryPlantPane extends Pane {
             );
             timeline.setCycleCount(4);
             timeline.play();
-            timeline.setOnFinished(action -> this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton, changeLastWateredButton));
+            timeline.setOnFinished(action -> this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton, changeLastWaterLbl, datePicker, changeOKButton));
             extended = true;
 
     }

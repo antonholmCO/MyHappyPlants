@@ -109,8 +109,4 @@ public class HomeTabController {
 
         mainPaneController.logoutButtonPressed();
     }
-
-    public void openDatePicker() throws IOException {
-        StartClient.setRoot("datePicker");
-    }
 }

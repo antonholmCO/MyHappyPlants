@@ -2,6 +2,7 @@ package se.myhappyplants.shared;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  * Class for defining a plant from the database
@@ -60,5 +61,10 @@ public class DBPlant implements Serializable {
   }
   public String getLastWatered() {
     return lastWatered.toString();
+  }
+
+  public void setLastWatered(LocalDate localDate) {
+    Date date = java.sql.Date.valueOf(localDate);
+    this.lastWatered = date;
   }
 }
