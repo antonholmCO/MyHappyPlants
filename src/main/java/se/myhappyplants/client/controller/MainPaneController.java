@@ -17,7 +17,7 @@ import java.io.IOException;
  * Created by: Christopher O'Driscoll, Eric Simonsson
  * Updated by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
  */
-public class SecondaryController {
+public class MainPaneController {
 
   @FXML private Tab homeTab;
   @FXML private Tab plantsTab;
@@ -59,7 +59,7 @@ public class SecondaryController {
     }
 
     LoggedInUser.getInstance().setUser(null);
-    StartClient.setRoot("primary");
+    StartClient.setRoot("loginPane");
 
   }
 

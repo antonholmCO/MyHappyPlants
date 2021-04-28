@@ -33,7 +33,7 @@ public class StartClient extends Application {
             action.consume(); // tell java to forget about event so that
             closeProgram(); // now handles close event manually
         });
-        scene = new Scene(loadFXML("primary"), 800, 600);
+        scene = new Scene(loadFXML("loginPane"), 800, 600);
         window.setScene(scene);
         window.show();
     }

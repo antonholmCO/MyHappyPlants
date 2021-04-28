@@ -15,7 +15,7 @@ import java.io.IOException;
 public class SettingsTabController {
 
     @FXML private BorderPane settingsPane;
-    @FXML private SecondaryController secondaryController;
+    @FXML private MainPaneController mainPaneController;
     @FXML private TabPane secondaryPane;
 
     @FXML private Label lblUsernameSettings;
@@ -29,8 +29,8 @@ public class SettingsTabController {
         //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
     }
 
-    public void setSecondaryController (SecondaryController secondaryController) {
-        this.secondaryController = secondaryController;
+    public void setSecondaryController (MainPaneController mainPaneController) {
+        this.mainPaneController = mainPaneController;
     }
 
     /**
@@ -58,7 +58,7 @@ public class SettingsTabController {
     @FXML
     private void logoutButtonPressed() throws IOException {
 
-        secondaryController.logoutButtonPressed();
+        mainPaneController.logoutButtonPressed();
 
     }
 }

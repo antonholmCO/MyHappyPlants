@@ -1,6 +1,7 @@
 package se.myhappyplants.server.model.service;
 
 import com.google.gson.Gson;
+import se.myhappyplants.server.PasswordsAndKeys;
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.server.model.plant.PlantCollection;
 import se.myhappyplants.server.model.plant.PlantDetail;
@@ -70,7 +71,8 @@ public class PlantService {
     System.out.println(plantDetail.data.main_species.growth.minimum_precipitation); //mm per år
   }
   public long getWaterFrequency (String apiURL) throws IOException, InterruptedException {
-    String plantURL = trefleURL + apiURL + "?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k";
+    String token = PasswordsAndKeys.APIToken;
+    String plantURL = trefleURL + apiURL + "?token=" + token;
     HttpClient client = HttpClient.newHttpClient();
     HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(plantURL))

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@Stylesheet.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.PrimaryController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@Stylesheet.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.LoginPaneController">
   <tabs>
     <Tab text="Log in">
          <content>
@@ -18,7 +18,7 @@
                      <children>
                         <TextField fx:id="txtFldEmail" layoutX="24.0" layoutY="16.0" promptText="Email" />
                         <PasswordField fx:id="passFldPassword" layoutX="198.0" layoutY="16.0" promptText="Password" />
-                         <Button defaultButton="true" layoutX="700.0" layoutY="16.0" mnemonicParsing="false" onAction="#loginButtonPressed" style="-fx-color: Darkgreen;" text="Log in" />
+                         <Button defaultButton="true" layoutX="643.0" layoutY="16.0" mnemonicParsing="false" onAction="#loginButtonPressed" style="-fx-color: Darkgreen;" text="Log in" />
                      </children>
                   </AnchorPane>
                </top>

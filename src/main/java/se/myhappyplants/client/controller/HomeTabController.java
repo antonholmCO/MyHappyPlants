@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.BorderPane;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
@@ -21,7 +20,7 @@ public class HomeTabController {
 
     private ArrayList<DBPlant> currentUserLibrary;
 
-    @FXML private SecondaryController secondaryController;
+    @FXML private MainPaneController mainPaneController;
 
     @FXML private Label lblUsernameHome;
     @FXML private ListView userPlantLibrary;
@@ -36,8 +35,8 @@ public class HomeTabController {
         addCurrentUserLibraryToHomeScreen();
     }
 
-    public void setSecondaryController (SecondaryController secondaryController) {
-        this.secondaryController = secondaryController;
+    public void setSecondaryController (MainPaneController mainPaneController) {
+        this.mainPaneController = mainPaneController;
     }
     @FXML
     void addCurrentUserLibraryToHomeScreen() {
@@ -110,6 +109,6 @@ public class HomeTabController {
 
     @FXML private void logoutButtonPressed() throws IOException {
 
-        secondaryController.logoutButtonPressed();
+        mainPaneController.logoutButtonPressed();
     }
 }

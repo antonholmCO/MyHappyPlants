@@ -106,11 +106,6 @@ public class LibraryPlantPane extends Pane {
             }
         });
 
-        this.editButton = new Button("Edit plant");
-        editButton.setLayoutX(650.0);
-        editButton.setLayoutY(59.0);
-        editButton.setMnemonicParsing(false);
-
         this.changeNameButton = new Button("Change nickname");
         changeNameButton.setLayoutX(350.0);
         changeNameButton.setLayoutY(250.0);

@@ -6,9 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import se.myhappyplants.client.controller.PlantsTabController;
-import se.myhappyplants.client.controller.SecondaryController;
 import se.myhappyplants.shared.APIPlant;
-import se.myhappyplants.shared.DBPlant;
 
 /**
  *  * Created by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21

@@ -18,7 +18,7 @@ import se.myhappyplants.shared.User;
  * Updated by: Christopher, 2021-04-13
  *
  * */
-public class PrimaryController {
+public class LoginPaneController {
 
     private ClientConnection connection;
 
@@ -60,7 +60,7 @@ public class PrimaryController {
     }
 
     @FXML private void switchToSecondary() throws IOException {
-        StartClient.setRoot("secondary");
+        StartClient.setRoot("mainPane");
     }
 
     /**
