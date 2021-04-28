@@ -13,12 +13,14 @@ import javafx.util.Duration;
 import se.myhappyplants.client.controller.HomeTabController;
 import se.myhappyplants.shared.DBPlant;
 
+import java.awt.*;
 import java.io.File;
 
 /**
  * Simple pane that displays a DBPlant's information
  * todo update to prettier pane
  * Created by: Christopher O'Driscoll
+ * Updated by: Frida Jacobsson
  */
 public class LibraryPlantPane extends Pane {
     private HomeTabController controller;
@@ -61,7 +63,10 @@ public class LibraryPlantPane extends Pane {
 
 
         this.progressBar = new ProgressBar(plant.getProgress());
-        progressBar.setLayoutX(150.0);
+
+        setColorProgressBar(plant.getProgress());
+        progressBar.setLayoutX(196.0);
+
         progressBar.setLayoutY(28.0);
         progressBar.setPrefHeight(18.0);
         progressBar.setPrefWidth(575.0);
@@ -70,6 +75,23 @@ public class LibraryPlantPane extends Pane {
         waterButton.setLayoutX(400.0);
         waterButton.setLayoutY(59.0);
         waterButton.setMnemonicParsing(false);
+        waterButton.setOnAction(action -> {
+            progressBar.setProgress(100);
+            progressBar.setStyle("-fx-accent: 2D88AA");
+        });
+
+
+        this.editButton = new Button("Edit plant");
+        editButton.setLayoutX(675.0);
+        editButton.setLayoutY(59.0);
+        editButton.setMnemonicParsing(false);
+        editButton.setOnAction(action -> {
+            if (!extended) {
+                extendPaneEditPlant();
+            } else {
+                retractPane();
+            }
+        });
 
         this.infoButton = new Button("Show plant info");
         infoButton.setLayoutX(150.0);
@@ -77,7 +99,7 @@ public class LibraryPlantPane extends Pane {
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
             if(!extended) {
-                extendPane();
+                extendPaneEditPlant();
             }
             else {
                 retractPane();
@@ -103,7 +125,11 @@ public class LibraryPlantPane extends Pane {
         deleteButton.setLayoutX(625.0);
         deleteButton.setLayoutY(250.0);
         deleteButton.setMnemonicParsing(false);
-        deleteButton.setOnAction(onPress -> controller.removePlantFromDatabase(plant));
+
+        deleteButton.setOnAction(onPress -> {
+            removePlant(plant);
+        });
+
 
         this.setPrefHeight(92.0);
         this.setPrefWidth(750.0);
@@ -111,7 +137,8 @@ public class LibraryPlantPane extends Pane {
 
     }
 
-    public void extendPane() {
+    public void extendPaneEditPlant() {
+
 
             Timeline timeline = new Timeline(
                     new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() + 50))
@@ -120,16 +147,37 @@ public class LibraryPlantPane extends Pane {
             timeline.play();
             timeline.setOnFinished(action -> this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton));
             extended = true;
+
     }
 
     public void retractPane() {
 
         Timeline timeline = new Timeline(
+
                 new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() - 50))
+
+
         );
         timeline.setCycleCount(4);
         timeline.play();
         this.getChildren().removeAll(changeNameButton, changePictureButton, deleteButton);
         extended = false;
     }
+
+
+        //TODO: decide how we want colors in progressbar
+        private void setColorProgressBar(double progress){
+            if (progress < 0.15) {
+                progressBar.setStyle("-fx-accent: red");
+            }
+        }
+
+        private void removePlant(DBPlant plant) {
+            int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
+            if (answer == 1) {
+                controller.removePlantFromDatabase(plant);
+                controller.removePlantFromDatabase(plant);
+            }
+        }
+
 }
