@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="se.myhappyplants.client.controller.SettingsTabController"
+            fx:id="settingsPane"
+            prefHeight="400.0" prefWidth="600.0">
+    <top>
+        <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button layoutX="700.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" style="-fx-color: Darkred;" text="Log Out" />
+                <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
+                <Label fx:id="lblUsernameSettings" layoutX="74.0" layoutY="18.0" text="Username">
+                    <font>
+                        <Font size="13.0" />
+                    </font>
+                </Label>
+            </children>
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+        </AnchorPane>
+    </top>
+    <center>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
+            <children>
+                <Label layoutX="74.0" layoutY="78.0" text="Notifications ON/OFF" />
+                <Label layoutX="74.0" layoutY="148.0" text="Do you want curious about plants" />
+                <Label layoutX="71.0" layoutY="220.0" text="Change profile picture" />
+                <ToggleButton layoutX="380.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="152.0" text="Activate" />
+                <ToggleButton layoutX="378.0" layoutY="144.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="160.0" text="Activate" />
+                <Button layoutX="379.0" layoutY="216.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="161.0" text="Load new picture" />
+                <Button fx:id="btnDeleteAccount" layoutX="460.0" layoutY="289.0" mnemonicParsing="false" onAction="#deleteAccountButtonPressed" prefHeight="25.0" prefWidth="83.0" text="Delete " textFill="#d31717" />
+                <PasswordField fx:id="deleteAccountPassField" layoutX="306.0" layoutY="289.0" prefHeight="25.0" prefWidth="145.0" promptText="Password" />
+                <Label layoutX="69.0" layoutY="293.0" text="Delete account at My Happy Plants" />
+            </children>
+        </AnchorPane>
+    </center>
+    <left>
+        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+    </left>
+    <right>
+        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+    </right>
+</BorderPane>

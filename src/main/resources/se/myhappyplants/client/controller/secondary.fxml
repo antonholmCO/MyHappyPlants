@@ -1,123 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@Stylesheet.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SecondaryController">
+<TabPane fx:id="secondaryPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@Stylesheet.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SecondaryController">
   <tabs>
-    <Tab text="Home">
+     <Tab text="Home" fx:id="homeTab">
+        <content>
+           <fx:include fx:id="homePane" source="homeTab.fxml"/>
+        </content>
+     </Tab>
+    <Tab text="Plants" fx:id="plantsTab">
          <content>
-            <BorderPane prefHeight="200.0" prefWidth="200.0">
-               <top>
-                  <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Button layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" style="-fx-color: Darkred;" text="Log Out" />
-                        <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label fx:id="lblUsernameHome" layoutX="114.0" layoutY="20.0" text="Username">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-               </top>
-               <center>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <ListView fx:id="userPlantLibrary" layoutX="10.0" layoutY="-1.0" prefHeight="476.0" prefWidth="782.0" />
-                     </children>
-                  </AnchorPane>
-               </center>
-            </BorderPane>
-         </content></Tab>
-    <Tab text="Plants">
+            <fx:include fx:id="plantsPane" source="plantsTab.fxml"/>
+         </content>
+    </Tab>
+      <Tab text="Settings" fx:id="settingsTab">
          <content>
-            <BorderPane prefHeight="200.0" prefWidth="200.0">
-               <top>
-                  <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Button layoutX="700.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" style="-fx-color: Darkred;" text="Log Out" />
-                        <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label fx:id="lblUsernameSearch" layoutX="74.0" layoutY="18.0" text="Username">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-               </top>
-               <center>
-                  <Pane prefHeight="200.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <TextField fx:id="txtFldSearchText" layoutX="14.0" layoutY="14.0" prefHeight="23.0" prefWidth="441.0" promptText="Search...">
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </TextField>
-                        <Button fx:id="btnSearch" layoutX="467.0" layoutY="15.0" mnemonicParsing="false" onAction="#searchButtonPressed" prefHeight="23.0" text="Search" />
-                        <ProgressIndicator fx:id="progressIndicator" layoutX="545.0" layoutY="7.0" progress="0.0" />
-                        <ListView fx:id="resultPane" accessibleRole="IMAGE_VIEW" fixedCellSize="-2.0" layoutX="12.0" layoutY="86.0" minHeight="50.0" prefHeight="388.0" prefWidth="778.0" />
-                        <Label layoutX="14.0" layoutY="61.0" text="Your results:" />
-                     </children>
-                  </Pane>
-               </center>
-            </BorderPane>
-         </content></Tab>
-      <Tab text="Settings">
-         <content>
-            <BorderPane prefHeight="200.0" prefWidth="200.0">
-               <top>
-                  <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Button layoutX="700.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" style="-fx-color: Darkred;" text="Log Out" />
-                        <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label fx:id="lblUsernameSettings" layoutX="74.0" layoutY="18.0" text="Username">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <BorderPane.margin>
-                        <Insets />
-                     </BorderPane.margin>
-                  </AnchorPane>
-               </top>
-               <center>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
-                     <children>
-                        <Label layoutX="74.0" layoutY="78.0" text="Notifications ON/OFF" />
-                        <Label layoutX="74.0" layoutY="148.0" text="Do you want curious about plants" />
-                        <Label layoutX="71.0" layoutY="220.0" text="Change profile picture" />
-                        <ToggleButton layoutX="380.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="152.0" text="Activate" />
-                        <ToggleButton layoutX="378.0" layoutY="144.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="160.0" text="Activate" />
-                        <Button layoutX="379.0" layoutY="216.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="161.0" text="Load new picture" />
-                        <Button fx:id="btnDeleteAccount" layoutX="460.0" layoutY="289.0" mnemonicParsing="false" onAction="#deleteAccountButtonPressed" prefHeight="25.0" prefWidth="83.0" text="Delete " textFill="#d31717" />
-                        <PasswordField fx:id="deleteAccountPassField" layoutX="306.0" layoutY="289.0" prefHeight="25.0" prefWidth="145.0" promptText="Password" />
-                        <Label layoutX="69.0" layoutY="293.0" text="Delete account at My Happy Plants" />
-                     </children>
-                  </AnchorPane>
-               </center>
-               <left>
-                  <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
-               </left>
-               <right>
-                  <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
-               </right>
-            </BorderPane>
+            <fx:include fx:id="settingsPane" source="settingsTab.fxml"/>
          </content>
       </Tab>
   </tabs>

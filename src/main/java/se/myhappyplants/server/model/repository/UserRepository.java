@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 import java.sql.*;
 
 /**
- * Class responsable for calling the database about users.
+ * Class responsible for calling the database about users.
  * Created by: Frida Jacobsson
  * Updated by:
  */
@@ -35,9 +35,9 @@ public class UserRepository implements IUserRepository {
    */
   public boolean saveUser(User user) {
     String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()); //hashing the password
+    String sqlSafeUsername = user.getUsername().replace("'", "''");
     try {
-      String query = "INSERT INTO [User] VALUES ('" + user.getUsername() + "', " + "'" + user.getEmail() + "', '" + hashedPassword + "'," + 1 + ");";
-      System.out.println("yas du savade en user");
+      String query = "INSERT INTO [User] VALUES ('" + sqlSafeUsername + "', " + "'" + user.getEmail() + "', '" + hashedPassword + "'," + 1 + ");";
       statement.executeUpdate(query);
       return true;
     } catch (SQLException sqlException) {

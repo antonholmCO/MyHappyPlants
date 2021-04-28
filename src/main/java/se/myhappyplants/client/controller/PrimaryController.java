@@ -45,8 +45,7 @@ public class PrimaryController {
      * Switches to 'logged in' scene
      * @throws IOException
      */
-    @FXML
-    public void initialize(){
+    @FXML public void initialize(){
         String lastLoggedInUser;
 
         try(BufferedReader bw = new BufferedReader(new FileReader( "resources/lastLogin.txt"));){
@@ -59,8 +58,8 @@ public class PrimaryController {
 
 
     }
-    @FXML
-    private void switchToSecondary() throws IOException {
+
+    @FXML private void switchToSecondary() throws IOException {
         StartClient.setRoot("secondary");
     }
 
@@ -69,8 +68,7 @@ public class PrimaryController {
      * If successful, changes scene
      * @throws IOException
      */
-    @FXML
-    private void loginButtonPressed() throws IOException {
+    @FXML private void loginButtonPressed() throws IOException {
 
         //ToDo - Some code to handle what happens when user wants to log in
         // if successful, switch to logged in view
@@ -91,8 +89,8 @@ public class PrimaryController {
             MessageBox.display("No response", "No response from server");
         }
     }
-    @FXML
-    private void registerButtonPressed() throws IOException {
+
+    @FXML private void registerButtonPressed() throws IOException {
         if(!validateAndDisplayErrors()) {
             return;
         }
