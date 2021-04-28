@@ -27,7 +27,7 @@ public class PlantService {
    * @param userSearch search word from client and application
    * @return a list of plants from the API
    * @throws IOException
-   * @throws InterruptedException,
+   * @throws InterruptedException
    */
   public ArrayList<APIPlant> getResult(String userSearch) throws IOException, InterruptedException {
 
@@ -55,7 +55,9 @@ public class PlantService {
    * @throws InterruptedException
    */
   public void getMoreInformation(APIPlant plant) throws IOException, InterruptedException {
-    String plantURL = trefleURL + plant.links.plant + "?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k";
+    String token = PasswordsAndKeys.APIToken;
+    String plantURL = trefleURL + plant.links.plant + "?token=" + token;
+    //"?token=-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k" <-- Sen token som var här innan.
     HttpClient client = HttpClient.newHttpClient();
     HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(plantURL))
@@ -66,9 +68,13 @@ public class PlantService {
 
     Gson gson = new Gson();
     PlantDetail plantDetail = gson.fromJson(response.body(), PlantDetail.class);
-    String light = String.format("Light: %d" + plantDetail.data.main_species.growth.light); //hur mycket ljus växten behöver.
+    System.out.println(plantDetail.data.main_species.growth.light); //hur mycket ljus växten behöver.
     System.out.println(plantDetail.data.main_species.growth.maximum_precipitation); //mm per år
     System.out.println(plantDetail.data.main_species.growth.minimum_precipitation); //mm per år
+
+    String minWater = plantDetail.data.main_species.growth.minimum_precipitation.toString();
+    String maxWater = plantDetail.data.main_species.growth.minimum_precipitation.toString();
+    String light = plantDetail.data.main_species.growth.light.toString();
 
     /* ----ska användas till denna funktion, göras om
     try {
