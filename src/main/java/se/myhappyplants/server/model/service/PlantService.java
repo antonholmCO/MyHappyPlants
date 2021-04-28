@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Class responsable for calling API and collect information about plants.
  * Created by: Frida Jacobsson
- * Updated by:
+ * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
  */
 public class PlantService {
 
@@ -69,6 +69,7 @@ public class PlantService {
     System.out.println(plantDetail.data.main_species.growth.light); //hur mycket ljus växten behöver.
     System.out.println(plantDetail.data.main_species.growth.maximum_precipitation); //mm per år
     System.out.println(plantDetail.data.main_species.growth.minimum_precipitation); //mm per år
+
   }
   public long getWaterFrequency (String apiURL) throws IOException, InterruptedException {
     String token = PasswordsAndKeys.APIToken;

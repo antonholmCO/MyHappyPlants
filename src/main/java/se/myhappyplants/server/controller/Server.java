@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * Handles each connection with a new thread
  *
  * Created by: Christopher O'Driscoll
- * Updated by: Christopher, 2021-04-13
+ * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström 2021-04-28
  */
 public class Server implements Runnable {
 
@@ -103,7 +103,7 @@ public class Server implements Runnable {
      * @param request request object received from client
      * @return response to be sent back to client
      */
-    private Message getResponse(Message request) {
+    private Message getResponse(Message request) throws IOException, InterruptedException {
         Message response;
         String messageType = request.getMessageType();
 
@@ -160,6 +160,8 @@ public class Server implements Runnable {
                 boolean deleteSuccess = plantRepository.deletePlant(request.getUser(), request.getDbPlant().getNickname());
                 response = new Message("success", deleteSuccess);
                 break;
+            case "getMorePlantInfoOnSearch":
+                plantService.getMoreInformation(request.getPlant());
             default:
             response = new Message("fail", false);
             }
@@ -201,7 +203,7 @@ public class Server implements Runnable {
                     //todo remove test sout
                     System.out.println("Response sent");
                     oos.flush();
-                } catch (IOException | ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException | InterruptedException e) {
                     e.printStackTrace();
                     System.out.println("nej du");
                 }

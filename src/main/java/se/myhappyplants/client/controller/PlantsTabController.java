@@ -17,6 +17,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Created by: Christopher O'Driscoll
+ * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
+ */
+
 public class PlantsTabController {
 
     @FXML private MainPaneController mainPaneController;
@@ -96,5 +101,10 @@ public class PlantsTabController {
 
         mainPaneController.logoutButtonPressed();
 
+    }
+
+    public void getMorePlantInfo(APIPlant apiPlant) {
+        Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", apiPlant);
+        ClientConnection.getInstance().makeRequest(getInfoSearchedPlant);
     }
 }
