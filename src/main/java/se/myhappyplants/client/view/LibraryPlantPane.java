@@ -81,6 +81,7 @@ public class LibraryPlantPane extends Pane {
         waterButton.setOnAction(action -> {
             progressBar.setProgress(100);
             progressBar.setStyle("-fx-accent: 2D88AA");
+            controller.changeLastWateredInDB();
         });
 
         this.infoButton = new Button("Show plant info");
@@ -108,7 +109,9 @@ public class LibraryPlantPane extends Pane {
         changeOKButton.setOnAction(onPress -> {
             LocalDate date = datePicker.getValue();
             plant.setLastWatered(date);
-            System.out.println(plant.getLastWatered());
+            progressBar.setProgress(plant.getProgress());
+            setColorProgressBar(plant.getProgress());
+            controller.changeLastWateredInDB(date);
         });
 
         this.changePictureButton = new Button("Change plant picture");

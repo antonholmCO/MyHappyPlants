@@ -14,6 +14,7 @@ import se.myhappyplants.shared.Message;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class HomeTabController {
@@ -108,5 +109,15 @@ public class HomeTabController {
     @FXML private void logoutButtonPressed() throws IOException {
 
         mainPaneController.logoutButtonPressed();
+    }
+
+    public void changeLastWateredInDB() {
+
+        //write method to DB.
+    }
+
+    public void changeLastWateredInDB(LocalDate date) {
+
+        //write method to DB.
     }
 }
