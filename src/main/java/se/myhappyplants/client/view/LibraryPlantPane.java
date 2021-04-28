@@ -13,6 +13,7 @@ import javafx.util.Duration;
 import se.myhappyplants.client.controller.SecondaryController;
 import se.myhappyplants.shared.DBPlant;
 
+import java.awt.*;
 import java.io.File;
 
 /**
@@ -54,7 +55,7 @@ public class LibraryPlantPane extends Pane {
         image.setPreserveRatio(true);
         image.setImage(img);
 
-        this.nickname = new Label(plant.getNickname());
+        this.nickname =  new Label(plant.getNickname());
         double nicknameWidth = this.nickname.getWidth();
         this.nickname.setLayoutX(0);
         this.nickname.setLayoutY(65);
@@ -63,7 +64,9 @@ public class LibraryPlantPane extends Pane {
         //Region region = new Region();
         //region.setMinWidth(USE_COMPUTED_SIZE);
 
+
         this.progressBar = new ProgressBar(plant.getProgress());
+        setColorProgressBar(plant.getProgress());
         progressBar.setLayoutX(196.0);
         progressBar.setLayoutY(28.0);
         progressBar.setPrefHeight(18.0);
@@ -73,6 +76,10 @@ public class LibraryPlantPane extends Pane {
         waterButton.setLayoutX(436.0);
         waterButton.setLayoutY(59.0);
         waterButton.setMnemonicParsing(false);
+        waterButton.setOnAction(action -> {
+            progressBar.setProgress(100);
+            progressBar.setStyle("-fx-accent: 2D88AA");
+        });
 
         this.editButton = new Button("Edit plant");
         editButton.setLayoutX(675.0);
@@ -90,7 +97,14 @@ public class LibraryPlantPane extends Pane {
         infoButton.setLayoutX(196.0);
         infoButton.setLayoutY(59.0);
         infoButton.setMnemonicParsing(false);
-
+        infoButton.setOnAction(action -> {
+            if(!extended) {
+                extendPaneEditPlant();
+            }
+            else {
+                retractPane();
+            }
+        });
 
         this.changeNameButton = new Button("Change nickname");
         changeNameButton.setLayoutX(370.0);
@@ -114,6 +128,7 @@ public class LibraryPlantPane extends Pane {
         this.setPrefHeight(92.0);
         this.setPrefWidth(800.0);
         this.getChildren().addAll(image, this.nickname, progressBar, waterButton, editButton, infoButton, changeNameButton, changePictureButton, deleteButton);
+
     }
 
     public void extendPaneEditPlant() {
@@ -138,14 +153,20 @@ public class LibraryPlantPane extends Pane {
         timeline.setCycleCount(4);
         timeline.play();
         extended = false;
-
     }
 
-    private void removePlant(DBPlant plant) {
-        int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
-        if (answer == 1) {
-            controller.removePlantFromDatabase(plant);
-            controller.removePlantFromDatabase(plant);
+        //TODO: decide how we want colors in progressbar
+        private void setColorProgressBar(double progress){
+            if (progress < 0.15) {
+                progressBar.setStyle("-fx-accent: red");
+            }
         }
-    }
+
+        private void removePlant(DBPlant plant) {
+            int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
+            if (answer == 1) {
+                controller.removePlantFromDatabase(plant);
+                controller.removePlantFromDatabase(plant);
+            }
+        }
 }
