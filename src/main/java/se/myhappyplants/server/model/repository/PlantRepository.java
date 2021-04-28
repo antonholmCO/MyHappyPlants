@@ -7,6 +7,7 @@ import se.myhappyplants.shared.User;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -117,6 +118,18 @@ public class PlantRepository implements IPlantRepository {
     }
     catch (SQLException sqlException) {
       System.out.println(sqlException);
+      return false;
+    }
+  }
+
+  public boolean changeLastWatered(User user, String  nickname, LocalDate date) {
+    try {
+      String sqlSafeNickname = nickname.replace("'", "''");
+      String query = "UPDATE [Plant] SET last_watered = '" + date +"' WHERE user_id = " +user.getUniqueId() + " AND nickname = '" + sqlSafeNickname +"';";
+      statement.executeUpdate(query);
+      return true;
+    } catch (SQLException sqlException) {
+      sqlException.printStackTrace();
       return false;
     }
   }

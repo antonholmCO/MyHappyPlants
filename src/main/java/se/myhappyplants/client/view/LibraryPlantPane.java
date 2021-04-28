@@ -111,7 +111,7 @@ public class LibraryPlantPane extends Pane {
             plant.setLastWatered(date);
             progressBar.setProgress(plant.getProgress());
             setColorProgressBar(plant.getProgress());
-            controller.changeLastWateredInDB(date);
+            controller.changeLastWateredInDB(plant, date);
         });
 
         this.changePictureButton = new Button("Change plant picture");

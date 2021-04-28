@@ -116,7 +116,16 @@ public class HomeTabController {
         //write method to DB.
     }
 
-    public void changeLastWateredInDB(LocalDate date) {
+    public void changeLastWateredInDB(DBPlant plant, LocalDate date) {
+
+        Message changeLastWatered = new Message("changeLastWatered", LoggedInUser.getInstance().getUser(), plant, date);
+        Message response = ClientConnection.getInstance().makeRequest(changeLastWatered);
+        if (response.isSuccess()) {
+            System.out.println("tjoho");
+        }
+        else {
+            System.out.println("noope");
+        }
 
         //write method to DB.
     }
