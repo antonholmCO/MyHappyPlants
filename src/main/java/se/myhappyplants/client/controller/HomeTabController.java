@@ -92,18 +92,16 @@ public class HomeTabController {
     public void addPlantToCurrentUserLibrary(APIPlant plantAdd, String plantNickname) {
 
         int plantsWithThisNickname = 1;
+        String nonDuplicatePlantNickname = plantNickname;
         for (DBPlant plant : currentUserLibrary) {
-            if (plant.getNickname().equals(plantNickname)) {
+            if (plant.getNickname().equals(nonDuplicatePlantNickname)) {
                 plantsWithThisNickname++;
+                nonDuplicatePlantNickname = plantNickname + plantsWithThisNickname;
             }
         }
-        if (plantsWithThisNickname > 1) {
-            plantNickname = plantNickname + plantsWithThisNickname;
-        }
-
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
-        DBPlant plantToAdd = new DBPlant(plantNickname, plantAdd.getLinks().getPlant(), date);
+        DBPlant plantToAdd = new DBPlant(nonDuplicatePlantNickname, plantAdd.getLinks().getPlant(), date);
         addPlantToDatabase(plantToAdd);
     }
     @FXML
