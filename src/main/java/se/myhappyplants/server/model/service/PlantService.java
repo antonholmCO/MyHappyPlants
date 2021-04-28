@@ -75,8 +75,9 @@ public class PlantService {
     String minWater = plantDetail.data.main_species.growth.minimum_precipitation.toString();
     String maxWater = plantDetail.data.main_species.growth.minimum_precipitation.toString();
     String light = plantDetail.data.main_species.growth.light.toString();
+    String parsedWaterFreq = maxWater.substring(4, minWater.length()-3);
+    long waterFrequencyMilli = 0;
 
-    /* ----ska användas till denna funktion, göras om
     try {
       long week = 604000000l;
       //todo find better calculation for how often each plant needs watering
@@ -86,6 +87,7 @@ public class PlantService {
       int waterFrequencyInt = Integer.parseInt(parsedWaterFreq);
       if(waterFrequencyInt<=200) {
         waterFrequencyMilli = week * 4;
+
       }
       else if(waterFrequencyInt>200 && waterFrequencyInt<=400) {
         waterFrequencyMilli = week * 3;
@@ -104,7 +106,7 @@ public class PlantService {
 
     }
 
-     */
+
 
   }
   public long getWaterFrequency (String apiURL) throws IOException, InterruptedException {
