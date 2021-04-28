@@ -111,22 +111,11 @@ public class HomeTabController {
         mainPaneController.logoutButtonPressed();
     }
 
-    public void changeLastWateredInDB() {
-
-        //write method to DB.
-    }
-
     public void changeLastWateredInDB(DBPlant plant, LocalDate date) {
-
         Message changeLastWatered = new Message("changeLastWatered", LoggedInUser.getInstance().getUser(), plant, date);
         Message response = ClientConnection.getInstance().makeRequest(changeLastWatered);
-        if (response.isSuccess()) {
-            System.out.println("tjoho");
+        if (!response.isSuccess()) {
+            MessageBox.display("Fail", "Something went wrong when trying to change date");
         }
-        else {
-            System.out.println("noope");
-        }
-
-        //write method to DB.
     }
 }
