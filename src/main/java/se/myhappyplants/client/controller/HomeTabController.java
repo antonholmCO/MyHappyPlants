@@ -64,7 +64,6 @@ public class HomeTabController {
     }
     @FXML
     public void removePlantFromDatabase(DBPlant plant) {
-        System.out.println("hej");
         Message deletePlant = new Message("deletePlantFromLibrary", LoggedInUser.getInstance().getUser(), plant);
         Message response = ClientConnection.getInstance().makeRequest(deletePlant);
 
@@ -104,11 +103,14 @@ public class HomeTabController {
         } else {
             MessageBox.display("Fail", "Failed to add to database");
         }
-
     }
 
     @FXML private void logoutButtonPressed() throws IOException {
 
         mainPaneController.logoutButtonPressed();
+    }
+
+    public void openDatePicker() throws IOException {
+        StartClient.setRoot("datePicker");
     }
 }

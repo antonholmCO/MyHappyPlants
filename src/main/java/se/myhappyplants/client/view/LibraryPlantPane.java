@@ -13,7 +13,6 @@ import javafx.util.Duration;
 import se.myhappyplants.client.controller.HomeTabController;
 import se.myhappyplants.shared.DBPlant;
 
-import java.awt.*;
 import java.io.File;
 
 /**
@@ -29,7 +28,6 @@ public class LibraryPlantPane extends Pane {
     private ImageView image;
     private Label nickname;
     private ProgressBar progressBar;
-    private Button editButton;
     private Button infoButton;
     private Button waterButton;
 
@@ -37,6 +35,7 @@ public class LibraryPlantPane extends Pane {
     private Button changeNameButton;
     private Button changePictureButton;
     private Button deleteButton;
+    private Button changeLastWateredButton;
 
 
     private boolean extended;
@@ -80,19 +79,6 @@ public class LibraryPlantPane extends Pane {
             progressBar.setStyle("-fx-accent: 2D88AA");
         });
 
-
-        this.editButton = new Button("Edit plant");
-        editButton.setLayoutX(675.0);
-        editButton.setLayoutY(59.0);
-        editButton.setMnemonicParsing(false);
-        editButton.setOnAction(action -> {
-            if (!extended) {
-                extendPaneEditPlant();
-            } else {
-                retractPane();
-            }
-        });
-
         this.infoButton = new Button("Show plant info");
         infoButton.setLayoutX(150.0);
         infoButton.setLayoutY(59.0);
@@ -112,9 +98,19 @@ public class LibraryPlantPane extends Pane {
         changeNameButton.setMnemonicParsing(false);
 
         this.changePictureButton = new Button("Change plant picture");
-        changePictureButton.setLayoutX(480);
+        changePictureButton.setLayoutX(480.0);
         changePictureButton.setLayoutY(250.0);
         changePictureButton.setMnemonicParsing(false);
+
+        this.changeLastWateredButton = new Button("Change last watered");
+        changeLastWateredButton.setLayoutX(200.0);
+        changeLastWateredButton.setLayoutY(250.0);
+        changeLastWateredButton.setMnemonicParsing(false);
+        changeLastWateredButton.setOnAction(action -> {
+           //datepicker
+
+        });
+
 
         this.deleteButton = new Button("Delete plant");
         deleteButton.setLayoutX(625.0);
@@ -128,19 +124,18 @@ public class LibraryPlantPane extends Pane {
 
         this.setPrefHeight(92.0);
         this.setPrefWidth(750.0);
-        this.getChildren().addAll(image, nickname, progressBar, waterButton, editButton, infoButton);
+        this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
 
     }
 
     public void extendPaneEditPlant() {
-
 
             Timeline timeline = new Timeline(
                     new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() + 50))
             );
             timeline.setCycleCount(4);
             timeline.play();
-            timeline.setOnFinished(action -> this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton));
+            timeline.setOnFinished(action -> this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton, changeLastWateredButton));
             extended = true;
 
     }
