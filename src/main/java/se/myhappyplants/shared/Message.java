@@ -1,7 +1,5 @@
 package se.myhappyplants.shared;
 
-import se.myhappyplants.client.model.LoggedInUser;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -10,12 +8,12 @@ import java.util.ArrayList;
  * Class that can be used for communication between Client/Server
  * Client/Server via TCP
  * Created by: Christopher O'Driscoll
- * Updated by: Christopher, 2021-04-13
+ * Updated by: Linn Borgström 2021-04-29
  */
 public class Message implements Serializable {
 
     private String messageType;
-    private String searchWord;
+    private String messageText;
     private User user;
     private boolean success;
     private ArrayList<APIPlant> plantList;
@@ -23,9 +21,9 @@ public class Message implements Serializable {
     private DBPlant dbPlant;
     private APIPlant apiPlant;
 
-    public Message(String messageType, String searchWord) {
+    public Message(String messageType, String messageText) {
         this.messageType = messageType;
-        this.searchWord = searchWord;
+        this.messageText = messageText;
     }
 
     public Message(String messageType, User user) {
@@ -73,8 +71,8 @@ public class Message implements Serializable {
         return messageType;
     }
 
-    public String getSearchWord() {
-        return searchWord;
+    public String getMessageText() {
+        return messageText;
     }
 
     public User getUser() {

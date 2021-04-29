@@ -1,6 +1,5 @@
 package se.myhappyplants.server.controller;
 
-import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.server.model.repository.PlantRepository;
 import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.server.model.service.PlantService;
@@ -14,9 +13,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.SQLException;
-import java.net.UnknownHostException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -143,7 +139,7 @@ public class Server implements Runnable {
                 break;
             case "search":
                 try {
-                  ArrayList<APIPlant> plantList = plantService.getResult(request.getSearchWord());
+                  ArrayList<APIPlant> plantList = plantService.getResult(request.getMessageText());
                   response = new Message("search", plantList, true);
                 } catch (Exception e) {
                   response = new Message("search", false);
