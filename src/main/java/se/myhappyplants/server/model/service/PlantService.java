@@ -79,11 +79,13 @@ public class PlantService {
     Gson gson = new Gson();
     PlantDetail plantDetail = gson.fromJson(response.body(), PlantDetail.class);
 
+    String plantFamilyName = plant.getFamily_common_name();
+
     String minWater = plantDetail.data.main_species.growth.minimum_precipitation.toString();
     int light = plantDetail.data.main_species.growth.light;
     String lightText = controller.calculateLightLevel(light);
     String waterText =  controller.calculateWater(minWater);
-    String lightWaterInfo = lightText + "\n" + waterText;
+    String lightWaterInfo = "Family name: " + plantFamilyName + "\n" + "Light: " + lightText + "\n" + "Water: " + waterText;
     System.out.println(lightWaterInfo);
     return lightWaterInfo;
   }

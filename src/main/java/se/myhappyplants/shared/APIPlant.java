@@ -15,9 +15,6 @@ public class APIPlant implements Serializable {
   public String common_name;
   public String scientific_name;
   public String family_common_name;
-  private String lightLevel;
-  private String minWaterLevel;
-  private String maxWaterLevel;
   public URL image_url;
   public Links links;
 
@@ -80,27 +77,10 @@ public class APIPlant implements Serializable {
     this.links = links;
   }
 
-  public String getLightLevel() {
-    return lightLevel;
-  }
-
-  public String getMinWaterLevel() {
-    return minWaterLevel;
-  }
-
-  public String getMaxWaterLevel() {
-    return maxWaterLevel;
-  }
 
   public String toString() {
     String toString = String.format("Common name: %s \tFamily name: %s \tScientific name: %s ", common_name, family_common_name, scientific_name);
     return toString;
   }
-
-  public String toString2(){
-    String toString = String.format("Light level: %s \tMinimum water: %s \tMaximum water: %s ", lightLevel, minWaterLevel, maxWaterLevel);
-    return toString;
-  }
-
 
 }
