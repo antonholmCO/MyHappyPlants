@@ -28,6 +28,8 @@ public class SearchPlantPane extends Pane {
     private PlantsTabController plantsTabController;
     private ListView listView;
 
+    private ObservableList<String> getAllPlantInfo;
+
     private boolean extended;
 
     public SearchPlantPane(PlantsTabController plantsTabController, String imgPath, APIPlant apiPlant){
@@ -65,10 +67,13 @@ public class SearchPlantPane extends Pane {
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
             if(!extended) {
+                getAllPlantInfo = plantsTabController.getMorePlantInfo(apiPlant);
+                for (int i = 0; i < getAllPlantInfo.size(); i++) {
+                    listView.getItems().add(getAllPlantInfo.get(i).toString());
+                }
 
-                listView.setItems(plantsTabController.getMorePlantInfo(apiPlant));
                 extendPaneMoreInfoPlant();
-                System.out.println(plantsTabController.getMorePlantInfo(apiPlant));
+                System.out.println(" From searchPane " + plantsTabController.getMorePlantInfo(apiPlant));
             }
             else {
                 retractPane();
@@ -82,7 +87,7 @@ public class SearchPlantPane extends Pane {
         addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(apiPlant));
 
 
-        this.listView = new ListView();
+        listView = new ListView();
         listView.setLayoutX(this.getWidth());
         listView.setLayoutY(this.getHeight() + 56.0);
         listView.setPrefWidth(751.0);

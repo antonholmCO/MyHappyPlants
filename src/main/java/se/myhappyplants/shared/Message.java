@@ -14,6 +14,7 @@ public class Message implements Serializable {
 
     private String messageType;
     private String messageText;
+    private String[] stringArray;
     private User user;
     private boolean success;
     private ArrayList<APIPlant> plantList;
@@ -30,6 +31,11 @@ public class Message implements Serializable {
 
         this.messageType = messageType;
         this.user = user;
+    }
+
+    public Message(String messageType, String[] message){
+        this.messageType = messageType;
+        stringArray = message;
     }
 
     public Message(String messageType, boolean success) {
@@ -66,6 +72,9 @@ public class Message implements Serializable {
         this.apiPlant = apiPlant;
     }
 
+    public String[] getStringArray() {
+        return stringArray;
+    }
 
     public String getMessageType() {
         return messageType;

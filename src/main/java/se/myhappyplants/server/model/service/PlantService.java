@@ -64,7 +64,7 @@ public class PlantService {
    * @throws IOException
    * @throws InterruptedException
    */
-  public String getMoreInformation(APIPlant plant) throws IOException, InterruptedException {
+  public String[] getMoreInformation(APIPlant plant) throws IOException, InterruptedException {
     String token = PasswordsAndKeys.APIToken;
     String plantURL = trefleURL + plant.links.plant + "?token=" + token;
 
@@ -80,14 +80,20 @@ public class PlantService {
     PlantDetail plantDetail = gson.fromJson(response.body(), PlantDetail.class);
 
     String plantFamilyName = plant.getFamily_common_name();
+    if(plantFamilyName == null){
+      plantFamilyName = "Is does not have a family.";
+    }
 
     String minWater = plantDetail.data.main_species.growth.minimum_precipitation.toString();
     int light = plantDetail.data.main_species.growth.light;
     String lightText = controller.calculateLightLevel(light);
     String waterText =  controller.calculateWater(minWater);
-    String lightWaterInfo = "Family name: " + plantFamilyName + "\n" + "Light: " + lightText + "\n" + "Water: " + waterText;
-    System.out.println(lightWaterInfo);
-    return lightWaterInfo;
+    
+    String[] allInfo = new String[3];
+    allInfo[0] = plantFamilyName;
+    allInfo[1] = lightText;
+    allInfo[2] = waterText;
+    return allInfo;
   }
 
   public long getWaterFrequency (String apiURL) throws IOException, InterruptedException {

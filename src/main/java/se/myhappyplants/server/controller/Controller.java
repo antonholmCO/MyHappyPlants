@@ -82,7 +82,7 @@ public class Controller {
 
     public String calculateLightLevel(int light) {
         String lightText = String.valueOf(light);
-        if(lightText == null) {
+        if(lightText == null){
             lightText = "There's no information about the light level";
         }
         else if(light == 10){
@@ -105,6 +105,8 @@ public class Controller {
         }
         else if(light  == 1 || light == 2 ) {
             lightText = "Is happy in darkness";
+        } else {
+            lightText = "There's no information about the light level";
         }
 
         return lightText;
@@ -131,7 +133,10 @@ public class Controller {
         }
         else if(waterFrequencyInt>800) {
             waterText = "Needs water every other week";
+        } else {
+            waterText = "There's no information about the water level";
         }
+
         return waterText;
 
     }

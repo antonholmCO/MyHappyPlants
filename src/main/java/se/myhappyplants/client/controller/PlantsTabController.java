@@ -108,8 +108,11 @@ public class PlantsTabController {
         Message response = ClientConnection.getInstance().makeRequest(getInfoSearchedPlant);
         ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
         if(response != null) {
-           waterLightInfo.add(response.getMessageText());
+            for (int i = 0; i < response.getStringArray().length; i++) {
+                waterLightInfo.add(response.getStringArray()[i]);
+            }
         }
+        System.out.println("From PlantTabController: " + waterLightInfo.toString());
         return waterLightInfo;
     }
 }
