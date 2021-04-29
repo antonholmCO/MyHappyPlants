@@ -68,6 +68,7 @@ public class Message implements Serializable {
         this.apiPlant = apiPlant;
     }
 
+
     public String getMessageType() {
         return messageType;
     }

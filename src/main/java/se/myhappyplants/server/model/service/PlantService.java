@@ -67,6 +67,7 @@ public class PlantService {
   public String getMoreInformation(APIPlant plant) throws IOException, InterruptedException {
     String token = PasswordsAndKeys.APIToken;
     String plantURL = trefleURL + plant.links.plant + "?token=" + token;
+
     HttpClient client = HttpClient.newHttpClient();
     HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(plantURL))
@@ -83,7 +84,7 @@ public class PlantService {
     String lightText = controller.calculateLightLevel(light);
     String waterText =  controller.calculateWater(minWater);
     String lightWaterInfo = lightText + "\n" + waterText;
-
+    System.out.println(lightWaterInfo);
     return lightWaterInfo;
   }
 

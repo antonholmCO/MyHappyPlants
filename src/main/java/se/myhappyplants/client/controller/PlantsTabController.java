@@ -103,14 +103,13 @@ public class PlantsTabController {
 
     }
 
-    public void getMorePlantInfo(APIPlant apiPlant) {
+    public ObservableList<String> getMorePlantInfo(APIPlant apiPlant) {
         Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", apiPlant);
         Message response = ClientConnection.getInstance().makeRequest(getInfoSearchedPlant);
-
+        ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
         if(response != null) {
-            if(getInfoSearchedPlant.isSuccess()) {
-
-            }
+           waterLightInfo.add(response.getSearchWord());
         }
+        return waterLightInfo;
     }
 }
