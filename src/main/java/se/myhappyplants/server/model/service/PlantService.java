@@ -2,6 +2,7 @@ package se.myhappyplants.server.model.service;
 
 import com.google.gson.Gson;
 import se.myhappyplants.server.PasswordsAndKeys;
+import se.myhappyplants.server.controller.Controller;
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.server.model.plant.PlantCollection;
 import se.myhappyplants.server.model.plant.PlantDetail;
@@ -21,6 +22,15 @@ public class PlantService {
 
   private String trefleURL = "https://trefle.io";
   private String searchURL = trefleURL + "/api/v1/plants/search?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k&filter_not[maximum_precipitation_mm]=null&q=";
+  private Controller controller;
+
+  public PlantService(Controller controller){
+    this.controller=controller;
+  }
+
+  public PlantService() {
+
+  }
 
   /**
    * Method for getting common name, family name and scientific name based on a search word
@@ -73,42 +83,11 @@ public class PlantService {
     System.out.println(plantDetail.data.main_species.growth.minimum_precipitation); //mm per år
 
     String minWater = plantDetail.data.main_species.growth.minimum_precipitation.toString();
-    String maxWater = plantDetail.data.main_species.growth.minimum_precipitation.toString();
-    String light = plantDetail.data.main_species.growth.light.toString();
-    String parsedWaterFreq = maxWater.substring(4, minWater.length()-3);
-    long waterFrequencyMilli = 0;
-
-    try {
-      long week = 604000000l;
-      //todo find better calculation for how often each plant needs watering
-      //1 day = 86 000 000
-      //min water = 200mm/year -> 4 weeks
-      //min water = 1000mm/year -> 1 week
-      int waterFrequencyInt = Integer.parseInt(parsedWaterFreq);
-      if(waterFrequencyInt<=200) {
-        waterFrequencyMilli = week * 4;
-
-      }
-      else if(waterFrequencyInt>200 && waterFrequencyInt<=400) {
-        waterFrequencyMilli = week * 3;
-      }
-      else if(waterFrequencyInt>400 && waterFrequencyInt<=600) {
-        waterFrequencyMilli = week * 2;
-      }
-      else if(waterFrequencyInt>600 && waterFrequencyInt<=800) {
-        waterFrequencyMilli = week * 1;
-      }
-      else if(waterFrequencyInt>800) {
-        waterFrequencyMilli = week / 2;
-      }
-    }
-    catch (NumberFormatException e) {
-
-    }
-
-
-
+    int light = plantDetail.data.main_species.growth.light;
+    String lightText = controller.calculateLightLevel(light);
+    String waterText =  controller.calculateWater(minWater);
   }
+  
   public long getWaterFrequency (String apiURL) throws IOException, InterruptedException {
     String token = PasswordsAndKeys.APIToken;
     String plantURL = trefleURL + apiURL + "?token=" + token;

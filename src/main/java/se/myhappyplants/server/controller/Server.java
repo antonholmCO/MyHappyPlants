@@ -36,6 +36,7 @@ public class Server implements Runnable {
     private UserRepository userRepository;
     private PlantRepository plantRepository;
     private PlantService plantService;
+    private Controller controller;
 
     /**
      * Constructor opens a port and starts a thread to listen for incoming connections/requests
@@ -44,11 +45,12 @@ public class Server implements Runnable {
      * @param userRepository to handle db requests
      * @param plantService   to handle api requests
      */
-    public Server(int port, UserRepository userRepository, PlantRepository plantRepository, PlantService plantService) {
+    public Server(int port, UserRepository userRepository, PlantRepository plantRepository, PlantService plantService, Controller controller) {
         this(port);
         this.userRepository = userRepository;
         this.plantRepository = plantRepository;
         this.plantService = plantService;
+        this.controller=controller;
     }
 
     /**

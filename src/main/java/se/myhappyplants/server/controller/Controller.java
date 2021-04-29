@@ -1,6 +1,7 @@
 package se.myhappyplants.server.controller;
 
 
+import se.myhappyplants.server.model.service.PlantService;
 import se.myhappyplants.shared.User;
 import se.myhappyplants.server.model.repository.UserRepository;
 
@@ -15,9 +16,18 @@ import java.util.Scanner;
 
 public class Controller {
     private UserRepository userRepository;
+    private PlantService plantService;
 
     public Controller(UserRepository userRepository) {
         this.userRepository=userRepository;
+    }
+
+    public Controller(PlantService plantService) {
+        this.plantService=plantService;
+    }
+
+    public Controller() {
+
     }
 
     public void createNewUser() {
@@ -68,5 +78,41 @@ public class Controller {
         else {
             System.out.println("not successfully deleted in text");
         }
+    }
+
+    public String calculateLightLevel(int light) {
+        String lightText = String.valueOf(light);
+        if(lightText == null) {
+            lightText = "There's no information about the light level";
+        }
+        //if(light > )
+        return null;
+    }
+
+    public String calculateWater(String minWater) {
+        String waterText = null;
+        String parsedWaterFreq = minWater.substring(4, minWater.length()-3);
+        //todo find better calculation for how often each plant needs watering
+        //1 day = 86 000 000
+        //min water = 200mm/year -> 4 weeks
+        //min water = 1000mm/year -> 1 week
+        int waterFrequencyInt = Integer.parseInt(parsedWaterFreq);
+        if(waterFrequencyInt<=200) {
+            waterText = "Needs water 4 times a week";
+        }
+        else if(waterFrequencyInt>200 && waterFrequencyInt<=400) {
+            waterText = "Needs water 3 times a week";
+        }
+        else if(waterFrequencyInt>400 && waterFrequencyInt<=600) {
+            waterText = "Needs water 2 times a week";
+        }
+        else if(waterFrequencyInt>600 && waterFrequencyInt<=800) {
+            waterText = "Needs water 1 times a week";
+        }
+        else if(waterFrequencyInt>800) {
+            waterText = "Needs water every other week";
+        }
+        return waterText;
+
     }
 }

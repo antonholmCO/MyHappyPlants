@@ -7,7 +7,7 @@ package se.myhappyplants.server.model.plant;
 
 public class Growth {
 
-  public Object light;
+  public int light;
   public Object maximum_precipitation;
   public Object minimum_precipitation;
 }
