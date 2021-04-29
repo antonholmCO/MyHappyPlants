@@ -64,10 +64,9 @@ public class PlantService {
    * @throws IOException
    * @throws InterruptedException
    */
-  public void getMoreInformation(APIPlant plant) throws IOException, InterruptedException {
+  public String getMoreInformation(APIPlant plant) throws IOException, InterruptedException {
     String token = PasswordsAndKeys.APIToken;
     String plantURL = trefleURL + plant.links.plant + "?token=" + token;
-    //"?token=-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k" <-- Sen token som var här innan.
     HttpClient client = HttpClient.newHttpClient();
     HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(plantURL))
@@ -78,16 +77,16 @@ public class PlantService {
 
     Gson gson = new Gson();
     PlantDetail plantDetail = gson.fromJson(response.body(), PlantDetail.class);
-    System.out.println(plantDetail.data.main_species.growth.light); //hur mycket ljus växten behöver.
-    System.out.println(plantDetail.data.main_species.growth.maximum_precipitation); //mm per år
-    System.out.println(plantDetail.data.main_species.growth.minimum_precipitation); //mm per år
 
     String minWater = plantDetail.data.main_species.growth.minimum_precipitation.toString();
     int light = plantDetail.data.main_species.growth.light;
     String lightText = controller.calculateLightLevel(light);
     String waterText =  controller.calculateWater(minWater);
+    String lightWaterInfo = lightText + "\n" + waterText;
+
+    return lightWaterInfo;
   }
-  
+
   public long getWaterFrequency (String apiURL) throws IOException, InterruptedException {
     String token = PasswordsAndKeys.APIToken;
     String plantURL = trefleURL + apiURL + "?token=" + token;

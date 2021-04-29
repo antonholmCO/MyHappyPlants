@@ -11,7 +11,7 @@ import java.util.Scanner;
 /**
  * Test-class for testing DB, logging in and create account
  * Created by: Linn Borgström
- * Updated by: Frida Jacobsson
+ * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
  */
 
 public class Controller {
@@ -85,14 +85,34 @@ public class Controller {
         if(lightText == null) {
             lightText = "There's no information about the light level";
         }
-        //if(light > )
-        return null;
+        else if(light == 10){
+            lightText = "Is happy in direct sunlight";
+        }
+        else if(light == 9){
+            lightText = "Is happy in full daylight with a lot of direct sunlight";
+        }
+        else if(light == 8){
+            lightText = "Is happy in full daylight with some direct sunlight";
+        }
+        else if(light == 7){
+            lightText = "Is happy in full daylight without direct sunlight";
+        }
+        else if(light == 6 || light == 5){
+            lightText = "Is not happy to be placed in direct sunlight but still needs som light";
+        }
+        else if(light == 3 || light == 4){
+            lightText = "Is happy to be in darker areas";
+        }
+        else if(light  == 1 || light == 2 ) {
+            lightText = "Is happy in darkness";
+        }
+
+        return lightText;
     }
 
     public String calculateWater(String minWater) {
         String waterText = null;
         String parsedWaterFreq = minWater.substring(4, minWater.length()-3);
-        //todo find better calculation for how often each plant needs watering
         //1 day = 86 000 000
         //min water = 200mm/year -> 4 weeks
         //min water = 1000mm/year -> 1 week

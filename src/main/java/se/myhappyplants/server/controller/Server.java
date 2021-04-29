@@ -163,7 +163,8 @@ public class Server implements Runnable {
                 response = new Message("success", deleteSuccess);
                 break;
             case "getMorePlantInfoOnSearch":
-                plantService.getMoreInformation(request.getPlant());
+                String message = plantService.getMoreInformation(request.getPlant());
+                response = new Message("waterLightInfo", message);
             default:
             response = new Message("fail", false);
             }

@@ -105,6 +105,12 @@ public class PlantsTabController {
 
     public void getMorePlantInfo(APIPlant apiPlant) {
         Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", apiPlant);
-        ClientConnection.getInstance().makeRequest(getInfoSearchedPlant);
+        Message response = ClientConnection.getInstance().makeRequest(getInfoSearchedPlant);
+
+        if(response != null) {
+            if(getInfoSearchedPlant.isSuccess()) {
+
+            }
+        }
     }
 }
