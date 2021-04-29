@@ -65,10 +65,8 @@ public class LibraryPlantPane extends Pane {
         nickname.setAlignment(Pos.CENTER);
 
         this.progressBar = new ProgressBar(plant.getProgress());
-
         setColorProgressBar(plant.getProgress());
         progressBar.setLayoutX(196.0);
-
         progressBar.setLayoutY(28.0);
         progressBar.setPrefHeight(18.0);
         progressBar.setPrefWidth(575.0);
@@ -135,15 +133,16 @@ public class LibraryPlantPane extends Pane {
             removePlant(plant);
         });
 
-
         this.setPrefHeight(92.0);
         this.setPrefWidth(750.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
         this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton, changeLastWaterLbl, datePicker, changeOKButton);
     }
 
+    /**
+     * Method for expanding tab with "more information"-buttons.
+     */
     public void expand() {
-
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() + 50))
         );
@@ -151,14 +150,12 @@ public class LibraryPlantPane extends Pane {
         timeline.play();
         extended = true;
     }
-
+    /**
+     * Method for hiding tab with "more information"-buttons.
+     */
     public void collapse() {
-
         Timeline timeline = new Timeline(
-
                 new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() - 50))
-
-
         );
         timeline.setCycleCount(4);
         timeline.play();
@@ -173,11 +170,14 @@ public class LibraryPlantPane extends Pane {
         }
     }
 
+    /**
+     * Method to check with user if it is sure to delete a plant. Call controller to remove the plant from DB.
+     * @param plant instance of a plant to remove
+     */
     private void removePlant(DBPlant plant) {
         int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
         if (answer == 1) {
             controller.removePlantFromDatabase(plant);
         }
     }
-
 }

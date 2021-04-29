@@ -21,12 +21,16 @@ public class HomeTabController {
 
     private ArrayList<DBPlant> currentUserLibrary;
 
-    @FXML private MainPaneController mainPaneController;
+    @FXML
+    private MainPaneController mainPaneController;
 
-    @FXML private Label lblUsernameHome;
-    @FXML private ListView userPlantLibrary;
+    @FXML
+    private Label lblUsernameHome;
+    @FXML
+    private ListView userPlantLibrary;
 
-    @FXML public void initialize() {
+    @FXML
+    public void initialize() {
 
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameHome.setText(loggedInUser.getUser().getUsername());
@@ -36,16 +40,17 @@ public class HomeTabController {
         addCurrentUserLibraryToHomeScreen();
     }
 
-    public void setSecondaryController (MainPaneController mainPaneController) {
+    public void setSecondaryController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
+
     @FXML
     void addCurrentUserLibraryToHomeScreen() {
         //Add a Pane for each plant
 
         //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
         ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
-        for (DBPlant plant: currentUserLibrary) {
+        for (DBPlant plant : currentUserLibrary) {
             plantpane.add(new LibraryPlantPane(this, "resources/images/sapling_in_pot.png", plant));
         }
         userPlantLibrary.setItems(plantpane);
@@ -63,6 +68,7 @@ public class HomeTabController {
             MessageBox.display("Fail", "Failed to add to database");
         }
     }
+
     @FXML
     public void removePlantFromDatabase(DBPlant plant) {
         Message deletePlant = new Message("deletePlantFromLibrary", LoggedInUser.getInstance().getUser(), plant);
@@ -75,9 +81,9 @@ public class HomeTabController {
             MessageBox.display("Error", "Could not delete plant");
         }
     }
+
     @FXML
     public void addPlantToCurrentUserLibrary(APIPlant plantAdd, String plantNickname) {
-
         int plantsWithThisNickname = 1;
         for (DBPlant plant : currentUserLibrary) {
             if (plant.getNickname().equals(plantNickname)) {
@@ -93,9 +99,9 @@ public class HomeTabController {
         DBPlant plantToAdd = new DBPlant(plantNickname, plantAdd.getLinks().getPlant(), date);
         addPlantToDatabase(plantToAdd);
     }
+
     @FXML
     public void addPlantToDatabase(DBPlant plant) {
-
         Message savePlant = new Message("savePlant", LoggedInUser.getInstance().getUser(), plant);
         Message response = ClientConnection.getInstance().makeRequest(savePlant);
         if (response.isSuccess()) {
@@ -106,11 +112,16 @@ public class HomeTabController {
         }
     }
 
-    @FXML private void logoutButtonPressed() throws IOException {
-
+    @FXML
+    private void logoutButtonPressed() throws IOException {
         mainPaneController.logoutButtonPressed();
     }
 
+    /**
+     * Method to change last watered date in database, send a request to server and get a boolean respons depending on the result
+     * @param plant instance of the plant which to change last watered date
+     * @param date new date to change to
+     */
     public void changeLastWateredInDB(DBPlant plant, LocalDate date) {
         Message changeLastWatered = new Message("changeLastWatered", LoggedInUser.getInstance().getUser(), plant, date);
         Message response = ClientConnection.getInstance().makeRequest(changeLastWatered);

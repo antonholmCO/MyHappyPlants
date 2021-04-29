@@ -33,7 +33,7 @@ public class PlantRepository implements IPlantRepository {
   /**
    * Method to save a new plant in database
    * Author: Frida Jacobsson
-   * Updated 2021-04-15 Christopher
+   * Updated Frida Jacobsson 2021-04-29
    *
    * @param plant an instance of a newly created plant by user
    * @return a boolean value, true if the plant was stored successfully
@@ -89,8 +89,6 @@ public class PlantRepository implements IPlantRepository {
 
   /**
    * Method that returns one specific plant based on nickname.
-   * TODO Not sure if it will be needed but in case of! EDIT
-   *
    * @param nickname
    * @return an instance of a specific plant from the database, null if no plant with the specific nickname exists
    */
@@ -109,6 +107,12 @@ public class PlantRepository implements IPlantRepository {
     }
   }
 
+  /**
+   * Method that makes a query to delete a specific plant from table Plant
+   * @param user the user that owns the plant
+   * @param nickname nicknname of the plant
+   * @return boolean result depending on the result, false if exception
+   */
   public boolean deletePlant(User user, String nickname) {
     try {
       String sqlSafeNickname = nickname.replace("'", "''");
@@ -122,6 +126,13 @@ public class PlantRepository implements IPlantRepository {
     }
   }
 
+  /**
+   * Method that makes a query to change the last watered date of a specific plant in table Plant
+   * @param user the user that owns the plant
+   * @param nickname nickname of the plant
+   * @param date new data to change to
+   * @return boolean result depending on the result, false if exception
+   */
   public boolean changeLastWatered(User user, String  nickname, LocalDate date) {
     try {
       String sqlSafeNickname = nickname.replace("'", "''");
