@@ -69,7 +69,6 @@ public class User implements Serializable {
 
     this.email = email;
     this.password = password;
-    setAvatarOnLogin(email);
   }
 
   public User(int uniqueID, String email, String username, boolean notificationsActivated) {
@@ -83,16 +82,12 @@ public class User implements Serializable {
 
   private void setAvatarOnLogin(String email) {
     try (BufferedReader br = new BufferedReader(new FileReader("resources/images/user_avatars/" + email + "_avatar.txt"))) {
-      String readtxt = br.readLine();
-      System.out.println(readtxt);
-      this.avatarURL = new File(readtxt).toURI().toString();
-      System.out.println("file");
+        String readtxt = br.readLine();
+        this.avatarURL = new File(readtxt).toURI().toString();
     } catch (IOException e) {
-      System.out.println("here again");
-      this.avatarURL = new File("resources/images/user_default_img.png").toURI().toString();
+        this.avatarURL = new File("resources/images/user_default_img.png").toURI().toString();
     }
   }
-
 
   public int getUniqueId() {
     return uniqueId;
