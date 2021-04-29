@@ -130,6 +130,12 @@ public class HomeTabController {
         }
     }
 
+    /**
+     *
+     * @param plant
+     * @param newNickname
+     * @return
+     */
     public boolean changeNicknameInDB(DBPlant plant, String newNickname) {
         Message changeNicknameinDB = new Message("changeNickname", LoggedInUser.getInstance().getUser(), plant, newNickname);
         Message response = ClientConnection.getInstance().makeRequest(changeNicknameinDB);

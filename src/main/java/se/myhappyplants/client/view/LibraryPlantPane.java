@@ -160,7 +160,6 @@ public class LibraryPlantPane extends Pane {
         extended = false;
     }
 
-
     //TODO: decide how we want colors in progressbar
     private void setColorProgressBar(double progress) {
         if (progress < 0.15) {
@@ -179,6 +178,10 @@ public class LibraryPlantPane extends Pane {
         }
     }
 
+    /**
+     *
+     * @param plant
+     */
     private void changeNickname(DBPlant plant) {
         String newNickname = MessageBox.askForStringInput("Change nickname", "Type new nickname:");
         if(controller.changeNicknameInDB(plant, newNickname)) {
@@ -186,6 +189,10 @@ public class LibraryPlantPane extends Pane {
         }
     }
 
+    /**
+     *
+     * @param plant
+     */
     private void changeDate(DBPlant plant) {
         LocalDate date = datePicker.getValue();
         plant.setLastWatered(date);
