@@ -129,4 +129,9 @@ public class HomeTabController {
             MessageBox.display("Fail", "Something went wrong when trying to change date");
         }
     }
+
+    public void changeNicknameInDB(DBPlant plant, String newNickname) {
+
+
+    }
 }

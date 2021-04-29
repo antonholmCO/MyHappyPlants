@@ -36,17 +36,25 @@ public class DBPlant implements Serializable {
     this.waterFrequency = waterFrequency;
   }
 
-  @Override
-  public String toString() {
-    return nickname;
-  }
-
   public String getNickname() {
     return nickname;
   }
 
+  public void setNickname(String newNickname) {
+    this.nickname = newNickname;
+  }
+
   public String getURL() {
     return apiURL;
+  }
+
+  public String getLastWatered() {
+    return lastWatered.toString();
+  }
+
+  public void setLastWatered(LocalDate localDate) {
+    Date date = java.sql.Date.valueOf(localDate);
+    this.lastWatered = date;
   }
 
   public double getProgress () {
@@ -59,12 +67,9 @@ public class DBPlant implements Serializable {
     }
     return progress;
   }
-  public String getLastWatered() {
-    return lastWatered.toString();
-  }
 
-  public void setLastWatered(LocalDate localDate) {
-    Date date = java.sql.Date.valueOf(localDate);
-    this.lastWatered = date;
+  @Override
+  public String toString() {
+    return nickname;
   }
 }

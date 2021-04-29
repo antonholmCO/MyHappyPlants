@@ -97,17 +97,16 @@ public class LibraryPlantPane extends Pane {
         changeNameButton.setLayoutX(350.0);
         changeNameButton.setLayoutY(250.0);
         changeNameButton.setMnemonicParsing(false);
+        changeNameButton.setOnAction(onPress -> {
+            changeNickname(plant);
+        });
 
         this.changeOKButton = new Button("Submit");
         changeOKButton.setLayoutX(210.0);
         changeOKButton.setLayoutY(250.0);
         changeOKButton.setMnemonicParsing(false);
         changeOKButton.setOnAction(onPress -> {
-            LocalDate date = datePicker.getValue();
-            plant.setLastWatered(date);
-            progressBar.setProgress(plant.getProgress());
-            setColorProgressBar(plant.getProgress());
-            controller.changeLastWateredInDB(plant, date);
+            changeDate(plant);
         });
 
         this.changePictureButton = new Button("Change plant picture");
@@ -179,5 +178,19 @@ public class LibraryPlantPane extends Pane {
         if (answer == 1) {
             controller.removePlantFromDatabase(plant);
         }
+    }
+
+    private void changeNickname(DBPlant plant) {
+        String newNickname = MessageBox.askForStringInput("Change nickname", "Type new nickname:");
+        plant.setNickname(newNickname);
+        controller.changeNicknameInDB(plant, newNickname);
+    }
+
+    private void changeDate(DBPlant plant) {
+        LocalDate date = datePicker.getValue();
+        plant.setLastWatered(date);
+        progressBar.setProgress(plant.getProgress());
+        setColorProgressBar(plant.getProgress());
+        controller.changeLastWateredInDB(plant, date);
     }
 }
