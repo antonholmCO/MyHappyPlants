@@ -41,7 +41,6 @@ public class LibraryPlantPane extends Pane {
     private DatePicker datePicker;
     private Button changeOKButton;
 
-
     private boolean extended;
 
     public LibraryPlantPane(HomeTabController controller, String imgPath, DBPlant plant) {
@@ -182,8 +181,9 @@ public class LibraryPlantPane extends Pane {
 
     private void changeNickname(DBPlant plant) {
         String newNickname = MessageBox.askForStringInput("Change nickname", "Type new nickname:");
-        plant.setNickname(newNickname);
-        controller.changeNicknameInDB(plant, newNickname);
+        if(controller.changeNicknameInDB(plant, newNickname)) {
+            nickname.setText(newNickname);
+        }
     }
 
     private void changeDate(DBPlant plant) {
@@ -193,4 +193,5 @@ public class LibraryPlantPane extends Pane {
         setColorProgressBar(plant.getProgress());
         controller.changeLastWateredInDB(plant, date);
     }
+
 }

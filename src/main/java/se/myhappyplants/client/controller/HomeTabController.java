@@ -126,12 +126,20 @@ public class HomeTabController {
         Message changeLastWatered = new Message("changeLastWatered", LoggedInUser.getInstance().getUser(), plant, date);
         Message response = ClientConnection.getInstance().makeRequest(changeLastWatered);
         if (!response.isSuccess()) {
-            MessageBox.display("Fail", "Something went wrong when trying to change date");
+            MessageBox.display("Fail", "Something went wrong trying to change date");
         }
     }
 
-    public void changeNicknameInDB(DBPlant plant, String newNickname) {
-
-
+    public boolean changeNicknameInDB(DBPlant plant, String newNickname) {
+        Message changeNicknameinDB = new Message("changeNickname", LoggedInUser.getInstance().getUser(), plant, newNickname);
+        Message response = ClientConnection.getInstance().makeRequest(changeNicknameinDB);
+        if(!response.isSuccess()) {
+            MessageBox.display("Fail", "Something went wrong trying to change nickname");
+            return false;
+        }
+        else {
+            plant.setNickname(newNickname);
+            return true;
+        }
     }
 }

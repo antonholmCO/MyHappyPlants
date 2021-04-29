@@ -145,4 +145,16 @@ public class PlantRepository implements IPlantRepository {
     }
   }
 
+  public boolean changeNickname(User user, String  nickname, String newNickname) {
+    try {
+      String sqlSafeNickname = nickname.replace("'", "''");
+      String sqlSafeNewNickname = newNickname.replace("'", "''");
+      String query = "UPDATE [Plant] SET nickname = '" + sqlSafeNewNickname +"' WHERE user_id = " +user.getUniqueId() + " AND nickname = '" + sqlSafeNickname +"';";
+      statement.executeUpdate(query);
+      return true;
+    } catch (SQLException sqlException) {
+      sqlException.printStackTrace();
+      return false;
+    }
+  }
 }

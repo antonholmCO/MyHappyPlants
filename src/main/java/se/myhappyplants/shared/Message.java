@@ -23,6 +23,7 @@ public class Message implements Serializable {
     private ArrayList<APIPlant> plantList;
     private ArrayList<DBPlant> plantLibrary;
     private DBPlant dbPlant;
+    private String newNickname;
 
     public Message(String messageType, String searchWord) {
         this.messageType = messageType;
@@ -69,6 +70,17 @@ public class Message implements Serializable {
         this.user = user;
         this.dbPlant = dbPlant;
         this.date = date;
+    }
+
+    public Message(String messageType, User user, DBPlant plant, String newNickname) {
+        this.messageType = messageType;
+        this.user = user;
+        this.dbPlant = plant;
+        this.newNickname = newNickname;
+    }
+
+    public String getNewNickname() {
+        return newNickname;
     }
 
     public String getMessageType() {
