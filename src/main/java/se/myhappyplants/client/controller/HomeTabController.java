@@ -136,4 +136,8 @@ public class HomeTabController {
             MessageBox.display("Fail", "Something went wrong when trying to change date");
         }
     }
+
+    public void updateAvatar() {
+        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+    }
 }

@@ -99,4 +99,8 @@ public class PlantsTabController {
         mainPaneController.logoutButtonPressed();
 
     }
+
+    public void updateAvatar() {
+        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+    }
 }

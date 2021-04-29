@@ -64,4 +64,11 @@ public class MainPaneController {
   }
 
 
+  public void updateAvatarOnAllTabs() {
+    homePaneController.updateAvatar();
+    plantsPaneController.updateAvatar();
+    settingsPaneController.updateAvatar();
+  }
+
+
 }
