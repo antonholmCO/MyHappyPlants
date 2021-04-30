@@ -3,6 +3,7 @@ package se.myhappyplants.shared;
 import se.myhappyplants.client.model.LoggedInUser;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -18,9 +19,11 @@ public class Message implements Serializable {
     private String searchWord;
     private User user;
     private boolean success;
+    private LocalDate date;
     private ArrayList<APIPlant> plantList;
     private ArrayList<DBPlant> plantLibrary;
     private DBPlant dbPlant;
+    private String newNickname;
 
     public Message(String messageType, String searchWord) {
         this.messageType = messageType;
@@ -62,6 +65,24 @@ public class Message implements Serializable {
     this.user = user;
     }
 
+    public Message (String messageType, User user, DBPlant dbPlant, LocalDate date) {
+        this.messageType = messageType;
+        this.user = user;
+        this.dbPlant = dbPlant;
+        this.date = date;
+    }
+
+    public Message(String messageType, User user, DBPlant plant, String newNickname) {
+        this.messageType = messageType;
+        this.user = user;
+        this.dbPlant = plant;
+        this.newNickname = newNickname;
+    }
+
+    public String getNewNickname() {
+        return newNickname;
+    }
+
     public String getMessageType() {
         return messageType;
     }
@@ -88,5 +109,9 @@ public class Message implements Serializable {
 
     public ArrayList<DBPlant> getPlantLibrary() {
         return plantLibrary;
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 }

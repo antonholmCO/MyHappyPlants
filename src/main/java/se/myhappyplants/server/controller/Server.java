@@ -160,6 +160,14 @@ public class Server implements Runnable {
                 boolean deleteSuccess = plantRepository.deletePlant(request.getUser(), request.getDbPlant().getNickname());
                 response = new Message("success", deleteSuccess);
                 break;
+            case "changeLastWatered":
+                boolean changeDateSuccess = plantRepository.changeLastWatered(request.getUser(), request.getDbPlant().getNickname(), request.getDate());
+                response = new Message("success", changeDateSuccess);
+                break;
+            case "changeNickname":
+                boolean changeNicknameSuccess = plantRepository.changeNickname(request.getUser(), request.getDbPlant().getNickname(), request.getNewNickname());
+                response = new Message("success", changeNicknameSuccess);
+                break;
             default:
             response = new Message("fail", false);
             }
