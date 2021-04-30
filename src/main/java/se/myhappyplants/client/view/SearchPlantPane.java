@@ -9,13 +9,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.PlantsTabController;
 import se.myhappyplants.shared.APIPlant;
 
 /**
  * * Created by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
- * * Updated by: Linn Borgström, Eric Simonsson, Susanne Vikström 2021-04-28
+ * * Updated by: Linn Borgström, 2021-04-30
  */
 public class SearchPlantPane extends Pane {
     private ImageView image;
@@ -27,6 +28,9 @@ public class SearchPlantPane extends Pane {
     private APIPlant apiPlant;
     private PlantsTabController plantsTabController;
     private ListView listView;
+    private Label lblFamilyName;
+    private Label lblLightText;
+    private Label lblWaterText;
 
     private ObservableList<String> getAllPlantInfo;
 
@@ -85,11 +89,36 @@ public class SearchPlantPane extends Pane {
         addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(apiPlant));
 
         listView = new ListView();
-        listView.setLayoutX(this.getWidth());
+        listView.setLayoutX(90.0); //this.getWidth()
         listView.setLayoutY(this.getHeight() + 56.0);
-        listView.setPrefWidth(751.0);
+        listView.setPrefWidth(651.0); //751.0
         listView.setPrefHeight(150.0);
 
+        Font font = new Font("Arial Bold",12.0);
+
+        lblFamilyName = new Label();
+        lblFamilyName.setText("Family name: ");
+        lblFamilyName.setLayoutX(5.0);
+        lblFamilyName.setLayoutY(60.0);
+        lblFamilyName.setPrefHeight(15.0);
+        lblFamilyName.setPrefWidth(100.0);
+        lblFamilyName.setFont(font);
+
+        lblLightText = new Label();
+        lblLightText.setText("Light: ");
+        lblLightText.setLayoutX(5.0);
+        lblLightText.setLayoutY(85.0);
+        lblLightText.setPrefHeight(15.0);
+        lblLightText.setPrefWidth(100.0);
+        lblLightText.setFont(font);
+
+        lblWaterText = new Label();
+        lblWaterText.setText("Water: ");
+        lblWaterText.setLayoutX(5.0);
+        lblWaterText.setLayoutY(105.0);
+        lblWaterText.setPrefHeight(15.0);
+        lblWaterText.setPrefWidth(100.0);
+        lblWaterText.setFont(font);
 
         this.prefHeight(56.0);
         this.prefWidth(761.0);
@@ -118,7 +147,7 @@ public class SearchPlantPane extends Pane {
         );
         timeline.setCycleCount(4);
         timeline.play();
-        timeline.setOnFinished(action -> this.getChildren().addAll(listView));
+        timeline.setOnFinished(action -> this.getChildren().addAll(listView,lblFamilyName,lblLightText,lblWaterText));
         extended = true;
 
     }
