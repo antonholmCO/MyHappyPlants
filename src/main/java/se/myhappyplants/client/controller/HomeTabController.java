@@ -5,6 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
@@ -12,39 +14,50 @@ import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class HomeTabController {
 
     private ArrayList<DBPlant> currentUserLibrary;
 
-    @FXML private MainPaneController mainPaneController;
+    @FXML
+    private MainPaneController mainPaneController;
 
-    @FXML private Label lblUsernameHome;
-    @FXML private ListView userPlantLibrary;
+    @FXML
+    private ImageView imgUserPicture;
 
-    @FXML public void initialize() {
+    @FXML
+    private Label lblUsernameHome;
+
+    @FXML
+    private ListView userPlantLibrary;
+
+    @FXML
+    public void initialize() {
 
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameHome.setText(loggedInUser.getUser().getUsername());
-        //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+        imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
 
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
     }
 
-    public void setSecondaryController (MainPaneController mainPaneController) {
+    public void setSecondaryController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
+
     @FXML
     void addCurrentUserLibraryToHomeScreen() {
         //Add a Pane for each plant
 
         //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
         ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
-        for (DBPlant plant: currentUserLibrary) {
+        for (DBPlant plant : currentUserLibrary) {
             plantpane.add(new LibraryPlantPane(this, "resources/images/sapling_in_pot.png", plant));
         }
         userPlantLibrary.setItems(plantpane);
@@ -62,9 +75,9 @@ public class HomeTabController {
             MessageBox.display("Fail", "Failed to add to database");
         }
     }
+
     @FXML
     public void removePlantFromDatabase(DBPlant plant) {
-        System.out.println("hej");
         Message deletePlant = new Message("deletePlantFromLibrary", LoggedInUser.getInstance().getUser(), plant);
         Message response = ClientConnection.getInstance().makeRequest(deletePlant);
 
@@ -75,9 +88,9 @@ public class HomeTabController {
             MessageBox.display("Error", "Could not delete plant");
         }
     }
+
     @FXML
     public void addPlantToCurrentUserLibrary(APIPlant plantAdd, String plantNickname) {
-
         int plantsWithThisNickname = 1;
         for (DBPlant plant : currentUserLibrary) {
             if (plant.getNickname().equals(plantNickname)) {
@@ -93,9 +106,9 @@ public class HomeTabController {
         DBPlant plantToAdd = new DBPlant(plantNickname, plantAdd.getLinks().getPlant(), date);
         addPlantToDatabase(plantToAdd);
     }
+
     @FXML
     public void addPlantToDatabase(DBPlant plant) {
-
         Message savePlant = new Message("savePlant", LoggedInUser.getInstance().getUser(), plant);
         Message response = ClientConnection.getInstance().makeRequest(savePlant);
         if (response.isSuccess()) {
@@ -104,11 +117,46 @@ public class HomeTabController {
         } else {
             MessageBox.display("Fail", "Failed to add to database");
         }
-
     }
 
-    @FXML private void logoutButtonPressed() throws IOException {
-
+    @FXML
+    private void logoutButtonPressed() throws IOException {
         mainPaneController.logoutButtonPressed();
+    }
+
+    /**
+     * Method to change last watered date in database, send a request to server and get a boolean respons depending on the result
+     * @param plant instance of the plant which to change last watered date
+     * @param date new date to change to
+     */
+    public void changeLastWateredInDB(DBPlant plant, LocalDate date) {
+        Message changeLastWatered = new Message("changeLastWatered", LoggedInUser.getInstance().getUser(), plant, date);
+        Message response = ClientConnection.getInstance().makeRequest(changeLastWatered);
+        if (!response.isSuccess()) {
+            MessageBox.display("Fail", "Something went wrong trying to change date");
+        }
+    }
+
+    /**
+     *
+     * @param plant
+     * @param newNickname
+     * @return
+     */
+    public boolean changeNicknameInDB(DBPlant plant, String newNickname) {
+        Message changeNicknameinDB = new Message("changeNickname", LoggedInUser.getInstance().getUser(), plant, newNickname);
+        Message response = ClientConnection.getInstance().makeRequest(changeNicknameinDB);
+        if(!response.isSuccess()) {
+            MessageBox.display("Fail", "Something went wrong trying to change nickname");
+            return false;
+        }
+        else {
+            plant.setNickname(newNickname);
+            return true;
+        }
+    }
+
+    public void updateAvatar() {
+        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
     }
 }

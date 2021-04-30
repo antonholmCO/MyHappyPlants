@@ -1,6 +1,7 @@
 package se.myhappyplants.shared;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -17,10 +18,12 @@ public class Message implements Serializable {
     private String[] stringArray;
     private User user;
     private boolean success;
+    private LocalDate date;
     private ArrayList<APIPlant> plantList;
     private ArrayList<DBPlant> plantLibrary;
     private DBPlant dbPlant;
     private APIPlant apiPlant;
+    private String newNickname;
 
     public Message(String messageType, String messageText) {
         this.messageType = messageType;
@@ -74,6 +77,23 @@ public class Message implements Serializable {
 
     public String[] getStringArray() {
         return stringArray;
+      
+    public Message (String messageType, User user, DBPlant dbPlant, LocalDate date) {
+        this.messageType = messageType;
+        this.user = user;
+        this.dbPlant = dbPlant;
+        this.date = date;
+    }
+
+    public Message(String messageType, User user, DBPlant plant, String newNickname) {
+        this.messageType = messageType;
+        this.user = user;
+        this.dbPlant = plant;
+        this.newNickname = newNickname;
+    }
+
+    public String getNewNickname() {
+        return newNickname;
     }
 
     public String getMessageType() {
@@ -106,5 +126,8 @@ public class Message implements Serializable {
 
     public APIPlant getPlant() {
         return apiPlant;
+    }
+    public LocalDate getDate() {
+        return date;
     }
 }
