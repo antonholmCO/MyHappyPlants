@@ -36,7 +36,7 @@ public class Message implements Serializable {
         this.user = user;
     }
 
-    public Message(String messageType, String[] message){
+    public Message(String messageType, String[] message) {
         this.messageType = messageType;
         stringArray = message;
     }
@@ -50,6 +50,7 @@ public class Message implements Serializable {
         this(messageType, success);
         this.user = user;
     }
+
     public Message(String messageType, User user, ArrayList<DBPlant> plantLibrary, boolean success) {
         this(messageType, user, success);
         this.plantLibrary = plantLibrary;
@@ -65,11 +66,6 @@ public class Message implements Serializable {
         this.dbPlant = plant;
     }
 
-    public Message(String messageType, User user, String password) {
-    this.messageType = messageType;
-    this.user = user;
-    }
-
     public Message(String messageType, APIPlant apiPlant) {
         this.messageType = messageType;
         this.apiPlant = apiPlant;
@@ -78,8 +74,8 @@ public class Message implements Serializable {
     public String[] getStringArray() {
         return stringArray;
     }
-      
-    public Message (String messageType, User user, DBPlant dbPlant, LocalDate date) {
+
+    public Message(String messageType, User user, DBPlant dbPlant, LocalDate date) {
         this.messageType = messageType;
         this.user = user;
         this.dbPlant = dbPlant;
@@ -128,6 +124,7 @@ public class Message implements Serializable {
     public APIPlant getPlant() {
         return apiPlant;
     }
+
     public LocalDate getDate() {
         return date;
     }

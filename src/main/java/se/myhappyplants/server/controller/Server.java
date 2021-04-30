@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Server that listens for incoming connections
  * Handles each connection with a new thread
- *
+ * <p>
  * Created by: Christopher O'Driscoll
  * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström 2021-04-28
  */
@@ -46,7 +46,7 @@ public class Server implements Runnable {
         this.userRepository = userRepository;
         this.plantRepository = plantRepository;
         this.plantService = plantService;
-        this.controller=controller;
+        this.controller = controller;
     }
 
     /**
@@ -113,37 +113,37 @@ public class Server implements Runnable {
 
                 boolean loginSuccess = userRepository.checkLogin(email, password);
                 if (loginSuccess) {
-                  User user = userRepository.getUserDetails(email);
-                  response = new Message("login", user, true);
+                    User user = userRepository.getUserDetails(email);
+                    response = new Message("login", user, true);
                 } else {
-                  response = new Message("login", false);
+                    response = new Message("login", false);
                 }
                 break;
             case "register":
                 /*response = new Message("register", request.getUser(), true);*/
                 User user = request.getUser();
                 if (userRepository.saveUser(user)) {
-                  User savedUser = userRepository.getUserDetails(user.getEmail());
-                  response = new Message("registration", savedUser, true);
+                    User savedUser = userRepository.getUserDetails(user.getEmail());
+                    response = new Message("registration", savedUser, true);
                 } else {
-                  response = new Message("registration", false);
+                    response = new Message("registration", false);
                 }
                 break;
             case "delete account":
                 User userToDelete = request.getUser();
                 if (userRepository.deleteAccount(userToDelete.getEmail(), userToDelete.getPassword())) {
-                  response = new Message("delete account", true);
+                    response = new Message("delete account", true);
                 } else {
-                  response = new Message("delete account", false);
+                    response = new Message("delete account", false);
                 }
                 break;
             case "search":
                 try {
-                  ArrayList<APIPlant> plantList = plantService.getResult(request.getMessageText());
-                  response = new Message("search", plantList, true);
+                    ArrayList<APIPlant> plantList = plantService.getResult(request.getMessageText());
+                    response = new Message("search", plantList, true);
                 } catch (Exception e) {
-                  response = new Message("search", false);
-                  e.printStackTrace();
+                    response = new Message("search", false);
+                    e.printStackTrace();
                 }
                 break;
             case "getLibrary":
@@ -171,50 +171,51 @@ public class Server implements Runnable {
                 response = new Message("success", changeNicknameSuccess);
                 break;
             default:
-            response = new Message("fail", false);
-            }
+                response = new Message("fail", false);
+        }
         return response;
-  }
+    }
+
+    /**
+     * Thread that accepts requests and delivers responses to a connected client
+     */
+    private class ClientHandler extends Thread {
+
+        private final Socket socket;
+        private final ObjectInputStream ois;
+        private final ObjectOutputStream oos;
 
         /**
-         * Thread that accepts requests and delivers responses to a connected client
+         * Constructor opens new input/output streams on creation
+         *
+         * @param socket the socket to be used for communication
+         * @throws IOException
          */
-        private class ClientHandler extends Thread {
+        private ClientHandler(Socket socket) throws IOException {
+            this.socket = socket;
+            this.ois = new ObjectInputStream(socket.getInputStream());
+            this.oos = new ObjectOutputStream(socket.getOutputStream());
+        }
 
-            private final Socket socket;
-            private final ObjectInputStream ois;
-            private final ObjectOutputStream oos;
-
-            /**
-             * Constructor opens new input/output streams on creation
-             * @param socket the socket to be used for communication
-             * @throws IOException
-             */
-            private ClientHandler(Socket socket) throws IOException {
-                this.socket = socket;
-                this.ois = new ObjectInputStream(socket.getInputStream());
-                this.oos = new ObjectOutputStream(socket.getOutputStream());
+        /**
+         * Waits for an incoming object, gets the appropriate response, and sends it to the client
+         * Closes thread after execution
+         */
+        @Override
+        public void run() {
+            try {
+                Message request = (Message) ois.readObject();
+                //todo remove test sout
+                System.out.println("Request received, sending response");
+                Message response = getResponse(request);
+                oos.writeObject(response);
+                //todo remove test sout
+                System.out.println("Response sent");
+                oos.flush();
+            } catch (IOException | ClassNotFoundException | InterruptedException e) {
+                e.printStackTrace();
+                System.out.println("nej du");
             }
-
-            /**
-             * Waits for an incoming object, gets the appropriate response, and sends it to the client
-             * Closes thread after execution
-             */
-            @Override
-            public void run() {
-                try {
-                    Message request = (Message) ois.readObject();
-                    //todo remove test sout
-                    System.out.println("Request received, sending response");
-                    Message response = getResponse(request);
-                    oos.writeObject(response);
-                    //todo remove test sout
-                    System.out.println("Response sent");
-                    oos.flush();
-                } catch (IOException | ClassNotFoundException | InterruptedException e) {
-                    e.printStackTrace();
-                    System.out.println("nej du");
-                }
 //                finally {
 //                    if (socket != null) {
 //                        try {
@@ -224,6 +225,6 @@ public class Server implements Runnable {
 //                        }
 //                    }
 //                }
-            }
         }
     }
+}
