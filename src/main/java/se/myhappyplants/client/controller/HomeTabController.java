@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 
+/**
+ * Controller with logic used by the "Home" tab
+ */
 public class HomeTabController {
 
     private ArrayList<DBPlant> currentUserLibrary;

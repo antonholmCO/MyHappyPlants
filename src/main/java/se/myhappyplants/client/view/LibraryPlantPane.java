@@ -13,6 +13,7 @@ import javafx.util.Duration;
 import se.myhappyplants.client.controller.HomeTabController;
 import se.myhappyplants.shared.DBPlant;
 
+import java.awt.*;
 import java.io.File;
 
 /**
@@ -37,10 +38,11 @@ public class LibraryPlantPane extends Pane {
     private Button changePictureButton;
     private Button deleteButton;
 
+
     private boolean extended;
 
     /**
-     * Shows a simple pane with loading image
+     * Creates a simple pane with loading image
      * while waiting for response from database
      */
     public LibraryPlantPane() {
@@ -62,10 +64,11 @@ public class LibraryPlantPane extends Pane {
     }
 
     /**
-     *
-     * @param controller
-     * @param imgPath
-     * @param plant
+     * Creates a pane using information from a user's
+     * plant library
+     * @param controller HomeTabController which contains logic for elements to use
+     * @param imgPath location of user's avatar image
+     * @param plant plant object from user's library
      */
     public LibraryPlantPane(HomeTabController controller, String imgPath, DBPlant plant) {
         this.controller = controller;
@@ -87,9 +90,12 @@ public class LibraryPlantPane extends Pane {
         nickname.setPrefWidth(145);
         nickname.setAlignment(Pos.CENTER);
 
+
         this.progressBar = new ProgressBar(plant.getProgress());
+
         setColorProgressBar(plant.getProgress());
         progressBar.setLayoutX(196.0);
+
         progressBar.setLayoutY(28.0);
         progressBar.setPrefHeight(18.0);
         progressBar.setPrefWidth(575.0);
@@ -121,6 +127,7 @@ public class LibraryPlantPane extends Pane {
         infoButton.setLayoutY(59.0);
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
+            infoButton.setDisable(true);
             if(!extended) {
                 extendPaneEditPlant();
             }
@@ -143,9 +150,11 @@ public class LibraryPlantPane extends Pane {
         deleteButton.setLayoutX(625.0);
         deleteButton.setLayoutY(250.0);
         deleteButton.setMnemonicParsing(false);
+
         deleteButton.setOnAction(onPress -> {
             removePlant(plant);
         });
+
 
         this.setPrefHeight(92.0);
         this.setPrefWidth(750.0);
@@ -153,34 +162,63 @@ public class LibraryPlantPane extends Pane {
 
     }
 
+    /**
+     * Makes the pane bigger, exposing more functions
+     * and information to the user
+     */
     public void extendPaneEditPlant() {
+
 
             Timeline timeline = new Timeline(
                     new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() + 50))
             );
             timeline.setCycleCount(4);
             timeline.play();
-            timeline.setOnFinished(action -> this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton));
+            timeline.setOnFinished(action -> {
+                infoButton.setDisable(false);
+                this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton);
+            });
             extended = true;
+
     }
 
+    /**
+     * Reduces the pane size, hiding extra functions '
+     * and information
+     */
     public void retractPane() {
 
         Timeline timeline = new Timeline(
+
                 new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() - 50))
+
+
         );
         timeline.setCycleCount(4);
         timeline.play();
+        timeline.setOnFinished(action -> infoButton.setDisable(false));
         this.getChildren().removeAll(changeNameButton, changePictureButton, deleteButton);
         extended = false;
     }
 
+    /**
+     * Changes the colour of the progress bar
+     * @param progress How full the progress bar is(0-1.0)
+     */
         //TODO: decide how we want colors in progressbar
         private void setColorProgressBar(double progress){
             if (progress < 0.15) {
                 progressBar.setStyle("-fx-accent: red");
             }
         }
+
+    /**
+     * Shows a confirmation box when called,
+     * to double check the user really
+     * wants to remove the plant
+     * todo: should this method be in controller instead?
+     * @param plant selected plant
+     */
         private void removePlant(DBPlant plant) {
             int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
             if (answer == 1) {
