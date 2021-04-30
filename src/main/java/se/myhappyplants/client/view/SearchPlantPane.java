@@ -69,7 +69,7 @@ public class SearchPlantPane extends Pane {
         infoButton.setLayoutY(16.0);
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
-            if (!extended) {
+            if (!extended && listView.equals(getAllPlantInfo)) {
                 getAllPlantInfo = plantsTabController.getMorePlantInfo(apiPlant);
                 for (int i = 0; i < getAllPlantInfo.size(); i++) {
                     listView.getItems().add(getAllPlantInfo.get(i).toString());
