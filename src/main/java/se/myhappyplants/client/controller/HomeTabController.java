@@ -5,6 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
@@ -12,6 +14,7 @@ import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -25,7 +28,11 @@ public class HomeTabController {
     private MainPaneController mainPaneController;
 
     @FXML
+    private ImageView imgUserPicture;
+
+    @FXML
     private Label lblUsernameHome;
+
     @FXML
     private ListView userPlantLibrary;
 
@@ -34,7 +41,7 @@ public class HomeTabController {
 
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameHome.setText(loggedInUser.getUser().getUsername());
-        //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+        imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
 
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
@@ -128,5 +135,9 @@ public class HomeTabController {
         if (!response.isSuccess()) {
             MessageBox.display("Fail", "Something went wrong when trying to change date");
         }
+    }
+
+    public void updateAvatar() {
+        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
     }
 }
