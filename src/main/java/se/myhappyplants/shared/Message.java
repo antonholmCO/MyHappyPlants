@@ -77,6 +77,7 @@ public class Message implements Serializable {
 
     public String[] getStringArray() {
         return stringArray;
+    }
       
     public Message (String messageType, User user, DBPlant dbPlant, LocalDate date) {
         this.messageType = messageType;

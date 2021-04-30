@@ -216,6 +216,7 @@ public class LibraryPlantPane extends Pane {
             if (answer == 1) {
                 controller.removePlantFromDatabase(plant);
             }
+        }
     /**
      * @param plant
      */

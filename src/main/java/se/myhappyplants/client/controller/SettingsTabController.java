@@ -94,17 +94,16 @@ public class SettingsTabController {
         ArrayList<String> allowedExtensions = new ArrayList<>();
         FileChooser fc = new FileChooser();
 
-        allowedExtensions.add(".jpg");
-        allowedExtensions.add(".jpeg");
-        allowedExtensions.add(".png");
+        FileChooser.ExtensionFilter fileExtensions = new FileChooser.ExtensionFilter("Images", "*.jpg", "*.jpeg", "*.png");
+        fc.getExtensionFilters().add(fileExtensions);
 
         File selectedImage = fc.showOpenDialog(null);
 
         if (selectedImage != null) {
             String imagePath = selectedImage.toString();
             String imageExtension = imagePath.substring(imagePath.indexOf("."));
-
-            if (allowedExtensions.contains(imageExtension)) {
+            //TODO Set default folder for file chooser
+//            if (allowedExtensions.contains(imageExtension)) {
                 try {
                     // Kopierar in filen i foldern, om den kastar FileAlreadyExistsException, ta bort filen och kopiera igen
                     try {
@@ -130,15 +129,15 @@ public class SettingsTabController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            else {
-                String wrongExtensionMessage = String.format("You can only choose files of the following format: %s, %s, %s\nTry again",
-                                                            allowedExtensions.get(0),
-                                                            allowedExtensions.get(1),
-                                                            allowedExtensions.get(2));
-
-                MessageBox.display("Wrong type of file", wrongExtensionMessage);
-            }
+//            }
+//            else {
+//                String wrongExtensionMessage = String.format("You can only choose files of the following format: %s, %s, %s\nTry again",
+//                                                            allowedExtensions.get(0),
+//                                                            allowedExtensions.get(1),
+//                                                            allowedExtensions.get(2));
+//
+//                MessageBox.display("Wrong type of file", wrongExtensionMessage);
+//            }
         }
     }
 }

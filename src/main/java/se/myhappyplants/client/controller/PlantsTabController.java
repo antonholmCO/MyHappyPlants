@@ -108,15 +108,16 @@ public class PlantsTabController {
 
     public ObservableList<String> getMorePlantInfo(APIPlant apiPlant) {
         Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", apiPlant);
-        Message response = ClientConnection.getInstance().makeRequest(getInfoSearchedPlant);
+        Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
-        if(response != null) {
+        if (response != null) {
             for (int i = 0; i < response.getStringArray().length; i++) {
                 waterLightInfo.add(response.getStringArray()[i]);
             }
         }
         System.out.println("From PlantTabController: " + waterLightInfo.toString());
         return waterLightInfo;
+    }
 
     public void updateAvatar() {
         imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));

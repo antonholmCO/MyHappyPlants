@@ -38,9 +38,6 @@ public class HomeTabController {
     private ImageView imgUserPicture;
 
     @FXML
-    private Label lblUsernameHome;
-
-    @FXML
     private ListView userPlantLibrary;
 
     @FXML
@@ -152,7 +149,7 @@ public class HomeTabController {
      */
     public void changeLastWateredInDB(DBPlant plant, LocalDate date) {
         Message changeLastWatered = new Message("changeLastWatered", LoggedInUser.getInstance().getUser(), plant, date);
-        Message response = ClientConnection.getInstance().makeRequest(changeLastWatered);
+        Message response = new ClientConnection().makeRequest(changeLastWatered);
         if (!response.isSuccess()) {
             MessageBox.display("Fail", "Something went wrong trying to change date");
         }
@@ -166,7 +163,7 @@ public class HomeTabController {
      */
     public boolean changeNicknameInDB(DBPlant plant, String newNickname) {
         Message changeNicknameinDB = new Message("changeNickname", LoggedInUser.getInstance().getUser(), plant, newNickname);
-        Message response = ClientConnection.getInstance().makeRequest(changeNicknameinDB);
+        Message response = new ClientConnection().makeRequest(changeNicknameinDB);
         if(!response.isSuccess()) {
             MessageBox.display("Fail", "Something went wrong trying to change nickname");
             return false;

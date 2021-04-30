@@ -161,6 +161,7 @@ public class Server implements Runnable {
             case "getMorePlantInfoOnSearch":
                 String[] message = plantService.getMoreInformation(request.getPlant());
                 response = new Message("waterLightInfo", message);
+                break;
             case "changeLastWatered":
                 boolean changeDateSuccess = plantRepository.changeLastWatered(request.getUser(), request.getDbPlant().getNickname(), request.getDate());
                 response = new Message("success", changeDateSuccess);
