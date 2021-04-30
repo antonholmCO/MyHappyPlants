@@ -74,21 +74,22 @@ public class LibraryPlantPane extends Pane {
      */
     public LibraryPlantPane(HomeTabController controller, String imgPath, DBPlant plant) {
         this.controller = controller;
+        this.setStyle("-fx-background-color: #FFFFFF;");
         File fileImg = new File(imgPath);
         Image img = new Image(fileImg.toURI().toString());
 
         this.image = new ImageView();
-        image.setFitHeight(45.0);
-        image.setFitWidth(45.0);
+        image.setFitHeight(70.0);
+        image.setFitWidth(70.0);
         image.setLayoutX(50.0);
-        image.setLayoutY(14.0);
+        image.setLayoutY(10.0);
         image.setPickOnBounds(true);
         image.setPreserveRatio(true);
         image.setImage(img);
 
         nickname = new Label(plant.getNickname());
         nickname.setLayoutX(0);
-        nickname.setLayoutY(65);
+        nickname.setLayoutY(75);
         nickname.setPrefWidth(145);
         nickname.setAlignment(Pos.CENTER);
 
