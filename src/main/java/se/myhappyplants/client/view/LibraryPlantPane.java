@@ -37,7 +37,6 @@ public class LibraryPlantPane extends Pane {
     private Button changeNameButton;
     private Button changePictureButton;
     private Button deleteButton;
-    private Label changeLastWaterLbl;
     private DatePicker datePicker;
     private Button changeOKButton;
 
@@ -144,14 +143,11 @@ public class LibraryPlantPane extends Pane {
         changePictureButton.setLayoutY(250.0);
         changePictureButton.setMnemonicParsing(false);
 
-        this.changeLastWaterLbl = new Label("Change last watered");
-        changeLastWaterLbl.setLayoutX(10.0);
-        changeLastWaterLbl.setLayoutY(220);
-        changeLastWaterLbl.setMnemonicParsing(false);
-
         this.datePicker = new DatePicker();
         datePicker.setLayoutX(10.0);
         datePicker.setLayoutY(250.0);
+        datePicker.setEditable(false);
+        datePicker.setPromptText("Change last watered");
 
         this.deleteButton = new Button("Delete plant");
         deleteButton.setLayoutX(625.0);
@@ -165,7 +161,7 @@ public class LibraryPlantPane extends Pane {
         this.setPrefHeight(92.0);
         this.setPrefWidth(750.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
-        this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton, changeLastWaterLbl, datePicker, changeOKButton);
+        this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
     }
 
 
