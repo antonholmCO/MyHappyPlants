@@ -41,7 +41,6 @@ public class LibraryPlantPane extends Pane {
     private DatePicker datePicker;
     private Button changeOKButton;
 
-
     private boolean extended;
 
     public LibraryPlantPane(HomeTabController controller, String imgPath, DBPlant plant) {
@@ -97,17 +96,16 @@ public class LibraryPlantPane extends Pane {
         changeNameButton.setLayoutX(350.0);
         changeNameButton.setLayoutY(250.0);
         changeNameButton.setMnemonicParsing(false);
+        changeNameButton.setOnAction(onPress -> {
+            changeNickname(plant);
+        });
 
         this.changeOKButton = new Button("Submit");
         changeOKButton.setLayoutX(210.0);
         changeOKButton.setLayoutY(250.0);
         changeOKButton.setMnemonicParsing(false);
         changeOKButton.setOnAction(onPress -> {
-            LocalDate date = datePicker.getValue();
-            plant.setLastWatered(date);
-            progressBar.setProgress(plant.getProgress());
-            setColorProgressBar(plant.getProgress());
-            controller.changeLastWateredInDB(plant, date);
+            changeDate(plant);
         });
 
         this.changePictureButton = new Button("Change plant picture");
@@ -162,7 +160,6 @@ public class LibraryPlantPane extends Pane {
         extended = false;
     }
 
-
     //TODO: decide how we want colors in progressbar
     private void setColorProgressBar(double progress) {
         if (progress < 0.15) {
@@ -180,4 +177,28 @@ public class LibraryPlantPane extends Pane {
             controller.removePlantFromDatabase(plant);
         }
     }
+
+    /**
+     *
+     * @param plant
+     */
+    private void changeNickname(DBPlant plant) {
+        String newNickname = MessageBox.askForStringInput("Change nickname", "Type new nickname:");
+        if(controller.changeNicknameInDB(plant, newNickname)) {
+            nickname.setText(newNickname);
+        }
+    }
+
+    /**
+     *
+     * @param plant
+     */
+    private void changeDate(DBPlant plant) {
+        LocalDate date = datePicker.getValue();
+        plant.setLastWatered(date);
+        progressBar.setProgress(plant.getProgress());
+        setColorProgressBar(plant.getProgress());
+        controller.changeLastWateredInDB(plant, date);
+    }
+
 }
