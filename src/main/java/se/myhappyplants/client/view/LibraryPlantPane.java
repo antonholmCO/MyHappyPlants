@@ -34,10 +34,9 @@ public class LibraryPlantPane extends Pane {
     private Button waterButton;
 
     //Shown when plant info pressed
-    private Button changeNameButton;
+    private Button changeNicknameButton;
     private Button changePictureButton;
     private Button deleteButton;
-    private Label changeLastWaterLbl;
     private DatePicker datePicker;
     private Button changeOKButton;
 
@@ -74,21 +73,22 @@ public class LibraryPlantPane extends Pane {
      */
     public LibraryPlantPane(HomeTabController controller, String imgPath, DBPlant plant) {
         this.controller = controller;
+        this.setStyle("-fx-background-color: #FFFFFF;");
         File fileImg = new File(imgPath);
         Image img = new Image(fileImg.toURI().toString());
 
         this.image = new ImageView();
-        image.setFitHeight(45.0);
-        image.setFitWidth(45.0);
+        image.setFitHeight(70.0);
+        image.setFitWidth(70.0);
         image.setLayoutX(50.0);
-        image.setLayoutY(14.0);
+        image.setLayoutY(10.0);
         image.setPickOnBounds(true);
         image.setPreserveRatio(true);
         image.setImage(img);
 
         nickname = new Label(plant.getNickname());
         nickname.setLayoutX(0);
-        nickname.setLayoutY(65);
+        nickname.setLayoutY(75);
         nickname.setPrefWidth(145);
         nickname.setAlignment(Pos.CENTER);
 
@@ -105,8 +105,9 @@ public class LibraryPlantPane extends Pane {
         waterButton.setMnemonicParsing(false);
         waterButton.setOnAction(action -> {
             progressBar.setProgress(100);
-            progressBar.setStyle("-fx-accent: 2D88AA");
+            setColorProgressBar(100);
             controller.changeLastWateredInDB(plant, java.time.LocalDate.now());
+            setColorProgressBar(100);
         });
 
         this.infoButton = new Button("Show plant info");
@@ -122,15 +123,15 @@ public class LibraryPlantPane extends Pane {
             }
         });
 
-        this.changeNameButton = new Button("Change nickname");
-        changeNameButton.setLayoutX(350.0);
-        changeNameButton.setLayoutY(250.0);
-        changeNameButton.setMnemonicParsing(false);
-        changeNameButton.setOnAction(onPress -> {
+        this.changeNicknameButton = new Button("Change nickname");
+        changeNicknameButton.setLayoutX(350.0);
+        changeNicknameButton.setLayoutY(250.0);
+        changeNicknameButton.setMnemonicParsing(false);
+        changeNicknameButton.setOnAction(onPress -> {
             changeNickname(plant);
         });
 
-        this.changeOKButton = new Button("Submit");
+        this.changeOKButton = new Button("Change");
         changeOKButton.setLayoutX(210.0);
         changeOKButton.setLayoutY(250.0);
         changeOKButton.setMnemonicParsing(false);
@@ -143,20 +144,16 @@ public class LibraryPlantPane extends Pane {
         changePictureButton.setLayoutY(250.0);
         changePictureButton.setMnemonicParsing(false);
 
-        this.changeLastWaterLbl = new Label("Change last watered");
-        changeLastWaterLbl.setLayoutX(10.0);
-        changeLastWaterLbl.setLayoutY(220);
-        changeLastWaterLbl.setMnemonicParsing(false);
-
         this.datePicker = new DatePicker();
         datePicker.setLayoutX(10.0);
         datePicker.setLayoutY(250.0);
+        datePicker.setEditable(false);
+        datePicker.setPromptText("Change last watered");
 
         this.deleteButton = new Button("Delete plant");
         deleteButton.setLayoutX(625.0);
         deleteButton.setLayoutY(250.0);
         deleteButton.setMnemonicParsing(false);
-
         deleteButton.setOnAction(onPress -> {
             removePlant(plant);
         });
@@ -164,7 +161,7 @@ public class LibraryPlantPane extends Pane {
         this.setPrefHeight(92.0);
         this.setPrefWidth(750.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
-        this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton, changeLastWaterLbl, datePicker, changeOKButton);
+        this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
     }
 
 
@@ -201,6 +198,9 @@ public class LibraryPlantPane extends Pane {
         private void setColorProgressBar(double progress){
             if (progress < 0.15) {
                 progressBar.setStyle("-fx-accent: red");
+            }
+            else {
+                progressBar.setStyle("-fx-accent: 2D88AA");
             }
     }
 
