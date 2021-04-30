@@ -57,4 +57,11 @@ public class MainPaneController {
     LoggedInUser.getInstance().setUser(null);
     StartClient.setRoot("loginPane");
   }
+
+  public void updateAvatarOnAllTabs() {
+    homePaneController.updateAvatar();
+    plantsPaneController.updateAvatar();
+    settingsPaneController.updateAvatar();
+  }
+
 }

@@ -1,11 +1,15 @@
 package se.myhappyplants.shared;
 
-import java.io.Serializable;
+import javafx.scene.image.Image;
+import se.myhappyplants.client.model.LoggedInUser;
+
+import java.io.*;
 import java.util.ArrayList;
 
 /**
  * Created by: Linn Borgström
  * Updated by: Christopher, 2021-04-13
+ * Updated by: Anton, 2021-04-29
  */
 public class User implements Serializable {
 
@@ -13,6 +17,7 @@ public class User implements Serializable {
   private String email;
   private String username;
   private String password;
+  private String avatarURL;
   private boolean isNotificationsActivated = true;
 
   /**
@@ -41,6 +46,7 @@ public class User implements Serializable {
     this.email = email;
     this.username = username;
     this.isNotificationsActivated = isNotificationsActivated;
+    setAvatarOnLogin(email);
   }
 
   /**
@@ -71,6 +77,16 @@ public class User implements Serializable {
     this.email = email;
     this.username = username;
     this.isNotificationsActivated = notificationsActivated;
+    setAvatarOnLogin(email);
+  }
+
+  private void setAvatarOnLogin(String email) {
+    try (BufferedReader br = new BufferedReader(new FileReader("resources/images/user_avatars/" + email + "_avatar.txt"))) {
+        String readtxt = br.readLine();
+        this.avatarURL = new File(readtxt).toURI().toString();
+    } catch (IOException e) {
+        this.avatarURL = new File("resources/images/user_default_img.png").toURI().toString();
+    }
   }
 
   public int getUniqueId() {
@@ -105,5 +121,13 @@ public class User implements Serializable {
 
   public void setIsNotificationsActivated(boolean notificationsActivated) {
     this.isNotificationsActivated = notificationsActivated;
+  }
+
+  public String getAvatarURL() {
+    return avatarURL;
+  }
+
+  public void setAvatar(String pathToImg) {
+    this.avatarURL = new File(pathToImg).toURI().toString();
   }
 }

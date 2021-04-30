@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
@@ -13,8 +15,10 @@ import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -29,6 +33,13 @@ public class HomeTabController {
 
     @FXML
     private Label lblUsernameHome;
+
+    @FXML
+    private ImageView imgUserPicture;
+
+    @FXML
+    private Label lblUsernameHome;
+
     @FXML
     private ListView userPlantLibrary;
 
@@ -37,7 +48,8 @@ public class HomeTabController {
 
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameHome.setText(loggedInUser.getUser().getUsername());
-        //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+        imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+      
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
     }
@@ -97,7 +109,6 @@ public class HomeTabController {
 
     @FXML
     public void addPlantToCurrentUserLibrary(APIPlant plantAdd, String plantNickname) {
-
         int plantsWithThisNickname = 1;
         String nonDuplicatePlantNickname = plantNickname;
         for (DBPlant plant : currentUserLibrary) {
@@ -131,7 +142,42 @@ public class HomeTabController {
 
     @FXML
     private void logoutButtonPressed() throws IOException {
-
         mainPaneController.logoutButtonPressed();
+    }
+
+    /**
+     * Method to change last watered date in database, send a request to server and get a boolean respons depending on the result
+     * @param plant instance of the plant which to change last watered date
+     * @param date new date to change to
+     */
+    public void changeLastWateredInDB(DBPlant plant, LocalDate date) {
+        Message changeLastWatered = new Message("changeLastWatered", LoggedInUser.getInstance().getUser(), plant, date);
+        Message response = ClientConnection.getInstance().makeRequest(changeLastWatered);
+        if (!response.isSuccess()) {
+            MessageBox.display("Fail", "Something went wrong trying to change date");
+        }
+    }
+
+    /**
+     *
+     * @param plant
+     * @param newNickname
+     * @return
+     */
+    public boolean changeNicknameInDB(DBPlant plant, String newNickname) {
+        Message changeNicknameinDB = new Message("changeNickname", LoggedInUser.getInstance().getUser(), plant, newNickname);
+        Message response = ClientConnection.getInstance().makeRequest(changeNicknameinDB);
+        if(!response.isSuccess()) {
+            MessageBox.display("Fail", "Something went wrong trying to change nickname");
+            return false;
+        }
+        else {
+            plant.setNickname(newNickname);
+            return true;
+        }
+    }
+
+    public void updateAvatar() {
+        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
     }
 }

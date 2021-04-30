@@ -1,8 +1,7 @@
 package se.myhappyplants.shared;
 
-import se.myhappyplants.client.model.LoggedInUser;
-
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -10,27 +9,36 @@ import java.util.ArrayList;
  * Class that can be used for communication between Client/Server
  * Client/Server via TCP
  * Created by: Christopher O'Driscoll
- * Updated by: Christopher, 2021-04-13
+ * Updated by: Linn Borgström 2021-04-29
  */
 public class Message implements Serializable {
 
     private String messageType;
-    private String searchWord;
+    private String messageText;
+    private String[] stringArray;
     private User user;
     private boolean success;
+    private LocalDate date;
     private ArrayList<APIPlant> plantList;
     private ArrayList<DBPlant> plantLibrary;
     private DBPlant dbPlant;
+    private APIPlant apiPlant;
+    private String newNickname;
 
-    public Message(String messageType, String searchWord) {
+    public Message(String messageType, String messageText) {
         this.messageType = messageType;
-        this.searchWord = searchWord;
+        this.messageText = messageText;
     }
 
     public Message(String messageType, User user) {
 
         this.messageType = messageType;
         this.user = user;
+    }
+
+    public Message(String messageType, String[] message){
+        this.messageType = messageType;
+        stringArray = message;
     }
 
     public Message(String messageType, boolean success) {
@@ -62,12 +70,38 @@ public class Message implements Serializable {
     this.user = user;
     }
 
+    public Message(String messageType, APIPlant apiPlant) {
+        this.messageType = messageType;
+        this.apiPlant = apiPlant;
+    }
+
+    public String[] getStringArray() {
+        return stringArray;
+      
+    public Message (String messageType, User user, DBPlant dbPlant, LocalDate date) {
+        this.messageType = messageType;
+        this.user = user;
+        this.dbPlant = dbPlant;
+        this.date = date;
+    }
+
+    public Message(String messageType, User user, DBPlant plant, String newNickname) {
+        this.messageType = messageType;
+        this.user = user;
+        this.dbPlant = plant;
+        this.newNickname = newNickname;
+    }
+
+    public String getNewNickname() {
+        return newNickname;
+    }
+
     public String getMessageType() {
         return messageType;
     }
 
-    public String getSearchWord() {
-        return searchWord;
+    public String getMessageText() {
+        return messageText;
     }
 
     public User getUser() {
@@ -88,5 +122,12 @@ public class Message implements Serializable {
 
     public ArrayList<DBPlant> getPlantLibrary() {
         return plantLibrary;
+    }
+
+    public APIPlant getPlant() {
+        return apiPlant;
+    }
+    public LocalDate getDate() {
+        return date;
     }
 }

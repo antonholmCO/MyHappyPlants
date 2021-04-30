@@ -8,7 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
@@ -20,20 +21,25 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Created by: Christopher O'Driscoll
+ * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
+ */
+
 public class PlantsTabController {
 
     @FXML private MainPaneController mainPaneController;
-
+    @FXML private ImageView imgUserPicture;
     @FXML private Label lblUsernamePlants;
     @FXML private TextField txtFldSearchText;
     @FXML private ListView resultPane;
     @FXML private ProgressIndicator progressIndicator;
 
-    @FXML public void initialize() {
-
+    @FXML
+    public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernamePlants.setText(loggedInUser.getUser().getUsername());
-        //userAvatar.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+        imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
     }
 
     public void setMainController(MainPaneController mainPaneController) {
@@ -98,5 +104,22 @@ public class PlantsTabController {
     private void logoutButtonPressed() throws IOException {
 
         mainPaneController.logoutButtonPressed();
+    }
+
+    public ObservableList<String> getMorePlantInfo(APIPlant apiPlant) {
+        Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", apiPlant);
+        Message response = ClientConnection.getInstance().makeRequest(getInfoSearchedPlant);
+        ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
+        if(response != null) {
+            for (int i = 0; i < response.getStringArray().length; i++) {
+                waterLightInfo.add(response.getStringArray()[i]);
+            }
+        }
+        System.out.println("From PlantTabController: " + waterLightInfo.toString());
+        return waterLightInfo;
+
+    public void updateAvatar() {
+        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+
     }
 }

@@ -2,6 +2,7 @@ package se.myhappyplants.server.model.service;
 
 import com.google.gson.Gson;
 import se.myhappyplants.server.PasswordsAndKeys;
+import se.myhappyplants.server.controller.Controller;
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.server.model.plant.PlantCollection;
 import se.myhappyplants.server.model.plant.PlantDetail;
@@ -15,19 +16,28 @@ import java.util.ArrayList;
 /**
  * Class responsable for calling API and collect information about plants.
  * Created by: Frida Jacobsson
- * Updated by:
+ * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
  */
 public class PlantService {
 
   private String trefleURL = "https://trefle.io";
   private String searchURL = trefleURL + "/api/v1/plants/search?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k&filter_not[maximum_precipitation_mm]=null&q=";
+  private Controller controller;
+
+  public PlantService(Controller controller){
+    this.controller=controller;
+  }
+
+  public PlantService() {
+
+  }
 
   /**
    * Method for getting common name, family name and scientific name based on a search word
    * @param userSearch search word from client and application
    * @return a list of plants from the API
    * @throws IOException
-   * @throws InterruptedException,
+   * @throws InterruptedException
    */
   public ArrayList<APIPlant> getResult(String userSearch) throws IOException, InterruptedException {
 
@@ -54,8 +64,10 @@ public class PlantService {
    * @throws IOException
    * @throws InterruptedException
    */
-  public void getMoreInformation(APIPlant plant) throws IOException, InterruptedException {
-    String plantURL = trefleURL + plant.links.plant + "?token=eI01vwK-LgBiMpuVI3tqDaT7xKSEyoEl2qf20rwxb9k";
+  public String[] getMoreInformation(APIPlant plant) throws IOException, InterruptedException {
+    String token = PasswordsAndKeys.APIToken;
+    String plantURL = trefleURL + plant.links.plant + "?token=" + token;
+
     HttpClient client = HttpClient.newHttpClient();
     HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(plantURL))
@@ -66,10 +78,24 @@ public class PlantService {
 
     Gson gson = new Gson();
     PlantDetail plantDetail = gson.fromJson(response.body(), PlantDetail.class);
-    System.out.println(plantDetail.data.main_species.growth.light); //hur mycket ljus växten behöver.
-    System.out.println(plantDetail.data.main_species.growth.maximum_precipitation); //mm per år
-    System.out.println(plantDetail.data.main_species.growth.minimum_precipitation); //mm per år
+
+    String plantFamilyName = plant.getFamily_common_name();
+    if(plantFamilyName == null){
+      plantFamilyName = "Is does not have a family.";
+    }
+
+    String minWater = plantDetail.data.main_species.growth.minimum_precipitation.toString();
+    int light = plantDetail.data.main_species.growth.light;
+    String lightText = controller.calculateLightLevel(light);
+    String waterText =  controller.calculateWater(minWater);
+    
+    String[] allInfo = new String[3];
+    allInfo[0] = plantFamilyName;
+    allInfo[1] = lightText;
+    allInfo[2] = waterText;
+    return allInfo;
   }
+
   public long getWaterFrequency (String apiURL) throws IOException, InterruptedException {
     String token = PasswordsAndKeys.APIToken;
     String plantURL = trefleURL + apiURL + "?token=" + token;
