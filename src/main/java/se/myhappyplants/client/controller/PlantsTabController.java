@@ -13,10 +13,8 @@ import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
-
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.Message;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,6 +55,7 @@ public class PlantsTabController {
         }
         mainPaneController.getHomePaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
     }
+
     private void showResultsOnPane(Message apiResponse) {
         progressIndicator.setProgress(75);
         ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
@@ -79,30 +78,31 @@ public class PlantsTabController {
         });
         imageThread.start();
     }
+
     @FXML
     private void searchButtonPressed() {
         Thread searchThread = new Thread(() -> {
-        Message apiRequest = new Message("search", txtFldSearchText.getText());
-        progressIndicator.setProgress(25);
-        ClientConnection connection = new ClientConnection();
-        Message apiResponse = connection.makeRequest(apiRequest);
+            Message apiRequest = new Message("search", txtFldSearchText.getText());
+            progressIndicator.setProgress(25);
+            ClientConnection connection = new ClientConnection();
+            Message apiResponse = connection.makeRequest(apiRequest);
 
-        if (apiResponse != null) {
-            if (apiResponse.isSuccess()) {
-                progressIndicator.setProgress(50);
-                showResultsOnPane(apiResponse);
+            if (apiResponse != null) {
+                if (apiResponse.isSuccess()) {
+                    progressIndicator.setProgress(50);
+                    showResultsOnPane(apiResponse);
+                } else {
+                    Platform.runLater(() -> MessageBox.display("No results", "No results on " + txtFldSearchText.getText() + ", sorry!"));
+                }
             } else {
-                Platform.runLater(() ->MessageBox.display("No results", "No results on " + txtFldSearchText.getText() + ", sorry!"));
+                Platform.runLater(() -> MessageBox.display("No response", "No response from the server"));
             }
-        } else {
-            Platform.runLater(() ->MessageBox.display("No response", "No response from the server"));
-        }
         });
         searchThread.start();
     }
+
     @FXML
     private void logoutButtonPressed() throws IOException {
-
         mainPaneController.logoutButtonPressed();
     }
 
@@ -119,8 +119,7 @@ public class PlantsTabController {
         return waterLightInfo;
     }
 
-    public void updateAvatar() {
+    public void updateAvatar(){
         imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
-
     }
 }

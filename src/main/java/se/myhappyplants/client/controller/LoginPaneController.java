@@ -23,36 +23,32 @@ import se.myhappyplants.shared.User;
  * */
 public class LoginPaneController {
 
-    @FXML
-    TextField txtFldEmail;
-    @FXML
-    PasswordField passFldPassword;
-    @FXML
-    TextField txtFldNewEmail;
-    @FXML
-    TextField txtFldNewUsername;
-    @FXML
-    PasswordField passFldNewPassword;
+    @FXML private TextField txtFldEmail;
+    @FXML private PasswordField passFldPassword;
+    @FXML private TextField txtFldNewEmail;
+    @FXML private TextField txtFldNewUsername;
+    @FXML private PasswordField passFldNewPassword;
 
     /**
      * Switches to 'logged in' scene
      * @throws IOException
      */
-    @FXML public void initialize(){
+    @FXML
+    public void initialize(){
         String lastLoggedInUser;
 
-        try(BufferedReader bw = new BufferedReader(new FileReader( "resources/lastLogin.txt"));){
-            lastLoggedInUser = bw.readLine();
+        try(BufferedReader br = new BufferedReader(new FileReader( "resources/lastLogin.txt"));){
+            lastLoggedInUser = br.readLine();
             txtFldEmail.setText(lastLoggedInUser);
         }
         catch (IOException e){
             System.out.println("No previous user logged in");
         }
 
-
     }
 
-    @FXML private void switchToSecondary() throws IOException {
+    @FXML
+    private void switchToSecondary() throws IOException {
         StartClient.setRoot("mainPane");
     }
 
@@ -61,7 +57,8 @@ public class LoginPaneController {
      * If successful, changes scene
      * @throws IOException
      */
-    @FXML private void loginButtonPressed() {
+    @FXML
+    private void loginButtonPressed() {
         Thread loginThread = new Thread(() -> {
             Message loginMessage = new Message("login", new User(txtFldEmail.getText(), passFldPassword.getText()));
             ClientConnection connection = new ClientConnection();
@@ -72,50 +69,49 @@ public class LoginPaneController {
                     LoggedInUser.getInstance().setUser(loginResponse.getUser());
                     try {
                         switchToSecondary();
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e) {
                         System.out.println("no switch");
                         e.printStackTrace();
                     }
-                }
-                else {
+                } else {
                     Platform.runLater(() -> MessageBox.display("Login failed", "Email and/or password incorrect"));
 
                 }
-            }
-            else {
-                Platform.runLater(() ->MessageBox.display("No response", "No response from server"));
+            } else {
+                Platform.runLater(() -> MessageBox.display("No response", "No response from server"));
             }
         });
         loginThread.start();
 
     }
 
-    @FXML private void registerButtonPressed() {
+    @FXML
+    private void registerButtonPressed() {
         Thread registerThread = new Thread(() -> {
             if(!validateAndDisplayErrors()) {
                 return;
             }
-        Message registerRequest = new Message("register", new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
-        ClientConnection connection = new ClientConnection();
-        Message registerResponse = connection.makeRequest(registerRequest);
+            Message registerRequest = new Message("register", new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
+            ClientConnection connection = new ClientConnection();
+            Message registerResponse = connection.makeRequest(registerRequest);
 
-        if(registerResponse!=null) {
-            if(registerResponse.isSuccess()) {
-                LoggedInUser.getInstance().setUser(registerResponse.getUser());
-                Platform.runLater(() ->MessageBox.display("Success", "Account created successfully! Now logged in as " + LoggedInUser.getInstance().getUser().getUsername()));
-                try {
-                    switchToSecondary();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            if(registerResponse!=null) {
+                if(registerResponse.isSuccess()) {
+                    LoggedInUser.getInstance().setUser(registerResponse.getUser());
+                    Platform.runLater(() ->MessageBox.display("Success", "Account created successfully! Now logged in as " + LoggedInUser.getInstance().getUser().getUsername()));
+                    try {
+                        switchToSecondary();
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Platform.runLater(() -> MessageBox.display("Failed", "Account creation failed!"));
                 }
+            } else {
+                Platform.runLater(() -> MessageBox.display("No response", "No response from server"));
             }
-            else {
-                Platform.runLater(() ->MessageBox.display("Failed", "Account creation failed!"));
-            }
-        }
-        else {
-            Platform.runLater(() ->MessageBox.display("No response", "No response from server"));
-        }
         });
         registerThread.start();
     }

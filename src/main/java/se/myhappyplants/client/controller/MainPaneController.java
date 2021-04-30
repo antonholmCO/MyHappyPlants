@@ -16,10 +16,6 @@ import java.io.IOException;
  */
 public class MainPaneController {
 
-  @FXML private Tab homeTab;
-  @FXML private Tab plantsTab;
-  @FXML private Tab settingsTab;
-
   @FXML private HomeTabController homePaneController;
   @FXML private PlantsTabController plantsPaneController;
   @FXML private SettingsTabController settingsPaneController;
@@ -45,17 +41,18 @@ public class MainPaneController {
    */
   @FXML
   public void logoutButtonPressed() throws IOException {
-
     String email = LoggedInUser.getInstance().getUser().getEmail();
 
     try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/lastLogin.txt"))) {
       bw.write(email);
       bw.flush();
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       e.printStackTrace();
     }
     LoggedInUser.getInstance().setUser(null);
     StartClient.setRoot("loginPane");
+
   }
 
   public void updateAvatarOnAllTabs() {

@@ -14,8 +14,6 @@ import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
-
-import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -28,17 +26,13 @@ public class HomeTabController {
 
     private ArrayList<DBPlant> currentUserLibrary;
 
-    @FXML
-    private MainPaneController mainPaneController;
+    @FXML private MainPaneController mainPaneController;
 
-    @FXML
-    private Label lblUsernameHome;
+    @FXML private Label lblUsernameHome;
 
-    @FXML
-    private ImageView imgUserPicture;
+    @FXML private ImageView imgUserPicture;
 
-    @FXML
-    private ListView userPlantLibrary;
+    @FXML private ListView userPlantLibrary;
 
     @FXML
     public void initialize() {
@@ -46,9 +40,10 @@ public class HomeTabController {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameHome.setText(loggedInUser.getUser().getUsername());
         imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
-      
+
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
+
     }
 
     public void setMainController(MainPaneController mainPaneController) {
@@ -56,7 +51,7 @@ public class HomeTabController {
     }
 
     @FXML
-    void addCurrentUserLibraryToHomeScreen() {
+    public void addCurrentUserLibraryToHomeScreen() {
 
         ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
@@ -70,7 +65,7 @@ public class HomeTabController {
     }
 
     @FXML
-    void createCurrentUserLibraryFromDB() {
+    public void createCurrentUserLibraryFromDB() {
 
         Thread getLibraryThread = new Thread(() -> {
             Message getLibrary = new Message("getLibrary", LoggedInUser.getInstance().getUser());
@@ -167,8 +162,7 @@ public class HomeTabController {
         if(!response.isSuccess()) {
             MessageBox.display("Fail", "Something went wrong trying to change nickname");
             return false;
-        }
-        else {
+        } else {
             plant.setNickname(newNickname);
             return true;
         }

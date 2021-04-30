@@ -35,10 +35,8 @@ public class ClientConnection{
             socket = new Socket(ipAddress, port);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-            //send request
             oos.writeObject(request);
             oos.flush();
-            //wait for response
             response = (Message) ois.readObject();
         }
         catch (IOException | ClassNotFoundException e) {
