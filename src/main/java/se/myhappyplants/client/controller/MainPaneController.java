@@ -1,10 +1,7 @@
 package se.myhappyplants.client.controller;
 
-import javafx.event.Event;
-import javafx.event.WeakEventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.BorderPane;
 import se.myhappyplants.client.model.LoggedInUser;
 
 import java.io.BufferedWriter;
@@ -32,9 +29,9 @@ public class MainPaneController {
    */
   @FXML
   public void initialize() {
-    homePaneController.setSecondaryController(this);
-    plantsPaneController.setSecondaryController(this);
-    settingsPaneController.setSecondaryController(this);
+    homePaneController.setMainController(this);
+    plantsPaneController.setMainController(this);
+    settingsPaneController.setMainController(this);
   }
 
   public HomeTabController getHomePaneController() {
@@ -57,18 +54,14 @@ public class MainPaneController {
     } catch (IOException e) {
       e.printStackTrace();
     }
-
     LoggedInUser.getInstance().setUser(null);
     StartClient.setRoot("loginPane");
-
   }
-
 
   public void updateAvatarOnAllTabs() {
     homePaneController.updateAvatar();
     plantsPaneController.updateAvatar();
     settingsPaneController.updateAvatar();
   }
-
 
 }

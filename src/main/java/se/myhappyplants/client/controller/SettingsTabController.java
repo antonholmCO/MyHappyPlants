@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
+
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
 
@@ -23,13 +24,11 @@ import java.util.ArrayList;
 
 public class SettingsTabController {
 
-    @FXML private BorderPane settingsPane;
     @FXML private MainPaneController mainPaneController;
     @FXML private TabPane secondaryPane;
     @FXML private ImageView imgUserPicture;
     @FXML private Label lblUsernameSettings;
     @FXML private PasswordField deleteAccountPassField;
-
 
     @FXML public void initialize() {
 
@@ -38,29 +37,36 @@ public class SettingsTabController {
         imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
     }
 
-    public void setSecondaryController (MainPaneController mainPaneController) {
+    public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
 
     /**
      * author: Frida Jacobsson
-     * @throws IOException
      */
-    @FXML private void deleteAccountButtonPressed() throws IOException {
+    @FXML private void deleteAccountButtonPressed() {
         int answer = MessageBox.askYesNo("Delete account", "Are you sure you want to delete your account? \n All your personal information will be deleted. \nA deleted account can't be restored. ");
         if (answer == 1) {
+            Thread deleteAccountThread = new Thread(() -> {
             Message deleteMessage = new Message("delete account", new User(LoggedInUser.getInstance().getUser().getEmail(), deleteAccountPassField.getText()));
-            Message deleteResponse = ClientConnection.getInstance().makeRequest(deleteMessage);
+            ClientConnection connection = new ClientConnection();
+            Message deleteResponse = connection.makeRequest(deleteMessage);
             if (deleteResponse != null) {
                 if (deleteResponse.isSuccess()) {
                     MessageBox.display("Account deleted successfully", "Sorry to see you go");
-                    logoutButtonPressed();
+                    try {
+                        logoutButtonPressed();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     MessageBox.display("Failed to delete account", "Invalid password");
                 }
             } else {
                 MessageBox.display("Failed to delete account", "No contact with server");
             }
+            });
+            deleteAccountThread.start();
         }
     }
 

@@ -4,10 +4,13 @@ import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.view.SearchPlantPane;
+import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.User;
@@ -19,16 +22,6 @@ import se.myhappyplants.shared.User;
  *
  * */
 public class LoginPaneController {
-
-    private ClientConnection connection;
-
-    /**
-     * Default constructor, probably unnecessary
-     * @param connection
-     */
-    public void PrimaryController (ClientConnection connection){
-        this.connection = connection;
-    }
 
     @FXML
     TextField txtFldEmail;
@@ -68,48 +61,63 @@ public class LoginPaneController {
      * If successful, changes scene
      * @throws IOException
      */
-    @FXML private void loginButtonPressed() throws IOException {
+    @FXML private void loginButtonPressed() {
+        Thread loginThread = new Thread(() -> {
+            Message loginMessage = new Message("login", new User(txtFldEmail.getText(), passFldPassword.getText()));
+            ClientConnection connection = new ClientConnection();
+            Message loginResponse = connection.makeRequest(loginMessage);
 
-        //ToDo - Some code to handle what happens when user wants to log in
-        // if successful, switch to logged in view
+            if(loginResponse!=null) {
+                if(loginResponse.isSuccess()) {
+                    LoggedInUser.getInstance().setUser(loginResponse.getUser());
+                    try {
+                        switchToSecondary();
+                    } catch (IOException e) {
+                        System.out.println("no switch");
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Platform.runLater(() -> MessageBox.display("Login failed", "Email and/or password incorrect"));
 
-        Message loginMessage = new Message("login", new User(txtFldEmail.getText(), passFldPassword.getText()));
-        Message loginResponse = ClientConnection.getInstance().makeRequest(loginMessage);
-
-        if(loginResponse!=null) {
-            if(loginResponse.isSuccess()) {
-                LoggedInUser.getInstance().setUser(loginResponse.getUser());
-                switchToSecondary();
+                }
             }
             else {
-                MessageBox.display("Login failed", "Email and/or password incorrect");
+                Platform.runLater(() ->MessageBox.display("No response", "No response from server"));
             }
-        }
-        else {
-            MessageBox.display("No response", "No response from server");
-        }
+        });
+        loginThread.start();
+
     }
 
-    @FXML private void registerButtonPressed() throws IOException {
-        if(!validateAndDisplayErrors()) {
-            return;
-        }
+    @FXML private void registerButtonPressed() {
+        Thread registerThread = new Thread(() -> {
+            if(!validateAndDisplayErrors()) {
+                return;
+            }
         Message registerRequest = new Message("register", new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
-        Message registerResponse = ClientConnection.getInstance().makeRequest(registerRequest);
+        ClientConnection connection = new ClientConnection();
+        Message registerResponse = connection.makeRequest(registerRequest);
 
         if(registerResponse!=null) {
             if(registerResponse.isSuccess()) {
                 LoggedInUser.getInstance().setUser(registerResponse.getUser());
-                MessageBox.display("Success", "Account created successfully! Now logged in as " + LoggedInUser.getInstance().getUser().getUsername());
-                switchToSecondary();
+                Platform.runLater(() ->MessageBox.display("Success", "Account created successfully! Now logged in as " + LoggedInUser.getInstance().getUser().getUsername()));
+                try {
+                    switchToSecondary();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             else {
-                MessageBox.display("Failed", "Account creation failed!");
+                Platform.runLater(() ->MessageBox.display("Failed", "Account creation failed!"));
             }
         }
         else {
-            MessageBox.display("No response", "No response from server");
+            Platform.runLater(() ->MessageBox.display("No response", "No response from server"));
         }
+        });
+        registerThread.start();
     }
 
     /**

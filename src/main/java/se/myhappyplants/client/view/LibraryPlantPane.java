@@ -43,6 +43,35 @@ public class LibraryPlantPane extends Pane {
 
     private boolean extended;
 
+    /**
+     * Creates a simple pane with loading image
+     * while waiting for response from database
+     */
+    public LibraryPlantPane() {
+        File fileImg = new File("resources/images/img.png");
+        Image img = new Image(fileImg.toURI().toString());
+        image = new ImageView(img);
+        image.setFitHeight(45.0);
+        image.setFitWidth(45.0);
+        image.setLayoutX(50.0);
+        image.setLayoutY(14.0);
+
+        nickname =  new Label("Your plants are being loaded from the database..");
+        nickname.setLayoutX(100);
+        nickname.setLayoutY(25);
+        nickname.setPrefWidth(300);
+        nickname.setAlignment(Pos.CENTER);
+
+        this.getChildren().addAll(image, nickname);
+    }
+
+    /**
+     * Creates a pane using information from a user's
+     * plant library
+     * @param controller HomeTabController which contains logic for elements to use
+     * @param imgPath location of user's avatar image
+     * @param plant plant object from user's library
+     */
     public LibraryPlantPane(HomeTabController controller, String imgPath, DBPlant plant) {
         this.controller = controller;
         File fileImg = new File(imgPath);
@@ -85,6 +114,7 @@ public class LibraryPlantPane extends Pane {
         infoButton.setLayoutY(59.0);
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
+            infoButton.setDisable(true);
             if (!extended) {
                 expand();
             } else {
@@ -137,6 +167,7 @@ public class LibraryPlantPane extends Pane {
         this.getChildren().addAll(changeNameButton, changePictureButton, deleteButton, changeLastWaterLbl, datePicker, changeOKButton);
     }
 
+
     /**
      * Method for expanding tab with "more information"-buttons.
      */
@@ -146,6 +177,7 @@ public class LibraryPlantPane extends Pane {
         );
         timeline.setCycleCount(4);
         timeline.play();
+        timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = true;
     }
     /**
@@ -157,29 +189,34 @@ public class LibraryPlantPane extends Pane {
         );
         timeline.setCycleCount(4);
         timeline.play();
+        timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = false;
     }
 
-    //TODO: decide how we want colors in progressbar
-    private void setColorProgressBar(double progress) {
-        if (progress < 0.15) {
-            progressBar.setStyle("-fx-accent: red");
-        }
-    }
-
     /**
-     * Method to check with user if it is sure to delete a plant. Call controller to remove the plant from DB.
-     * @param plant instance of a plant to remove
+     * Changes the colour of the progress bar
+     * @param progress How full the progress bar is(0-1.0)
      */
-    private void removePlant(DBPlant plant) {
-        int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
-        if (answer == 1) {
-            controller.removePlantFromDatabase(plant);
-        }
+        //TODO: decide how we want colors in progressbar
+        private void setColorProgressBar(double progress){
+            if (progress < 0.15) {
+                progressBar.setStyle("-fx-accent: red");
+            }
     }
 
     /**
-     *
+     * Shows a confirmation box when called,
+     * to double check the user really
+     * wants to remove the plant
+     * todo: should this method be in controller instead?
+     * @param plant selected plant
+     */
+        private void removePlant(DBPlant plant) {
+            int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
+            if (answer == 1) {
+                controller.removePlantFromDatabase(plant);
+            }
+    /**
      * @param plant
      */
     private void changeNickname(DBPlant plant) {

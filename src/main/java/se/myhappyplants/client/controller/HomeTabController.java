@@ -1,5 +1,6 @@
 package se.myhappyplants.client.controller;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,12 +21,18 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Controller with logic used by the "Home" tab
+ */
 public class HomeTabController {
 
     private ArrayList<DBPlant> currentUserLibrary;
 
     @FXML
     private MainPaneController mainPaneController;
+
+    @FXML
+    private Label lblUsernameHome;
 
     @FXML
     private ImageView imgUserPicture;
@@ -42,81 +49,95 @@ public class HomeTabController {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameHome.setText(loggedInUser.getUser().getUsername());
         imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
-
+      
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
     }
 
-    public void setSecondaryController(MainPaneController mainPaneController) {
+    public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
 
     @FXML
     void addCurrentUserLibraryToHomeScreen() {
-        //Add a Pane for each plant
 
-        //todo Adda varje planta i currentUserLibrary till hemskärmen på separata anchorpanes
         ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
-        for (DBPlant plant : currentUserLibrary) {
-            plantpane.add(new LibraryPlantPane(this, "resources/images/sapling_in_pot.png", plant));
+        if (currentUserLibrary == null) {
+            plantpane.add(new LibraryPlantPane());
+        } else {
+            for (DBPlant plant : currentUserLibrary) {
+                plantpane.add(new LibraryPlantPane(this, "resources/images/sapling_in_pot.png", plant));
+            }
         }
-        userPlantLibrary.setItems(plantpane);
+        Platform.runLater(() -> userPlantLibrary.setItems(plantpane));
     }
 
     @FXML
     void createCurrentUserLibraryFromDB() {
-        //TODO: Hämta plantor som tillhör currentuser från databasen och lägg dom i currentUserLibrary
-        Message getLibrary = new Message("getLibrary", LoggedInUser.getInstance().getUser());
-        Message response = ClientConnection.getInstance().makeRequest(getLibrary);
 
-        if (response.isSuccess()) {
-            currentUserLibrary = response.getPlantLibrary();
-        } else {
-            MessageBox.display("Fail", "Failed to add to database");
-        }
+        Thread getLibraryThread = new Thread(() -> {
+            Message getLibrary = new Message("getLibrary", LoggedInUser.getInstance().getUser());
+            ClientConnection connection = new ClientConnection();
+            Message response = connection.makeRequest(getLibrary);
+
+            if (response.isSuccess()) {
+                currentUserLibrary = response.getPlantLibrary();
+                addCurrentUserLibraryToHomeScreen();
+            } else {
+                Platform.runLater(() -> MessageBox.display("Fail", "Failed to get library from database"));
+            }
+        });
+        getLibraryThread.start();
     }
 
     @FXML
     public void removePlantFromDatabase(DBPlant plant) {
-        Message deletePlant = new Message("deletePlantFromLibrary", LoggedInUser.getInstance().getUser(), plant);
-        Message response = ClientConnection.getInstance().makeRequest(deletePlant);
 
-        if (response.isSuccess()) {
-            createCurrentUserLibraryFromDB();
+        Thread removePlantThread = new Thread(() -> {
+            currentUserLibrary.remove(plant);
             addCurrentUserLibraryToHomeScreen();
-        } else {
-            MessageBox.display("Error", "Could not delete plant");
-        }
+            Message deletePlant = new Message("deletePlantFromLibrary", LoggedInUser.getInstance().getUser(), plant);
+            ClientConnection connection = new ClientConnection();
+            Message response = connection.makeRequest(deletePlant);
+            if (!response.isSuccess()) {
+                Platform.runLater(() -> MessageBox.display("Error", "Could not delete plant"));
+                createCurrentUserLibraryFromDB();
+            }
+        });
+        removePlantThread.start();
     }
 
     @FXML
     public void addPlantToCurrentUserLibrary(APIPlant plantAdd, String plantNickname) {
         int plantsWithThisNickname = 1;
+        String nonDuplicatePlantNickname = plantNickname;
         for (DBPlant plant : currentUserLibrary) {
-            if (plant.getNickname().equals(plantNickname)) {
+            if (plant.getNickname().equals(nonDuplicatePlantNickname)) {
                 plantsWithThisNickname++;
+                nonDuplicatePlantNickname = plantNickname + plantsWithThisNickname;
             }
         }
-        if (plantsWithThisNickname > 1) {
-            plantNickname = plantNickname + plantsWithThisNickname;
-        }
-
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
-        DBPlant plantToAdd = new DBPlant(plantNickname, plantAdd.getLinks().getPlant(), date);
+        DBPlant plantToAdd = new DBPlant(nonDuplicatePlantNickname, plantAdd.getLinks().getPlant(), date);
         addPlantToDatabase(plantToAdd);
     }
 
     @FXML
     public void addPlantToDatabase(DBPlant plant) {
-        Message savePlant = new Message("savePlant", LoggedInUser.getInstance().getUser(), plant);
-        Message response = ClientConnection.getInstance().makeRequest(savePlant);
-        if (response.isSuccess()) {
-            createCurrentUserLibraryFromDB();
+
+        Thread addPlantThread = new Thread(() -> {
+            currentUserLibrary.add(plant);
             addCurrentUserLibraryToHomeScreen();
-        } else {
-            MessageBox.display("Fail", "Failed to add to database");
-        }
+            Message savePlant = new Message("savePlant", LoggedInUser.getInstance().getUser(), plant);
+            ClientConnection connection = new ClientConnection();
+            Message response = connection.makeRequest(savePlant);
+            if (!response.isSuccess()) {
+                Platform.runLater(() -> MessageBox.display("Fail", "Failed to add to database"));
+                createCurrentUserLibraryFromDB();
+            }
+        });
+        addPlantThread.start();
     }
 
     @FXML

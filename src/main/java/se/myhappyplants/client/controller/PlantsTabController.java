@@ -1,5 +1,6 @@
 package se.myhappyplants.client.controller;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
+
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.Message;
 
@@ -40,7 +42,7 @@ public class PlantsTabController {
         imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
     }
 
-    public void setSecondaryController (MainPaneController mainPaneController) {
+    public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
 
@@ -77,32 +79,31 @@ public class PlantsTabController {
         });
         imageThread.start();
     }
-
     @FXML
     private void searchButtonPressed() {
+        Thread searchThread = new Thread(() -> {
         Message apiRequest = new Message("search", txtFldSearchText.getText());
         progressIndicator.setProgress(25);
-        Message apiResponse = ClientConnection.getInstance().makeRequest(apiRequest);
+        ClientConnection connection = new ClientConnection();
+        Message apiResponse = connection.makeRequest(apiRequest);
 
         if (apiResponse != null) {
             if (apiResponse.isSuccess()) {
                 progressIndicator.setProgress(50);
                 showResultsOnPane(apiResponse);
             } else {
-
-                MessageBox.display("No results", "No results on " + txtFldSearchText.getText() + ", sorry!");
-
+                Platform.runLater(() ->MessageBox.display("No results", "No results on " + txtFldSearchText.getText() + ", sorry!"));
             }
         } else {
-            MessageBox.display("No response", "No response from the server");
+            Platform.runLater(() ->MessageBox.display("No response", "No response from the server"));
         }
+        });
+        searchThread.start();
     }
-
     @FXML
     private void logoutButtonPressed() throws IOException {
 
         mainPaneController.logoutButtonPressed();
-
     }
 
     public ObservableList<String> getMorePlantInfo(APIPlant apiPlant) {
