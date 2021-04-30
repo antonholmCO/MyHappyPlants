@@ -17,7 +17,7 @@ public class Main {
         //controller.createNewUser();
         //controller.logIn();
         Controller controller = new Controller();
-        new Server(2555, new UserRepository(), new PlantRepository(), new PlantService(controller),controller);
+        new Server(2555, new UserRepository(), new PlantRepository(), new PlantService(controller), controller);
         //new Server(2555);
 
 //        för att testa API:et används koden nedan

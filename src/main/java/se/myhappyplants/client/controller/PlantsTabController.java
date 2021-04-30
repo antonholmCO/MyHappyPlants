@@ -15,6 +15,7 @@ import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.Message;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,12 +27,18 @@ import java.util.ArrayList;
 
 public class PlantsTabController {
 
-    @FXML private MainPaneController mainPaneController;
-    @FXML private ImageView imgUserPicture;
-    @FXML private Label lblUsernamePlants;
-    @FXML private TextField txtFldSearchText;
-    @FXML private ListView resultPane;
-    @FXML private ProgressIndicator progressIndicator;
+    @FXML
+    private MainPaneController mainPaneController;
+    @FXML
+    private ImageView imgUserPicture;
+    @FXML
+    private Label lblUsernamePlants;
+    @FXML
+    private TextField txtFldSearchText;
+    @FXML
+    private ListView resultPane;
+    @FXML
+    private ProgressIndicator progressIndicator;
 
     @FXML
     public void initialize() {
@@ -61,13 +68,13 @@ public class PlantsTabController {
         ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
 
         ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
-        for(APIPlant plant: searchedPlant) {
-            searchPlantPanes.add(new SearchPlantPane(this,new File("resources/images/img.png").toURI().toString(), plant));
+        for (APIPlant plant : searchedPlant) {
+            searchPlantPanes.add(new SearchPlantPane(this, new File("resources/images/img.png").toURI().toString(), plant));
         }
         resultPane.setItems(searchPlantPanes);
         progressIndicator.setProgress(100);
         Thread imageThread = new Thread(() -> {
-            for(SearchPlantPane spp: searchPlantPanes) {
+            for (SearchPlantPane spp : searchPlantPanes) {
                 APIPlant apiPlant = spp.getApiPlant();
                 if (apiPlant.image_url == null) {
                     spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
@@ -119,7 +126,7 @@ public class PlantsTabController {
         return waterLightInfo;
     }
 
-    public void updateAvatar(){
+    public void updateAvatar() {
         imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
     }
 }

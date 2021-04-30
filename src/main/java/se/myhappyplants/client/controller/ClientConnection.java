@@ -13,7 +13,7 @@ import java.net.Socket;
  * Created by: Christopher O'Driscoll
  * Updated by: Christopher, 2021-04-13
  */
-public class ClientConnection{
+public class ClientConnection {
 
     private String ipAddress;
     private int port;
@@ -23,8 +23,10 @@ public class ClientConnection{
         ipAddress = "localhost";
         port = 2555;
     }
+
     /**
      * Opends a socket and handles Message-requests from client side and send them to server through TCP.
+     *
      * @param request instance of class Message with a certain request
      * @return instance of Message class with a certain response
      */
@@ -38,12 +40,10 @@ public class ClientConnection{
             oos.writeObject(request);
             oos.flush();
             response = (Message) ois.readObject();
-        }
-        catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-        }
-        finally {
-            if(socket!=null) {
+        } finally {
+            if (socket != null) {
                 try {
                     socket.close();
                 } catch (IOException e) {

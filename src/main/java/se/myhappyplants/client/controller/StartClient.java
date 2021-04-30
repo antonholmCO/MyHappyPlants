@@ -12,8 +12,8 @@ import java.io.IOException;
 /**
  * JavaFX Application Main class
  * If javaFX not installed, execute maven goals:
- *        1.  mvn javafx:compile
- *        2.  mvn javafx:run
+ * 1.  mvn javafx:compile
+ * 2.  mvn javafx:run
  * Creater by: Christopher O'Driscoll, Eric Simonsson
  */
 public class StartClient extends Application {
@@ -23,13 +23,14 @@ public class StartClient extends Application {
 
     /**
      * Starts the application by opening window. Method handles close on request.
+     *
      * @param stage instance of Stage to start
      * @throws IOException
      */
     @Override
     public void start(Stage stage) throws IOException {
         window = stage;
-        window.setOnCloseRequest( action -> {
+        window.setOnCloseRequest(action -> {
             action.consume(); // tell java to forget about event so that
             closeProgram(); // now handles close event manually
         });
@@ -42,7 +43,7 @@ public class StartClient extends Application {
      * Method handles close on request.
      */
     private void closeProgram() {
-        if(ConfirmationBox.display("Exit", "Are you sure?")) {
+        if (ConfirmationBox.display("Exit", "Are you sure?")) {
             //ToDo - some code here to save user profile,
             // update database, make sure
             // any open connection is closed safely etc
@@ -50,7 +51,7 @@ public class StartClient extends Application {
         }
     }
 
-    static void setRoot(String fxml) throws IOException {
+    public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
@@ -60,8 +61,9 @@ public class StartClient extends Application {
     }
 
     /**
-      *Alternative run method (not needed)
-      *@param args
+     * Alternative run method (not needed)
+     *
+     * @param args
      **/
     public static void main(String[] args) {
         launch();

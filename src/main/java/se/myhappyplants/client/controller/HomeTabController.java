@@ -14,6 +14,7 @@ import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
+
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -26,13 +27,17 @@ public class HomeTabController {
 
     private ArrayList<DBPlant> currentUserLibrary;
 
-    @FXML private MainPaneController mainPaneController;
+    @FXML
+    private MainPaneController mainPaneController;
 
-    @FXML private Label lblUsernameHome;
+    @FXML
+    private Label lblUsernameHome;
 
-    @FXML private ImageView imgUserPicture;
+    @FXML
+    private ImageView imgUserPicture;
 
-    @FXML private ListView userPlantLibrary;
+    @FXML
+    private ListView userPlantLibrary;
 
     @FXML
     public void initialize() {
@@ -139,8 +144,9 @@ public class HomeTabController {
 
     /**
      * Method to change last watered date in database, send a request to server and get a boolean respons depending on the result
+     *
      * @param plant instance of the plant which to change last watered date
-     * @param date new date to change to
+     * @param date  new date to change to
      */
     public void changeLastWateredInDB(DBPlant plant, LocalDate date) {
         Message changeLastWatered = new Message("changeLastWatered", LoggedInUser.getInstance().getUser(), plant, date);
@@ -151,7 +157,6 @@ public class HomeTabController {
     }
 
     /**
-     *
      * @param plant
      * @param newNickname
      * @return
@@ -159,7 +164,7 @@ public class HomeTabController {
     public boolean changeNicknameInDB(DBPlant plant, String newNickname) {
         Message changeNicknameinDB = new Message("changeNickname", LoggedInUser.getInstance().getUser(), plant, newNickname);
         Message response = new ClientConnection().makeRequest(changeNicknameinDB);
-        if(!response.isSuccess()) {
+        if (!response.isSuccess()) {
             MessageBox.display("Fail", "Something went wrong trying to change nickname");
             return false;
         } else {
