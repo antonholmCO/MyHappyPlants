@@ -8,7 +8,7 @@ import java.net.URL;
 /**
  * Class defining a plant from the API
  * Created by: Frida Jacobsson
- * Updated by: Linn Borgström
+ * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
  */
 public class APIPlant implements Serializable {
 
@@ -35,6 +35,7 @@ public class APIPlant implements Serializable {
     this.image_url = image_url;
     this.links = links;
   }
+
 
   public String getCommon_name() {
     return common_name;
@@ -76,8 +77,10 @@ public class APIPlant implements Serializable {
     this.links = links;
   }
 
+
   public String toString() {
     String toString = String.format("Common name: %s \tFamily name: %s \tScientific name: %s ", common_name, family_common_name, scientific_name);
     return toString;
   }
+
 }

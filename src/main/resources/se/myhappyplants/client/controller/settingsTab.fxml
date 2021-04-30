@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+
 <BorderPane fx:id="settingsPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SettingsTabController">
     <top>
         <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
@@ -31,7 +32,7 @@
     <center>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
             <children>
-                <Label layoutX="74.0" layoutY="78.0" text="Notifications ON/OFF" />
+                <Label layoutX="74.0" layoutY="78.0" text="Notifications " />
                 <Label layoutX="74.0" layoutY="148.0" text="Do you want curious about plants" />
                 <Label layoutX="71.0" layoutY="220.0" text="Change profile picture" />
                 <ToggleButton layoutX="380.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="152.0" text="Activate" />

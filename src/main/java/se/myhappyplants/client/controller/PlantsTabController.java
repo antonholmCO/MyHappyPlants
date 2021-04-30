@@ -19,6 +19,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Created by: Christopher O'Driscoll
+ * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
+ */
+
 public class PlantsTabController {
 
     @FXML private MainPaneController mainPaneController;
@@ -100,7 +105,20 @@ public class PlantsTabController {
 
     }
 
+    public ObservableList<String> getMorePlantInfo(APIPlant apiPlant) {
+        Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", apiPlant);
+        Message response = ClientConnection.getInstance().makeRequest(getInfoSearchedPlant);
+        ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
+        if(response != null) {
+            for (int i = 0; i < response.getStringArray().length; i++) {
+                waterLightInfo.add(response.getStringArray()[i]);
+            }
+        }
+        System.out.println("From PlantTabController: " + waterLightInfo.toString());
+        return waterLightInfo;
+
     public void updateAvatar() {
         imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+
     }
 }

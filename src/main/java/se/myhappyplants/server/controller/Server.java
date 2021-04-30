@@ -1,6 +1,5 @@
 package se.myhappyplants.server.controller;
 
-import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.server.model.repository.PlantRepository;
 import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.server.model.service.PlantService;
@@ -14,9 +13,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.SQLException;
-import java.net.UnknownHostException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -24,7 +20,7 @@ import java.util.ArrayList;
  * Handles each connection with a new thread
  *
  * Created by: Christopher O'Driscoll
- * Updated by: Christopher, 2021-04-13
+ * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström 2021-04-28
  */
 public class Server implements Runnable {
 
@@ -36,6 +32,7 @@ public class Server implements Runnable {
     private UserRepository userRepository;
     private PlantRepository plantRepository;
     private PlantService plantService;
+    private Controller controller;
 
     /**
      * Constructor opens a port and starts a thread to listen for incoming connections/requests
@@ -44,11 +41,12 @@ public class Server implements Runnable {
      * @param userRepository to handle db requests
      * @param plantService   to handle api requests
      */
-    public Server(int port, UserRepository userRepository, PlantRepository plantRepository, PlantService plantService) {
+    public Server(int port, UserRepository userRepository, PlantRepository plantRepository, PlantService plantService, Controller controller) {
         this(port);
         this.userRepository = userRepository;
         this.plantRepository = plantRepository;
         this.plantService = plantService;
+        this.controller=controller;
     }
 
     /**
@@ -103,7 +101,7 @@ public class Server implements Runnable {
      * @param request request object received from client
      * @return response to be sent back to client
      */
-    private Message getResponse(Message request) {
+    private Message getResponse(Message request) throws IOException, InterruptedException {
         Message response;
         String messageType = request.getMessageType();
 
@@ -141,7 +139,7 @@ public class Server implements Runnable {
                 break;
             case "search":
                 try {
-                  ArrayList<APIPlant> plantList = plantService.getResult(request.getSearchWord());
+                  ArrayList<APIPlant> plantList = plantService.getResult(request.getMessageText());
                   response = new Message("search", plantList, true);
                 } catch (Exception e) {
                   response = new Message("search", false);
@@ -160,6 +158,9 @@ public class Server implements Runnable {
                 boolean deleteSuccess = plantRepository.deletePlant(request.getUser(), request.getDbPlant().getNickname());
                 response = new Message("success", deleteSuccess);
                 break;
+            case "getMorePlantInfoOnSearch":
+                String[] message = plantService.getMoreInformation(request.getPlant());
+                response = new Message("waterLightInfo", message);
             case "changeLastWatered":
                 boolean changeDateSuccess = plantRepository.changeLastWatered(request.getUser(), request.getDbPlant().getNickname(), request.getDate());
                 response = new Message("success", changeDateSuccess);
@@ -209,7 +210,7 @@ public class Server implements Runnable {
                     //todo remove test sout
                     System.out.println("Response sent");
                     oos.flush();
-                } catch (IOException | ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException | InterruptedException e) {
                     e.printStackTrace();
                     System.out.println("nej du");
                 }
