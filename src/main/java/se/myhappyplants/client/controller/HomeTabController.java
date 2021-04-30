@@ -42,7 +42,6 @@ public class HomeTabController {
 
     @FXML
     public void initialize() {
-
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameHome.setText(loggedInUser.getUser().getUsername());
         imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
@@ -58,21 +57,25 @@ public class HomeTabController {
 
     @FXML
     public void addCurrentUserLibraryToHomeScreen() {
-
-        ObservableList<LibraryPlantPane> plantpane = FXCollections.observableArrayList();
+        ObservableList<LibraryPlantPane> plantPane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
-            plantpane.add(new LibraryPlantPane());
+            plantPane.add(new LibraryPlantPane());
         } else {
             for (DBPlant plant : currentUserLibrary) {
-                plantpane.add(new LibraryPlantPane(this, getRandomImagePath(), plant));
+                plantPane.add(new LibraryPlantPane(this, getRandomImagePath(), plant));
             }
         }
-        Platform.runLater(() -> userPlantLibrary.setItems(plantpane));
+        Platform.runLater(() -> userPlantLibrary.setItems(plantPane));
     }
 
+    /**
+     * Method that generated a random path to a image of a flower
+     *
+     * @return
+     */
     private String getRandomImagePath() {
         Random random = new Random();
-        switch(1 + random.nextInt(8)) {
+        switch (1 + random.nextInt(8)) {
             case 1:
                 return "resources/images/blomma2.jpg";
             case 2:
@@ -96,7 +99,6 @@ public class HomeTabController {
 
     @FXML
     public void createCurrentUserLibraryFromDB() {
-
         Thread getLibraryThread = new Thread(() -> {
             Message getLibrary = new Message("getLibrary", LoggedInUser.getInstance().getUser());
             ClientConnection connection = new ClientConnection();
@@ -114,7 +116,6 @@ public class HomeTabController {
 
     @FXML
     public void removePlantFromDatabase(DBPlant plant) {
-
         Thread removePlantThread = new Thread(() -> {
             currentUserLibrary.remove(plant);
             addCurrentUserLibraryToHomeScreen();
@@ -147,7 +148,6 @@ public class HomeTabController {
 
     @FXML
     public void addPlantToDatabase(DBPlant plant) {
-
         Thread addPlantThread = new Thread(() -> {
             currentUserLibrary.add(plant);
             addCurrentUserLibraryToHomeScreen();
@@ -187,8 +187,8 @@ public class HomeTabController {
      * @return
      */
     public boolean changeNicknameInDB(DBPlant plant, String newNickname) {
-        Message changeNicknameinDB = new Message("changeNickname", LoggedInUser.getInstance().getUser(), plant, newNickname);
-        Message response = new ClientConnection().makeRequest(changeNicknameinDB);
+        Message changeNicknameInDB = new Message("changeNickname", LoggedInUser.getInstance().getUser(), plant, newNickname);
+        Message response = new ClientConnection().makeRequest(changeNicknameInDB);
         if (!response.isSuccess()) {
             MessageBox.display("Fail", "Something went wrong trying to change nickname");
             return false;

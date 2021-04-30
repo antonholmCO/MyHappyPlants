@@ -14,8 +14,8 @@ import se.myhappyplants.client.controller.PlantsTabController;
 import se.myhappyplants.shared.APIPlant;
 
 /**
- *  * Created by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
- *  * Updated by: Linn Borgström, Eric Simonsson, Susanne Vikström 2021-04-28
+ * * Created by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
+ * * Updated by: Linn Borgström, Eric Simonsson, Susanne Vikström 2021-04-28
  */
 public class SearchPlantPane extends Pane {
     private ImageView image;
@@ -32,7 +32,7 @@ public class SearchPlantPane extends Pane {
 
     private boolean extended;
 
-    public SearchPlantPane(PlantsTabController plantsTabController, String imgPath, APIPlant apiPlant){
+    public SearchPlantPane(PlantsTabController plantsTabController, String imgPath, APIPlant apiPlant) {
 
         this.plantsTabController = plantsTabController;
 
@@ -48,25 +48,24 @@ public class SearchPlantPane extends Pane {
         image.setPreserveRatio(true);
         image.setImage(img);
 
-        this.commonName =  new Label("Common name: " + apiPlant.getCommon_name());
+        this.commonName = new Label("Common name: " + apiPlant.getCommon_name());
         commonName.setLayoutX(60.0);
         commonName.setLayoutY(20.0);
         commonName.prefHeight(17.0);
         commonName.prefWidth(264.0);
 
-        this.scientificName =  new Label("Scientific name: " + apiPlant.getScientific_name());
+        this.scientificName = new Label("Scientific name: " + apiPlant.getScientific_name());
         scientificName.setLayoutX(315.0);
         scientificName.setLayoutY(20.0);
         scientificName.prefHeight(17.0);
         scientificName.prefWidth(254.0);
-
 
         this.infoButton = new Button("Show more information");
         infoButton.setLayoutX(570.0);
         infoButton.setLayoutY(16.0);
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
-            if(!extended) {
+            if (!extended) {
                 getAllPlantInfo = plantsTabController.getMorePlantInfo(apiPlant);
                 for (int i = 0; i < getAllPlantInfo.size(); i++) {
                     listView.getItems().add(getAllPlantInfo.get(i).toString());
@@ -74,8 +73,7 @@ public class SearchPlantPane extends Pane {
 
                 extendPaneMoreInfoPlant();
                 System.out.println(" From searchPane " + plantsTabController.getMorePlantInfo(apiPlant));
-            }
-            else {
+            } else {
                 retractPane();
             }
         });
@@ -86,13 +84,11 @@ public class SearchPlantPane extends Pane {
         addButton.setMnemonicParsing(false);
         addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(apiPlant));
 
-
         listView = new ListView();
         listView.setLayoutX(this.getWidth());
         listView.setLayoutY(this.getHeight() + 56.0);
         listView.setPrefWidth(751.0);
         listView.setPrefHeight(150.0);
-
 
 
         this.prefHeight(56.0);
@@ -130,18 +126,12 @@ public class SearchPlantPane extends Pane {
     public void retractPane() {
 
         Timeline timeline = new Timeline(
-
                 new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() - 50))
-
-
         );
         timeline.setCycleCount(4);
         timeline.play();
         this.getChildren().removeAll();
         extended = false;
     }
-
-
-
 }
 

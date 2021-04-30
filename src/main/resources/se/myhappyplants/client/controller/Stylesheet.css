@@ -29,3 +29,10 @@
 .tab-pane > .tab-header-area > .headers-region > .tab:selected >.tab-container >.focus-indicator {
 -fx-opacity: 0;
 }
+
+.root{
+-fx-font-size: 13pt;
+-fx-font-family: "Garamond";
+ -fx-base: rgb(132, 145, 47);
+ -fx-background: rgb(225, 228, 203);
+}

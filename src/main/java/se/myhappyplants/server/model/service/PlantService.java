@@ -15,7 +15,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 
 /**
- * Class responsable for calling API and collect information about plants.
+ * Class responsible for calling API and collect information about plants.
  * Created by: Frida Jacobsson
  * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
  */
@@ -93,6 +93,12 @@ public class PlantService {
         return allInfo;
     }
 
+    /**
+     * @param apiURL
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public long getWaterFrequency(String apiURL) throws IOException, InterruptedException {
         String token = PasswordsAndKeys.APIToken;
         String plantURL = trefleURL + apiURL + "?token=" + token;

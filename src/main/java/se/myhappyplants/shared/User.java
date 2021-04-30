@@ -82,7 +82,8 @@ public class User implements Serializable {
         try (BufferedReader br = new BufferedReader(new FileReader("resources/images/user_avatars/" + email + "_avatar.txt"))) {
             String readtxt = br.readLine();
             this.avatarURL = new File(readtxt).toURI().toString();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             this.avatarURL = new File("resources/images/user_default_img.png").toURI().toString();
         }
     }

@@ -55,7 +55,7 @@ public class LibraryPlantPane extends Pane {
         image.setLayoutX(50.0);
         image.setLayoutY(14.0);
 
-        nickname =  new Label("Your plants are being loaded from the database..");
+        nickname = new Label("Your plants are being loaded from the database..");
         nickname.setLayoutX(100);
         nickname.setLayoutY(25);
         nickname.setPrefWidth(300);
@@ -67,9 +67,10 @@ public class LibraryPlantPane extends Pane {
     /**
      * Creates a pane using information from a user's
      * plant library
+     *
      * @param controller HomeTabController which contains logic for elements to use
-     * @param imgPath location of user's avatar image
-     * @param plant plant object from user's library
+     * @param imgPath    location of user's avatar image
+     * @param plant      plant object from user's library
      */
     public LibraryPlantPane(HomeTabController controller, String imgPath, DBPlant plant) {
         this.controller = controller;
@@ -164,7 +165,6 @@ public class LibraryPlantPane extends Pane {
         this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
     }
 
-
     /**
      * Method for expanding tab with "more information"-buttons.
      */
@@ -177,6 +177,7 @@ public class LibraryPlantPane extends Pane {
         timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = true;
     }
+
     /**
      * Method for hiding tab with "more information"-buttons.
      */
@@ -192,16 +193,16 @@ public class LibraryPlantPane extends Pane {
 
     /**
      * Changes the colour of the progress bar
+     *
      * @param progress How full the progress bar is(0-1.0)
      */
-        //TODO: decide how we want colors in progressbar
-        private void setColorProgressBar(double progress){
-            if (progress < 0.15) {
-                progressBar.setStyle("-fx-accent: red");
-            }
-            else {
-                progressBar.setStyle("-fx-accent: 2D88AA");
-            }
+    //TODO: decide how we want colors in progressbar
+    private void setColorProgressBar(double progress) {
+        if (progress < 0.15) {
+            progressBar.setStyle("-fx-accent: red");
+        } else {
+            progressBar.setStyle("-fx-accent: 2D88AA");
+        }
     }
 
     /**
@@ -209,26 +210,27 @@ public class LibraryPlantPane extends Pane {
      * to double check the user really
      * wants to remove the plant
      * todo: should this method be in controller instead?
+     *
      * @param plant selected plant
      */
-        private void removePlant(DBPlant plant) {
-            int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
-            if (answer == 1) {
-                controller.removePlantFromDatabase(plant);
-            }
+    private void removePlant(DBPlant plant) {
+        int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
+        if (answer == 1) {
+            controller.removePlantFromDatabase(plant);
         }
+    }
+
     /**
      * @param plant
      */
     private void changeNickname(DBPlant plant) {
         String newNickname = MessageBox.askForStringInput("Change nickname", "Type new nickname:");
-        if(controller.changeNicknameInDB(plant, newNickname)) {
+        if (controller.changeNicknameInDB(plant, newNickname)) {
             nickname.setText(newNickname);
         }
     }
 
     /**
-     *
      * @param plant
      */
     private void changeDate(DBPlant plant) {
@@ -238,5 +240,4 @@ public class LibraryPlantPane extends Pane {
         setColorProgressBar(plant.getProgress());
         controller.changeLastWateredInDB(plant, date);
     }
-
 }

@@ -49,12 +49,12 @@ public class MainPaneController {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/lastLogin.txt"))) {
             bw.write(email);
             bw.flush();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
         LoggedInUser.getInstance().setUser(null);
         StartClient.setRoot("loginPane");
-
     }
 
     public void updateAvatarOnAllTabs() {
@@ -62,5 +62,4 @@ public class MainPaneController {
         plantsPaneController.updateAvatar();
         settingsPaneController.updateAvatar();
     }
-
 }

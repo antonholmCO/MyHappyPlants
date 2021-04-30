@@ -35,7 +35,7 @@ public class ConfirmationBox {
         });
 
         Button noButton = new Button("No");
-        noButton.setOnAction( action -> {
+        noButton.setOnAction(action -> {
             answer = false;
             window.close();
         });

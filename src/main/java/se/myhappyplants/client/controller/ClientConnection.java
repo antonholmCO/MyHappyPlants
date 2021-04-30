@@ -40,13 +40,16 @@ public class ClientConnection {
             oos.writeObject(request);
             oos.flush();
             response = (Message) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
+        }
+        catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-        } finally {
+        }
+        finally {
             if (socket != null) {
                 try {
                     socket.close();
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     e.printStackTrace();
                 }
             }

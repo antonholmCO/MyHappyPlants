@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 public class PlantCollection implements Serializable {
 
-  public ArrayList<APIPlant> data;
+    public ArrayList<APIPlant> data;
 
-  public ArrayList<APIPlant> getData() {
-    return data;
-  }
+    public ArrayList<APIPlant> getData() {
+        return data;
+    }
 }

@@ -8,5 +8,5 @@ import java.io.Serializable;
 
 public class MainSpecies implements Serializable {
 
-  public Growth growth;
+    public Growth growth;
 }

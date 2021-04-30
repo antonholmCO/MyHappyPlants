@@ -19,7 +19,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 
 public class SettingsTabController {
 
@@ -44,7 +43,7 @@ public class SettingsTabController {
     }
 
     /**
-     * author: Frida Jacobsson
+     * Method
      */
     @FXML
     private void deleteAccountButtonPressed() {
@@ -59,7 +58,8 @@ public class SettingsTabController {
                         Platform.runLater(() -> MessageBox.display("Account deleted successfully", "Sorry to see you go"));
                         try {
                             logoutButtonPressed();
-                        } catch (IOException e) {
+                        }
+                        catch (IOException e) {
                             e.printStackTrace();
                         }
                     } else {
@@ -109,7 +109,8 @@ public class SettingsTabController {
                 // Kopierar in filen i foldern, om den kastar FileAlreadyExistsException, ta bort filen och kopiera igen
                 try {
                     Files.copy(selectedImage.toPath(), new File("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension).toPath());
-                } catch (FileAlreadyExistsException e) {
+                }
+                catch (FileAlreadyExistsException e) {
                     Files.delete(new File("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension).toPath());
                     Files.copy(selectedImage.toPath(), new File("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension).toPath());
                 }
@@ -120,14 +121,16 @@ public class SettingsTabController {
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/images/user_avatars/" + user.getEmail() + "_avatar.txt"))) {
                     bw.write("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension);
                     bw.flush();
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     e.printStackTrace();
                 }
 
                 //Sätter avataren i current session
                 user.setAvatar("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension);
                 mainPaneController.updateAvatarOnAllTabs();
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
 //            }

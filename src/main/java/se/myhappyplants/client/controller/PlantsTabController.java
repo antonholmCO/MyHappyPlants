@@ -53,7 +53,6 @@ public class PlantsTabController {
 
     @FXML
     public void addPlantToCurrentUserLibrary(APIPlant plantAdd) {
-
         String plantNickname = plantAdd.common_name;
 
         int answer = MessageBox.askYesNo("Want to add a nickname?", "Do you want to add a nickname for your plant?");

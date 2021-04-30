@@ -8,10 +8,10 @@ import java.io.Serializable;
  */
 
 public class Links implements Serializable {
-  private static final long serialVersionUID = 1L;
-  public String plant;
+    private static final long serialVersionUID = 1L;
+    public String plant;
 
-  public String getPlant() {
-    return plant;
-  }
+    public String getPlant() {
+        return plant;
+    }
 }

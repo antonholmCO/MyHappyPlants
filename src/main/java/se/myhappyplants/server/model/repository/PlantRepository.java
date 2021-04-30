@@ -47,9 +47,11 @@ public class PlantRepository implements IPlantRepository {
             CallableStatement callableStatement = Driver.getConnection().prepareCall(query);
             callableStatement.execute();
             success = true;
-        } catch (SQLException throwables) {
+        }
+        catch (SQLException throwables) {
             throwables.printStackTrace();
-        } catch (UnknownHostException e) {
+        }
+        catch (UnknownHostException e) {
             e.printStackTrace();
         }
         return success;

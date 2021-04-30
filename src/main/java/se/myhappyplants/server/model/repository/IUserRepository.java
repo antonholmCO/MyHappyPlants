@@ -3,7 +3,7 @@ package se.myhappyplants.server.model.repository;
 import se.myhappyplants.shared.User;
 
 /**
- * Interface for defining what a class calling the API for handling a user has to contain.
+ * Interface for defining a repository calling database about users
  * Created by: Frida Jacobsson 2021-04-06
  * Updated by:
  */
