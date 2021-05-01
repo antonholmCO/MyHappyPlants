@@ -3,6 +3,7 @@ package se.myhappyplants.client.view;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -31,6 +32,7 @@ public class SearchPlantPane extends Pane {
     private Label lblFamilyName;
     private Label lblLightText;
     private Label lblWaterText;
+    private boolean gotInfoOnPlant;
 
     private ObservableList<String> getAllPlantInfo;
 
@@ -69,12 +71,14 @@ public class SearchPlantPane extends Pane {
         infoButton.setLayoutY(16.0);
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
-            if (!extended && listView.equals(getAllPlantInfo)) {
-                getAllPlantInfo = plantsTabController.getMorePlantInfo(apiPlant);
-                for (int i = 0; i < getAllPlantInfo.size(); i++) {
-                    listView.getItems().add(getAllPlantInfo.get(i).toString());
-                }
+            if (!extended) {
+                if(!gotInfoOnPlant) {
+                    getAllPlantInfo = plantsTabController.getMorePlantInfo(apiPlant);
+                    for (int i = 0; i < getAllPlantInfo.size(); i++) {
+                        listView.getItems().add(getAllPlantInfo.get(i));
+                    }
 
+                }
                 extendPaneMoreInfoPlant();
                 System.out.println(" From searchPane " + plantsTabController.getMorePlantInfo(apiPlant));
             } else {
@@ -149,10 +153,15 @@ public class SearchPlantPane extends Pane {
         timeline.play();
         timeline.setOnFinished(action -> this.getChildren().addAll(listView,lblFamilyName,lblLightText,lblWaterText));
         extended = true;
+        gotInfoOnPlant = true;
 
     }
 
     public void retractPane() {
+        int size = listView.getItems().size();
+        for (int i = 0; i < size; i++) {
+            listView.getItems().remove(0);
+        }
 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() - 50))
@@ -161,6 +170,7 @@ public class SearchPlantPane extends Pane {
         timeline.play();
         this.getChildren().removeAll();
         extended = false;
+        gotInfoOnPlant = false;
     }
 }
 
