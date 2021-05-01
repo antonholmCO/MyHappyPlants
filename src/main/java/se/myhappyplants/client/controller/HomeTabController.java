@@ -31,6 +31,8 @@ public class HomeTabController {
     @FXML
     private MainPaneController mainPaneController;
 
+    @FXML private PlantsTabController plantsTabController;
+
     @FXML
     private Label lblUsernameHome;
 
@@ -57,9 +59,10 @@ public class HomeTabController {
 
     @FXML
     public void addCurrentUserLibraryToHomeScreen() {
+        plantsTabController = new PlantsTabController();
         ObservableList<LibraryPlantPane> plantPane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
-            plantPane.add(new LibraryPlantPane());
+            plantPane.add(new LibraryPlantPane(plantsTabController));
         } else {
             for (DBPlant plant : currentUserLibrary) {
                 plantPane.add(new LibraryPlantPane(this, getRandomImagePath(), plant));
