@@ -11,6 +11,10 @@ public class Links implements Serializable {
     private static final long serialVersionUID = 1L;
     public String plant;
 
+    public Links(String url) {
+        plant = url;
+    }
+
     public String getPlant() {
         return plant;
     }

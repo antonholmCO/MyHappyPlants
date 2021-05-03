@@ -160,11 +160,11 @@ public class LibraryPlantPane extends Pane {
             infoButton.setDisable(true);
             if (!extended) {
                 if(!gotInfoOnPlant) {
-                    /*APIPlant apiPlant = plant.getURL();
-                    getAllPlantInfo = plantsTabController.getMorePlantInfo(plant);
+                    APIPlant apiPlant = new APIPlant(plant.getURL());
+                    getAllPlantInfo = plantsTabController.getMorePlantInfo(apiPlant);
                     for (int i = 0; i < getAllPlantInfo.size(); i++) {
                         listView.getItems().add(getAllPlantInfo.get(i));
-                    }*/
+                    }
                 }
                 expand();
             } else {
@@ -210,7 +210,7 @@ public class LibraryPlantPane extends Pane {
         this.setPrefHeight(92.0);
         this.setPrefWidth(750.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
-        this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
+        this.getChildren().addAll(listView,lblFamilyName,lblLightText,lblWaterText,changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
     }
 
     /**

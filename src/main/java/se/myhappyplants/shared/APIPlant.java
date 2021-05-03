@@ -17,6 +17,7 @@ public class APIPlant implements Serializable {
     public String family_common_name;
     public URL image_url;
     public Links links;
+    private String url;
 
     /**
      * Constructor used to create a plant based on information from API
@@ -34,6 +35,10 @@ public class APIPlant implements Serializable {
         this.family_common_name = family_common_name;
         this.image_url = image_url;
         this.links = links;
+    }
+
+    public APIPlant(String url) {
+        this.links = new Links(url);
     }
 
     public String getCommon_name() {

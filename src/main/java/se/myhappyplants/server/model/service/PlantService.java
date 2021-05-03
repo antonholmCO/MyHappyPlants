@@ -92,6 +92,11 @@ public class PlantService {
         allInfo[2] = waterText;
         return allInfo;
     }
+    public String getMoreInformationFromURL(APIPlant plant) {
+        String token = PasswordsAndKeys.APIToken;
+        String plantURL = trefleURL + plant.links.plant + "?token=" + token;
+        return plantURL;
+    }
 
     /**
      * @param apiURL
