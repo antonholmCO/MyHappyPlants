@@ -13,8 +13,5 @@ public class Main {
         Controller controller = new Controller();
         new Server(2555, new UserRepository(), new PlantRepository(), new PlantService(controller), controller);
 
-//        för att testa API:et används koden nedan
-//        PlantService plantService = new PlantService();
-//        plantService.getResult();
     }
 }

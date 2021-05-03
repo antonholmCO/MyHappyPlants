@@ -58,7 +58,6 @@ public class PlantService {
 
     /**
      * Method for getting max and min precipitation and need of light based on plant-object
-     * TODO should return something
      *
      * @param plant An instance of a specific APIPlant
      * @throws IOException
@@ -114,10 +113,6 @@ public class PlantService {
         long waterFrequencyMilli = 0;
         try {
             long week = 604000000l;
-            //todo find better calculation for how often each plant needs watering
-            //1 day = 86 000 000
-            //min water = 200mm/year -> 4 weeks
-            //min water = 1000mm/year -> 1 week
             int waterFrequencyInt = Integer.parseInt(parsedWaterFreq);
             if (waterFrequencyInt <= 200) {
                 waterFrequencyMilli = week * 4;

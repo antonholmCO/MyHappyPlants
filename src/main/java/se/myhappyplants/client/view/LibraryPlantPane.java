@@ -19,21 +19,18 @@ import java.time.LocalDate;
 
 /**
  * Simple pane that displays a DBPlant's information
- * todo update to prettier pane
  * Created by: Christopher O'Driscoll
  * Updated by: Frida Jacobsson
  */
 public class LibraryPlantPane extends Pane {
     private HomeTabController controller;
 
-    //Always shown
     private ImageView image;
     private Label nickname;
     private ProgressBar progressBar;
     private Button infoButton;
     private Button waterButton;
 
-    //Shown when plant info pressed
     private Button changeNicknameButton;
     private Button changePictureButton;
     private Button deleteButton;
@@ -196,7 +193,6 @@ public class LibraryPlantPane extends Pane {
      *
      * @param progress How full the progress bar is(0-1.0)
      */
-    //TODO: decide how we want colors in progressbar
     private void setColorProgressBar(double progress) {
         if (progress < 0.15) {
             progressBar.setStyle("-fx-accent: red");
@@ -209,7 +205,6 @@ public class LibraryPlantPane extends Pane {
      * Shows a confirmation box when called,
      * to double check the user really
      * wants to remove the plant
-     * todo: should this method be in controller instead?
      *
      * @param plant selected plant
      */

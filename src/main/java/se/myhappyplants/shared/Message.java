@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * ToDo
  * Class that can be used for communication between Client/Server
  * Client/Server via TCP
  * Created by: Christopher O'Driscoll

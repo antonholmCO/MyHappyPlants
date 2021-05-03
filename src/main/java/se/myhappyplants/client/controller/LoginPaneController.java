@@ -47,7 +47,7 @@ public class LoginPaneController {
             txtFldEmail.setText(lastLoggedInUser);
         }
         catch (IOException e) {
-            System.out.println("No previous user logged in");
+            e.printStackTrace();
         }
     }
 
@@ -76,7 +76,6 @@ public class LoginPaneController {
                         switchToSecondary();
                     }
                     catch (IOException e) {
-                        System.out.println("no switch");
                         e.printStackTrace();
                     }
                 } else {

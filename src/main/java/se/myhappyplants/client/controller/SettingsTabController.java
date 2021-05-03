@@ -92,7 +92,6 @@ public class SettingsTabController {
     @FXML
     private void selectPicture() {
         User user = LoggedInUser.getInstance().getUser();
-        //ArrayList<String> allowedExtensions = new ArrayList<>();
         FileChooser fc = new FileChooser();
 
         FileChooser.ExtensionFilter fileExtensions = new FileChooser.ExtensionFilter("Images", "*.jpg", "*.jpeg", "*.png");
@@ -103,10 +102,7 @@ public class SettingsTabController {
         if (selectedImage != null) {
             String imagePath = selectedImage.toString();
             String imageExtension = imagePath.substring(imagePath.indexOf("."));
-            //TODO Set default folder for file chooser
-//            if (allowedExtensions.contains(imageExtension)) {
             try {
-                // Kopierar in filen i foldern, om den kastar FileAlreadyExistsException, ta bort filen och kopiera igen
                 try {
                     Files.copy(selectedImage.toPath(), new File("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension).toPath());
                 }
@@ -114,9 +110,6 @@ public class SettingsTabController {
                     Files.delete(new File("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension).toPath());
                     Files.copy(selectedImage.toPath(), new File("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension).toPath());
                 }
-
-                //Skriver full filepath till en txt i samma folder (Gör detta pga att eftersom vi har olika fileextensions kan vi inte hitta filen utan veta extension. Bestämmer vi att man endast
-                // tar tex jpg filer så fungerar det. Eller om vi kan komma på någon smartare lösning)
 
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/images/user_avatars/" + user.getEmail() + "_avatar.txt"))) {
                     bw.write("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension);
@@ -126,22 +119,12 @@ public class SettingsTabController {
                     e.printStackTrace();
                 }
 
-                //Sätter avataren i current session
                 user.setAvatar("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension);
                 mainPaneController.updateAvatarOnAllTabs();
             }
             catch (IOException e) {
                 e.printStackTrace();
             }
-//            }
-//            else {
-//                String wrongExtensionMessage = String.format("You can only choose files of the following format: %s, %s, %s\nTry again",
-//                                                            allowedExtensions.get(0),
-//                                                            allowedExtensions.get(1),
-//                                                            allowedExtensions.get(2));
-//
-//                MessageBox.display("Wrong type of file", wrongExtensionMessage);
-//            }
         }
     }
 }

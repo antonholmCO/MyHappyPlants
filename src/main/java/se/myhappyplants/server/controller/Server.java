@@ -72,8 +72,6 @@ public class Server implements Runnable {
         while (serverRunning) {
             try {
                 Socket socket = serverSocket.accept();
-                //todo remove sout method
-                System.out.println("Connection made, starting server thread to handle client");
                 ClientHandler clientHandler = new ClientHandler(socket);
                 clientHandler.start();
             } catch (IOException e) {
@@ -107,7 +105,6 @@ public class Server implements Runnable {
 
         switch (messageType) {
             case "login":
-                /*response = new Message("login", new User(request.getUser().getEmail(), request.getUser().getEmail(), true), true);*/
                 String email = request.getUser().getEmail();
                 String password = request.getUser().getPassword();
 
@@ -120,7 +117,6 @@ public class Server implements Runnable {
                 }
                 break;
             case "register":
-                /*response = new Message("register", request.getUser(), true);*/
                 User user = request.getUser();
                 if (userRepository.saveUser(user)) {
                     User savedUser = userRepository.getUserDetails(user.getEmail());
@@ -205,25 +201,12 @@ public class Server implements Runnable {
         public void run() {
             try {
                 Message request = (Message) ois.readObject();
-                //todo remove test sout
-                System.out.println("Request received, sending response");
                 Message response = getResponse(request);
                 oos.writeObject(response);
-                //todo remove test sout
-                System.out.println("Response sent");
                 oos.flush();
             } catch (IOException | ClassNotFoundException | InterruptedException e) {
                 e.printStackTrace();
             }
-//                finally {
-//                    if (socket != null) {
-//                        try {
-//                            socket.close();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
         }
     }
 }

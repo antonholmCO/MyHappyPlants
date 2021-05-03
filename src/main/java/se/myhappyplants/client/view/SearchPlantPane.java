@@ -72,7 +72,6 @@ public class SearchPlantPane extends Pane {
                 }
 
                 extendPaneMoreInfoPlant();
-                System.out.println(" From searchPane " + plantsTabController.getMorePlantInfo(apiPlant));
             } else {
                 retractPane();
             }

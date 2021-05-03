@@ -61,7 +61,6 @@ public class DBPlant implements Serializable {
         long difference = System.currentTimeMillis() - lastWatered.getTime();
         difference -= 43000000l;
         double progress = 1.0 - ((double) difference / (double) waterFrequency);
-        System.out.println(progress);
         if (progress <= 0) {
             return 0.05;
         }

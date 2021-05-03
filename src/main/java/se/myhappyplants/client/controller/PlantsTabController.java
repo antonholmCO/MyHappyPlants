@@ -121,7 +121,6 @@ public class PlantsTabController {
                 waterLightInfo.add(response.getStringArray()[i]);
             }
         }
-        System.out.println("From PlantTabController: " + waterLightInfo.toString());
         return waterLightInfo;
     }
 

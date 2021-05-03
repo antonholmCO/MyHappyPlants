@@ -21,7 +21,7 @@ public class Driver {
         String dbPassword = PasswordsAndKeys.dbPassword;
         DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
 
-        //If the DB host connects from their own IP then change connection to localhost
+
         if (InetAddress.getLocalHost().getHostName().equals(PasswordsAndKeys.dbHostName)) {
             dbServerIp = "localhost";
         }

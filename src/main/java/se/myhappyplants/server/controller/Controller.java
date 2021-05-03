@@ -57,9 +57,7 @@ public class Controller {
     public String calculateWater(String minWater) {
         String waterText;
         String parsedWaterFreq = minWater.substring(4, minWater.length() - 3);
-        //1 day = 86 000 000
-        //min water = 200mm/year -> 4 weeks
-        //min water = 1000mm/year -> 1 week
+
         int waterFrequencyInt = Integer.parseInt(parsedWaterFreq);
         if (waterFrequencyInt <= 200) {
             waterText = "Needs water 4 times a week";
