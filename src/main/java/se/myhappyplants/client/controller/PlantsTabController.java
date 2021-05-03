@@ -55,9 +55,9 @@ public class PlantsTabController {
     public void addPlantToCurrentUserLibrary(APIPlant plantAdd) {
         String plantNickname = plantAdd.common_name;
 
-        int answer = MessageBox.askYesNo("Want to add a nickname?", "Do you want to add a nickname for your plant?");
+        int answer = MessageBox.askYesNo("Add a new plant to library", "Do you want to add a nickname for your plant?");
         if (answer == 1) {
-            plantNickname = MessageBox.askForStringInput("Add a nickname", "What do you want to call your plant?");
+            plantNickname = MessageBox.askForStringInput("Add a nickname", "Nickname:");
         }
         mainPaneController.getHomePaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
     }
@@ -98,10 +98,10 @@ public class PlantsTabController {
                     progressIndicator.setProgress(50);
                     showResultsOnPane(apiResponse);
                 } else {
-                    Platform.runLater(() -> MessageBox.display("No results", "No results on " + txtFldSearchText.getText() + ", sorry!"));
+                    //skicka inget felmeddelande, visa label med sökresultat 0 istället
                 }
             } else {
-                Platform.runLater(() -> MessageBox.display("No response", "No response from the server"));
+                Platform.runLater(() -> MessageBox.display("Error", "The connection to the server has failed. Check your connection and try again."));
             }
         });
         searchThread.start();

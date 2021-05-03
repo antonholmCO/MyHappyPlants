@@ -209,9 +209,9 @@ public class LibraryPlantPane extends Pane {
      * @param plant selected plant
      */
     private void removePlant(DBPlant plant) {
-        int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
+        int answer = MessageBox.askYesNo("Delete plant", "Are you sure? The deleted plant can't be restored");
         if (answer == 1) {
-            controller.removePlantFromDatabase(plant);
+            controller.removePlantFromDB(plant);
         }
     }
 
@@ -219,7 +219,7 @@ public class LibraryPlantPane extends Pane {
      * @param plant
      */
     private void changeNickname(DBPlant plant) {
-        String newNickname = MessageBox.askForStringInput("Change nickname", "Type new nickname:");
+        String newNickname = MessageBox.askForStringInput("Change nickname", "New nickname:");
         if (controller.changeNicknameInDB(plant, newNickname)) {
             nickname.setText(newNickname);
         }
