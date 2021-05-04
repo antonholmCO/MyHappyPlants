@@ -142,7 +142,7 @@ public class HomeTabController {
         }
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
-        DBPlant plantToAdd = new DBPlant(nonDuplicatePlantNickname, plantAdd.getLinks().getPlant(), date);
+        DBPlant plantToAdd = new DBPlant(nonDuplicatePlantNickname, plantAdd.getPlantId(), date);
         addPlantToDB(plantToAdd);
     }
 

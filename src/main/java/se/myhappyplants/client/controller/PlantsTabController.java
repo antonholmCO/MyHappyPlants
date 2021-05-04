@@ -53,7 +53,7 @@ public class PlantsTabController {
 
     @FXML
     public void addPlantToCurrentUserLibrary(APIPlant plantAdd) {
-        String plantNickname = plantAdd.common_name;
+        String plantNickname = plantAdd.getCommonName();
 
         int answer = MessageBox.askYesNo("Add a new plant to library", "Do you want to add a nickname for your plant?");
         if (answer == 1) {
@@ -75,7 +75,7 @@ public class PlantsTabController {
         Thread imageThread = new Thread(() -> {
             for (SearchPlantPane spp : searchPlantPanes) {
                 APIPlant apiPlant = spp.getApiPlant();
-                if (apiPlant.image_url == null) {
+                if (apiPlant.getImageURL().equals("")) {
                     spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
                 } else {
                     spp.updateImage();

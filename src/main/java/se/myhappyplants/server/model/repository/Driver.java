@@ -14,7 +14,7 @@ import java.sql.SQLException;
  */
 
 public class Driver {
-    public static Connection getConnection() throws SQLException, UnknownHostException {
+    public static Connection getConnection(String database) throws SQLException, UnknownHostException {
         String dbServerIp = PasswordsAndKeys.dbServerIp;
         String dbServerPort = PasswordsAndKeys.dbServerPort;
         String dbUser = PasswordsAndKeys.dbUsername;
@@ -25,7 +25,7 @@ public class Driver {
         if (InetAddress.getLocalHost().getHostName().equals(PasswordsAndKeys.dbHostName)) {
             dbServerIp = "localhost";
         }
-        String dbURL = String.format("jdbc:sqlserver://%s:%s;databaseName=MyHappyPlants;user=%s;password=%s", dbServerIp, dbServerPort, dbUser, dbPassword);
+        String dbURL = String.format("jdbc:sqlserver://%s:%s;databaseName="+database+";user=%s;password=%s", dbServerIp, dbServerPort, dbUser, dbPassword);
         Connection conn = DriverManager.getConnection(dbURL);
         if (conn != null) {
             System.out.println("Connected");

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class DBPlant implements Serializable {
 
     private String nickname;
-    private String apiURL;
+    private String plantId;
     private Date lastWatered;
     private long waterFrequency;
 
@@ -20,20 +20,24 @@ public class DBPlant implements Serializable {
      * Constructor used to create a new plant based on information from the database
      *
      * @param nickname
-     * @param apiURL
+     * @param plantId
      * @param lastWatered
      */
-    public DBPlant(String nickname, String apiURL, Date lastWatered) {
+    public DBPlant(String nickname, String plantId, Date lastWatered) {
         this.nickname = nickname;
-        this.apiURL = apiURL;
+        this.plantId = plantId;
         this.lastWatered = lastWatered;
     }
 
-    public DBPlant(String nickname, String apiURL, Date lastWatered, long waterFrequency) {
+    public DBPlant(String nickname, String plantId, Date lastWatered, long waterFrequency) {
         this.nickname = nickname;
-        this.apiURL = apiURL;
+        this.plantId = plantId;
         this.lastWatered = lastWatered;
         this.waterFrequency = waterFrequency;
+    }
+
+    public String getPlantId() {
+        return plantId;
     }
 
     public String getNickname() {
@@ -45,7 +49,7 @@ public class DBPlant implements Serializable {
     }
 
     public String getURL() {
-        return apiURL;
+        return plantId;
     }
 
     public String getLastWatered() {
