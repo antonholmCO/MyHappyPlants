@@ -70,6 +70,7 @@ public class PlantsTabController {
         for (APIPlant plant : searchedPlant) {
             searchPlantPanes.add(new SearchPlantPane(this, new File("resources/images/img.png").toURI().toString(), plant));
         }
+        resultPane.getItems().clear();
         resultPane.setItems(searchPlantPanes);
         progressIndicator.setProgress(100);
         Thread imageThread = new Thread(() -> {
@@ -96,7 +97,7 @@ public class PlantsTabController {
             if (apiResponse != null) {
                 if (apiResponse.isSuccess()) {
                     progressIndicator.setProgress(50);
-                    showResultsOnPane(apiResponse);
+                    Platform.runLater(() -> showResultsOnPane(apiResponse));
                 } else {
                     //skicka inget felmeddelande, visa label med sökresultat 0 istället
                 }
