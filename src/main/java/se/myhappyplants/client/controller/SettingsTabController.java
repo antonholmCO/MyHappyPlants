@@ -55,7 +55,7 @@ public class SettingsTabController {
                 Message deleteResponse = connection.makeRequest(deleteMessage);
                 if (deleteResponse != null) {
                     if (deleteResponse.isSuccess()) {
-                        Platform.runLater(() -> MessageBox.display("Account deleted successfully", "Sorry to see you go"));
+                        Platform.runLater(() -> MessageBox.display("Account deleted successfully", "We are sorry to see you go"));
                         try {
                             logoutButtonPressed();
                         }
@@ -63,10 +63,10 @@ public class SettingsTabController {
                             e.printStackTrace();
                         }
                     } else {
-                        Platform.runLater(() -> MessageBox.display("Failed to delete account", "Invalid password"));
+                        Platform.runLater(() -> MessageBox.display("Couldn’t create account", "The passwords you entered do not match"));
                     }
                 } else {
-                    Platform.runLater(() -> MessageBox.display("Failed to delete account", "No contact with server"));
+                    Platform.runLater(() -> MessageBox.display("Couldn’t create account", "The connection to the server has failed. Check your connection and try again."));
                 }
             });
             deleteAccountThread.start();

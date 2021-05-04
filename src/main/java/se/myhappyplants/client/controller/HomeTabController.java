@@ -108,14 +108,14 @@ public class HomeTabController {
                 currentUserLibrary = response.getPlantLibrary();
                 addCurrentUserLibraryToHomeScreen();
             } else {
-                Platform.runLater(() -> MessageBox.display("Fail", "Failed to get library from database"));
+                Platform.runLater(() -> MessageBox.display("Couldn't load library", "The connection to the server has failed. Check your connection and try again."));
             }
         });
         getLibraryThread.start();
     }
 
     @FXML
-    public void removePlantFromDatabase(DBPlant plant) {
+    public void removePlantFromDB(DBPlant plant) {
         Thread removePlantThread = new Thread(() -> {
             currentUserLibrary.remove(plant);
             addCurrentUserLibraryToHomeScreen();
@@ -123,7 +123,7 @@ public class HomeTabController {
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(deletePlant);
             if (!response.isSuccess()) {
-                Platform.runLater(() -> MessageBox.display("Error", "Could not delete plant"));
+                Platform.runLater(() -> MessageBox.display("Couldn't delete plant", "The connection to the server has failed. Check your connection and try again."));
                 createCurrentUserLibraryFromDB();
             }
         });
@@ -143,11 +143,11 @@ public class HomeTabController {
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
         DBPlant plantToAdd = new DBPlant(nonDuplicatePlantNickname, plantAdd.getLinks().getPlant(), date);
-        addPlantToDatabase(plantToAdd);
+        addPlantToDB(plantToAdd);
     }
 
     @FXML
-    public void addPlantToDatabase(DBPlant plant) {
+    public void addPlantToDB(DBPlant plant) {
         Thread addPlantThread = new Thread(() -> {
             currentUserLibrary.add(plant);
             addCurrentUserLibraryToHomeScreen();
@@ -155,7 +155,7 @@ public class HomeTabController {
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(savePlant);
             if (!response.isSuccess()) {
-                Platform.runLater(() -> MessageBox.display("Fail", "Failed to add to database"));
+                Platform.runLater(() -> MessageBox.display("Couldn’t add plant to library", "The connection to the server has failed. Check your connection and try again."));
                 createCurrentUserLibraryFromDB();
             }
         });
@@ -177,7 +177,7 @@ public class HomeTabController {
         Message changeLastWatered = new Message("changeLastWatered", LoggedInUser.getInstance().getUser(), plant, date);
         Message response = new ClientConnection().makeRequest(changeLastWatered);
         if (!response.isSuccess()) {
-            MessageBox.display("Fail", "Something went wrong trying to change date");
+            MessageBox.display("Couldn’t change date", "The connection to the server has failed. Check your connection and try again.");
         }
     }
 
@@ -190,7 +190,7 @@ public class HomeTabController {
         Message changeNicknameInDB = new Message("changeNickname", LoggedInUser.getInstance().getUser(), plant, newNickname);
         Message response = new ClientConnection().makeRequest(changeNicknameInDB);
         if (!response.isSuccess()) {
-            MessageBox.display("Fail", "Something went wrong trying to change nickname");
+            MessageBox.display("Couldn’t change nickname", "The connection to the server has failed. Check your connection and try again.");
             return false;
         } else {
             plant.setNickname(newNickname);
