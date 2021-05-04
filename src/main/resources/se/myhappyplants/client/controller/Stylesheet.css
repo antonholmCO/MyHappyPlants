@@ -29,4 +29,11 @@
 .tab-pane > .tab-header-area > .headers-region > .tab:selected >.tab-container >.focus-indicator {
 -fx-opacity: 0;
 }
+
+.root{
+-fx-font-size: 14pt;
+-fx-font-family: "HGMaruGothicMPRO";
+ -fx-base: rgb(154, 205, 122);
+ -fx-background: rgb(154, 205, 122);
+}
 }
