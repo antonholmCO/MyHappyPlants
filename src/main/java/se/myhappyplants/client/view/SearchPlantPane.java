@@ -97,7 +97,8 @@ public class SearchPlantPane extends Pane {
 
 
     public void updateImage() {
-        Image img = new Image(String.valueOf(apiPlant.getImageURL()));
+        Image img = new Image(apiPlant.getImageURL());
+        System.out.println(apiPlant.getImageURL());
         image.setImage(img);
     }
 

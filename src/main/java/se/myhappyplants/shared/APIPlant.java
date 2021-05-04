@@ -47,6 +47,7 @@ public class APIPlant implements Serializable {
     }
 
     public String getImageURL() {
-        return imageURL;
+        String httpImageURL = imageURL.replace("https", "http");
+        return httpImageURL;
     }
 }
