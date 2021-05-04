@@ -1,8 +1,8 @@
-/*//vet ej vart denna gå
+/*Vet ej var denna går..
 */
 .tab-pane > .tab-header-area {
 -fx-padding: 0;
-fx-background-color:#E1E1E1, White; r
+fx-background-color:#E1E1E1, White;
 }
 /*//resten av listen på tab
 */
@@ -40,12 +40,15 @@ fx-background-color:#E1E1E1, White; r
 .tab-pane > .tab-header-area > .headers-region > .tab:selected >.tab-container >.focus-indicator {
 -fx-opacity: 0;
 }
-
+.text{
+    -fx-font-family: 'Bradley Hand ITC';
+}
 .root{
 -fx-font-size: 12pt;
--fx-font-family: "Arial";
+-fx-font-family: 'Bradley Hand ITC';
  -fx-base: #9ACD7A, BackgroundGreen;
  -fx-background: #9ACD7A, BackgroundGreen;
 
 }
+
 }
