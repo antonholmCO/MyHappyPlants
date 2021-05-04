@@ -97,8 +97,7 @@ public class SearchPlantPane extends Pane {
         listView.setLayoutY(this.getHeight() + 56.0);
         listView.setPrefWidth(651.0); //751.0
         listView.setPrefHeight(150.0);
-
-        Font font = new Font("Arial Bold",12.0);
+        
 
         lblFamilyName = new Label();
         lblFamilyName.setText("Family name: ");
@@ -106,7 +105,6 @@ public class SearchPlantPane extends Pane {
         lblFamilyName.setLayoutY(60.0);
         lblFamilyName.setPrefHeight(15.0);
         lblFamilyName.setPrefWidth(100.0);
-        lblFamilyName.setFont(font);
 
         lblLightText = new Label();
         lblLightText.setText("Light: ");
@@ -114,7 +112,6 @@ public class SearchPlantPane extends Pane {
         lblLightText.setLayoutY(85.0);
         lblLightText.setPrefHeight(15.0);
         lblLightText.setPrefWidth(100.0);
-        lblLightText.setFont(font);
 
         lblWaterText = new Label();
         lblWaterText.setText("Water: ");
@@ -122,7 +119,6 @@ public class SearchPlantPane extends Pane {
         lblWaterText.setLayoutY(105.0);
         lblWaterText.setPrefHeight(15.0);
         lblWaterText.setPrefWidth(100.0);
-        lblWaterText.setFont(font);
 
         this.prefHeight(56.0);
         this.prefWidth(761.0);
