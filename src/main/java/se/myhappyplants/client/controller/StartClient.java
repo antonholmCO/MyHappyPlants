@@ -62,7 +62,6 @@ public class StartClient extends Application {
 
     /**
      * Alternative run method (not needed)
-     *
      * @param args
      **/
     public static void main(String[] args) {

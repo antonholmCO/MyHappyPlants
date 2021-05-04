@@ -97,7 +97,6 @@ public class SearchPlantPane extends Pane {
         listView.setLayoutY(this.getHeight() + 56.0);
         listView.setPrefWidth(651.0); //751.0
         listView.setPrefHeight(150.0);
-        
 
         lblFamilyName = new Label();
         lblFamilyName.setText("Family name: ");

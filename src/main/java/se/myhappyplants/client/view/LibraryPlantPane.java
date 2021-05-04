@@ -109,38 +109,6 @@ public class LibraryPlantPane extends Pane {
         progressBar.setPrefHeight(18.0);
         progressBar.setPrefWidth(575.0);
 
-        listView = new ListView();
-        listView.setLayoutX(90.0); //this.getWidth()
-        listView.setLayoutY(this.getHeight() + 56.0);
-        listView.setPrefWidth(651.0); //751.0
-        listView.setPrefHeight(150.0);
-
-        Font font = new Font("Arial Bold",12.0);
-
-        lblFamilyName = new Label();
-        lblFamilyName.setText("Family name: ");
-        lblFamilyName.setLayoutX(5.0);
-        lblFamilyName.setLayoutY(60.0);
-        lblFamilyName.setPrefHeight(15.0);
-        lblFamilyName.setPrefWidth(100.0);
-        lblFamilyName.setFont(font);
-
-        lblLightText = new Label();
-        lblLightText.setText("Light: ");
-        lblLightText.setLayoutX(5.0);
-        lblLightText.setLayoutY(85.0);
-        lblLightText.setPrefHeight(15.0);
-        lblLightText.setPrefWidth(100.0);
-        lblLightText.setFont(font);
-
-        lblWaterText = new Label();
-        lblWaterText.setText("Water: ");
-        lblWaterText.setLayoutX(5.0);
-        lblWaterText.setLayoutY(105.0);
-        lblWaterText.setPrefHeight(15.0);
-        lblWaterText.setPrefWidth(100.0);
-        lblWaterText.setFont(font);
-
         this.waterButton = new Button("Water");
         waterButton.setLayoutX(400.0);
         waterButton.setLayoutY(59.0);
@@ -159,13 +127,6 @@ public class LibraryPlantPane extends Pane {
         infoButton.setOnAction(onPress -> {
             infoButton.setDisable(true);
             if (!extended) {
-                if(!gotInfoOnPlant) {
-                    APIPlant apiPlant = new APIPlant(plant.getURL());
-                    getAllPlantInfo = plantsTabController.getMorePlantInfo(apiPlant);
-                    for (int i = 0; i < getAllPlantInfo.size(); i++) {
-                        listView.getItems().add(getAllPlantInfo.get(i));
-                    }
-                }
                 expand();
             } else {
                 collapse();
