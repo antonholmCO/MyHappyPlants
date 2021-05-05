@@ -122,7 +122,6 @@ public class LibraryPlantPane extends Pane {
                 if(!gotInfoOnPlant) {
                     //getAllPlantInfo = plantsTabController.getMorePlantInfo(plant);
                     //listView.setItems(getAllPlantInfo);
-
                 }
                 expand();
             } else {

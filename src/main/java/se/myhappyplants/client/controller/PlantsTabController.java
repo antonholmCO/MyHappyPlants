@@ -118,8 +118,8 @@ public class PlantsTabController {
         mainPaneController.logoutButtonPressed();
     }
 
-    public ObservableList<String> getMorePlantInfo(DBPlant DBPlant) {
-        Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", DBPlant);
+    public ObservableList<String> getMorePlantInfo(DBPlant dbPlant) {
+        Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", dbPlant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
         if (response != null) {
