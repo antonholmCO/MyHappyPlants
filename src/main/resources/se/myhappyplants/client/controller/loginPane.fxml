@@ -42,12 +42,12 @@
                               <Font size="26.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="192.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="449.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../../../../resources/images/blomma15.1.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="440.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="176.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../../../../resources/images/blomma13.1.png" />
                            </image>
@@ -67,7 +67,7 @@
                         <TextField fx:id="txtFldNewEmail" layoutX="278.0" layoutY="160.0" prefHeight="35.0" prefWidth="267.0" promptText="youraddress@example.com" />
                         <TextField fx:id="txtFldNewUsername" layoutX="279.0" layoutY="289.0" prefHeight="35.0" prefWidth="269.0" promptText="username" />
                         <PasswordField fx:id="passFldNewPassword" layoutX="279.0" layoutY="346.0" prefHeight="35.0" prefWidth="267.0" promptText="password" />
-                        <Button defaultButton="true" layoutX="373.0" layoutY="467.0" mnemonicParsing="false" onAction="#registerButtonPressed" text="Sign up" />
+                        <Button defaultButton="true" layoutX="373.0" layoutY="467.0" mnemonicParsing="false" onAction="#registerButtonPressed" style="-fx-color: RED, -fx-text-fill: #000000;" text="Sign up" />
                         <Label layoutX="87.0" layoutY="22.0" prefHeight="62.0" prefWidth="413.0" text="Create a new account here at My Happy Plants" textFill="WHITE">
                            <font>
                               <Font size="43.0" />

@@ -4,19 +4,19 @@
 -fx-padding: 0;
 fx-background-color:#E1E1E1, White;
 }
-/*//resten av listen på tab
+/*//resten av listen på tab?
 -fx-background-color: #B8DAA0, LightGreen;
 */
 .tab-pane > .tab-header-area > .tab-header-background {
 
 -fx-background-insets: 0, 0 0 1px 0;
 }
-/*//den tab som ej är vald
+/*//den tab som ej är vald? - gör inget..
 #5DB32D, MediumGreen
--fx-background-color: #3FA607, DarkGreen;
+
 */
 .tab-pane > .tab-header-area > .headers-region > .tab {
-
+-fx-background-color: #000000;
 -fx-background-insets: 0 0 1px 0;
 -fx-padding: 1.5em 1em;
 
@@ -26,8 +26,15 @@ fx-background-color:#E1E1E1, White;
 */
 .tab-pane > .tab-header-area > .headers-region > .tab >.tab-container >.tab-label {
 -fx-text-fill: #000000;
-
 }
+/*.button {
+    -fx-text-fill: #000000;
+    -fx-background-color: #3FA607, DarkGreen;
+}
+/*{
+    -fx-text-fill: #000000;
+    -fx-background-color: #DC143C;
+}*/
 /*//den tab man är på
 -fx-background-color:  #3FA607,DarkGreen;
 */
@@ -53,7 +60,7 @@ fx-background-color:#E1E1E1, White;
 .root{
 -fx-font-size: 12pt;
 -fx-font-family: 'Eras Light ITC';
--fx-base: #7BC054, BackgroundGreen;
+-fx-base: #3FA607, BackgroundGreen;
 
 
 }

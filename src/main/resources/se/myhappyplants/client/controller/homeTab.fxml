@@ -21,7 +21,7 @@
                     <Font size="13.0" />
                 </font>
             </Label>
-            <Button layoutX="916.0" layoutY="13.0" mnemonicParsing="false" onAction="#logoutButtonPressed" style="-fx-color: Darkred;" text="Log Out" />
+            <Button layoutX="925.0" layoutY="13.0" mnemonicParsing="false" onAction="#logoutButtonPressed" style="-fx-color: #f38375, -fx-text-fill: #000000;" text="Log Out" />
         </children>
     </AnchorPane>
 </top>
@@ -45,7 +45,7 @@
                   <Insets left="5.0" right="10.0" />
                </padding>
             </Accordion>
-            <Label layoutX="804.0" layoutY="2.0" text="Messages:" />
+            <Label layoutX="804.0" text="Messages:" />
             <ListView layoutX="804.0" layoutY="21.0" prefHeight="32.0" prefWidth="185.0" />
         </children>
     </AnchorPane>
