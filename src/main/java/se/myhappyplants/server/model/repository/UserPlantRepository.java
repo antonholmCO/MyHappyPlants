@@ -1,7 +1,7 @@
 package se.myhappyplants.server.model.repository;
 
 import se.myhappyplants.server.controller.Controller;
-import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.UserPlant;
 import se.myhappyplants.shared.User;
 
 import java.io.IOException;
@@ -43,7 +43,7 @@ public class UserPlantRepository implements IPlantRepository {
      * @return a boolean value, true if the plant was stored successfully
      */
     @Override
-    public boolean savePlant(User user, DBPlant plant) {
+    public boolean savePlant(User user, UserPlant plant) {
         boolean success = false;
         String sqlSafeNickname = plant.getNickname().replace("'", "''");
         String query = "INSERT INTO Plant (user_id, nickname, plant_id, last_watered) values (" + user.getUniqueId() + ", '" + sqlSafeNickname + "', '" + plant.getPlantId() + "', '" + plant.getLastWatered() + "')";
@@ -68,8 +68,8 @@ public class UserPlantRepository implements IPlantRepository {
      *
      * @return an arraylist if plants stored in the database
      */
-    public ArrayList<DBPlant> getUserLibrary(User user) {
-        ArrayList<DBPlant> plantList = new ArrayList<DBPlant>();
+    public ArrayList<UserPlant> getUserLibrary(User user) {
+        ArrayList<UserPlant> plantList = new ArrayList<UserPlant>();
         try {
             String query = "SELECT nickname, plant_id, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() + ";";
             ResultSet resultSet = statement.executeQuery(query);
@@ -78,7 +78,7 @@ public class UserPlantRepository implements IPlantRepository {
                 String plantId = resultSet.getString("plant_id");
                 Date lastWatered = resultSet.getDate("last_watered");
                 long waterFrequency = dbPlantRepository.getWaterFrequency(plantId);
-                plantList.add(new DBPlant(nickname, plantId, lastWatered, waterFrequency));
+                plantList.add(new UserPlant(nickname, plantId, lastWatered, waterFrequency));
             }
         }
         catch (SQLException sqlException) {
@@ -100,14 +100,14 @@ public class UserPlantRepository implements IPlantRepository {
      * @param nickname
      * @return an instance of a specific plant from the database, null if no plant with the specific nickname exists
      */
-    public DBPlant getPlant(User user, String nickname) {
+    public UserPlant getPlant(User user, String nickname) {
         try {
             String sqlSafeNickname = nickname.replace("'", "''");
             String query = "SELECT nickname, plant_id, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() + "AND nickname = '" + sqlSafeNickname + "';";
             ResultSet resultSet = statement.executeQuery(query);
             String plantID = resultSet.getString("plant_id");
             Date lastWatered = resultSet.getDate("last_watered");
-            return new DBPlant(nickname, plantID, lastWatered);
+            return new UserPlant(nickname, plantID, lastWatered);
         }
         catch (SQLException sqlException) {
             System.out.println(sqlException.fillInStackTrace());

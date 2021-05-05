@@ -9,8 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import se.myhappyplants.client.model.LoggedInUser;
-import se.myhappyplants.client.view.SearchPlantPane;
-import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.User;

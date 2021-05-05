@@ -1,7 +1,7 @@
 package se.myhappyplants.server.model.repository;
 
 import se.myhappyplants.server.controller.Controller;
-import se.myhappyplants.shared.APIPlant;
+import se.myhappyplants.shared.DBPlant;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -22,10 +22,10 @@ public class DBPlantRepository {
         statement = conn.createStatement();
     }
 
-    public ArrayList<APIPlant> getResult(String plantSearch) throws IOException, InterruptedException {
-        ArrayList<APIPlant> plantList = new ArrayList<>();
+    public ArrayList<DBPlant> getResult(String plantSearch) throws IOException, InterruptedException {
+        ArrayList<DBPlant> plantList = new ArrayList<>();
         try {
-            String query = "SELECT id, common_name, scientific_name, family, image_url FROM species WHERE common_name LIKE ('%" + plantSearch + "%');";
+            String query = "SELECT id, common_name, scientific_name, family, image_url FROM species WHERE scientific_name LIKE ('%" + plantSearch + "%') OR common_name LIKE ('%" + plantSearch + "%');";
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 String plantId = resultSet.getString("id");
@@ -34,7 +34,7 @@ public class DBPlantRepository {
                 String familyName = resultSet.getString("family");
                 String imageURL = resultSet.getString("image_url");
                 //long waterFrequency = resultSet.getLong("water_frequency");
-                plantList.add(new APIPlant(plantId, commonName, scientificName, familyName, imageURL));
+                plantList.add(new DBPlant(plantId, commonName, scientificName, familyName, imageURL));
             }
         } catch (SQLException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
@@ -44,7 +44,7 @@ public class DBPlantRepository {
 
     }
 
-    public String[] getMoreInformation(APIPlant plant) throws IOException, InterruptedException {
+    public String[] getMoreInformation(DBPlant plant) throws IOException, InterruptedException {
         String[] allInfo = new String[4];
         try {
             String query = "SELECT genus, light, water_frequency, url_wikipedia_en FROM species WHERE id = '" + plant.getPlantId() + "';";

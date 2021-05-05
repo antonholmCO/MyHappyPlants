@@ -3,8 +3,8 @@ package se.myhappyplants.server.controller;
 import se.myhappyplants.server.model.repository.DBPlantRepository;
 import se.myhappyplants.server.model.repository.UserPlantRepository;
 import se.myhappyplants.server.model.repository.UserRepository;
-import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.UserPlant;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
 
@@ -134,7 +134,7 @@ public class Server implements Runnable {
                 break;
             case "search":
                 try {
-                    ArrayList<APIPlant> plantList = dbPlantRepository.getResult(request.getMessageText());
+                    ArrayList<DBPlant> plantList = dbPlantRepository.getResult(request.getMessageText());
                     response = new Message("search", plantList, true);
                 } catch (Exception e) {
                     response = new Message("search", false);
@@ -142,7 +142,7 @@ public class Server implements Runnable {
                 }
                 break;
             case "getLibrary":
-                ArrayList<DBPlant> userLibrary = userPlantRepository.getUserLibrary(request.getUser());
+                ArrayList<UserPlant> userLibrary = userPlantRepository.getUserLibrary(request.getUser());
                 response = new Message("library", request.getUser(), userLibrary, true);
                 break;
             case "savePlant":
