@@ -21,7 +21,7 @@
                     <Font size="13.0" />
                 </font>
             </Label>
-            <Button layoutX="925.0" layoutY="13.0" mnemonicParsing="false" onAction="#logoutButtonPressed" style="-fx-color: #f38375, -fx-text-fill: #000000;" text="Log Out" />
+            <Button layoutX="925.0" layoutY="13.0" mnemonicParsing="false" onAction="#logoutButtonPressed" styleClass="logOutButton" text="Log Out" />
         </children>
     </AnchorPane>
 </top>

@@ -36,7 +36,7 @@
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="259.0" layoutX="197.0" layoutY="83.0" stroke="BLACK" strokeType="INSIDE" width="361.0" />
                         <TextField fx:id="txtFldEmail" layoutX="225.0" layoutY="133.0" prefHeight="35.0" prefWidth="310.0" promptText="Email" />
                         <PasswordField fx:id="passFldPassword" layoutX="227.0" layoutY="198.0" prefHeight="35.0" prefWidth="306.0" promptText="Password" />
-                         <Button defaultButton="true" layoutX="354.0" layoutY="272.0" mnemonicParsing="false" onAction="#loginButtonPressed" style="-fx-color: Darkgreen;" text="Log in" textFill="#3eb97f" />
+                         <Button fx:id="test" defaultButton="true" layoutX="354.0" layoutY="272.0" mnemonicParsing="false" onAction="#loginButtonPressed" styleClass="defaultButton" text="Log in" />
                         <Label layoutX="298.0" layoutY="38.0" text="Log in here" textFill="WHITE">
                            <font>
                               <Font size="26.0" />
@@ -44,12 +44,12 @@
                         </Label>
                         <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="449.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../resources/images/blomma15.1.png" />
+                              <Image url="@../../../../Blommor/blomma15.1.png" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="176.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../resources/images/blomma13.1.png" />
+                              <Image url="@../../../../Blommor/blomma13.1.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -67,7 +67,7 @@
                         <TextField fx:id="txtFldNewEmail" layoutX="278.0" layoutY="160.0" prefHeight="35.0" prefWidth="267.0" promptText="youraddress@example.com" />
                         <TextField fx:id="txtFldNewUsername" layoutX="279.0" layoutY="289.0" prefHeight="35.0" prefWidth="269.0" promptText="username" />
                         <PasswordField fx:id="passFldNewPassword" layoutX="279.0" layoutY="346.0" prefHeight="35.0" prefWidth="267.0" promptText="password" />
-                        <Button defaultButton="true" layoutX="373.0" layoutY="467.0" mnemonicParsing="false" onAction="#registerButtonPressed" style="-fx-color: RED, -fx-text-fill: #000000;" text="Sign up" />
+                        <Button defaultButton="true" layoutX="373.0" layoutY="467.0" mnemonicParsing="false" onAction="#registerButtonPressed" styleClass="defaultButton" text="Sign up" />
                         <Label layoutX="87.0" layoutY="22.0" prefHeight="62.0" prefWidth="413.0" text="Create a new account here at My Happy Plants" textFill="WHITE">
                            <font>
                               <Font size="43.0" />
@@ -77,22 +77,22 @@
                         <TextField fx:id="txtFldNewEmail1" layoutX="278.0" layoutY="218.0" prefHeight="35.0" prefWidth="267.0" promptText="youraddress@example.com" />
                         <ImageView fitHeight="121.0" fitWidth="127.0" layoutX="493.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../resources/images/blomma11.1.png" />
+                              <Image url="@../../../../Blommor/blomma11.1.png" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="209.0" fitWidth="150.0" layoutX="66.0" layoutY="261.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../resources/images/blomma8.1.png" />
+                              <Image url="@../../../../Blommor/blomma8.1.png" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="104.0" fitWidth="108.0" layoutX="24.0" layoutY="184.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../resources/images/vattenkanna1.png" />
+                              <Image url="@../../../../Blommor/vattenkanna1.png" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="42.0" fitWidth="18.0" layoutX="118.0" layoutY="261.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../resources/images/vattendroppe.jpg" />
+                              <Image url="@../../../../Blommor/vattendroppe.jpg" />
                            </image>
                         </ImageView>
                      </children></AnchorPane>
