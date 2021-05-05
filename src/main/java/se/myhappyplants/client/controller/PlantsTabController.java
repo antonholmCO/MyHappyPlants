@@ -79,7 +79,11 @@ public class PlantsTabController {
                 if (apiPlant.getImageURL().equals("")) {
                     spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
                 } else {
-                    spp.updateImage();
+                    try {
+                        spp.updateImage();
+                    } catch (IllegalArgumentException e) {
+                        spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
+                    }
                 }
             }
         });
