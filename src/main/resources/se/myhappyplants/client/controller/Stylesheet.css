@@ -5,29 +5,34 @@
 fx-background-color:#E1E1E1, White;
 }
 /*//resten av listen på tab
+-fx-background-color: #B8DAA0, LightGreen;
 */
 .tab-pane > .tab-header-area > .tab-header-background {
--fx-background-color: #5DB32D, MediumGreen;
+
 -fx-background-insets: 0, 0 0 1px 0;
 }
 /*//den tab som ej är vald
+#5DB32D, MediumGreen
+-fx-background-color: #3FA607, DarkGreen;
 */
 .tab-pane > .tab-header-area > .headers-region > .tab {
--fx-background-color: #5DB32D, MediumGreen;
+
 -fx-background-insets: 0 0 1px 0;
 -fx-padding: 1.5em 1em;
 
 }
 /*//Sätt samma som background på tab
+-fx-background-color: MediumGreen;
 */
 .tab-pane > .tab-header-area > .headers-region > .tab >.tab-container >.tab-label {
 -fx-text-fill: #000000;
--fx-background-color: MediumGreen;
+
 }
 /*//den tab man är på
+-fx-background-color:  #3FA607,DarkGreen;
 */
 .tab-pane > .tab-header-area > .headers-region > .tab:selected {
--fx-background-color:  #3FA607,DarkGreen;
+
 -fx-background-insets: 0, 0 0 2px 0;
 }
 /**
@@ -41,13 +46,15 @@ fx-background-color:#E1E1E1, White;
 -fx-opacity: 0;
 }
 .text{
-    -fx-font-family: 'Bradley Hand ITC';
+    -fx-font-family: 'Eras Light ITC';
 }
+/**-fx-base: #9ACD7A, BackgroundGreen;
+*/
 .root{
 -fx-font-size: 12pt;
--fx-font-family: 'Bradley Hand ITC';
- -fx-base: #9ACD7A, BackgroundGreen;
- -fx-background: #9ACD7A, BackgroundGreen;
+-fx-font-family: 'Eras Light ITC';
+-fx-base: #7BC054, BackgroundGreen;
+
 
 }
 
