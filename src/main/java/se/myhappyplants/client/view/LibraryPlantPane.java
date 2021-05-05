@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.HomeTabController;
-import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.UserPlant;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -69,7 +69,7 @@ public class LibraryPlantPane extends Pane {
      * @param imgPath    location of user's avatar image
      * @param plant      plant object from user's library
      */
-    public LibraryPlantPane(HomeTabController controller, String imgPath, DBPlant plant) {
+    public LibraryPlantPane(HomeTabController controller, String imgPath, UserPlant plant) {
         this.controller = controller;
         this.setStyle("-fx-background-color: #FFFFFF;");
         File fileImg = new File(imgPath);
@@ -208,7 +208,7 @@ public class LibraryPlantPane extends Pane {
      *
      * @param plant selected plant
      */
-    private void removePlant(DBPlant plant) {
+    private void removePlant(UserPlant plant) {
         int answer = MessageBox.askYesNo("Delete plant", "Are you sure? The deleted plant can't be restored");
         if (answer == 1) {
             controller.removePlantFromDB(plant);
@@ -218,7 +218,7 @@ public class LibraryPlantPane extends Pane {
     /**
      * @param plant
      */
-    private void changeNickname(DBPlant plant) {
+    private void changeNickname(UserPlant plant) {
         String newNickname = MessageBox.askForStringInput("Change nickname", "New nickname:");
         if (controller.changeNicknameInDB(plant, newNickname)) {
             nickname.setText(newNickname);
@@ -228,7 +228,7 @@ public class LibraryPlantPane extends Pane {
     /**
      * @param plant
      */
-    private void changeDate(DBPlant plant) {
+    private void changeDate(UserPlant plant) {
         LocalDate date = datePicker.getValue();
         plant.setLastWatered(date);
         progressBar.setProgress(plant.getProgress());

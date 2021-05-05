@@ -11,7 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.PlantsTabController;
-import se.myhappyplants.shared.APIPlant;
+import se.myhappyplants.shared.DBPlant;
 
 /**
  * * Created by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
@@ -24,7 +24,7 @@ public class SearchPlantPane extends Pane {
     private Button infoButton;
     private Button addButton;
 
-    private APIPlant apiPlant;
+    private DBPlant DBPlant;
     private PlantsTabController plantsTabController;
     private ListView listView;
 
@@ -32,11 +32,11 @@ public class SearchPlantPane extends Pane {
 
     private boolean extended;
 
-    public SearchPlantPane(PlantsTabController plantsTabController, String imgPath, APIPlant apiPlant) {
+    public SearchPlantPane(PlantsTabController plantsTabController, String imgPath, DBPlant DBPlant) {
 
         this.plantsTabController = plantsTabController;
 
-        this.apiPlant = apiPlant;
+        this.DBPlant = DBPlant;
 
         Image img = new Image(imgPath);
 
@@ -48,13 +48,13 @@ public class SearchPlantPane extends Pane {
         image.setPreserveRatio(true);
         image.setImage(img);
 
-        this.commonName = new Label("Common name: " + apiPlant.getCommon_name());
+        this.commonName = new Label("Common name: " + DBPlant.getCommonName());
         commonName.setLayoutX(60.0);
         commonName.setLayoutY(20.0);
         commonName.prefHeight(17.0);
         commonName.prefWidth(264.0);
 
-        this.scientificName = new Label("Scientific name: " + apiPlant.getScientific_name());
+        this.scientificName = new Label("Scientific name: " + DBPlant.getScientificName());
         scientificName.setLayoutX(315.0);
         scientificName.setLayoutY(20.0);
         scientificName.prefHeight(17.0);
@@ -66,7 +66,7 @@ public class SearchPlantPane extends Pane {
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
             if (!extended) {
-                getAllPlantInfo = plantsTabController.getMorePlantInfo(apiPlant);
+                getAllPlantInfo = plantsTabController.getMorePlantInfo(DBPlant);
                 for (int i = 0; i < getAllPlantInfo.size(); i++) {
                     listView.getItems().add(getAllPlantInfo.get(i).toString());
                 }
@@ -81,7 +81,7 @@ public class SearchPlantPane extends Pane {
         addButton.setLayoutX(723.0);
         addButton.setLayoutY(16.0);
         addButton.setMnemonicParsing(false);
-        addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(apiPlant));
+        addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(DBPlant));
 
         listView = new ListView();
         listView.setLayoutX(this.getWidth());
@@ -97,12 +97,13 @@ public class SearchPlantPane extends Pane {
 
 
     public void updateImage() {
-        Image img = new Image(String.valueOf(apiPlant.image_url));
+        Image img = new Image(DBPlant.getImageURL());
+        System.out.println(DBPlant.getImageURL());
         image.setImage(img);
     }
 
-    public APIPlant getApiPlant() {
-        return apiPlant;
+    public DBPlant getApiPlant() {
+        return DBPlant;
     }
 
     public void setDefaultImage(String defaultImage) {

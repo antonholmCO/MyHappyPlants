@@ -23,7 +23,7 @@ public class UserRepository implements IUserRepository {
      * @throws UnknownHostException
      */
     public UserRepository() throws SQLException, UnknownHostException {
-        conn = Driver.getConnection();
+        conn = Driver.getConnection("MyHappyPlants");
         statement = conn.createStatement();
     }
 

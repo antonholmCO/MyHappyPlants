@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
-import se.myhappyplants.shared.APIPlant;
+import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
 
 import java.io.File;
@@ -52,8 +52,8 @@ public class PlantsTabController {
     }
 
     @FXML
-    public void addPlantToCurrentUserLibrary(APIPlant plantAdd) {
-        String plantNickname = plantAdd.common_name;
+    public void addPlantToCurrentUserLibrary(DBPlant plantAdd) {
+        String plantNickname = plantAdd.getCommonName();
 
         int answer = MessageBox.askYesNo("Add a new plant to library", "Do you want to add a nickname for your plant?");
         if (answer == 1) {
@@ -64,21 +64,26 @@ public class PlantsTabController {
 
     private void showResultsOnPane(Message apiResponse) {
         progressIndicator.setProgress(75);
-        ArrayList<APIPlant> searchedPlant = apiResponse.getPlantList();
+        ArrayList<DBPlant> searchedPlant = apiResponse.getPlantList();
 
         ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
-        for (APIPlant plant : searchedPlant) {
+        for (DBPlant plant : searchedPlant) {
             searchPlantPanes.add(new SearchPlantPane(this, new File("resources/images/img.png").toURI().toString(), plant));
         }
+        resultPane.getItems().clear();
         resultPane.setItems(searchPlantPanes);
         progressIndicator.setProgress(100);
         Thread imageThread = new Thread(() -> {
             for (SearchPlantPane spp : searchPlantPanes) {
-                APIPlant apiPlant = spp.getApiPlant();
-                if (apiPlant.image_url == null) {
+                DBPlant DBPlant = spp.getApiPlant();
+                if (DBPlant.getImageURL().equals("")) {
                     spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
                 } else {
-                    spp.updateImage();
+                    try {
+                        spp.updateImage();
+                    } catch (IllegalArgumentException e) {
+                        spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
+                    }
                 }
             }
         });
@@ -96,7 +101,7 @@ public class PlantsTabController {
             if (apiResponse != null) {
                 if (apiResponse.isSuccess()) {
                     progressIndicator.setProgress(50);
-                    showResultsOnPane(apiResponse);
+                    Platform.runLater(() -> showResultsOnPane(apiResponse));
                 } else {
                     //skicka inget felmeddelande, visa label med sökresultat 0 istället
                 }
@@ -112,8 +117,8 @@ public class PlantsTabController {
         mainPaneController.logoutButtonPressed();
     }
 
-    public ObservableList<String> getMorePlantInfo(APIPlant apiPlant) {
-        Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", apiPlant);
+    public ObservableList<String> getMorePlantInfo(DBPlant DBPlant) {
+        Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", DBPlant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
         if (response != null) {
