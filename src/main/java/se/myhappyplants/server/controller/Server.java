@@ -1,10 +1,10 @@
 package se.myhappyplants.server.controller;
 
-import se.myhappyplants.server.model.repository.PlantRepository;
+import se.myhappyplants.server.model.repository.DBPlantRepository;
+import se.myhappyplants.server.model.repository.UserPlantRepository;
 import se.myhappyplants.server.model.repository.UserRepository;
-import se.myhappyplants.server.model.service.PlantService;
-import se.myhappyplants.shared.APIPlant;
 import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.UserPlant;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
 
@@ -30,8 +30,8 @@ public class Server implements Runnable {
     private boolean serverRunning;
 
     private UserRepository userRepository;
-    private PlantRepository plantRepository;
-    private PlantService plantService;
+    private UserPlantRepository userPlantRepository;
+    private DBPlantRepository dbPlantRepository;
     private Controller controller;
 
     /**
@@ -39,13 +39,12 @@ public class Server implements Runnable {
      *
      * @param port           port to be used
      * @param userRepository to handle db requests
-     * @param plantService   to handle api requests
      */
-    public Server(int port, UserRepository userRepository, PlantRepository plantRepository, PlantService plantService, Controller controller) {
+    public Server(int port, UserRepository userRepository, UserPlantRepository userPlantRepository, DBPlantRepository dbPlantRepository, Controller controller) {
         this(port);
         this.userRepository = userRepository;
-        this.plantRepository = plantRepository;
-        this.plantService = plantService;
+        this.userPlantRepository = userPlantRepository;
+        this.dbPlantRepository = dbPlantRepository;
         this.controller = controller;
     }
 
@@ -72,8 +71,6 @@ public class Server implements Runnable {
         while (serverRunning) {
             try {
                 Socket socket = serverSocket.accept();
-                //todo remove sout method
-                System.out.println("Connection made, starting server thread to handle client");
                 ClientHandler clientHandler = new ClientHandler(socket);
                 clientHandler.start();
             } catch (IOException e) {
@@ -107,7 +104,6 @@ public class Server implements Runnable {
 
         switch (messageType) {
             case "login":
-                /*response = new Message("login", new User(request.getUser().getEmail(), request.getUser().getEmail(), true), true);*/
                 String email = request.getUser().getEmail();
                 String password = request.getUser().getPassword();
 
@@ -120,7 +116,6 @@ public class Server implements Runnable {
                 }
                 break;
             case "register":
-                /*response = new Message("register", request.getUser(), true);*/
                 User user = request.getUser();
                 if (userRepository.saveUser(user)) {
                     User savedUser = userRepository.getUserDetails(user.getEmail());
@@ -139,7 +134,7 @@ public class Server implements Runnable {
                 break;
             case "search":
                 try {
-                    ArrayList<APIPlant> plantList = plantService.getResult(request.getMessageText());
+                    ArrayList<DBPlant> plantList = dbPlantRepository.getResult(request.getMessageText());
                     response = new Message("search", plantList, true);
                 } catch (Exception e) {
                     response = new Message("search", false);
@@ -147,27 +142,27 @@ public class Server implements Runnable {
                 }
                 break;
             case "getLibrary":
-                ArrayList<DBPlant> userLibrary = plantRepository.getUserLibrary(request.getUser());
+                ArrayList<UserPlant> userLibrary = userPlantRepository.getUserLibrary(request.getUser());
                 response = new Message("library", request.getUser(), userLibrary, true);
                 break;
             case "savePlant":
-                boolean saveSuccess = plantRepository.savePlant(request.getUser(), request.getDbPlant());
+                boolean saveSuccess = userPlantRepository.savePlant(request.getUser(), request.getDbPlant());
                 response = new Message("success", saveSuccess);
                 break;
             case "deletePlantFromLibrary":
-                boolean deleteSuccess = plantRepository.deletePlant(request.getUser(), request.getDbPlant().getNickname());
+                boolean deleteSuccess = userPlantRepository.deletePlant(request.getUser(), request.getDbPlant().getNickname());
                 response = new Message("success", deleteSuccess);
                 break;
             case "getMorePlantInfoOnSearch":
-                String[] message = plantService.getMoreInformation(request.getPlant());
+                String[] message = dbPlantRepository.getMoreInformation(request.getPlant());
                 response = new Message("waterLightInfo", message);
                 break;
             case "changeLastWatered":
-                boolean changeDateSuccess = plantRepository.changeLastWatered(request.getUser(), request.getDbPlant().getNickname(), request.getDate());
+                boolean changeDateSuccess = userPlantRepository.changeLastWatered(request.getUser(), request.getDbPlant().getNickname(), request.getDate());
                 response = new Message("success", changeDateSuccess);
                 break;
             case "changeNickname":
-                boolean changeNicknameSuccess = plantRepository.changeNickname(request.getUser(), request.getDbPlant().getNickname(), request.getNewNickname());
+                boolean changeNicknameSuccess = userPlantRepository.changeNickname(request.getUser(), request.getDbPlant().getNickname(), request.getNewNickname());
                 response = new Message("success", changeNicknameSuccess);
                 break;
             default:
@@ -205,25 +200,12 @@ public class Server implements Runnable {
         public void run() {
             try {
                 Message request = (Message) ois.readObject();
-                //todo remove test sout
-                System.out.println("Request received, sending response");
                 Message response = getResponse(request);
                 oos.writeObject(response);
-                //todo remove test sout
-                System.out.println("Response sent");
                 oos.flush();
             } catch (IOException | ClassNotFoundException | InterruptedException e) {
                 e.printStackTrace();
             }
-//                finally {
-//                    if (socket != null) {
-//                        try {
-//                            socket.close();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
         }
     }
 }

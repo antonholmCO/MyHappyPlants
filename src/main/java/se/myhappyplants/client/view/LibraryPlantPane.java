@@ -2,60 +2,48 @@ package se.myhappyplants.client.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.HomeTabController;
-import se.myhappyplants.client.controller.PlantsTabController;
-import se.myhappyplants.shared.APIPlant;
-import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.UserPlant;
 
 import java.io.File;
 import java.time.LocalDate;
 
 /**
  * Simple pane that displays a DBPlant's information
- * todo update to prettier pane
  * Created by: Christopher O'Driscoll
  * Updated by: Frida Jacobsson
  */
 public class LibraryPlantPane extends Pane {
     private HomeTabController controller;
 
-    //Always shown
     private ImageView image;
     private Label nickname;
     private ProgressBar progressBar;
     private Button infoButton;
     private Button waterButton;
 
-    //Shown when plant info pressed
     private Button changeNicknameButton;
     private Button changePictureButton;
     private Button deleteButton;
     private DatePicker datePicker;
     private Button changeOKButton;
-    private ListView listView;
-    private Label lblFamilyName;
-    private Label lblLightText;
-    private Label lblWaterText;
-    private ObservableList<String> getAllPlantInfo;
-    private PlantsTabController plantsTabController;
 
     private boolean extended;
-    private boolean gotInfoOnPlant;
 
     /**
      * Creates a simple pane with loading image
      * while waiting for response from database
      */
-    public LibraryPlantPane(PlantsTabController plantsTabController) {
-        this.plantsTabController=plantsTabController;
+    public LibraryPlantPane() {
         File fileImg = new File("resources/images/img.png");
         Image img = new Image(fileImg.toURI().toString());
         image = new ImageView(img);
@@ -81,7 +69,7 @@ public class LibraryPlantPane extends Pane {
      * @param imgPath    location of user's avatar image
      * @param plant      plant object from user's library
      */
-    public LibraryPlantPane(HomeTabController controller, String imgPath, DBPlant plant) {
+    public LibraryPlantPane(HomeTabController controller, String imgPath, UserPlant plant) {
         this.controller = controller;
         this.setStyle("-fx-background-color: #FFFFFF;");
         File fileImg = new File(imgPath);
@@ -171,7 +159,7 @@ public class LibraryPlantPane extends Pane {
         this.setPrefHeight(92.0);
         this.setPrefWidth(750.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
-        this.getChildren().addAll(listView,lblFamilyName,lblLightText,lblWaterText,changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
+        this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
     }
 
     /**
@@ -185,18 +173,12 @@ public class LibraryPlantPane extends Pane {
         timeline.play();
         timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = true;
-        gotInfoOnPlant = true;
     }
 
     /**
      * Method for hiding tab with "more information"-buttons.
      */
     public void collapse() {
-        int size = listView.getItems().size();
-        for (int i = 0; i < size; i++) {
-            listView.getItems().remove(0);
-        }
-
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() - 50))
         );
@@ -204,7 +186,6 @@ public class LibraryPlantPane extends Pane {
         timeline.play();
         timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = false;
-        gotInfoOnPlant = false;
     }
 
     /**
@@ -212,7 +193,6 @@ public class LibraryPlantPane extends Pane {
      *
      * @param progress How full the progress bar is(0-1.0)
      */
-    //TODO: decide how we want colors in progressbar
     private void setColorProgressBar(double progress) {
         if (progress < 0.15) {
             progressBar.setStyle("-fx-accent: red");
@@ -225,22 +205,21 @@ public class LibraryPlantPane extends Pane {
      * Shows a confirmation box when called,
      * to double check the user really
      * wants to remove the plant
-     * todo: should this method be in controller instead?
      *
      * @param plant selected plant
      */
-    private void removePlant(DBPlant plant) {
-        int answer = MessageBox.askYesNo("Delete plant", "Are you sure?");
+    private void removePlant(UserPlant plant) {
+        int answer = MessageBox.askYesNo("Delete plant", "Are you sure? The deleted plant can't be restored");
         if (answer == 1) {
-            controller.removePlantFromDatabase(plant);
+            controller.removePlantFromDB(plant);
         }
     }
 
     /**
      * @param plant
      */
-    private void changeNickname(DBPlant plant) {
-        String newNickname = MessageBox.askForStringInput("Change nickname", "Type new nickname:");
+    private void changeNickname(UserPlant plant) {
+        String newNickname = MessageBox.askForStringInput("Change nickname", "New nickname:");
         if (controller.changeNicknameInDB(plant, newNickname)) {
             nickname.setText(newNickname);
         }
@@ -249,7 +228,7 @@ public class LibraryPlantPane extends Pane {
     /**
      * @param plant
      */
-    private void changeDate(DBPlant plant) {
+    private void changeDate(UserPlant plant) {
         LocalDate date = datePicker.getValue();
         plant.setLastWatered(date);
         progressBar.setProgress(plant.getProgress());

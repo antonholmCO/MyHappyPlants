@@ -70,7 +70,6 @@ public class User implements Serializable {
     }
 
     public User(int uniqueID, String email, String username, boolean notificationsActivated) {
-
         this.uniqueId = uniqueID;
         this.email = email;
         this.username = username;

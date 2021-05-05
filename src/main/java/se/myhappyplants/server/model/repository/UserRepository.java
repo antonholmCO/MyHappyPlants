@@ -23,7 +23,7 @@ public class UserRepository implements IUserRepository {
      * @throws UnknownHostException
      */
     public UserRepository() throws SQLException, UnknownHostException {
-        conn = Driver.getConnection();
+        conn = Driver.getConnection("MyHappyPlants");
         statement = conn.createStatement();
     }
 
@@ -34,7 +34,7 @@ public class UserRepository implements IUserRepository {
      * @return A boolean value, true if the user was stored successfully
      */
     public boolean saveUser(User user) {
-        String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()); //hashing the password
+        String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         String sqlSafeUsername = user.getUsername().replace("'", "''");
         try {
             String query = "INSERT INTO [User] VALUES ('" + sqlSafeUsername + "', " + "'" + user.getEmail() + "', '" + hashedPassword + "'," + 1 + ");";
@@ -61,20 +61,15 @@ public class UserRepository implements IUserRepository {
         try {
             String query = "SELECT password FROM [User] WHERE email = '" + email + "';";
 
-            System.out.println(email);
-            System.out.println(password);
-
             ResultSet resultSet = statement.executeQuery(query);
             if (resultSet.next()) {
                 String hashedPassword = resultSet.getString(1);
-                isVerified = BCrypt.checkpw(password, hashedPassword); //här kollar vi om lösenordet som användaren skrivit in är samma som det som finns lagrat i databasen
+                isVerified = BCrypt.checkpw(password, hashedPassword);
             }
         }
         catch (SQLException sqlException) {
             sqlException.printStackTrace();
-            System.out.println("nej du! du logga ej in!");
         }
-        System.out.println(isVerified);
         return isVerified;
     }
 

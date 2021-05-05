@@ -20,7 +20,6 @@ public class MessageBox {
     public static void display(String title, String message) {
         Stage window = new Stage();
 
-        //block interaction with other windows
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(250);
@@ -56,7 +55,7 @@ public class MessageBox {
         Stage window = new Stage();
         AtomicInteger answer = new AtomicInteger(-1);
 
-        //block interaction with other windows
+
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(350);
@@ -101,7 +100,7 @@ public class MessageBox {
         Stage window = new Stage();
         AtomicReference<String> input = new AtomicReference<>("");
 
-        //block interaction with other windows
+
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(350);

@@ -1,7 +1,6 @@
 package se.myhappyplants.server.controller;
 
 
-import se.myhappyplants.server.model.service.PlantService;
 import se.myhappyplants.shared.User;
 import se.myhappyplants.server.model.repository.UserRepository;
 
@@ -15,37 +14,31 @@ import java.util.Scanner;
 
 public class Controller {
     private UserRepository userRepository;
-    private PlantService plantService;
 
     public Controller(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public Controller(PlantService plantService) {
-        this.plantService = plantService;
-    }
 
     public Controller() {
 
     }
 
-    public String calculateLightLevel(int light) {
-        String lightText = String.valueOf(light);
-        if (lightText == null) {
-            lightText = "There's no information about the light level";
-        } else if (light == 10) {
+    public String calculateLightLevel(String light) {
+        String lightText = light;
+        if (light.equals("10")) {
             lightText = "Is happy in direct sunlight";
-        } else if (light == 9) {
+        } else if (light.equals("9")) {
             lightText = "Is happy in full daylight with a lot of direct sunlight";
-        } else if (light == 8) {
+        } else if (light.equals("8")) {
             lightText = "Is happy in full daylight with some direct sunlight";
-        } else if (light == 7) {
+        } else if (light.equals("7")) {
             lightText = "Is happy in full daylight without direct sunlight";
-        } else if (light == 6 || light == 5) {
+        } else if (light.equals("6") || light.equals("5")) {
             lightText = "Is not happy to be placed in direct sunlight but still needs som light";
-        } else if (light == 3 || light == 4) {
+        } else if (light.equals("4") || light.equals("3")) {
             lightText = "Is happy to be in darker areas";
-        } else if (light == 1 || light == 2) {
+        } else if (light.equals("1") || light.equals("2")) {
             lightText = "Is happy in darkness";
         } else {
             lightText = "There's no information about the light level";
@@ -56,11 +49,8 @@ public class Controller {
 
     public String calculateWater(String minWater) {
         String waterText;
-        String parsedWaterFreq = minWater.substring(4, minWater.length() - 3);
-        //1 day = 86 000 000
-        //min water = 200mm/year -> 4 weeks
-        //min water = 1000mm/year -> 1 week
-        int waterFrequencyInt = Integer.parseInt(parsedWaterFreq);
+
+        int waterFrequencyInt = Integer.parseInt(minWater);
         if (waterFrequencyInt <= 200) {
             waterText = "Needs water 4 times a week";
         } else if (waterFrequencyInt > 200 && waterFrequencyInt <= 400) {

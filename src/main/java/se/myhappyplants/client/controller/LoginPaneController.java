@@ -46,7 +46,7 @@ public class LoginPaneController {
             txtFldEmail.setText(lastLoggedInUser);
         }
         catch (IOException e) {
-            System.out.println("No previous user logged in");
+            e.printStackTrace();
         }
     }
 
@@ -75,15 +75,14 @@ public class LoginPaneController {
                         switchToSecondary();
                     }
                     catch (IOException e) {
-                        System.out.println("no switch");
                         e.printStackTrace();
                     }
                 } else {
-                    Platform.runLater(() -> MessageBox.display("Login failed", "Email and/or password incorrect"));
+                    Platform.runLater(() -> MessageBox.display("Login failed", "Sorry, we couldn't find an account with that email or you typed the password wrong. Try again or create a new account."));
 
                 }
             } else {
-                Platform.runLater(() -> MessageBox.display("No response", "No response from server"));
+                Platform.runLater(() -> MessageBox.display("Login failed", "The connection to the server has failed. Check your connection and try again."));
             }
         });
         loginThread.start();
@@ -110,10 +109,10 @@ public class LoginPaneController {
                         e.printStackTrace();
                     }
                 } else {
-                    Platform.runLater(() -> MessageBox.display("Failed", "Account creation failed!"));
+                    Platform.runLater(() -> MessageBox.display("Couldn't create account", "An account with this email address already exists here at My Happy Plants."));
                 }
             } else {
-                Platform.runLater(() -> MessageBox.display("No response", "No response from server"));
+                Platform.runLater(() -> MessageBox.display("Couldn't create account", "The connection to the server has failed. Check your connection and try again."));
             }
         });
         registerThread.start();
@@ -125,15 +124,15 @@ public class LoginPaneController {
     private boolean validateAndDisplayErrors() {
         String email = txtFldNewEmail.getText();
         if (!validateEmail(email)) {
-            MessageBox.display("Error", "Not a valid email");
+            MessageBox.display("Couldn’t create account", "Please enter your email address in format: yourname@example.com");
             return false;
         }
         if (txtFldNewUsername.getText().isEmpty()) {
-            MessageBox.display("Failed", "Username is required");
+            MessageBox.display("Couldn’t create account", "Please enter a username");
             return false;
         }
         if (passFldNewPassword.getText().isEmpty()) {
-            MessageBox.display("Failed", "Password is required");
+            MessageBox.display("Couldn’t create account", "Please enter a password");
             return false;
         }
         return true;

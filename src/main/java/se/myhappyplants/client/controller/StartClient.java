@@ -31,8 +31,8 @@ public class StartClient extends Application {
     public void start(Stage stage) throws IOException {
         window = stage;
         window.setOnCloseRequest(action -> {
-            action.consume(); // tell java to forget about event so that
-            closeProgram(); // now handles close event manually
+            action.consume();
+            closeProgram();
         });
         scene = new Scene(loadFXML("loginPane"), 800, 600);
         window.setScene(scene);
@@ -44,9 +44,6 @@ public class StartClient extends Application {
      */
     private void closeProgram() {
         if (ConfirmationBox.display("Exit", "Are you sure?")) {
-            //ToDo - some code here to save user profile,
-            // update database, make sure
-            // any open connection is closed safely etc
             window.close();
         }
     }

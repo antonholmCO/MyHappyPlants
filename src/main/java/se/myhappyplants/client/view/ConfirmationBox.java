@@ -19,7 +19,6 @@ public class ConfirmationBox {
     public static boolean display(String title, String message) {
         Stage window = new Stage();
 
-        //block interaction with other windows
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(250);

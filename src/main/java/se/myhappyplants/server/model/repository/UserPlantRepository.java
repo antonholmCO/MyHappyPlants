@@ -1,7 +1,7 @@
 package se.myhappyplants.server.model.repository;
 
-import se.myhappyplants.server.model.service.PlantService;
-import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.server.controller.Controller;
+import se.myhappyplants.shared.UserPlant;
 import se.myhappyplants.shared.User;
 
 import java.io.IOException;
@@ -15,9 +15,11 @@ import java.util.ArrayList;
  * Created by: Linn Borgström
  * Updated by: Frida Jacobsson
  */
-public class PlantRepository implements IPlantRepository {
+public class UserPlantRepository implements IPlantRepository {
 
     private Statement statement;
+    private Controller controller;
+    private DBPlantRepository dbPlantRepository;
 
     /**
      * Constructor that creates a connection to the database.
@@ -25,8 +27,10 @@ public class PlantRepository implements IPlantRepository {
      * @throws SQLException
      * @throws UnknownHostException
      */
-    public PlantRepository() throws SQLException, UnknownHostException {
-        Connection conn = Driver.getConnection();
+    public UserPlantRepository(Controller controller) throws SQLException, UnknownHostException {
+        this.controller = controller;
+        dbPlantRepository = new DBPlantRepository(controller);
+        Connection conn = Driver.getConnection("MyHappyPlants");
         statement = conn.createStatement();
     }
 
@@ -39,12 +43,12 @@ public class PlantRepository implements IPlantRepository {
      * @return a boolean value, true if the plant was stored successfully
      */
     @Override
-    public boolean savePlant(User user, DBPlant plant) {
+    public boolean savePlant(User user, UserPlant plant) {
         boolean success = false;
         String sqlSafeNickname = plant.getNickname().replace("'", "''");
-        String query = "INSERT INTO Plant (user_id, nickname, api_url, last_watered) values (" + user.getUniqueId() + ", '" + sqlSafeNickname + "', '" + plant.getURL() + "', '" + plant.getLastWatered() + "')";
+        String query = "INSERT INTO Plant (user_id, nickname, plant_id, last_watered) values (" + user.getUniqueId() + ", '" + sqlSafeNickname + "', '" + plant.getPlantId() + "', '" + plant.getLastWatered() + "')";
         try {
-            CallableStatement callableStatement = Driver.getConnection().prepareCall(query);
+            CallableStatement callableStatement = Driver.getConnection("MyHappyPlants").prepareCall(query);
             callableStatement.execute();
             success = true;
         }
@@ -64,18 +68,17 @@ public class PlantRepository implements IPlantRepository {
      *
      * @return an arraylist if plants stored in the database
      */
-    public ArrayList<DBPlant> getUserLibrary(User user) {
-        ArrayList<DBPlant> plantList = new ArrayList<DBPlant>();
+    public ArrayList<UserPlant> getUserLibrary(User user) {
+        ArrayList<UserPlant> plantList = new ArrayList<UserPlant>();
         try {
-            String query = "SELECT nickname, api_url, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() + ";";
+            String query = "SELECT nickname, plant_id, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() + ";";
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 String nickname = resultSet.getString("nickname");
-                String APIUrl = resultSet.getString("api_url");
+                String plantId = resultSet.getString("plant_id");
                 Date lastWatered = resultSet.getDate("last_watered");
-                PlantService plantService = new PlantService();
-                long waterFrequency = plantService.getWaterFrequency(APIUrl);
-                plantList.add(new DBPlant(nickname, APIUrl, lastWatered, waterFrequency));
+                long waterFrequency = dbPlantRepository.getWaterFrequency(plantId);
+                plantList.add(new UserPlant(nickname, plantId, lastWatered, waterFrequency));
             }
         }
         catch (SQLException sqlException) {
@@ -97,14 +100,14 @@ public class PlantRepository implements IPlantRepository {
      * @param nickname
      * @return an instance of a specific plant from the database, null if no plant with the specific nickname exists
      */
-    public DBPlant getPlant(User user, String nickname) {
+    public UserPlant getPlant(User user, String nickname) {
         try {
             String sqlSafeNickname = nickname.replace("'", "''");
-            String query = "SELECT nickname, api_url, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() + "AND nickname = '" + sqlSafeNickname + "';";
+            String query = "SELECT nickname, plant_id, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() + "AND nickname = '" + sqlSafeNickname + "';";
             ResultSet resultSet = statement.executeQuery(query);
-            String APIUrl = resultSet.getString(4);
-            Date lastWatered = resultSet.getDate(5);
-            return new DBPlant(nickname, APIUrl, lastWatered);
+            String plantID = resultSet.getString("plant_id");
+            Date lastWatered = resultSet.getDate("last_watered");
+            return new UserPlant(nickname, plantID, lastWatered);
         }
         catch (SQLException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
