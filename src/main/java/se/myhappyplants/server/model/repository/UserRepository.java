@@ -11,7 +11,7 @@ import java.sql.*;
  * Created by: Frida Jacobsson
  * Updated by:
  */
-public class UserRepository implements IUserRepository {
+public class UserRepository{
 
     private Statement statement;
     private Connection conn;
@@ -55,7 +55,6 @@ public class UserRepository implements IUserRepository {
      * @param password typed password from client and the application
      * @return A boolean value, true if the user exist in database and the password is correct
      */
-    @Override
     public boolean checkLogin(String email, String password) {
         boolean isVerified = false;
         try {

@@ -4,7 +4,6 @@ import se.myhappyplants.server.model.repository.DBPlantRepository;
 import se.myhappyplants.server.model.repository.UserPlantRepository;
 import se.myhappyplants.server.model.repository.UserRepository;
 import se.myhappyplants.shared.DBPlant;
-import se.myhappyplants.shared.UserPlant;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
 
@@ -142,8 +141,9 @@ public class Server implements Runnable {
                 }
                 break;
             case "getLibrary":
-                ArrayList<UserPlant> userLibrary = userPlantRepository.getUserLibrary(request.getUser());
-                response = new Message("library", request.getUser(), userLibrary, true);
+                ArrayList<DBPlant> userLibrary = userPlantRepository.getUserLibrary(request.getUser());
+                User user1 = request.getUser();
+                response = new Message("library", user1, userLibrary, true);
                 break;
             case "savePlant":
                 boolean saveSuccess = userPlantRepository.savePlant(request.getUser(), request.getDbPlant());

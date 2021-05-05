@@ -44,22 +44,23 @@ public class DBPlantRepository {
 
     }
 
-    public String[] getMoreInformation(DBPlant plant) throws IOException, InterruptedException {
+    public String[] getMoreInformation(DBPlant plant){
         String[] allInfo = new String[4];
         try {
-            String query = "SELECT genus, light, water_frequency, url_wikipedia_en FROM species WHERE id = '" + plant.getPlantId() + "';";
+            String query = "SELECT genus, light, water_frequency, family FROM species WHERE id = '" + plant.getPlantId() + "';";
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 String genus = resultSet.getString("genus");
                 String light = resultSet.getString("light");
-                String wikiURL = resultSet.getString("url_wikipedia_en");
+                String family = resultSet.getString("family");
                 String waterFrequency = resultSet.getString("water_frequency");
                 String lightText = controller.calculateLightLevel(light);
                 String waterText = controller.calculateWater(waterFrequency);
-                allInfo[0] = genus;
-                allInfo[1] = lightText;
-                allInfo[2] = waterText;
-                allInfo[3] = wikiURL;
+                allInfo[0] = "Family:\t" + family + "\n";
+                allInfo[1] = "Genus:\t" + genus + "\n";
+                allInfo[2] = "Light:\t"+ lightText + "\n";
+                allInfo[3] = "Water:\t" + waterText + "\n";
+
             }
         } catch (SQLException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
