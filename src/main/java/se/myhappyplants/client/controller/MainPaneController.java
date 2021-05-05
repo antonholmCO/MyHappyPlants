@@ -1,7 +1,6 @@
 package se.myhappyplants.client.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Tab;
 import se.myhappyplants.client.model.LoggedInUser;
 
 import java.io.BufferedWriter;
