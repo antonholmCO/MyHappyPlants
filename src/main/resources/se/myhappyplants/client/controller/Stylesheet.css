@@ -1,46 +1,73 @@
+/*Vet ej var denna går..
+*/
 .tab-pane > .tab-header-area {
 -fx-padding: 0;
--font-family: "Delicious";
-}
 
+}
+/*//resten av listen på tab?
+-fx-background-color: #B8DAA0, LightGreen;
+*/
 .tab-pane > .tab-header-area > .tab-header-background {
--fx-background-color: #E1E1E1, White;
+
 -fx-background-insets: 0, 0 0 1px 0;
 }
-
+/*//den tab som ej är vald? - gör inget..
+#5DB32D, MediumGreen
+*/
 .tab-pane > .tab-header-area > .headers-region > .tab {
--fx-background-color: White;
+
 -fx-background-insets: 0 0 1px 0;
 -fx-padding: 1.5em 1em;
-}
 
+}
+/*//Sätt samma som background på tab
+-fx-background-color: MediumGreen;
+*/
 .tab-pane > .tab-header-area > .headers-region > .tab >.tab-container >.tab-label {
--fx-text-fill: #63B5F6;
-}
 
+}
+.logOutButton {
+    -fx-text-fill: #031D44;
+    -fx-background-color: #BE4052;
+}
+.defaultButton {
+    -fx-text-fill: #031D44;
+    -fx-background-color: #3FA607;
+}
+/*{
+    -fx-text-fill: #000000;
+    -fx-background-color: #DC143C;
+}*/
+/*//den tab man är på
+-fx-background-color:  #3FA607,DarkGreen;
+*/
 .tab-pane > .tab-header-area > .headers-region > .tab:selected {
--fx-background-color: #2092ED, White;
+
 -fx-background-insets: 0, 0 0 2px 0;
 }
-
+/**
+//vet ej vart denna går
+*/
 .tab-pane > .tab-header-area > .headers-region > .tab:selected >.tab-container >.tab-label {
--fx-text-fill: #2095F3;
+
 }
 
 .tab-pane > .tab-header-area > .headers-region > .tab:selected >.tab-container >.focus-indicator {
 -fx-opacity: 0;
--font-family: "Delicious";
 }
+.text{
+    -fx-font-family: 'Eras Medium ITC';
+}
+/**-fx-base: #9ACD7A, BackgroundGreen;
+*/
 
 .root{
 -fx-font-size: 12pt;
--fx-font-family: "HGMaruGothicMPRO";
- -fx-base: rgb(154, 205, 122);
- -fx-background: rgb(154, 205, 122);
-}
-@font-face {
-    font-family: "Delicious";
-    src: url('Delicious-Roman.otf');
+-fx-text: #031D44, textColor;
+-fx-font-family: 'Eras Medium ITC';
+-fx-base: #7BC054, BackgroundGreen;
+
+
 }
 
 }
