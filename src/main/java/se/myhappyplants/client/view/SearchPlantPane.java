@@ -3,19 +3,22 @@ package se.myhappyplants.client.view;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.PlantsTabController;
+
 import se.myhappyplants.shared.DBPlant;
 
 /**
  * * Created by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
- * * Updated by: Linn Borgström, Eric Simonsson, Susanne Vikström 2021-04-28
+ * * Updated by: Linn Borgström, 2021-04-30
  */
 public class SearchPlantPane extends Pane {
     private ImageView image;
@@ -24,19 +27,23 @@ public class SearchPlantPane extends Pane {
     private Button infoButton;
     private Button addButton;
 
-    private DBPlant DBPlant;
+    private DBPlant dbPlant;
     private PlantsTabController plantsTabController;
     private ListView listView;
+    private Label lblFamilyName;
+    private Label lblLightText;
+    private Label lblWaterText;
+    private boolean gotInfoOnPlant;
 
     private ObservableList<String> getAllPlantInfo;
 
     private boolean extended;
 
-    public SearchPlantPane(PlantsTabController plantsTabController, String imgPath, DBPlant DBPlant) {
+    public SearchPlantPane(PlantsTabController plantsTabController, String imgPath, DBPlant dbPlant) {
 
         this.plantsTabController = plantsTabController;
 
-        this.DBPlant = DBPlant;
+        this.dbPlant = dbPlant;
 
         Image img = new Image(imgPath);
 
@@ -48,13 +55,13 @@ public class SearchPlantPane extends Pane {
         image.setPreserveRatio(true);
         image.setImage(img);
 
-        this.commonName = new Label("Common name: " + DBPlant.getCommonName());
+        this.commonName = new Label("Common name: " + dbPlant.getCommonName());
         commonName.setLayoutX(60.0);
         commonName.setLayoutY(20.0);
         commonName.prefHeight(17.0);
         commonName.prefWidth(264.0);
 
-        this.scientificName = new Label("Scientific name: " + DBPlant.getScientificName());
+        this.scientificName = new Label("Scientific name: " + dbPlant.getScientificName());
         scientificName.setLayoutX(315.0);
         scientificName.setLayoutY(20.0);
         scientificName.prefHeight(17.0);
@@ -66,12 +73,15 @@ public class SearchPlantPane extends Pane {
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
             if (!extended) {
-                getAllPlantInfo = plantsTabController.getMorePlantInfo(DBPlant);
-                for (int i = 0; i < getAllPlantInfo.size(); i++) {
-                    listView.getItems().add(getAllPlantInfo.get(i).toString());
-                }
+                if(!gotInfoOnPlant) {
+                    getAllPlantInfo = plantsTabController.getMorePlantInfo(dbPlant);
+                    for (int i = 0; i < getAllPlantInfo.size(); i++) {
+                        listView.getItems().add(getAllPlantInfo.get(i));
+                    }
 
+                }
                 extendPaneMoreInfoPlant();
+                System.out.println(" From searchPane " + plantsTabController.getMorePlantInfo(dbPlant));
             } else {
                 retractPane();
             }
@@ -81,14 +91,34 @@ public class SearchPlantPane extends Pane {
         addButton.setLayoutX(723.0);
         addButton.setLayoutY(16.0);
         addButton.setMnemonicParsing(false);
-        addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(DBPlant));
+        addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(dbPlant));
 
         listView = new ListView();
-        listView.setLayoutX(this.getWidth());
+        listView.setLayoutX(90.0); //this.getWidth()
         listView.setLayoutY(this.getHeight() + 56.0);
-        listView.setPrefWidth(751.0);
+        listView.setPrefWidth(651.0); //751.0
         listView.setPrefHeight(150.0);
 
+        lblFamilyName = new Label();
+        lblFamilyName.setText("Family name: ");
+        lblFamilyName.setLayoutX(5.0);
+        lblFamilyName.setLayoutY(60.0);
+        lblFamilyName.setPrefHeight(15.0);
+        lblFamilyName.setPrefWidth(100.0);
+
+        lblLightText = new Label();
+        lblLightText.setText("Light: ");
+        lblLightText.setLayoutX(5.0);
+        lblLightText.setLayoutY(85.0);
+        lblLightText.setPrefHeight(15.0);
+        lblLightText.setPrefWidth(100.0);
+
+        lblWaterText = new Label();
+        lblWaterText.setText("Water: ");
+        lblWaterText.setLayoutX(5.0);
+        lblWaterText.setLayoutY(105.0);
+        lblWaterText.setPrefHeight(15.0);
+        lblWaterText.setPrefWidth(100.0);
 
         this.prefHeight(56.0);
         this.prefWidth(761.0);
@@ -97,13 +127,12 @@ public class SearchPlantPane extends Pane {
 
 
     public void updateImage() {
-        Image img = new Image(DBPlant.getImageURL());
-        System.out.println(DBPlant.getImageURL());
+        Image img = new Image(String.valueOf(dbPlant.getImageURL()));
         image.setImage(img);
     }
 
     public DBPlant getApiPlant() {
-        return DBPlant;
+        return dbPlant;
     }
 
     public void setDefaultImage(String defaultImage) {
@@ -118,12 +147,17 @@ public class SearchPlantPane extends Pane {
         );
         timeline.setCycleCount(4);
         timeline.play();
-        timeline.setOnFinished(action -> this.getChildren().addAll(listView));
+        timeline.setOnFinished(action -> this.getChildren().addAll(listView,lblFamilyName,lblLightText,lblWaterText));
         extended = true;
+        gotInfoOnPlant = true;
 
     }
 
     public void retractPane() {
+        int size = listView.getItems().size();
+        for (int i = 0; i < size; i++) {
+            listView.getItems().remove(0);
+        }
 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() - 50))
@@ -132,6 +166,6 @@ public class SearchPlantPane extends Pane {
         timeline.play();
         this.getChildren().removeAll();
         extended = false;
+        gotInfoOnPlant = false;
     }
 }
-

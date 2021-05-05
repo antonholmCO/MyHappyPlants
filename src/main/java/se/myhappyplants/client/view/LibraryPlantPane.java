@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.HomeTabController;
+import se.myhappyplants.client.controller.PlantsTabController;
 import se.myhappyplants.shared.UserPlant;
 
 import java.io.File;
@@ -160,6 +161,10 @@ public class LibraryPlantPane extends Pane {
         this.setPrefWidth(750.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
         this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
+    }
+
+    public LibraryPlantPane(PlantsTabController plantsTabController) {
+
     }
 
     /**
