@@ -67,8 +67,6 @@
 -fx-text: #031D44, textColor;
 -fx-font-family: 'Eras Medium ITC';
 -fx-base: #7BC054, BackgroundGreen;
-
-
 }
 /* Tar bort blå "focus ring" runt selectade element */
 #userPlantLibrary {

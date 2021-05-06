@@ -10,6 +10,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import se.myhappyplants.client.model.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
@@ -117,8 +118,8 @@ public class PlantsTabController {
         mainPaneController.logoutButtonPressed();
     }
 
-    public ObservableList<String> getMorePlantInfo(DBPlant DBPlant) {
-        Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", DBPlant);
+    public ObservableList<String> getMorePlantInfo(DBPlant dbPlant) {
+        Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", dbPlant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
         if (response != null) {

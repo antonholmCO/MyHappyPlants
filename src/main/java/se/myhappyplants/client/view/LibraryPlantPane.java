@@ -2,17 +2,16 @@ package se.myhappyplants.client.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.HomeTabController;
-import se.myhappyplants.shared.UserPlant;
+import se.myhappyplants.client.controller.PlantsTabController;
+import se.myhappyplants.shared.DBPlant;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -24,7 +23,8 @@ import java.util.concurrent.atomic.AtomicReference;
  * Updated by: Frida Jacobsson
  */
 public class LibraryPlantPane extends Pane {
-    private HomeTabController controller;
+    private HomeTabController homeTabController;
+    private PlantsTabController plantsTabController;
 
     private ImageView image;
     private Label nickname;
@@ -37,8 +37,11 @@ public class LibraryPlantPane extends Pane {
     private Button deleteButton;
     private DatePicker datePicker;
     private Button changeOKButton;
+    private ListView listView;
+    private ObservableList<String> getAllPlantInfo;
 
     private boolean extended;
+    private boolean gotInfoOnPlant;
 
     /**
      * Creates a simple pane with loading image
@@ -66,12 +69,13 @@ public class LibraryPlantPane extends Pane {
      * Creates a pane using information from a user's
      * plant library
      *
-     * @param controller HomeTabController which contains logic for elements to use
+     * @param homeTabController HomeTabController which contains logic for elements to use
      * @param imgPath    location of user's avatar image
      * @param plant      plant object from user's library
      */
-    public LibraryPlantPane(HomeTabController controller, String imgPath, UserPlant plant) {
-        this.controller = controller;
+    public LibraryPlantPane(HomeTabController homeTabController, PlantsTabController plantsTabController, String imgPath, DBPlant plant) {
+        this.homeTabController = homeTabController;
+        this.plantsTabController = plantsTabController;
         this.setStyle("-fx-background-color: #FFFFFF;");
         File fileImg = new File(imgPath);
         Image img = new Image(fileImg.toURI().toString());
@@ -105,7 +109,7 @@ public class LibraryPlantPane extends Pane {
         waterButton.setOnAction(action -> {
             progressBar.setProgress(100);
             setColorProgressBar(100);
-            controller.changeLastWateredInDB(plant, java.time.LocalDate.now());
+            homeTabController.changeLastWateredInDB(plant, java.time.LocalDate.now());
             setColorProgressBar(100);
         });
 
@@ -116,6 +120,10 @@ public class LibraryPlantPane extends Pane {
         infoButton.setOnAction(onPress -> {
             infoButton.setDisable(true);
             if (!extended) {
+                if(!gotInfoOnPlant) {
+                    //getAllPlantInfo = plantsTabController.getMorePlantInfo(plant);
+                    //listView.setItems(getAllPlantInfo);
+                }
                 expand();
             } else {
                 collapse();
@@ -158,12 +166,18 @@ public class LibraryPlantPane extends Pane {
         deleteButton.setOnAction(onPress -> {
             removePlant(plant);
         });
+        listView = new ListView();
+        listView.setLayoutX(this.getWidth());
+        listView.setLayoutY(this.getHeight() + 56.0);
+        listView.setPrefWidth(751.0);
+        listView.setPrefHeight(150.0);
 
         this.setPrefHeight(92.0);
 //        this.setPrefWidth(720.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
         this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
     }
+
 
     /**
      * Method for expanding tab with "more information"-buttons.
@@ -200,7 +214,7 @@ public class LibraryPlantPane extends Pane {
      */
     private void setColorProgressBar(double progress) {
         if (progress < 0.15) {
-            progressBar.setStyle("-fx-accent: red");
+            progressBar.setStyle("-fx-accent: #0B466B");
         } else {
             progressBar.setStyle("-fx-accent: 2D88AA");
         }
@@ -213,19 +227,19 @@ public class LibraryPlantPane extends Pane {
      *
      * @param plant selected plant
      */
-    private void removePlant(UserPlant plant) {
+    private void removePlant(DBPlant plant) {
         int answer = MessageBox.askYesNo("Delete plant", "Are you sure? The deleted plant can't be restored");
         if (answer == 1) {
-            controller.removePlantFromDB(plant);
+            homeTabController.removePlantFromDB(plant);
         }
     }
 
     /**
      * @param plant
      */
-    private void changeNickname(UserPlant plant) {
+    private void changeNickname(DBPlant plant) {
         String newNickname = MessageBox.askForStringInput("Change nickname", "New nickname:");
-        if (controller.changeNicknameInDB(plant, newNickname)) {
+        if (homeTabController.changeNicknameInDB(plant, newNickname)) {
             nickname.setText(newNickname);
         }
     }
@@ -233,11 +247,11 @@ public class LibraryPlantPane extends Pane {
     /**
      * @param plant
      */
-    private void changeDate(UserPlant plant) {
+    private void changeDate(DBPlant plant) {
         LocalDate date = datePicker.getValue();
         plant.setLastWatered(date);
         progressBar.setProgress(plant.getProgress());
         setColorProgressBar(plant.getProgress());
-        controller.changeLastWateredInDB(plant, date);
+        homeTabController.changeLastWateredInDB(plant, date);
     }
 }
