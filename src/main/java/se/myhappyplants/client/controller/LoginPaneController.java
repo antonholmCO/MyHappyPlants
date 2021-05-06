@@ -10,6 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import se.myhappyplants.client.model.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.User;
@@ -28,9 +29,13 @@ public class LoginPaneController {
     @FXML
     private TextField txtFldNewEmail;
     @FXML
+    private TextField txtFldNewEmail1;
+    @FXML
     private TextField txtFldNewUsername;
     @FXML
     private PasswordField passFldNewPassword;
+    @FXML
+    private PasswordField passFldNewPassword1;
 
     /**
      * Switches to 'logged in' scene
@@ -71,6 +76,8 @@ public class LoginPaneController {
             if (loginResponse != null) {
                 if (loginResponse.isSuccess()) {
                     LoggedInUser.getInstance().setUser(loginResponse.getUser());
+                    PopupBox popupBox = new PopupBox();
+                    Platform.runLater(() -> popupBox.display("Now logged in as\n" + LoggedInUser.getInstance().getUser().getUsername()));
                     try {
                         switchToSecondary();
                     }
@@ -124,15 +131,23 @@ public class LoginPaneController {
     private boolean validateAndDisplayErrors() {
         String email = txtFldNewEmail.getText();
         if (!validateEmail(email)) {
-            MessageBox.display("Couldn’t create account", "Please enter your email address in format: yourname@example.com");
+            Platform.runLater(() -> MessageBox.display("Couldn’t create account", "Please enter your email address in format: yourname@example.com"));
             return false;
         }
         if (txtFldNewUsername.getText().isEmpty()) {
-            MessageBox.display("Couldn’t create account", "Please enter a username");
+            Platform.runLater(() -> MessageBox.display("Couldn’t create account", "Please enter a username"));
             return false;
         }
         if (passFldNewPassword.getText().isEmpty()) {
-            MessageBox.display("Couldn’t create account", "Please enter a password");
+            Platform.runLater(() -> MessageBox.display("Couldn’t create account", "Please enter a password"));
+            return false;
+        }
+        if (!txtFldNewEmail1.getText().equals(txtFldNewEmail.getText())) {
+            Platform.runLater(() -> MessageBox.display("Couldn’t create account", "Please enter the same email twice"));
+            return false;
+        }
+        if (!passFldNewPassword1.getText().equals(passFldNewPassword.getText())) {
+            Platform.runLater(() -> MessageBox.display("Couldn’t create account", "Please enter the same password twice"));
             return false;
         }
         return true;

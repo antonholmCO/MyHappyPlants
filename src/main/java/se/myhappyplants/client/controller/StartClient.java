@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import se.myhappyplants.client.view.ConfirmationBox;
 
 import java.io.IOException;
@@ -19,7 +20,11 @@ import java.io.IOException;
 public class StartClient extends Application {
 
     private static Scene scene;
-    private Stage window;
+    private static Stage window;
+
+    public static Stage getStage() {
+        return window;
+    }
 
     /**
      * Starts the application by opening window. Method handles close on request.
