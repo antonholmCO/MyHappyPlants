@@ -170,7 +170,7 @@ public class LibraryPlantPane extends Pane {
     public void expand() {
         AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(12.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v + 6.25))))
+                new KeyFrame(Duration.millis(8.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v + 6.25))))
         );
         timeline.setCycleCount(32);
         timeline.play();
@@ -184,7 +184,7 @@ public class LibraryPlantPane extends Pane {
     public void collapse() {
         AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(12.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v - 6.25))))
+                new KeyFrame(Duration.millis(7.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v - 6.25))))
         );
         timeline.setCycleCount(32);
         timeline.play();
