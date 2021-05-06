@@ -109,7 +109,7 @@ public class LibraryPlantPane extends Pane {
             setColorProgressBar(100);
         });
 
-        this.infoButton = new Button("Show plant info");
+        this.infoButton = new Button("Show info");
         infoButton.setLayoutX(150.0);
         infoButton.setLayoutY(55.0);
         infoButton.setMnemonicParsing(false);
@@ -123,7 +123,7 @@ public class LibraryPlantPane extends Pane {
         });
 
         this.changeNicknameButton = new Button("Change nickname");
-        changeNicknameButton.setLayoutX(309.0);
+        changeNicknameButton.setLayoutX(333.0);
         changeNicknameButton.setLayoutY(250.0);
         changeNicknameButton.setMnemonicParsing(false);
         changeNicknameButton.setOnAction(onPress -> {
@@ -139,8 +139,8 @@ public class LibraryPlantPane extends Pane {
             datePicker.setPromptText("Change last watered");
         });
 
-        this.changePictureButton = new Button("Change plant picture");
-        changePictureButton.setLayoutX(458.0);
+        this.changePictureButton = new Button("Change picture");
+        changePictureButton.setLayoutX(488.0);
         changePictureButton.setLayoutY(250.0);
         changePictureButton.setMnemonicParsing(false);
 

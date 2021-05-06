@@ -78,12 +78,13 @@
 /* Tar bort padding på listview */
 .list-cell {
     -fx-padding: 0.0em 0.0em 0.5em 0.0em;
+        -fx-border-color: transparent;
+        -fx-border-style: none;
+        -fx-box-shadow: none;
 }
 
 .list-cell:selected {
     -fx-background: -fx-control-inner-background-alt;
-    -fx-border-color: -fx-control-inner-background-alt;
-    -fx-border: none;
 }
 
 .list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:focused,
