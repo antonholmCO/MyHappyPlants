@@ -211,3 +211,8 @@ resources/images/user_avatars/*.txt
 resources/images/user_avatars/*.jpg
 resources/images/user_avatars/*.jpeg
 resources/images/user_avatars/*.png
+
+# Antons usability test
+resources/Testdata
+UsabilityTestProgram.java
+UsabilityTestProgram.class
