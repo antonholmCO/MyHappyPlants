@@ -71,6 +71,7 @@ public class SearchPlantPane extends Pane {
         infoButton.setLayoutY(16.0);
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
+            infoButton.setDisable(true);
             if (!extended) {
                 if(!gotInfoOnPlant) {
                     getAllPlantInfo = plantsTabController.getMorePlantInfo(dbPlant);
@@ -123,7 +124,7 @@ public class SearchPlantPane extends Pane {
         );
         timeline.setCycleCount(32);
         timeline.play();
-        timeline.setOnFinished(action -> this.getChildren().addAll(listView));
+        timeline.setOnFinished(action -> {this.getChildren().addAll(listView); infoButton.setDisable(false);});
         extended = true;
         gotInfoOnPlant = true;
 
@@ -142,6 +143,7 @@ public class SearchPlantPane extends Pane {
         timeline.setCycleCount(32);
         timeline.play();
         this.getChildren().removeAll(listView);
+        timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = false;
         gotInfoOnPlant = false;
     }
