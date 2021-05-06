@@ -9,7 +9,6 @@ import se.myhappyplants.server.model.repository.UserRepository;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-
         Controller controller = new Controller();
         new Server(2555, new UserRepository(), new UserPlantRepository(controller), new DBPlantRepository(controller), controller);
 
