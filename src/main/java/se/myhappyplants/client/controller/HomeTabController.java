@@ -45,7 +45,7 @@ public class HomeTabController {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameHome.setText(loggedInUser.getUser().getUsername());
         imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
-
+//        userPlantLibrary.setStyle("-fx-focus-color: transparent;");
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
 
