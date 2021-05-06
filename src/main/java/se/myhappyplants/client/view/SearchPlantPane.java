@@ -13,6 +13,8 @@ import javafx.util.Duration;
 import se.myhappyplants.client.controller.PlantsTabController;
 import se.myhappyplants.shared.DBPlant;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
  * * Created by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
  * * Updated by: Linn Borgström, Eric Simonsson, Susanne Vikström 2021-04-28
@@ -112,11 +114,11 @@ public class SearchPlantPane extends Pane {
     }
 
     public void extendPaneMoreInfoPlant() {
-
+        AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() + 50))
+                new KeyFrame(Duration.millis(7.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v + 6.25))))
         );
-        timeline.setCycleCount(4);
+        timeline.setCycleCount(32);
         timeline.play();
         timeline.setOnFinished(action -> this.getChildren().addAll(listView));
         extended = true;
@@ -124,11 +126,11 @@ public class SearchPlantPane extends Pane {
     }
 
     public void retractPane() {
-
+        AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() - 50))
+                new KeyFrame(Duration.millis(7.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v - 6.25))))
         );
-        timeline.setCycleCount(4);
+        timeline.setCycleCount(32);
         timeline.play();
         this.getChildren().removeAll();
         extended = false;

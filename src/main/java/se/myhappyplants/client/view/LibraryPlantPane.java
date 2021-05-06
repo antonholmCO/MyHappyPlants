@@ -136,6 +136,7 @@ public class LibraryPlantPane extends Pane {
         changeOKButton.setMnemonicParsing(false);
         changeOKButton.setOnAction(onPress -> {
             changeDate(plant);
+            datePicker.setPromptText("Change last watered");
         });
 
         this.changePictureButton = new Button("Change plant picture");
