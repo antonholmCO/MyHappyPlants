@@ -79,27 +79,27 @@ public class LibraryPlantPane extends Pane {
         image.setFitHeight(70.0);
         image.setFitWidth(70.0);
         image.setLayoutX(50.0);
-        image.setLayoutY(10.0);
+        image.setLayoutY(5.0);
         image.setPickOnBounds(true);
         image.setPreserveRatio(true);
         image.setImage(img);
 
         nickname = new Label(plant.getNickname());
         nickname.setLayoutX(0);
-        nickname.setLayoutY(75);
+        nickname.setLayoutY(70);
         nickname.setPrefWidth(145);
         nickname.setAlignment(Pos.CENTER);
 
         this.progressBar = new ProgressBar(plant.getProgress());
         setColorProgressBar(plant.getProgress());
-        progressBar.setLayoutX(196.0);
+        progressBar.setLayoutX(150.0);
         progressBar.setLayoutY(28.0);
         progressBar.setPrefHeight(18.0);
         progressBar.setPrefWidth(575.0);
 
         this.waterButton = new Button("Water");
         waterButton.setLayoutX(400.0);
-        waterButton.setLayoutY(59.0);
+        waterButton.setLayoutY(55.0);
         waterButton.setMnemonicParsing(false);
         waterButton.setOnAction(action -> {
             progressBar.setProgress(100);
@@ -110,7 +110,7 @@ public class LibraryPlantPane extends Pane {
 
         this.infoButton = new Button("Show plant info");
         infoButton.setLayoutX(150.0);
-        infoButton.setLayoutY(59.0);
+        infoButton.setLayoutY(55.0);
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
             infoButton.setDisable(true);
@@ -122,7 +122,7 @@ public class LibraryPlantPane extends Pane {
         });
 
         this.changeNicknameButton = new Button("Change nickname");
-        changeNicknameButton.setLayoutX(350.0);
+        changeNicknameButton.setLayoutX(309.0);
         changeNicknameButton.setLayoutY(250.0);
         changeNicknameButton.setMnemonicParsing(false);
         changeNicknameButton.setOnAction(onPress -> {
@@ -130,7 +130,7 @@ public class LibraryPlantPane extends Pane {
         });
 
         this.changeOKButton = new Button("Change");
-        changeOKButton.setLayoutX(210.0);
+        changeOKButton.setLayoutX(215.0);
         changeOKButton.setLayoutY(250.0);
         changeOKButton.setMnemonicParsing(false);
         changeOKButton.setOnAction(onPress -> {
@@ -138,7 +138,7 @@ public class LibraryPlantPane extends Pane {
         });
 
         this.changePictureButton = new Button("Change plant picture");
-        changePictureButton.setLayoutX(480.0);
+        changePictureButton.setLayoutX(458.0);
         changePictureButton.setLayoutY(250.0);
         changePictureButton.setMnemonicParsing(false);
 
@@ -146,6 +146,7 @@ public class LibraryPlantPane extends Pane {
         datePicker.setLayoutX(10.0);
         datePicker.setLayoutY(250.0);
         datePicker.setEditable(false);
+        datePicker.setPrefWidth(200);
         datePicker.setPromptText("Change last watered");
 
         this.deleteButton = new Button("Delete plant");
@@ -157,7 +158,7 @@ public class LibraryPlantPane extends Pane {
         });
 
         this.setPrefHeight(92.0);
-        this.setPrefWidth(750.0);
+//        this.setPrefWidth(720.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
         this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
     }
