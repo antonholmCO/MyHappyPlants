@@ -16,6 +16,7 @@ import se.myhappyplants.shared.UserPlant;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Simple pane that displays a DBPlant's information
@@ -167,10 +168,11 @@ public class LibraryPlantPane extends Pane {
      * Method for expanding tab with "more information"-buttons.
      */
     public void expand() {
+        AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() + 50))
+                new KeyFrame(Duration.millis(12.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v + 6.25))))
         );
-        timeline.setCycleCount(4);
+        timeline.setCycleCount(32);
         timeline.play();
         timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = true;
@@ -180,10 +182,11 @@ public class LibraryPlantPane extends Pane {
      * Method for hiding tab with "more information"-buttons.
      */
     public void collapse() {
+        AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() - 50))
+                new KeyFrame(Duration.millis(12.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v - 6.25))))
         );
-        timeline.setCycleCount(4);
+        timeline.setCycleCount(32);
         timeline.play();
         timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = false;
