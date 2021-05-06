@@ -49,6 +49,7 @@ public class HomeTabController {
         imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
         //this.plantsTabController = mainPaneController.getPlantsTabController();
 
+//        userPlantLibrary.setStyle("-fx-focus-color: transparent;");
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
 

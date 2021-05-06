@@ -16,6 +16,8 @@ import se.myhappyplants.client.controller.PlantsTabController;
 
 import se.myhappyplants.shared.DBPlant;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
  * * Created by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
  * * Updated by: Linn Borgström, 2021-04-30
@@ -52,20 +54,20 @@ public class SearchPlantPane extends Pane {
         image.setPreserveRatio(true);
         image.setImage(img);
 
-        this.commonName = new Label("Common name: " + dbPlant.getCommonName());
+        this.commonName = new Label(dbPlant.getCommonName());
         commonName.setLayoutX(60.0);
         commonName.setLayoutY(20.0);
         commonName.prefHeight(17.0);
         commonName.prefWidth(264.0);
 
-        this.scientificName = new Label("Scientific name: " + dbPlant.getScientificName());
-        scientificName.setLayoutX(315.0);
+        this.scientificName = new Label(dbPlant.getScientificName());
+        scientificName.setLayoutX(280.0);
         scientificName.setLayoutY(20.0);
         scientificName.prefHeight(17.0);
         scientificName.prefWidth(254.0);
 
-        this.infoButton = new Button("Show more information");
-        infoButton.setLayoutX(570.0);
+        this.infoButton = new Button("More info");
+        infoButton.setLayoutX(595.0);
         infoButton.setLayoutY(16.0);
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
@@ -76,14 +78,13 @@ public class SearchPlantPane extends Pane {
 
                 }
                 extendPaneMoreInfoPlant();
-                System.out.println(" From searchPane " + plantsTabController.getMorePlantInfo(dbPlant));
             } else {
                 retractPane();
             }
         });
 
         this.addButton = new Button("+");
-        addButton.setLayoutX(723.0);
+        addButton.setLayoutX(710.0);
         addButton.setLayoutY(16.0);
         addButton.setMnemonicParsing(false);
         addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(dbPlant));
@@ -95,10 +96,8 @@ public class SearchPlantPane extends Pane {
         listView.setPrefHeight(150.0);
 
 
-
-
         this.prefHeight(56.0);
-        this.prefWidth(761.0);
+        //this.prefWidth(761.0);
         this.getChildren().addAll(image, commonName, scientificName, infoButton, addButton);
     }
 
@@ -118,11 +117,11 @@ public class SearchPlantPane extends Pane {
     }
 
     public void extendPaneMoreInfoPlant() {
-
+        AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() + 50))
+                new KeyFrame(Duration.millis(7.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v + 6.25))))
         );
-        timeline.setCycleCount(4);
+        timeline.setCycleCount(32);
         timeline.play();
         timeline.setOnFinished(action -> this.getChildren().addAll(listView));
         extended = true;
@@ -136,13 +135,15 @@ public class SearchPlantPane extends Pane {
             listView.getItems().remove(0);
         }
 
+        AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() - 50))
+                new KeyFrame(Duration.millis(7.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v - 6.25))))
         );
-        timeline.setCycleCount(4);
+        timeline.setCycleCount(32);
         timeline.play();
-        this.getChildren().removeAll();
+        this.getChildren().removeAll(listView);
         extended = false;
         gotInfoOnPlant = false;
     }
 }
+

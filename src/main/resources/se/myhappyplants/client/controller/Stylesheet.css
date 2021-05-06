@@ -13,6 +13,7 @@
 }
 /*//den tab som ej är vald? - gör inget..
 #5DB32D, MediumGreen
+
 */
 .tab-pane > .tab-header-area > .headers-region > .tab {
 
@@ -68,6 +69,43 @@
 -fx-base: #7BC054, BackgroundGreen;
 
 
+}
+/* Tar bort blå "focus ring" runt selectade element */
+#userPlantLibrary {
+    -fx-focus-color: transparent;
+}
+
+/* Tar bort padding på listview */
+.list-cell {
+    -fx-padding: 0.0em 0.0em 0.5em 0.0em;
+        -fx-border-color: transparent;
+        -fx-border-style: none;
+        -fx-box-shadow: none;
+}
+
+.list-cell:selected {
+    -fx-background: -fx-control-inner-background-alt;
+}
+
+.list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:focused,
+.tree-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-cell:focused,
+.table-view:focused:row-selection > .virtual-flow > .clipped-container > .sheet > .table-row-cell:focused,
+.tree-table-view:focused:row-selection > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell:focused,
+.table-view:focused:cell-selection > .virtual-flow > .clipped-container > .sheet > .table-row-cell > .table-cell:focused,
+.tree-table-view:focused:cell-selection > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell > .tree-table-cell:focused {
+    -fx-background-color: -fx-control-inner-background-alt;
+    -fx-background-insets: 0, 0, 0;
+}
+
+/* Selected rows */
+.list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected,
+.tree-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-cell:filled:selected,
+.table-view:focused > .virtual-flow > .clipped-container > .sheet > .table-row-cell:filled:selected,
+.tree-table-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell:filled:selected,
+.table-view:focused > .virtual-flow > .clipped-container > .sheet > .table-row-cell .table-cell:selected,
+.tree-table-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell .tree-table-cell:selected {
+    -fx-background: -fx-control-inner-background-alt;
+    -fx-table-cell-border-color: -fx-control-inner-background-alt;
 }
 
 }

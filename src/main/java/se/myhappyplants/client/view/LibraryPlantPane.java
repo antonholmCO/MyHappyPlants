@@ -15,6 +15,7 @@ import se.myhappyplants.shared.DBPlant;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Simple pane that displays a DBPlant's information
@@ -83,27 +84,27 @@ public class LibraryPlantPane extends Pane {
         image.setFitHeight(70.0);
         image.setFitWidth(70.0);
         image.setLayoutX(50.0);
-        image.setLayoutY(10.0);
+        image.setLayoutY(5.0);
         image.setPickOnBounds(true);
         image.setPreserveRatio(true);
         image.setImage(img);
 
         nickname = new Label(plant.getNickname());
         nickname.setLayoutX(0);
-        nickname.setLayoutY(75);
+        nickname.setLayoutY(70);
         nickname.setPrefWidth(145);
         nickname.setAlignment(Pos.CENTER);
 
         this.progressBar = new ProgressBar(plant.getProgress());
         setColorProgressBar(plant.getProgress());
-        progressBar.setLayoutX(196.0);
+        progressBar.setLayoutX(150.0);
         progressBar.setLayoutY(28.0);
         progressBar.setPrefHeight(18.0);
         progressBar.setPrefWidth(575.0);
 
         this.waterButton = new Button("Water");
         waterButton.setLayoutX(400.0);
-        waterButton.setLayoutY(59.0);
+        waterButton.setLayoutY(55.0);
         waterButton.setMnemonicParsing(false);
         waterButton.setOnAction(action -> {
             progressBar.setProgress(100);
@@ -112,9 +113,9 @@ public class LibraryPlantPane extends Pane {
             setColorProgressBar(100);
         });
 
-        this.infoButton = new Button("Show plant info");
+        this.infoButton = new Button("Show info");
         infoButton.setLayoutX(150.0);
-        infoButton.setLayoutY(59.0);
+        infoButton.setLayoutY(55.0);
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
             infoButton.setDisable(true);
@@ -130,7 +131,7 @@ public class LibraryPlantPane extends Pane {
         });
 
         this.changeNicknameButton = new Button("Change nickname");
-        changeNicknameButton.setLayoutX(350.0);
+        changeNicknameButton.setLayoutX(333.0);
         changeNicknameButton.setLayoutY(250.0);
         changeNicknameButton.setMnemonicParsing(false);
         changeNicknameButton.setOnAction(onPress -> {
@@ -138,15 +139,16 @@ public class LibraryPlantPane extends Pane {
         });
 
         this.changeOKButton = new Button("Change");
-        changeOKButton.setLayoutX(210.0);
+        changeOKButton.setLayoutX(215.0);
         changeOKButton.setLayoutY(250.0);
         changeOKButton.setMnemonicParsing(false);
         changeOKButton.setOnAction(onPress -> {
             changeDate(plant);
+            datePicker.setPromptText("Change last watered");
         });
 
-        this.changePictureButton = new Button("Change plant picture");
-        changePictureButton.setLayoutX(480.0);
+        this.changePictureButton = new Button("Change picture");
+        changePictureButton.setLayoutX(488.0);
         changePictureButton.setLayoutY(250.0);
         changePictureButton.setMnemonicParsing(false);
 
@@ -154,6 +156,7 @@ public class LibraryPlantPane extends Pane {
         datePicker.setLayoutX(10.0);
         datePicker.setLayoutY(250.0);
         datePicker.setEditable(false);
+        datePicker.setPrefWidth(200);
         datePicker.setPromptText("Change last watered");
 
         this.deleteButton = new Button("Delete plant");
@@ -170,7 +173,7 @@ public class LibraryPlantPane extends Pane {
         listView.setPrefHeight(150.0);
 
         this.setPrefHeight(92.0);
-        this.setPrefWidth(750.0);
+//        this.setPrefWidth(720.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
         this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
     }
@@ -180,10 +183,11 @@ public class LibraryPlantPane extends Pane {
      * Method for expanding tab with "more information"-buttons.
      */
     public void expand() {
+        AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() + 50))
+                new KeyFrame(Duration.millis(8.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v + 6.25))))
         );
-        timeline.setCycleCount(4);
+        timeline.setCycleCount(32);
         timeline.play();
         timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = true;
@@ -193,10 +197,11 @@ public class LibraryPlantPane extends Pane {
      * Method for hiding tab with "more information"-buttons.
      */
     public void collapse() {
+        AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(100), event -> this.setPrefHeight(this.getHeight() - 50))
+                new KeyFrame(Duration.millis(7.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v - 6.25))))
         );
-        timeline.setCycleCount(4);
+        timeline.setCycleCount(32);
         timeline.play();
         timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = false;
