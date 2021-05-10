@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -22,24 +23,42 @@ import java.nio.file.Files;
 
 public class SettingsTabController {
 
-    @FXML
-    private MainPaneController mainPaneController;
-    @FXML
-    private ImageView imgUserPicture;
-    @FXML
-    private Label lblUsernameSettings;
-    @FXML
-    private PasswordField deleteAccountPassField;
+    @FXML public ToggleButton changeNotifications;
+    @FXML private MainPaneController mainPaneController;
+    @FXML private ImageView imgUserPicture;
+    @FXML private Label lblUsernameSettings;
+    @FXML private PasswordField deleteAccountPassField;
 
     @FXML
     public void initialize() {
-        LoggedInUser loggedInUser = LoggedInUser.getInstance();
-        lblUsernameSettings.setText(loggedInUser.getUser().getUsername());
-        imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+        User loggedInUser = LoggedInUser.getInstance().getUser();
+        lblUsernameSettings.setText(loggedInUser.getUsername());
+        imgUserPicture.setImage(new Image(loggedInUser.getAvatarURL()));
+        changeNotifications.setSelected(loggedInUser.areNotificationsActivated());
     }
+
 
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
+    }
+
+    @FXML
+    public void changeNotificationsSetting() {
+        Thread changeNotificationsThread = new Thread(() -> {
+            Message notificationRequest = new Message("change notifications", changeNotifications.isSelected(), LoggedInUser.getInstance().getUser());
+            ClientConnection connection = new ClientConnection();
+            Message notificationResponse = connection.makeRequest(notificationRequest);
+            if(notificationResponse != null) {
+                if(notificationResponse.isSuccess()) {
+                    Platform.runLater(() -> MessageBox.display("Success", "Notification settings changed"));
+                } else {
+                    Platform.runLater(() -> MessageBox.display("Failed", "Settings could not be changed"));
+                }
+            } else {
+                Platform.runLater(() -> MessageBox.display("Failed", "The connection to the server has failed. Check your connection and try again."));
+            }
+        });
+        changeNotificationsThread.start();
     }
 
     /**

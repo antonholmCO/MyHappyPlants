@@ -1,5 +1,6 @@
 package se.myhappyplants.client.view;
 
+import javafx.animation.FadeTransition;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,6 +9,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import se.myhappyplants.client.controller.StartClient;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -17,8 +20,11 @@ import java.util.concurrent.atomic.AtomicReference;
  * Created by: Christopher O'Driscoll
  */
 public class MessageBox {
+
+    private static Stage window;
+    private static VBox vBox;
     public static void display(String title, String message) {
-        Stage window = new Stage();
+        window = new Stage();
 
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
@@ -34,13 +40,21 @@ public class MessageBox {
         });
 
 
-        VBox vBox = new VBox(10);
+        vBox = new VBox(10);
         vBox.getChildren().addAll(label, okButton);
         vBox.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(vBox);
         window.setScene(scene);
-        window.showAndWait();
+        showAndFade();
+    }
+    private static void showAndFade() {
+        window.show();
+        FadeTransition ft = new FadeTransition(Duration.millis(4000), vBox);
+        ft.setFromValue(1.0);
+        ft.setToValue(0.0);
+        ft.play();
+
     }
 
     /**

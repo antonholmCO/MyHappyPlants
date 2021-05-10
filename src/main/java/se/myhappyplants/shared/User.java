@@ -108,7 +108,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public boolean getIsNotificationsActivated() {
+    public boolean areNotificationsActivated() {
         return isNotificationsActivated;
     }
 

@@ -121,7 +121,7 @@ public class HomeTabController {
             if (response.isSuccess()) {
                 currentUserLibrary = response.getPlantLibrary();
                 addCurrentUserLibraryToHomeScreen();
-                if(LoggedInUser.getInstance().getUser().getIsNotificationsActivated()) {
+                if(LoggedInUser.getInstance().getUser().areNotificationsActivated()) {
                     showNotifications();
                 }
             } else {
