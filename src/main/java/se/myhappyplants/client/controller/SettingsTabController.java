@@ -43,7 +43,7 @@ public class SettingsTabController {
     }
 
     /**
-     * Method
+     * Method that handles actions when a user clicks button to delete account.
      */
     @FXML
     private void deleteAccountButtonPressed() {

@@ -70,8 +70,6 @@ public class Message implements Serializable {
         this.dbPlant = dbPlant;
     }
 
-
-
     public String[] getStringArray() {
         return stringArray;
     }

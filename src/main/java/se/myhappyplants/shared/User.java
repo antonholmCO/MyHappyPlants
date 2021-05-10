@@ -1,10 +1,6 @@
 package se.myhappyplants.shared;
 
-import javafx.scene.image.Image;
-import se.myhappyplants.client.model.LoggedInUser;
-
 import java.io.*;
-import java.util.ArrayList;
 
 /**
  * Created by: Linn Borgström
@@ -103,7 +99,6 @@ public class User implements Serializable {
     public String getEmail() {
         return email;
     }
-
 
     public String getPassword() {
         return password;

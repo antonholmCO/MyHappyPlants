@@ -23,7 +23,6 @@ import java.util.ArrayList;
  */
 public class Server implements Runnable {
 
-
     private ServerSocket serverSocket;
     private final Thread serverThread = new Thread(this);
     private boolean serverRunning;
@@ -57,7 +56,8 @@ public class Server implements Runnable {
             serverSocket = new ServerSocket(port);
             serverRunning = true;
             serverThread.start();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -72,7 +72,8 @@ public class Server implements Runnable {
                 Socket socket = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(socket);
                 clientHandler.start();
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -85,7 +86,8 @@ public class Server implements Runnable {
         try {
             serverRunning = false;
             serverSocket.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -110,7 +112,8 @@ public class Server implements Runnable {
                 if (loginSuccess) {
                     User user = userRepository.getUserDetails(email);
                     response = new Message("login", user, true);
-                } else {
+                }
+                else {
                     response = new Message("login", false);
                 }
                 break;
@@ -119,7 +122,8 @@ public class Server implements Runnable {
                 if (userRepository.saveUser(user)) {
                     User savedUser = userRepository.getUserDetails(user.getEmail());
                     response = new Message("registration", savedUser, true);
-                } else {
+                }
+                else {
                     response = new Message("registration", false);
                 }
                 break;
@@ -127,7 +131,8 @@ public class Server implements Runnable {
                 User userToDelete = request.getUser();
                 if (userRepository.deleteAccount(userToDelete.getEmail(), userToDelete.getPassword())) {
                     response = new Message("delete account", true);
-                } else {
+                }
+                else {
                     response = new Message("delete account", false);
                 }
                 break;
@@ -135,7 +140,8 @@ public class Server implements Runnable {
                 try {
                     ArrayList<DBPlant> plantList = dbPlantRepository.getResult(request.getMessageText());
                     response = new Message("search", plantList, true);
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     response = new Message("search", false);
                     e.printStackTrace();
                 }
@@ -203,7 +209,8 @@ public class Server implements Runnable {
                 Message response = getResponse(request);
                 oos.writeObject(response);
                 oos.flush();
-            } catch (IOException | ClassNotFoundException | InterruptedException e) {
+            }
+            catch (IOException | ClassNotFoundException | InterruptedException e) {
                 e.printStackTrace();
             }
         }

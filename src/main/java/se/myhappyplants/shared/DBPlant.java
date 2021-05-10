@@ -1,8 +1,6 @@
 package se.myhappyplants.shared;
 
-
 import java.io.Serializable;
-import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -13,7 +11,6 @@ import java.time.LocalDate;
  */
 public class DBPlant implements Serializable {
 
-
     private String plantId;
     private String commonName;
     private String scientificName;
@@ -22,7 +19,6 @@ public class DBPlant implements Serializable {
     private String nickname;
     private Date lastWatered;
     private long waterFrequency;
-
 
     public DBPlant(String plantId, String commonName, String scientificName, String familyName, String imageURL) {
         this.plantId = plantId;
@@ -39,7 +35,6 @@ public class DBPlant implements Serializable {
         this.waterFrequency = waterFrequency;
 
     }
-
 
     public DBPlant(String nickname, String plantID, Date lastWatered) {
         this.nickname = nickname;
@@ -80,6 +75,7 @@ public class DBPlant implements Serializable {
     public Date getLastWatered() {
         return lastWatered;
     }
+
     public void setLastWatered(LocalDate localDate) {
         Date date = java.sql.Date.valueOf(localDate);
         this.lastWatered = date;
@@ -94,5 +90,4 @@ public class DBPlant implements Serializable {
         }
         return progress;
     }
-
 }

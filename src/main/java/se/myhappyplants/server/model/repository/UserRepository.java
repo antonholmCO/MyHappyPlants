@@ -11,7 +11,7 @@ import java.sql.*;
  * Created by: Frida Jacobsson
  * Updated by:
  */
-public class UserRepository{
+public class UserRepository {
 
     private Statement statement;
     private Connection conn;

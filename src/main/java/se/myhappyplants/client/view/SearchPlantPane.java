@@ -3,14 +3,12 @@ package se.myhappyplants.client.view;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.PlantsTabController;
 
@@ -39,11 +37,8 @@ public class SearchPlantPane extends Pane {
     private boolean extended;
 
     public SearchPlantPane(PlantsTabController plantsTabController, String imgPath, DBPlant dbPlant) {
-
         this.plantsTabController = plantsTabController;
-
         this.dbPlant = dbPlant;
-
         Image img = new Image(imgPath);
 
         this.image = new ImageView();
@@ -73,13 +68,14 @@ public class SearchPlantPane extends Pane {
         infoButton.setOnAction(onPress -> {
             infoButton.setDisable(true);
             if (!extended) {
-                if(!gotInfoOnPlant) {
+                if (!gotInfoOnPlant) {
                     getAllPlantInfo = plantsTabController.getMorePlantInfo(dbPlant);
                     listView.setItems(getAllPlantInfo);
 
                 }
                 extendPaneMoreInfoPlant();
-            } else {
+            }
+            else {
                 retractPane();
             }
         });
@@ -124,10 +120,12 @@ public class SearchPlantPane extends Pane {
         );
         timeline.setCycleCount(32);
         timeline.play();
-        timeline.setOnFinished(action -> {this.getChildren().addAll(listView); infoButton.setDisable(false);});
+        timeline.setOnFinished(action -> {
+            this.getChildren().addAll(listView);
+            infoButton.setDisable(false);
+        });
         extended = true;
         gotInfoOnPlant = true;
-
     }
 
     public void retractPane() {
