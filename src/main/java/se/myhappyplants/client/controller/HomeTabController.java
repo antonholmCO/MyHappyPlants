@@ -99,15 +99,20 @@ public class HomeTabController {
 
     public void showNotifications () {
         ObservableList<String> notificationString = FXCollections.observableArrayList();
-        int plantsThatNeedWater = 0;
-        for (DBPlant plant: currentUserLibrary) {
-            if(plant.getProgress()<0.25) {
-                plantsThatNeedWater++;
-                notificationString.add(plant.getNickname() + " needs water");
+        if (LoggedInUser.getInstance().getUser().areNotificationsActivated()) {
+            int plantsThatNeedWater = 0;
+            for (DBPlant plant : currentUserLibrary) {
+                if (plant.getProgress() < 0.25) {
+                    plantsThatNeedWater++;
+                    notificationString.add(plant.getNickname() + " needs water");
+                }
+            }
+            if (plantsThatNeedWater == 0) {
+                notificationString.add("All your plants are watered");
             }
         }
-        if (plantsThatNeedWater==0) {
-            notificationString.add("All your plants are watered");
+        else {
+            notificationString.add("");
         }
         Platform.runLater(() -> notificationsList.setItems(notificationString));
     }
@@ -121,9 +126,7 @@ public class HomeTabController {
             if (response.isSuccess()) {
                 currentUserLibrary = response.getPlantLibrary();
                 addCurrentUserLibraryToHomeScreen();
-                if(LoggedInUser.getInstance().getUser().getIsNotificationsActivated()) {
-                    showNotifications();
-                }
+                showNotifications();
             } else {
                 Platform.runLater(() -> MessageBox.display("Couldn't load library", "The connection to the server has failed. Check your connection and try again."));
             }

@@ -138,5 +138,24 @@ public class UserRepository {
         }
         return true;
     }
+
+    public boolean changeNotifications(User user, boolean notifications) {
+        int notificationsActivated;
+        if(notifications) {
+            notificationsActivated = 1;
+        }
+        else {
+            notificationsActivated = 0;
+        }
+        try {
+            String query = "UPDATE [User] SET notification_activated = " + notificationsActivated + " WHERE email = '"+ user.getEmail() + "';";
+            statement.executeUpdate(query);
+            return true;
+        }
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            return false;
+        }
+    }
 }
 
