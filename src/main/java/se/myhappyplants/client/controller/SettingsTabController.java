@@ -11,6 +11,7 @@ import javafx.stage.FileChooser;
 import se.myhappyplants.client.model.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
 
@@ -35,6 +36,8 @@ public class SettingsTabController {
         lblUsernameSettings.setText(loggedInUser.getUsername());
         imgUserPicture.setImage(new Image(loggedInUser.getAvatarURL()));
         changeNotifications.setSelected(loggedInUser.areNotificationsActivated());
+        setNotificationsButtonText();
+
     }
 
 
@@ -50,7 +53,9 @@ public class SettingsTabController {
             Message notificationResponse = connection.makeRequest(notificationRequest);
             if(notificationResponse != null) {
                 if(notificationResponse.isSuccess()) {
-                    Platform.runLater(() -> MessageBox.display("Success", "Notification settings changed"));
+                    LoggedInUser.getInstance().getUser().setIsNotificationsActivated(changeNotifications.isSelected());
+                    PopupBox popupBox = new PopupBox();
+                    Platform.runLater(() -> popupBox.display("Notification settings changed"));
                 } else {
                     Platform.runLater(() -> MessageBox.display("Failed", "Settings could not be changed"));
                 }
@@ -59,6 +64,18 @@ public class SettingsTabController {
             }
         });
         changeNotificationsThread.start();
+        setNotificationsButtonText();
+        mainPaneController.getHomePaneController().createCurrentUserLibraryFromDB();
+
+    }
+
+    private void setNotificationsButtonText() {
+        if(changeNotifications.isSelected()) {
+            changeNotifications.setText("On");
+        }
+        else {
+            changeNotifications.setText("Off");
+        }
     }
 
     /**

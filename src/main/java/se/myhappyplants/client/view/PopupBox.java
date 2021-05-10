@@ -15,13 +15,12 @@ public class PopupBox extends Popup {
     public void display(String message) {
 
         label = new Label(message);
-        label.setStyle("-fx-font-size: 14pt; -fx-text: textColor; -fx-border-color: black; -fx-font-family: 'Eras Medium ITC'; -fx-background: BackgroundGreen;");
-        label.setLayoutX(750);
-        label.setLayoutY(475);
+        label.setStyle("-fx-font-size: 14pt; -fx-text: textColor; -fx-border-color: black; -fx-font-family: 'Eras Medium ITC';");
+        label.setLayoutX(450);
+        label.setLayoutY(-200);
         label.setTextAlignment(TextAlignment.CENTER);
-        label.setPrefWidth(150);
-        label.setMinHeight(Region.USE_COMPUTED_SIZE);
-        this.setHeight(Region.USE_COMPUTED_SIZE);
+        label.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        label.setPrefHeight(Region.USE_COMPUTED_SIZE);
         getContent().add(label);
         //setAutoHide(true);
         showAndFade();
