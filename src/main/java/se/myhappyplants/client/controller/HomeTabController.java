@@ -205,4 +205,17 @@ public class HomeTabController {
     public void updateAvatar() {
         imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
     }
+
+    public ObservableList<String> getMorePlantInfoOnMyLibraryPlants(DBPlant dbPlant) {
+        Message getInfoSearchedPlant = new Message("getMorePlantInfoOnLibraryPlant", dbPlant);
+        Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
+        ObservableList<String> extraInfoOnLibraryPlant = FXCollections.observableArrayList();
+        if (response != null) {
+            for (int i = 0; i < response.getStringArray().length; i++) {
+                extraInfoOnLibraryPlant.add(response.getStringArray()[i]);
+            }
+        }
+        return extraInfoOnLibraryPlant;
+
+    }
 }

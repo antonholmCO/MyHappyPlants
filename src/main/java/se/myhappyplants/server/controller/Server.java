@@ -160,8 +160,8 @@ public class Server implements Runnable {
                 response = new Message("success", deleteSuccess);
                 break;
             case "getMorePlantInfoOnSearch":
-                String[] message = dbPlantRepository.getMoreInformation(request.getPlant());
-                response = new Message("waterLightInfo", message);
+                String[] moreInformationMessage = dbPlantRepository.getMoreInformation(request.getPlant());
+                response = new Message("waterLightInfo", moreInformationMessage);
                 break;
             case "changeLastWatered":
                 boolean changeDateSuccess = userPlantRepository.changeLastWatered(request.getUser(), request.getDbPlant().getNickname(), request.getDate());
@@ -170,6 +170,10 @@ public class Server implements Runnable {
             case "changeNickname":
                 boolean changeNicknameSuccess = userPlantRepository.changeNickname(request.getUser(), request.getDbPlant().getNickname(), request.getNewNickname());
                 response = new Message("success", changeNicknameSuccess);
+                break;
+            case "getMorePlantInfoOnLibraryPlant":
+                String[] moreInformationMessageLibraryPlants = dbPlantRepository.getMoreInformationOnLibraryPlants(request.getPlant());
+                response = new Message("getMorePlantInfoOnLibraryPlant", moreInformationMessageLibraryPlants);
                 break;
             default:
                 response = new Message("fail", false);

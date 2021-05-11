@@ -121,8 +121,8 @@ public class LibraryPlantPane extends Pane {
             infoButton.setDisable(true);
             if (!extended) {
                 if(!gotInfoOnPlant) {
-                    //getAllPlantInfo = plantsTabController.getMorePlantInfo(plant);
-                    //listView.setItems(getAllPlantInfo);
+                    getAllPlantInfo = homeTabController.getMorePlantInfoOnMyLibraryPlants(plant);
+                    listView.setItems(getAllPlantInfo);
                 }
                 expand();
             } else {

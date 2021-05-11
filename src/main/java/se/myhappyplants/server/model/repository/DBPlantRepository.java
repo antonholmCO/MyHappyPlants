@@ -11,6 +11,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+/**
+ * Created by: Christopther O'Driscoll
+ * Updated by: Linn Borgström, 2021-05-11
+ */
 public class DBPlantRepository {
 
     private Controller controller;
@@ -109,4 +113,37 @@ public class DBPlantRepository {
 
     }
 
+    public String[] getMoreInformationOnLibraryPlants(DBPlant plant) {
+        String[] allInfo = new String[4];
+        try {
+            String query = "select common_name,scientific_name,genus,family,light,water_frequency from species\n" +
+                    "where id = " + plant.getPlantId();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                String commonName = resultSet.getString("common_name");
+                String scientificName = resultSet.getString("scientific_name");
+                String genus = resultSet.getString("genus");
+                String family = resultSet.getString("family");
+                String light = resultSet.getString("light");
+                String waterFrequency = resultSet.getString("water_frequency");
+                String lightText = controller.calculateLightLevel(light);
+                String waterText = controller.calculateWater(waterFrequency);
+                allInfo[0] = "Common name:\t" + commonName + "\n";
+                allInfo[1] = "Scientific name:\t" + scientificName + "\n";
+                allInfo[2] = "Genus:\t" + genus + "\n";
+                allInfo[3] = "Family:\t" + family + "\n";
+                allInfo[4] = "Light:\t" + lightText + "\n";
+                allInfo[5] = "Water:\t" + waterText + "\n";
+
+
+            }
+        }
+        catch (SQLException sqlException) {
+            System.out.println(sqlException.fillInStackTrace());
+            return null;
+        }
+
+        return allInfo;
+
+    }
 }
