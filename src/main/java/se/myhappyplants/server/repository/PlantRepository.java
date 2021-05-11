@@ -1,6 +1,7 @@
-package se.myhappyplants.server.model.repository;
+package se.myhappyplants.server.repository;
 
-import se.myhappyplants.server.controller.Controller;
+import se.myhappyplants.server.model.LightCalculator;
+import se.myhappyplants.server.model.WaterCalculator;
 import se.myhappyplants.shared.DBPlant;
 
 import java.io.IOException;
@@ -11,16 +12,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class DBPlantRepository {
+public class PlantRepository {
 
-    private Controller controller;
     private Statement statement;
+    private LightCalculator lightCalculator;
+    private WaterCalculator waterCalculator;
 
-    public DBPlantRepository(Controller controller) throws SQLException, UnknownHostException {
-        this.controller = controller;
+    public PlantRepository(LightCalculator lightCalculator, WaterCalculator waterCalculator) throws SQLException, UnknownHostException {
+        this.waterCalculator = waterCalculator;
+        this.lightCalculator = lightCalculator;
         Connection conn = Driver.getConnection("Species");
         statement = conn.createStatement();
     }
+
 
     public ArrayList<DBPlant> getResult(String plantSearch) throws IOException, InterruptedException {
         ArrayList<DBPlant> plantList = new ArrayList<>();
@@ -55,13 +59,12 @@ public class DBPlantRepository {
                 String light = resultSet.getString("light");
                 String family = resultSet.getString("family");
                 String waterFrequency = resultSet.getString("water_frequency");
-                String lightText = controller.calculateLightLevel(light);
-                String waterText = controller.calculateWater(waterFrequency);
+                String lightText = lightCalculator.calculateLightLevel(light);
+                String waterText = waterCalculator.calculateWater(waterFrequency);
                 allInfo[0] = "Family:\t" + family + "\n";
                 allInfo[1] = "Genus:\t" + genus + "\n";
                 allInfo[2] = "Light:\t" + lightText + "\n";
                 allInfo[3] = "Water:\t" + waterText + "\n";
-
             }
         }
         catch (SQLException sqlException) {

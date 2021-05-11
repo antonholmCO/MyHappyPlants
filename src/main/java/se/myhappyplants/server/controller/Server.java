@@ -1,8 +1,8 @@
 package se.myhappyplants.server.controller;
 
-import se.myhappyplants.server.model.repository.DBPlantRepository;
-import se.myhappyplants.server.model.repository.UserPlantRepository;
-import se.myhappyplants.server.model.repository.UserRepository;
+import se.myhappyplants.server.repository.PlantRepository;
+import se.myhappyplants.server.repository.UserPlantRepository;
+import se.myhappyplants.server.repository.UserRepository;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
@@ -29,7 +29,7 @@ public class Server implements Runnable {
 
     private UserRepository userRepository;
     private UserPlantRepository userPlantRepository;
-    private DBPlantRepository dbPlantRepository;
+    private PlantRepository plantRepository;
     private Controller controller;
 
     /**
@@ -38,11 +38,11 @@ public class Server implements Runnable {
      * @param port           port to be used
      * @param userRepository to handle db requests
      */
-    public Server(int port, UserRepository userRepository, UserPlantRepository userPlantRepository, DBPlantRepository dbPlantRepository, Controller controller) {
+    public Server(int port, UserRepository userRepository, UserPlantRepository userPlantRepository, PlantRepository plantRepository, Controller controller) {
         this(port);
         this.userRepository = userRepository;
         this.userPlantRepository = userPlantRepository;
-        this.dbPlantRepository = dbPlantRepository;
+        this.plantRepository = plantRepository;
         this.controller = controller;
     }
 
@@ -138,7 +138,7 @@ public class Server implements Runnable {
                 break;
             case "search":
                 try {
-                    ArrayList<DBPlant> plantList = dbPlantRepository.getResult(request.getMessageText());
+                    ArrayList<DBPlant> plantList = plantRepository.getResult(request.getMessageText());
                     response = new Message("search", plantList, true);
                 }
                 catch (Exception e) {
@@ -164,7 +164,7 @@ public class Server implements Runnable {
                 response = new Message("success", deleteSuccess);
                 break;
             case "getMorePlantInfoOnSearch":
-                String[] message = dbPlantRepository.getMoreInformation(request.getPlant());
+                String[] message = plantRepository.getMoreInformation(request.getPlant());
                 response = new Message("waterLightInfo", message);
                 break;
             case "changeLastWatered":

@@ -1,6 +1,7 @@
-package se.myhappyplants.server.model.repository;
+package se.myhappyplants.server.repository;
 
-import se.myhappyplants.server.controller.Controller;
+import se.myhappyplants.server.model.LightCalculator;
+import se.myhappyplants.server.model.WaterCalculator;
 import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.User;
 
@@ -18,8 +19,7 @@ import java.util.ArrayList;
 public class UserPlantRepository {
 
     private Statement statement;
-    private Controller controller;
-    private DBPlantRepository dbPlantRepository;
+    private PlantRepository plantRepository;
 
     /**
      * Constructor that creates a connection to the database.
@@ -27,9 +27,8 @@ public class UserPlantRepository {
      * @throws SQLException
      * @throws UnknownHostException
      */
-    public UserPlantRepository(Controller controller) throws SQLException, UnknownHostException {
-        this.controller = controller;
-        dbPlantRepository = new DBPlantRepository(controller);
+    public UserPlantRepository(LightCalculator lightCalculator, WaterCalculator waterCalculator) throws SQLException, UnknownHostException {
+        plantRepository = new PlantRepository(lightCalculator, waterCalculator);
         Connection conn = Driver.getConnection("MyHappyPlants");
         statement = conn.createStatement();
     }
@@ -77,7 +76,7 @@ public class UserPlantRepository {
                 String nickname = resultSet.getString("nickname");
                 String plantId = resultSet.getString("plant_id");
                 Date lastWatered = resultSet.getDate("last_watered");
-                long waterFrequency = dbPlantRepository.getWaterFrequency(plantId);
+                long waterFrequency = plantRepository.getWaterFrequency(plantId);
                 plantList.add(new DBPlant(nickname, plantId, lastWatered, waterFrequency));
             }
         }
