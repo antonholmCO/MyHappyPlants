@@ -81,12 +81,18 @@ public class SearchPlantPane extends Pane {
             }
         });
 
-        this.addButton = new Button("+");
-        addButton.setLayoutX(710.0);
+
+        this.addButton = new Button();
+        addButton.setLayoutX(705.0);
         addButton.setLayoutY(16.0);
         addButton.setMnemonicParsing(false);
         addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(dbPlant));
-        imgViewPlusSign = new ImageView();
+
+
+        this.imgViewPlusSign = new ImageView(new Image("Blommor/plusSign.png"));
+        imgViewPlusSign.setFitHeight(16);
+        imgViewPlusSign.setFitWidth(15);
+        addButton.setGraphic(imgViewPlusSign);
 
         listView = new ListView();
         listView.setLayoutX(this.getWidth());
