@@ -22,7 +22,7 @@ public class PopupBox extends Popup {
         label.setPrefWidth(Region.USE_COMPUTED_SIZE);
         label.setPrefHeight(Region.USE_COMPUTED_SIZE);
         getContent().add(label);
-        //setAutoHide(true);
+        setAutoHide(true);
         showAndFade();
     }
     private void showAndFade() {
@@ -31,6 +31,5 @@ public class PopupBox extends Popup {
         ft.setFromValue(1.0);
         ft.setToValue(0.0);
         ft.play();
-
     }
 }
