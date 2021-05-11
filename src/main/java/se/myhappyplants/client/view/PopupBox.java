@@ -1,8 +1,8 @@
 package se.myhappyplants.client.view;
 
 import javafx.animation.FadeTransition;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Region;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.util.Duration;
@@ -15,13 +15,14 @@ public class PopupBox extends Popup {
     public void display(String message) {
 
         label = new Label(message);
-        label.setStyle("-fx-font-size: 14pt; -fx-text: textColor; -fx-border-color: black; -fx-font-family: 'Eras Medium ITC'; -fx-base: BackgroundGreen;");
-        label.setLayoutX(750);
-        label.setLayoutY(475);
+        label.setStyle("-fx-font-size: 14pt; -fx-text: textColor; -fx-border-color: black; -fx-font-family: 'Eras Medium ITC';");
+        label.setLayoutX(450);
+        label.setLayoutY(-200);
         label.setTextAlignment(TextAlignment.CENTER);
-        label.setPrefSize(150, 100);
+        label.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        label.setPrefHeight(Region.USE_COMPUTED_SIZE);
         getContent().add(label);
-        //setAutoHide(true);
+        setAutoHide(true);
         showAndFade();
     }
     private void showAndFade() {
@@ -30,6 +31,5 @@ public class PopupBox extends Popup {
         ft.setFromValue(1.0);
         ft.setToValue(0.0);
         ft.play();
-
     }
 }

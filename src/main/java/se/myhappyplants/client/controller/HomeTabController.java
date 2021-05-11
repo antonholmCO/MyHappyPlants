@@ -28,28 +28,24 @@ public class HomeTabController {
 
     private ArrayList<DBPlant> currentUserLibrary;
 
-    @FXML
-    private MainPaneController mainPaneController;
+    @FXML private MainPaneController mainPaneController;
 
     @FXML private PlantsTabController plantsTabController;
 
-    @FXML
-    private Label lblUsernameHome;
+    @FXML private Label lblUsernameHome;
 
-    @FXML
-    private ImageView imgUserPicture;
+    @FXML private ImageView imgUserPicture;
 
-    @FXML
-    private ListView userPlantLibrary;
+    @FXML private ListView userPlantLibrary;
+
+    @FXML public ListView notificationsList;
 
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameHome.setText(loggedInUser.getUser().getUsername());
         imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
-        //this.plantsTabController = mainPaneController.getPlantsTabController();
 
-//        userPlantLibrary.setStyle("-fx-focus-color: transparent;");
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
 
@@ -66,7 +62,7 @@ public class HomeTabController {
             plantPane.add(new LibraryPlantPane());
         } else {
             for (DBPlant plant : currentUserLibrary) {
-                plantPane.add(new LibraryPlantPane(this,plantsTabController, getRandomImagePath(), plant));
+                plantPane.add(new LibraryPlantPane(this, plantsTabController, getRandomImagePath(), plant));
             }
         }
         Platform.runLater(() -> userPlantLibrary.setItems(plantPane));
@@ -101,6 +97,25 @@ public class HomeTabController {
         }
     }
 
+    public void showNotifications () {
+        ObservableList<String> notificationString = FXCollections.observableArrayList();
+        if (LoggedInUser.getInstance().getUser().areNotificationsActivated()) {
+            int plantsThatNeedWater = 0;
+            for (DBPlant plant : currentUserLibrary) {
+                if (plant.getProgress() < 0.25) {
+                    plantsThatNeedWater++;
+                    notificationString.add(plant.getNickname() + " needs water");
+                }
+            }
+            if (plantsThatNeedWater == 0) {
+                notificationString.add("All your plants are watered");
+            }
+        }
+        else {
+            notificationString.add("");
+        }
+        Platform.runLater(() -> notificationsList.setItems(notificationString));
+    }
     @FXML
     public void createCurrentUserLibraryFromDB() {
         Thread getLibraryThread = new Thread(() -> {
@@ -111,6 +126,7 @@ public class HomeTabController {
             if (response.isSuccess()) {
                 currentUserLibrary = response.getPlantLibrary();
                 addCurrentUserLibraryToHomeScreen();
+                showNotifications();
             } else {
                 Platform.runLater(() -> MessageBox.display("Couldn't load library", "The connection to the server has failed. Check your connection and try again."));
             }
@@ -183,6 +199,7 @@ public class HomeTabController {
         if (!response.isSuccess()) {
             MessageBox.display("Couldn’t change date", "The connection to the server has failed. Check your connection and try again.");
         }
+        createCurrentUserLibraryFromDB();
     }
 
     /**

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class Message implements Serializable {
 
     private String messageType;
+    private boolean notifications;
     private String messageText;
     private String[] stringArray;
     private User user;
@@ -68,6 +69,12 @@ public class Message implements Serializable {
     public Message(String messageType, DBPlant dbPlant) {
         this.messageType = messageType;
         this.dbPlant = dbPlant;
+    }
+
+    public Message(String messageType, boolean notifications, User user) {
+        this.messageType = messageType;
+        this.notifications = notifications;
+        this.user = user;
     }
 
     public String[] getStringArray() {
@@ -126,5 +133,9 @@ public class Message implements Serializable {
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public boolean getNotifications() {
+        return notifications;
     }
 }

@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import se.myhappyplants.client.view.ConfirmationBox;
 
@@ -35,6 +36,8 @@ public class StartClient extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         window = stage;
+        window.setResizable(false);
+        window.initStyle(StageStyle.DECORATED);
         window.setOnCloseRequest(action -> {
             action.consume();
             closeProgram();
