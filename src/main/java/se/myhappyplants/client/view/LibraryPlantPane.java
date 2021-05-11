@@ -2,7 +2,6 @@ package se.myhappyplants.client.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -15,6 +14,7 @@ import se.myhappyplants.shared.Plant;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -23,22 +23,21 @@ import java.util.concurrent.atomic.AtomicReference;
  * Updated by: Frida Jacobsson
  */
 public class LibraryPlantPane extends Pane {
+
     private HomeTabController homeTabController;
     private PlantsTabController plantsTabController;
-
     private ImageView image;
     private Label nickname;
+    private Label lastWateredLabel;
     private ProgressBar progressBar;
     private Button infoButton;
     private Button waterButton;
-
     private Button changeNicknameButton;
     private Button changePictureButton;
     private Button deleteButton;
     private DatePicker datePicker;
     private Button changeOKWaterButton;
     private ListView listView;
-    private ObservableList<String> getAllPlantInfo;
 
     private boolean extended;
     private boolean gotInfoOnPlant;
@@ -80,6 +79,7 @@ public class LibraryPlantPane extends Pane {
         this.image = new ImageView();
         initImages(imgPath);
         initNicknameLabel(plant);
+        initLastWateredLabel(plant);
         initProgressBar(plant);
         initWaterButton(plant);
         initInfoButton();
@@ -111,6 +111,14 @@ public class LibraryPlantPane extends Pane {
         nickname.setAlignment(Pos.CENTER);
     }
 
+    private void initLastWateredLabel(Plant plant) {
+        this.lastWateredLabel = new Label();
+        lastWateredLabel.setLayoutY(226);
+        lastWateredLabel.setLayoutX(10);
+        Date lastWateredDate = plant.getLastWatered();
+        lastWateredLabel.setText("Last watered: " +lastWateredDate.toString());
+    }
+
     private void initProgressBar(Plant plant) {
         this.progressBar = new ProgressBar(plant.getProgress());
         setColorProgressBar(plant.getProgress());
@@ -134,7 +142,6 @@ public class LibraryPlantPane extends Pane {
     }
 
     private void initInfoButton() {
-
         this.infoButton = new Button("Show info");
         infoButton.setLayoutX(150.0);
         infoButton.setLayoutY(55.0);
@@ -210,7 +217,7 @@ public class LibraryPlantPane extends Pane {
 
         this.setPrefHeight(92.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
-        this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton);
+        this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
     }
 
 
