@@ -26,7 +26,7 @@ public class PopupBox extends Popup {
         showAndFade();
     }
     private void showAndFade() {
-        show(StartClient.getStage());
+//        show(StartClient.getStage());
         FadeTransition ft = new FadeTransition(Duration.millis(4000), label);
         ft.setFromValue(1.0);
         ft.setToValue(0.0);
