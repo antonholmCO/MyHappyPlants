@@ -190,7 +190,6 @@ public class LibraryPlantPane extends Pane {
         timeline.setCycleCount(32);
         timeline.play();
         timeline.setOnFinished(action -> {
-            this.getChildren().addAll(listView);
             infoButton.setDisable(false);
         });
         extended = true;
@@ -211,7 +210,6 @@ public class LibraryPlantPane extends Pane {
         );
         timeline.setCycleCount(32);
         timeline.play();
-        this.getChildren().removeAll(listView);
         timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = false;
         gotInfoOnPlant = false;

@@ -114,7 +114,7 @@ public class DBPlantRepository {
     }
 
     public String[] getMoreInformationOnLibraryPlants(DBPlant plant) {
-        String[] allInfo = new String[4];
+        String[] allInfo = new String[6];
         try {
             String query = "select common_name,scientific_name,genus,family,light,water_frequency from species\n" +
                     "where id = " + plant.getPlantId();
