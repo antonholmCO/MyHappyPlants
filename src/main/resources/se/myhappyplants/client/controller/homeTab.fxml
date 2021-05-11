@@ -30,7 +30,7 @@
             <Label layoutX="786.0" layoutY="61.0" prefHeight="17.0" prefWidth="82.0" text="Messages:" />
             <ListView layoutX="786.0" layoutY="86.0" prefHeight="108.0" prefWidth="200.0" />
             <Label layoutX="786.0" layoutY="196.0" text="Notifications" />
-            <ListView layoutX="786.0" layoutY="219.0" prefHeight="279.0" prefWidth="200.0" />
+            <ListView fx:id="notificationsList" layoutX="786.0" layoutY="219.0" prefHeight="279.0" prefWidth="200.0" />
         </children>
     </AnchorPane>
 </center>

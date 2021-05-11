@@ -151,6 +151,10 @@ public class Server implements Runnable {
                 User user1 = request.getUser();
                 response = new Message("library", user1, userLibrary, true);
                 break;
+            case "change notifications":
+                boolean changeNotificationsSuccess = userRepository.changeNotifications(request.getUser(), request.getNotifications());
+                response = new Message("change notifications", changeNotificationsSuccess);
+                break;
             case "savePlant":
                 boolean saveSuccess = userPlantRepository.savePlant(request.getUser(), request.getDbPlant());
                 response = new Message("success", saveSuccess);
