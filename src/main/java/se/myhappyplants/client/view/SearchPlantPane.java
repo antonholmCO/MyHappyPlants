@@ -30,6 +30,7 @@ public class SearchPlantPane extends Pane {
     private DBPlant dbPlant;
     private PlantsTabController plantsTabController;
     private ListView listView;
+    private ImageView imgViewPlusSign;
     private boolean gotInfoOnPlant;
 
     private ObservableList<String> getAllPlantInfo;
@@ -85,6 +86,7 @@ public class SearchPlantPane extends Pane {
         addButton.setLayoutY(16.0);
         addButton.setMnemonicParsing(false);
         addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(dbPlant));
+        imgViewPlusSign = new ImageView();
 
         listView = new ListView();
         listView.setLayoutX(this.getWidth());
