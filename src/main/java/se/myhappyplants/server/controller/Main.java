@@ -11,10 +11,8 @@ import se.myhappyplants.server.repository.UserRepository;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        Controller controller = new Controller();
         LightCalculator lightCalculator = new LightCalculator();
         WaterCalculator waterCalculator = new WaterCalculator();
-        new Server(2555, new UserRepository(), new UserPlantRepository(lightCalculator, waterCalculator), new PlantRepository(lightCalculator, waterCalculator), controller);
-
+        new Server(2555, new UserRepository(), new UserPlantRepository(lightCalculator, waterCalculator), new PlantRepository(lightCalculator, waterCalculator));
     }
 }
