@@ -11,7 +11,7 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.HomeTabController;
 import se.myhappyplants.client.controller.PlantsTabController;
-import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.Plant;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -73,7 +73,7 @@ public class LibraryPlantPane extends Pane {
      * @param imgPath    location of user's avatar image
      * @param plant      plant object from user's library
      */
-    public LibraryPlantPane(HomeTabController homeTabController, PlantsTabController plantsTabController, String imgPath, DBPlant plant) {
+    public LibraryPlantPane(HomeTabController homeTabController, PlantsTabController plantsTabController, String imgPath, Plant plant) {
         this.homeTabController = homeTabController;
         this.plantsTabController = plantsTabController;
         this.setStyle("-fx-background-color: #FFFFFF;");
@@ -227,7 +227,7 @@ public class LibraryPlantPane extends Pane {
      *
      * @param plant selected plant
      */
-    private void removePlant(DBPlant plant) {
+    private void removePlant(Plant plant) {
         int answer = MessageBox.askYesNo("Delete plant", "Are you sure? The deleted plant can't be restored");
         if (answer == 1) {
             homeTabController.removePlantFromDB(plant);
@@ -237,7 +237,7 @@ public class LibraryPlantPane extends Pane {
     /**
      * @param plant
      */
-    private void changeNickname(DBPlant plant) {
+    private void changeNickname(Plant plant) {
         String newNickname = MessageBox.askForStringInput("Change nickname", "New nickname:");
         if (homeTabController.changeNicknameInDB(plant, newNickname)) {
             nickname.setText(newNickname);
@@ -247,7 +247,7 @@ public class LibraryPlantPane extends Pane {
     /**
      * @param plant
      */
-    private void changeDate(DBPlant plant) {
+    private void changeDate(Plant plant) {
         LocalDate date = datePicker.getValue();
         plant.setLastWatered(date);
         progressBar.setProgress(plant.getProgress());

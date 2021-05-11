@@ -14,7 +14,7 @@ import se.myhappyplants.client.model.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
-import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.Message;
 
 import java.io.File;
@@ -53,7 +53,7 @@ public class PlantsTabController {
     }
 
     @FXML
-    public void addPlantToCurrentUserLibrary(DBPlant plantAdd) {
+    public void addPlantToCurrentUserLibrary(Plant plantAdd) {
         String plantNickname = plantAdd.getCommonName();
 
         int answer = MessageBox.askYesNo("Add a new plant to library", "Do you want to add a nickname for your plant?");
@@ -65,10 +65,10 @@ public class PlantsTabController {
 
     private void showResultsOnPane(Message apiResponse) {
         progressIndicator.setProgress(75);
-        ArrayList<DBPlant> searchedPlant = apiResponse.getPlantList();
+        ArrayList<Plant> searchedPlant = apiResponse.getPlantList();
 
         ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
-        for (DBPlant plant : searchedPlant) {
+        for (Plant plant : searchedPlant) {
             searchPlantPanes.add(new SearchPlantPane(this, new File("resources/images/img.png").toURI().toString(), plant));
         }
         resultPane.getItems().clear();
@@ -76,8 +76,8 @@ public class PlantsTabController {
         progressIndicator.setProgress(100);
         Thread imageThread = new Thread(() -> {
             for (SearchPlantPane spp : searchPlantPanes) {
-                DBPlant DBPlant = spp.getApiPlant();
-                if (DBPlant.getImageURL().equals("")) {
+                Plant Plant = spp.getApiPlant();
+                if (Plant.getImageURL().equals("")) {
                     spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
                 } else {
                     try {
@@ -118,8 +118,8 @@ public class PlantsTabController {
         mainPaneController.logoutButtonPressed();
     }
 
-    public ObservableList<String> getMorePlantInfo(DBPlant dbPlant) {
-        Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", dbPlant);
+    public ObservableList<String> getMorePlantInfo(Plant plant) {
+        Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
         if (response != null) {

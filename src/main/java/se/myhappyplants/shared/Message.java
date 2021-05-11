@@ -19,11 +19,11 @@ public class Message implements Serializable {
     private User user;
     private boolean success;
     private LocalDate date;
-    private ArrayList<DBPlant> plantList;
-    private ArrayList<DBPlant> plantLibrary;
-    private DBPlant dbPlant;
+    private ArrayList<Plant> plantList;
+    private ArrayList<Plant> plantLibrary;
+    private Plant plant;
     private String newNickname;
-    private ArrayList<DBPlant> userLibrary;
+    private ArrayList<Plant> userLibrary;
 
     public Message(String messageType, String messageText) {
         this.messageType = messageType;
@@ -51,24 +51,24 @@ public class Message implements Serializable {
         this.user = user;
     }
 
-    public Message(String messageType, User user, ArrayList<DBPlant> plantLibrary, boolean success) {
+    public Message(String messageType, User user, ArrayList<Plant> plantLibrary, boolean success) {
         this(messageType, user, success);
         this.plantLibrary = plantLibrary;
     }
 
-    public Message(String messageType, ArrayList<DBPlant> plantList, boolean success) {
+    public Message(String messageType, ArrayList<Plant> plantList, boolean success) {
         this(messageType, success);
         this.plantList = plantList;
     }
 
-    public Message(String messageType, User user, DBPlant plant) {
+    public Message(String messageType, User user, Plant plant) {
         this(messageType, user);
-        this.dbPlant = plant;
+        this.plant = plant;
     }
 
-    public Message(String messageType, DBPlant dbPlant) {
+    public Message(String messageType, Plant plant) {
         this.messageType = messageType;
-        this.dbPlant = dbPlant;
+        this.plant = plant;
     }
 
     public Message(String messageType, boolean notifications, User user) {
@@ -81,17 +81,17 @@ public class Message implements Serializable {
         return stringArray;
     }
 
-    public Message(String messageType, User user, DBPlant dbPlant, LocalDate date) {
+    public Message(String messageType, User user, Plant plant, LocalDate date) {
         this.messageType = messageType;
         this.user = user;
-        this.dbPlant = dbPlant;
+        this.plant = plant;
         this.date = date;
     }
 
-    public Message(String messageType, User user, DBPlant plant, String newNickname) {
+    public Message(String messageType, User user, Plant plant, String newNickname) {
         this.messageType = messageType;
         this.user = user;
-        this.dbPlant = plant;
+        this.plant = plant;
         this.newNickname = newNickname;
     }
 
@@ -115,20 +115,20 @@ public class Message implements Serializable {
         return success;
     }
 
-    public se.myhappyplants.shared.DBPlant getDbPlant() {
-        return dbPlant;
+    public Plant getDbPlant() {
+        return plant;
     }
 
-    public ArrayList<DBPlant> getPlantList() {
+    public ArrayList<Plant> getPlantList() {
         return plantList;
     }
 
-    public ArrayList<DBPlant> getPlantLibrary() {
+    public ArrayList<Plant> getPlantLibrary() {
         return plantLibrary;
     }
 
-    public DBPlant getPlant() {
-        return dbPlant;
+    public Plant getPlant() {
+        return plant;
     }
 
     public LocalDate getDate() {

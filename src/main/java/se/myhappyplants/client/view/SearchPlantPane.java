@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.PlantsTabController;
 
-import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.Plant;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -27,7 +27,7 @@ public class SearchPlantPane extends Pane {
     private Button infoButton;
     private Button addButton;
 
-    private DBPlant dbPlant;
+    private Plant plant;
     private PlantsTabController plantsTabController;
     private ListView listView;
     private ImageView imgViewPlusSign;
@@ -37,9 +37,9 @@ public class SearchPlantPane extends Pane {
 
     private boolean extended;
 
-    public SearchPlantPane(PlantsTabController plantsTabController, String imgPath, DBPlant dbPlant) {
+    public SearchPlantPane(PlantsTabController plantsTabController, String imgPath, Plant plant) {
         this.plantsTabController = plantsTabController;
-        this.dbPlant = dbPlant;
+        this.plant = plant;
         Image img = new Image(imgPath);
 
         this.image = new ImageView();
@@ -50,13 +50,13 @@ public class SearchPlantPane extends Pane {
         image.setPreserveRatio(true);
         image.setImage(img);
 
-        this.commonName = new Label(dbPlant.getCommonName());
+        this.commonName = new Label(plant.getCommonName());
         commonName.setLayoutX(60.0);
         commonName.setLayoutY(20.0);
         commonName.prefHeight(17.0);
         commonName.prefWidth(264.0);
 
-        this.scientificName = new Label(dbPlant.getScientificName());
+        this.scientificName = new Label(plant.getScientificName());
         scientificName.setLayoutX(280.0);
         scientificName.setLayoutY(20.0);
         scientificName.prefHeight(17.0);
@@ -70,7 +70,7 @@ public class SearchPlantPane extends Pane {
             infoButton.setDisable(true);
             if (!extended) {
                 if (!gotInfoOnPlant) {
-                    getAllPlantInfo = plantsTabController.getMorePlantInfo(dbPlant);
+                    getAllPlantInfo = plantsTabController.getMorePlantInfo(plant);
                     listView.setItems(getAllPlantInfo);
 
                 }
@@ -86,7 +86,7 @@ public class SearchPlantPane extends Pane {
         addButton.setLayoutX(705.0);
         addButton.setLayoutY(16.0);
         addButton.setMnemonicParsing(false);
-        addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(dbPlant));
+        addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(plant));
 
 
         this.imgViewPlusSign = new ImageView(new Image("Blommor/plusSign.png"));
@@ -108,12 +108,12 @@ public class SearchPlantPane extends Pane {
 
 
     public void updateImage() {
-        Image img = new Image(String.valueOf(dbPlant.getImageURL()));
+        Image img = new Image(String.valueOf(plant.getImageURL()));
         image.setImage(img);
     }
 
-    public DBPlant getApiPlant() {
-        return dbPlant;
+    public Plant getApiPlant() {
+        return plant;
     }
 
     public void setDefaultImage(String defaultImage) {

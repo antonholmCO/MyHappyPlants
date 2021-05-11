@@ -2,7 +2,7 @@ package se.myhappyplants.server.repository;
 
 import se.myhappyplants.server.model.LightCalculator;
 import se.myhappyplants.server.model.WaterCalculator;
-import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.Plant;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -26,8 +26,8 @@ public class PlantRepository {
     }
 
 
-    public ArrayList<DBPlant> getResult(String plantSearch) throws IOException, InterruptedException {
-        ArrayList<DBPlant> plantList = new ArrayList<>();
+    public ArrayList<Plant> getResult(String plantSearch) throws IOException, InterruptedException {
+        ArrayList<Plant> plantList = new ArrayList<>();
         try {
             String query = "SELECT id, common_name, scientific_name, family, image_url FROM species WHERE scientific_name LIKE ('%" + plantSearch + "%') OR common_name LIKE ('%" + plantSearch + "%');";
             ResultSet resultSet = statement.executeQuery(query);
@@ -38,7 +38,7 @@ public class PlantRepository {
                 String familyName = resultSet.getString("family");
                 String imageURL = resultSet.getString("image_url");
                 //long waterFrequency = resultSet.getLong("water_frequency");
-                plantList.add(new DBPlant(plantId, commonName, scientificName, familyName, imageURL));
+                plantList.add(new Plant(plantId, commonName, scientificName, familyName, imageURL));
             }
         }
         catch (SQLException sqlException) {
@@ -49,7 +49,7 @@ public class PlantRepository {
 
     }
 
-    public String[] getMoreInformation(DBPlant plant) {
+    public String[] getMoreInformation(Plant plant) {
         String[] allInfo = new String[4];
         try {
             String query = "SELECT genus, light, water_frequency, family FROM species WHERE id = '" + plant.getPlantId() + "';";

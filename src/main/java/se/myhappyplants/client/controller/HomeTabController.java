@@ -12,7 +12,7 @@ import se.myhappyplants.client.model.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
-import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.Message;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ import java.util.Random;
  */
 public class HomeTabController {
 
-    private ArrayList<DBPlant> currentUserLibrary;
+    private ArrayList<Plant> currentUserLibrary;
 
     @FXML private MainPaneController mainPaneController;
 
@@ -61,7 +61,7 @@ public class HomeTabController {
         if (currentUserLibrary == null) {
             plantPane.add(new LibraryPlantPane());
         } else {
-            for (DBPlant plant : currentUserLibrary) {
+            for (Plant plant : currentUserLibrary) {
                 plantPane.add(new LibraryPlantPane(this, plantsTabController, getRandomImagePath(), plant));
             }
         }
@@ -101,7 +101,7 @@ public class HomeTabController {
         ObservableList<String> notificationString = FXCollections.observableArrayList();
         if (LoggedInUser.getInstance().getUser().areNotificationsActivated()) {
             int plantsThatNeedWater = 0;
-            for (DBPlant plant : currentUserLibrary) {
+            for (Plant plant : currentUserLibrary) {
                 if (plant.getProgress() < 0.25) {
                     plantsThatNeedWater++;
                     notificationString.add(plant.getNickname() + " needs water");
@@ -135,7 +135,7 @@ public class HomeTabController {
     }
 
     @FXML
-    public void removePlantFromDB(DBPlant plant) {
+    public void removePlantFromDB(Plant plant) {
         Thread removePlantThread = new Thread(() -> {
             currentUserLibrary.remove(plant);
             addCurrentUserLibraryToHomeScreen();
@@ -151,10 +151,10 @@ public class HomeTabController {
     }
 
     @FXML
-    public void addPlantToCurrentUserLibrary(DBPlant plantAdd, String plantNickname) {
+    public void addPlantToCurrentUserLibrary(Plant plantAdd, String plantNickname) {
         int plantsWithThisNickname = 1;
         String nonDuplicatePlantNickname = plantNickname;
-        for (DBPlant plant : currentUserLibrary) {
+        for (Plant plant : currentUserLibrary) {
             if (plant.getNickname().equals(nonDuplicatePlantNickname)) {
                 plantsWithThisNickname++;
                 nonDuplicatePlantNickname = plantNickname + plantsWithThisNickname;
@@ -162,12 +162,12 @@ public class HomeTabController {
         }
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
-        DBPlant plantToAdd = new DBPlant(nonDuplicatePlantNickname, plantAdd.getPlantId(), date);
+        Plant plantToAdd = new Plant(nonDuplicatePlantNickname, plantAdd.getPlantId(), date);
         addPlantToDB(plantToAdd);
     }
 
     @FXML
-    public void addPlantToDB(DBPlant plant) {
+    public void addPlantToDB(Plant plant) {
         Thread addPlantThread = new Thread(() -> {
             currentUserLibrary.add(plant);
             addCurrentUserLibraryToHomeScreen();
@@ -193,7 +193,7 @@ public class HomeTabController {
      * @param plant instance of the plant which to change last watered date
      * @param date  new date to change to
      */
-    public void changeLastWateredInDB(DBPlant plant, LocalDate date) {
+    public void changeLastWateredInDB(Plant plant, LocalDate date) {
         Message changeLastWatered = new Message("changeLastWatered", LoggedInUser.getInstance().getUser(), plant, date);
         Message response = new ClientConnection().makeRequest(changeLastWatered);
         if (!response.isSuccess()) {
@@ -207,7 +207,7 @@ public class HomeTabController {
      * @param newNickname
      * @return
      */
-    public boolean changeNicknameInDB(DBPlant plant, String newNickname) {
+    public boolean changeNicknameInDB(Plant plant, String newNickname) {
         Message changeNicknameInDB = new Message("changeNickname", LoggedInUser.getInstance().getUser(), plant, newNickname);
         Message response = new ClientConnection().makeRequest(changeNicknameInDB);
         if (!response.isSuccess()) {

@@ -9,7 +9,7 @@ import java.time.LocalDate;
  * Created by: Frida Jacobsson
  * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
  */
-public class DBPlant implements Serializable {
+public class Plant implements Serializable {
 
     private String plantId;
     private String commonName;
@@ -20,7 +20,7 @@ public class DBPlant implements Serializable {
     private Date lastWatered;
     private long waterFrequency;
 
-    public DBPlant(String plantId, String commonName, String scientificName, String familyName, String imageURL) {
+    public Plant(String plantId, String commonName, String scientificName, String familyName, String imageURL) {
         this.plantId = plantId;
         this.commonName = commonName;
         this.scientificName = scientificName;
@@ -28,7 +28,7 @@ public class DBPlant implements Serializable {
         this.imageURL = imageURL;
     }
 
-    public DBPlant(String nickname, String plantId, Date lastWatered, long waterFrequency) {
+    public Plant(String nickname, String plantId, Date lastWatered, long waterFrequency) {
         this.nickname = nickname;
         this.plantId = plantId;
         this.lastWatered = lastWatered;
@@ -36,7 +36,7 @@ public class DBPlant implements Serializable {
 
     }
 
-    public DBPlant(String nickname, String plantID, Date lastWatered) {
+    public Plant(String nickname, String plantID, Date lastWatered) {
         this.nickname = nickname;
         this.plantId = plantID;
         this.lastWatered = lastWatered;
