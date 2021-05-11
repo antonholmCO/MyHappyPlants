@@ -24,7 +24,6 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class LibraryPlantPane extends Pane {
     private HomeTabController homeTabController;
-    private PlantsTabController plantsTabController;
 
     private ImageView image;
     private Label nickname;
@@ -73,9 +72,8 @@ public class LibraryPlantPane extends Pane {
      * @param imgPath    location of user's avatar image
      * @param plant      plant object from user's library
      */
-    public LibraryPlantPane(HomeTabController homeTabController, PlantsTabController plantsTabController, String imgPath, DBPlant plant) {
+    public LibraryPlantPane(HomeTabController homeTabController, String imgPath, DBPlant plant) {
         this.homeTabController = homeTabController;
-        this.plantsTabController = plantsTabController;
         this.setStyle("-fx-background-color: #FFFFFF;");
         File fileImg = new File(imgPath);
         Image img = new Image(fileImg.toURI().toString());

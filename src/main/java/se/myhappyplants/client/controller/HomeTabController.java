@@ -30,7 +30,6 @@ public class HomeTabController {
 
     @FXML private MainPaneController mainPaneController;
 
-    @FXML private PlantsTabController plantsTabController;
 
     @FXML private Label lblUsernameHome;
 
@@ -62,7 +61,7 @@ public class HomeTabController {
             plantPane.add(new LibraryPlantPane());
         } else {
             for (DBPlant plant : currentUserLibrary) {
-                plantPane.add(new LibraryPlantPane(this, plantsTabController, getRandomImagePath(), plant));
+                plantPane.add(new LibraryPlantPane(this, getRandomImagePath(), plant));
             }
         }
         Platform.runLater(() -> userPlantLibrary.setItems(plantPane));
