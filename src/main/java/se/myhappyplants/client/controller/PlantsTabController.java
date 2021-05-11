@@ -31,21 +31,21 @@ public class PlantsTabController {
     @FXML
     private MainPaneController mainPaneController;
     @FXML
-    private ImageView imgUserPicture;
+    private ImageView imgViewUserPicture;
     @FXML
-    private Label lblUsernamePlants;
+    private Label lblUserName;
     @FXML
     private TextField txtFldSearchText;
     @FXML
-    private ListView resultPane;
+    private ListView listViewResult;
     @FXML
     private ProgressIndicator progressIndicator;
 
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
-        lblUsernamePlants.setText(loggedInUser.getUser().getUsername());
-        imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+        lblUserName.setText(loggedInUser.getUser().getUsername());
+        imgViewUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
     }
 
     public void setMainController(MainPaneController mainPaneController) {
@@ -53,14 +53,14 @@ public class PlantsTabController {
     }
 
     @FXML
-    public void addPlantToCurrentUserLibrary(DBPlant plantAdd) {
-        String plantNickname = plantAdd.getCommonName();
+    public void addPlantToCurrentUserLibrary(DBPlant selectedPlant) {
+        String plantNickname = selectedPlant.getCommonName();
 
         int answer = MessageBox.askYesNo("Add a new plant to library", "Do you want to add a nickname for your plant?");
         if (answer == 1) {
             plantNickname = MessageBox.askForStringInput("Add a nickname", "Nickname:");
         }
-        mainPaneController.getHomePaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
+        mainPaneController.getHomePaneController().addPlantToCurrentUserLibrary(selectedPlant, plantNickname);
     }
 
     private void showResultsOnPane(Message apiResponse) {
@@ -71,8 +71,8 @@ public class PlantsTabController {
         for (DBPlant plant : searchedPlant) {
             searchPlantPanes.add(new SearchPlantPane(this, new File("resources/images/img.png").toURI().toString(), plant));
         }
-        resultPane.getItems().clear();
-        resultPane.setItems(searchPlantPanes);
+        listViewResult.getItems().clear();
+        listViewResult.setItems(searchPlantPanes);
         progressIndicator.setProgress(100);
         Thread imageThread = new Thread(() -> {
             for (SearchPlantPane spp : searchPlantPanes) {
@@ -131,6 +131,6 @@ public class PlantsTabController {
     }
 
     public void updateAvatar() {
-        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+        imgViewUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
     }
 }
