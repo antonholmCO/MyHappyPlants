@@ -167,15 +167,15 @@ public class LibraryPlantPane extends Pane {
             removePlant(plant);
         });
         listView = new ListView();
-        listView.setLayoutX(this.getWidth());
-        listView.setLayoutY(this.getHeight() + 56.0);
-        listView.setPrefWidth(751.0);
-        listView.setPrefHeight(150.0);
+        listView.setLayoutX(this.getWidth() + 10.0);
+        listView.setLayoutY(this.getHeight() + 100.0); //56.0
+        listView.setPrefWidth(725.0);
+        listView.setPrefHeight(140.0);
 
         this.setPrefHeight(92.0);
 //        this.setPrefWidth(720.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
-        this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
+        this.getChildren().addAll(listView,changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
     }
 
 
@@ -189,22 +189,32 @@ public class LibraryPlantPane extends Pane {
         );
         timeline.setCycleCount(32);
         timeline.play();
-        timeline.setOnFinished(action -> infoButton.setDisable(false));
+        timeline.setOnFinished(action -> {
+            this.getChildren().addAll(listView);
+            infoButton.setDisable(false);
+        });
         extended = true;
+        gotInfoOnPlant = true;
     }
 
     /**
      * Method for hiding tab with "more information"-buttons.
      */
     public void collapse() {
+        int size = listView.getItems().size();
+        for (int i = 0; i < size; i++) {
+            listView.getItems().remove(0);
+        }
         AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(7.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v - 6.25))))
         );
         timeline.setCycleCount(32);
         timeline.play();
+        this.getChildren().removeAll(listView);
         timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = false;
+        gotInfoOnPlant = false;
     }
 
     /**

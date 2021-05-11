@@ -173,7 +173,7 @@ public class Server implements Runnable {
                 break;
             case "getMorePlantInfoOnLibraryPlant":
                 String[] moreInformationMessageLibraryPlants = dbPlantRepository.getMoreInformationOnLibraryPlants(request.getPlant());
-                response = new Message("getMorePlantInfoOnLibraryPlant", moreInformationMessageLibraryPlants);
+                response = new Message("morePlantInfoOnLibraryPlant", moreInformationMessageLibraryPlants);
                 break;
             default:
                 response = new Message("fail", false);
