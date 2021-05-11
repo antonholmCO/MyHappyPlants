@@ -25,7 +25,6 @@ public class PlantRepository {
         statement = conn.createStatement();
     }
 
-
     public ArrayList<Plant> getResult(String plantSearch) throws IOException, InterruptedException {
         ArrayList<Plant> plantList = new ArrayList<>();
         try {
@@ -45,8 +44,8 @@ public class PlantRepository {
             System.out.println(sqlException.fillInStackTrace());
             return null;
         }
-        return plantList;
 
+        return plantList;
     }
 
     public String[] getMoreInformation(Plant plant) {
@@ -108,8 +107,7 @@ public class PlantRepository {
         catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
         return waterFrequencyMilli;
-
     }
-
 }
