@@ -70,8 +70,8 @@ public class LibraryPlantPane extends Pane {
      * plant library
      *
      * @param homeTabController HomeTabController which contains logic for elements to use
-     * @param imgPath    location of user's avatar image
-     * @param plant      plant object from user's library
+     * @param imgPath           location of user's avatar image
+     * @param plant             plant object from user's library
      */
     public LibraryPlantPane(HomeTabController homeTabController, PlantsTabController plantsTabController, String imgPath, Plant plant) {
         this.homeTabController = homeTabController;
@@ -250,7 +250,8 @@ public class LibraryPlantPane extends Pane {
     private void setColorProgressBar(double progress) {
         if (progress < 0.15) {
             progressBar.setStyle("-fx-accent: #0B466B");
-        } else {
+        }
+        else {
             progressBar.setStyle("-fx-accent: 2D88AA");
         }
     }
