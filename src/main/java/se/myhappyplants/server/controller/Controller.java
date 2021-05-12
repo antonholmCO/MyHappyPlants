@@ -18,7 +18,7 @@ public class Controller {
     public Controller() {
     }
 
-    public String calculateLightLevel(String light) {
+    public String calculateLightLevelToString(String light) {
         String lightText = light;
         if (light.equals("10")) {
             lightText = "Is happy in direct sunlight";
@@ -48,7 +48,7 @@ public class Controller {
         return lightText;
     }
 
-    public String calculateWater(String minWater) {
+    public String calculateWaterLevelToString(String minWater) {
         String waterText;
 
         int waterFrequencyInt = Integer.parseInt(minWater);
@@ -72,6 +72,31 @@ public class Controller {
         }
 
         return waterText;
+
+    }
+
+    public long calculateWaterFrequencyForWatering(String waterFrequency){
+        long waterFrequencyMilli = 0;
+
+        long week = 604000000l;
+        int waterFrequencyInt = Integer.parseInt(waterFrequency);
+        if (waterFrequencyInt <= 200) {
+            waterFrequencyMilli = week * 4;
+        }
+        else if (waterFrequencyInt > 200 && waterFrequencyInt <= 400) {
+            waterFrequencyMilli = week * 3;
+        }
+        else if (waterFrequencyInt > 400 && waterFrequencyInt <= 600) {
+            waterFrequencyMilli = week * 2;
+        }
+        else if (waterFrequencyInt > 600 && waterFrequencyInt <= 800) {
+            waterFrequencyMilli = week * 1;
+        }
+        else if (waterFrequencyInt > 800) {
+            waterFrequencyMilli = week / 2;
+        }
+
+        return waterFrequencyMilli;
 
     }
 }

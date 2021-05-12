@@ -38,7 +38,6 @@ public class DBPlantRepository {
             }
         }
         catch (SQLException sqlException) {
-            System.out.println(sqlException.fillInStackTrace());
             return null;
         }
         return plantList;
@@ -55,8 +54,8 @@ public class DBPlantRepository {
                 String light = resultSet.getString("light");
                 String family = resultSet.getString("family");
                 String waterFrequency = resultSet.getString("water_frequency");
-                String lightText = controller.calculateLightLevel(light);
-                String waterText = controller.calculateWater(waterFrequency);
+                String lightText = controller.calculateLightLevelToString(light);
+                String waterText = controller.calculateWaterLevelToString(waterFrequency);
                 allInfo[0] = "Family:\t" + family + "\n";
                 allInfo[1] = "Genus:\t" + genus + "\n";
                 allInfo[2] = "Light:\t" + lightText + "\n";
@@ -65,7 +64,6 @@ public class DBPlantRepository {
             }
         }
         catch (SQLException sqlException) {
-            System.out.println(sqlException.fillInStackTrace());
             return null;
         }
 
@@ -79,34 +77,13 @@ public class DBPlantRepository {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 String waterFrequency = resultSet.getString("water_frequency");
-
-
-                long week = 604000000l;
-                int waterFrequencyInt = Integer.parseInt(waterFrequency);
-                if (waterFrequencyInt <= 200) {
-                    waterFrequencyMilli = week * 4;
-                }
-                else if (waterFrequencyInt > 200 && waterFrequencyInt <= 400) {
-                    waterFrequencyMilli = week * 3;
-                }
-                else if (waterFrequencyInt > 400 && waterFrequencyInt <= 600) {
-                    waterFrequencyMilli = week * 2;
-                }
-                else if (waterFrequencyInt > 600 && waterFrequencyInt <= 800) {
-                    waterFrequencyMilli = week * 1;
-                }
-                else if (waterFrequencyInt > 800) {
-                    waterFrequencyMilli = week / 2;
-                }
+                waterFrequencyMilli = controller.calculateWaterFrequencyForWatering(waterFrequency);
             }
-        }
-        catch (NumberFormatException e) {
         }
         catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return waterFrequencyMilli;
-
     }
 
 }
