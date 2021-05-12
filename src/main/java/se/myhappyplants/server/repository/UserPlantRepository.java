@@ -36,7 +36,18 @@ public class UserPlantRepository {
      * @throws UnknownHostException
      */
     private void makeConnection() throws SQLException, UnknownHostException {
-        conn = Driver.getConnection("MyHappyPlants");
+        if (conn==null) {
+            System.out.println("New connection to User Library");
+            conn = Driver.getConnection("MyHappyPlants");
+
+        }
+        else if (conn.isClosed()) {
+            System.out.println("User Library connection closed, making new connection");
+            conn = Driver.getConnection("MyHappyPlants");
+        }
+        else {
+            System.out.println("User Library connection active, reusing");
+        }
     }
     /**
      * Method to save a new plant in database
@@ -57,13 +68,13 @@ public class UserPlantRepository {
             success = true;
         } catch (SQLException | UnknownHostException throwables) {
             throwables.printStackTrace();
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
+        }*/
         return success;
     }
 
@@ -89,13 +100,13 @@ public class UserPlantRepository {
             }
         } catch (SQLException | IOException | InterruptedException exception) {
             System.out.println(exception.fillInStackTrace());
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
+        }*/
         return plantList;
     }
 
@@ -117,13 +128,13 @@ public class UserPlantRepository {
             plant = new Plant(nickname, plantID, lastWatered);
         } catch (SQLException | UnknownHostException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
+        }*/
         return plant;
     }
 
@@ -144,13 +155,13 @@ public class UserPlantRepository {
             plantDeleted = true;
         } catch (SQLException | UnknownHostException sqlException) {
             System.out.println(sqlException);
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
+        }*/
         return plantDeleted;
     }
 
@@ -172,13 +183,13 @@ public class UserPlantRepository {
             dateChanged = true;
         } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
+        }*/
         return dateChanged;
     }
 
@@ -193,13 +204,13 @@ public class UserPlantRepository {
             nicknameChanged = true;
         } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
+        }*/
         return nicknameChanged;
     }
 }

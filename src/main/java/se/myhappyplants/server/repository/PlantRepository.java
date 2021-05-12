@@ -29,18 +29,17 @@ public class PlantRepository {
      * @throws UnknownHostException
      */
     private void makeConnection() throws SQLException, UnknownHostException {
-//        if(conn==null) {
-//            conn = Driver.getConnection("Species");
-//            System.out.println("New connection");
-//        }
-//        else if(conn.isClosed()) {
-//            conn = Driver.getConnection("Species");
-//            System.out.println("Connection closed, making new connection");
-//        }
-//        else {
-//            System.out.println("Using old connection");
-//        }
-        conn = Driver.getConnection("Species");
+        if (conn==null) {
+            System.out.println("New connection to Species");
+            conn = Driver.getConnection("Species");
+        }
+        else if (conn.isClosed()) {
+            System.out.println("Species connection closed, making new connection");
+            conn = Driver.getConnection("Species");
+        }
+        else {
+            System.out.println("Species connection active, reusing");
+        }
     }
 
     public ArrayList<Plant> getResult(String plantSearch){
@@ -57,18 +56,17 @@ public class PlantRepository {
                 String imageURL = resultSet.getString("image_url");
                 //long waterFrequency = resultSet.getLong("water_frequency");
                 plantList.add(new Plant(plantId, commonName, scientificName, familyName, imageURL));
-                System.out.println(commonName + " added to results list");
             }
         } catch (SQLException | UnknownHostException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
             plantList = null;
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
+        }*/
         return plantList;
     }
 
@@ -93,13 +91,13 @@ public class PlantRepository {
         } catch (SQLException | UnknownHostException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
             allInfo = null;
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
+        }*/
         return allInfo;
     }
 
@@ -131,13 +129,13 @@ public class PlantRepository {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
+        }*/
         return waterFrequencyMilli;
     }
 }

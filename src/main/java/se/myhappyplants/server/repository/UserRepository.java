@@ -21,7 +21,17 @@ public class UserRepository {
      * @throws UnknownHostException
      */
     private void makeConnection() throws SQLException, UnknownHostException {
-        conn = Driver.getConnection("MyHappyPlants");
+        if (conn==null) {
+            System.out.println("New connection to User Database");
+            conn = Driver.getConnection("MyHappyPlants");
+        }
+        else if (conn.isClosed()) {
+            System.out.println("User Database connection closed, making new connection");
+            conn = Driver.getConnection("MyHappyPlants");
+        }
+        else {
+            System.out.println("User Database connection active, reusing");
+        }
     }
     /**
      * Method to save a new user using BCrypt.
@@ -40,13 +50,13 @@ public class UserRepository {
             success = true;
         } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
+        }*/
         return success;
     }
 
@@ -70,13 +80,13 @@ public class UserRepository {
             }
         } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
+        }*/
         return isVerified;
     }
 
@@ -103,13 +113,13 @@ public class UserRepository {
             user = new User(uniqueID, email, username, notificationActivated);
         } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
+        }*/
         return user;
     }
 
@@ -148,13 +158,13 @@ public class UserRepository {
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-            } finally {
+            } /*finally {
                 try {
                     conn.close();
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-            }
+            }*/
         }
         return accountDeleted;
     }
@@ -172,13 +182,13 @@ public class UserRepository {
             notificationsChanged = true;
         } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
+        }*/
         return notificationsChanged;
     }
 }
