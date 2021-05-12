@@ -75,6 +75,7 @@ public class Server implements Runnable {
                 e.printStackTrace();
             }
         }
+        System.out.println("Server stopped");
     }
 
     /**

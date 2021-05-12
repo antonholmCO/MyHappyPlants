@@ -13,20 +13,16 @@ import java.sql.*;
  */
 public class UserRepository {
 
-    private Statement statement;
     private Connection conn;
 
     /**
-     * Constructor that creates a connection to the database.
-     *
+     * makes a new connection to the database
      * @throws SQLException
      * @throws UnknownHostException
      */
-    public UserRepository() throws SQLException, UnknownHostException {
+    private void makeConnection() throws SQLException, UnknownHostException {
         conn = Driver.getConnection("MyHappyPlants");
-        statement = conn.createStatement();
     }
-
     /**
      * Method to save a new user using BCrypt.
      *
@@ -34,17 +30,24 @@ public class UserRepository {
      * @return A boolean value, true if the user was stored successfully
      */
     public boolean saveUser(User user) {
+        boolean success = false;
         String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         String sqlSafeUsername = user.getUsername().replace("'", "''");
+        String query = "INSERT INTO [User] VALUES ('" + sqlSafeUsername + "', " + "'" + user.getEmail() + "', '" + hashedPassword + "'," + 1 + ");";
         try {
-            String query = "INSERT INTO [User] VALUES ('" + sqlSafeUsername + "', " + "'" + user.getEmail() + "', '" + hashedPassword + "'," + 1 + ");";
-            statement.executeUpdate(query);
-            return true;
-        }
-        catch (SQLException sqlException) {
+            makeConnection();
+            conn.createStatement().executeUpdate(query);
+            success = true;
+        } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
-            return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
+        return success;
     }
 
     /**
@@ -57,17 +60,22 @@ public class UserRepository {
      */
     public boolean checkLogin(String email, String password) {
         boolean isVerified = false;
+        String query = "SELECT password FROM [User] WHERE email = '" + email + "';";
         try {
-            String query = "SELECT password FROM [User] WHERE email = '" + email + "';";
-
-            ResultSet resultSet = statement.executeQuery(query);
+            makeConnection();
+            ResultSet resultSet = conn.createStatement().executeQuery(query);
             if (resultSet.next()) {
                 String hashedPassword = resultSet.getString(1);
                 isVerified = BCrypt.checkpw(password, hashedPassword);
             }
-        }
-        catch (SQLException sqlException) {
+        } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         return isVerified;
     }
@@ -80,21 +88,27 @@ public class UserRepository {
      */
     public User getUserDetails(String email) {
         User user = null;
+        int uniqueID = 0;
         String username = null;
         boolean notificationActivated = false;
-        int uniqueID = 0;
+        String query = "SELECT id, username, notification_activated FROM [User] WHERE email = '" + email + "';";
         try {
-            String query = "SELECT id, username, notification_activated FROM [User] WHERE email = '" + email + "';";
-            ResultSet resultSet = statement.executeQuery(query);
+            makeConnection();
+            ResultSet resultSet = conn.createStatement().executeQuery(query);
             while (resultSet.next()) {
                 uniqueID = resultSet.getInt(1);
                 username = resultSet.getString(2);
                 notificationActivated = resultSet.getBoolean(3);
             }
             user = new User(uniqueID, email, username, notificationActivated);
-        }
-        catch (SQLException sqlException) {
+        } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         return user;
     }
@@ -109,53 +123,63 @@ public class UserRepository {
      * @throws SQLException
      */
     public boolean deleteAccount(String email, String password) {
+        boolean accountDeleted = false;
         if (!checkLogin(email, password)) {
-            return false;
-        }
-        try {
-            conn.setAutoCommit(false);
             String querySelect = "SELECT [User].id from [User] WHERE [User].email = '" + email + "';";
-            ResultSet resultSet = statement.executeQuery(querySelect);
-            if (!resultSet.next()) {
-                throw new SQLException();
-            }
-            int id = resultSet.getInt(1);
-            String queryDeletePlants = "DELETE FROM [Plant] WHERE user_id = " + id + ";";
-            statement.executeUpdate(queryDeletePlants);
-            String queryDeleteUser = "DELETE FROM [User] WHERE id = " + id + ";";
-            statement.executeUpdate(queryDeleteUser);
-            conn.commit();
-            conn.setAutoCommit(true);
-        }
-        catch (SQLException sqlException) {
             try {
-                conn.rollback();
+                makeConnection();
+                conn.setAutoCommit(false);
+                Statement statement = conn.createStatement();
+                ResultSet resultSet = statement.executeQuery(querySelect);
+                if (!resultSet.next()) {
+                    throw new SQLException();
+                }
+                int id = resultSet.getInt(1);
+                String queryDeletePlants = "DELETE FROM [Plant] WHERE user_id = " + id + ";";
+                statement.executeUpdate(queryDeletePlants);
+                String queryDeleteUser = "DELETE FROM [User] WHERE id = " + id + ";";
+                statement.executeUpdate(queryDeleteUser);
+                conn.commit();
+                conn.setAutoCommit(true);
+                accountDeleted = true;
+            } catch (SQLException | UnknownHostException sqlException) {
+                try {
+                    conn.rollback();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } finally {
+                try {
+                    conn.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
-            catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-            return false;
         }
-        return true;
+        return accountDeleted;
     }
 
     public boolean changeNotifications(User user, boolean notifications) {
-        int notificationsActivated;
+        boolean notificationsChanged = false;
+        int notificationsActivated = 0;
         if(notifications) {
             notificationsActivated = 1;
         }
-        else {
-            notificationsActivated = 0;
-        }
+        String query = "UPDATE [User] SET notification_activated = " + notificationsActivated + " WHERE email = '"+ user.getEmail() + "';";
         try {
-            String query = "UPDATE [User] SET notification_activated = " + notificationsActivated + " WHERE email = '"+ user.getEmail() + "';";
-            statement.executeUpdate(query);
-            return true;
-        }
-        catch (SQLException sqlException) {
+            makeConnection();
+            conn.createStatement().executeUpdate(query);
+            notificationsChanged = true;
+        } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
-            return false;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
+        return notificationsChanged;
     }
 }
 
