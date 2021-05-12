@@ -4,10 +4,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.ClientConnection;
@@ -36,6 +33,8 @@ public class PlantsTabController {
     private Label lblUsernamePlants;
     @FXML
     private TextField txtFldSearchText;
+    @FXML
+    private Button btnSearch;
     @FXML
     private ListView resultPane;
     @FXML
@@ -93,6 +92,7 @@ public class PlantsTabController {
 
     @FXML
     private void searchButtonPressed() {
+        btnSearch.setDisable(true);
         Thread searchThread = new Thread(() -> {
             Message apiRequest = new Message("search", txtFldSearchText.getText());
             progressIndicator.setProgress(25);
@@ -109,6 +109,7 @@ public class PlantsTabController {
             } else {
                 Platform.runLater(() -> MessageBox.display("Error", "The connection to the server has failed. Check your connection and try again."));
             }
+            btnSearch.setDisable(false);
         });
         searchThread.start();
     }
