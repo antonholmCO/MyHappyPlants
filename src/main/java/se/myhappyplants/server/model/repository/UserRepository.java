@@ -14,7 +14,7 @@ import java.sql.*;
 public class UserRepository {
 
     private Statement statement;
-    private Connection conn;
+    private Connection connection;
 
     /**
      * Constructor that creates a connection to the database.
@@ -23,8 +23,8 @@ public class UserRepository {
      * @throws UnknownHostException
      */
     public UserRepository() throws SQLException, UnknownHostException {
-        conn = Driver.getConnection("MyHappyPlants");
-        statement = conn.createStatement();
+        connection = Driver.getConnection("MyHappyPlants");
+        statement = connection.createStatement();
     }
 
     /**
@@ -113,7 +113,7 @@ public class UserRepository {
             return false;
         }
         try {
-            conn.setAutoCommit(false);
+            connection.setAutoCommit(false);
             String querySelect = "SELECT [User].id from [User] WHERE [User].email = '" + email + "';";
             ResultSet resultSet = statement.executeQuery(querySelect);
             if (!resultSet.next()) {
@@ -124,12 +124,12 @@ public class UserRepository {
             statement.executeUpdate(queryDeletePlants);
             String queryDeleteUser = "DELETE FROM [User] WHERE id = " + id + ";";
             statement.executeUpdate(queryDeleteUser);
-            conn.commit();
-            conn.setAutoCommit(true);
+            connection.commit();
+            connection.setAutoCommit(true);
         }
         catch (SQLException sqlException) {
             try {
-                conn.rollback();
+                connection.rollback();
             }
             catch (SQLException throwables) {
                 throwables.printStackTrace();

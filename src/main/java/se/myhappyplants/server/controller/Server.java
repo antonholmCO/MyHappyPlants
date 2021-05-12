@@ -17,7 +17,6 @@ import java.util.ArrayList;
 /**
  * Server that listens for incoming connections
  * Handles each connection with a new thread
- * <p>
  * Created by: Christopher O'Driscoll
  * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström 2021-04-28
  */
@@ -90,7 +89,6 @@ public class Server implements Runnable {
         catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**

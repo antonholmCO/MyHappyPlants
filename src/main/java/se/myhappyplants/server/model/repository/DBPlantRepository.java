@@ -41,7 +41,6 @@ public class DBPlantRepository {
             return null;
         }
         return plantList;
-
     }
 
     public String[] getMoreInformation(DBPlant plant) {
@@ -60,13 +59,11 @@ public class DBPlantRepository {
                 allInfo[1] = "Genus:\t" + genus + "\n";
                 allInfo[2] = "Light:\t" + lightText + "\n";
                 allInfo[3] = "Water:\t" + waterText + "\n";
-
             }
         }
         catch (SQLException sqlException) {
             return null;
         }
-
         return allInfo;
     }
 
@@ -85,5 +82,4 @@ public class DBPlantRepository {
         }
         return waterFrequencyMilli;
     }
-
 }
