@@ -3,6 +3,9 @@ package se.myhappyplants.client.view;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -47,6 +50,7 @@ public class SearchPlantPane extends Pane {
         initAddButton();
         initImgViewPlusSign();
         initListView();
+        initEventHandlerForInfo();
     }
 
     private void initImage(String imgPath) {
@@ -81,20 +85,28 @@ public class SearchPlantPane extends Pane {
         infoButton.setLayoutX(595.0);
         infoButton.setLayoutY(16.0);
         infoButton.setMnemonicParsing(false);
-        infoButton.setOnAction(onPress -> {
-            infoButton.setDisable(true);
-            if (!extended) {
-                if (!gotInfoOnPlant) {
-                    getAllPlantInfo = plantsTabController.getMorePlantInfo(plant);
-                    listView.setItems(getAllPlantInfo);
+    }
 
+    public void initEventHandlerForInfo() {
+        EventHandler onPress = new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                infoButton.setDisable(true);
+                if (!extended) {
+                    if (!gotInfoOnPlant) {
+                        getAllPlantInfo = plantsTabController.getMorePlantInfo(plant);
+                        listView.setItems(getAllPlantInfo);
+                    }
+                    extendPaneMoreInfoPlant();
                 }
-                extendPaneMoreInfoPlant();
+                else {
+                    retractPane();
+                }
             }
-            else {
-                retractPane();
-            }
-        });
+        };
+
+        commonName.setOnMouseClicked(onPress);
+        infoButton.setOnAction(onPress);
     }
 
     private void initAddButton() {
@@ -116,7 +128,7 @@ public class SearchPlantPane extends Pane {
         listView = new ListView();
         listView.setLayoutX(this.getWidth());
         listView.setLayoutY(this.getHeight() + 56.0);
-        listView.setPrefWidth(751.0);
+        listView.setPrefWidth(740.0);
         listView.setPrefHeight(150.0);
 
         this.prefHeight(56.0);
