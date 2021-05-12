@@ -27,8 +27,8 @@ public class UserPlantRepository {
      * @throws SQLException
      * @throws UnknownHostException
      */
-    public UserPlantRepository(LightCalculator lightCalculator, WaterCalculator waterCalculator) throws SQLException, UnknownHostException {
-        plantRepository = new PlantRepository(lightCalculator, waterCalculator);
+    public UserPlantRepository(PlantRepository plantRepository, LightCalculator lightCalculator, WaterCalculator waterCalculator){
+        this.plantRepository = plantRepository;
     }
     /**
      * makes a new connection to the database

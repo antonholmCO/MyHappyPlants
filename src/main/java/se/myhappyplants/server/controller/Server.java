@@ -37,11 +37,11 @@ public class Server implements Runnable {
      * @param port           port to be used
      * @param userRepository to handle db requests
      */
-    public Server(int port, UserRepository userRepository, UserPlantRepository userPlantRepository, PlantRepository plantRepository) {
+    public Server(int port, UserRepository userRepository, PlantRepository plantRepository, UserPlantRepository userPlantRepository) {
         this(port);
         this.userRepository = userRepository;
-        this.userPlantRepository = userPlantRepository;
         this.plantRepository = plantRepository;
+        this.userPlantRepository = userPlantRepository;
     }
 
     /**

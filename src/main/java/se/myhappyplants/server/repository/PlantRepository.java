@@ -23,7 +23,23 @@ public class PlantRepository {
         this.lightCalculator = lightCalculator;
     }
 
+    /**
+     * Makes a new connection to the database
+     * @throws SQLException
+     * @throws UnknownHostException
+     */
     private void makeConnection() throws SQLException, UnknownHostException {
+//        if(conn==null) {
+//            conn = Driver.getConnection("Species");
+//            System.out.println("New connection");
+//        }
+//        else if(conn.isClosed()) {
+//            conn = Driver.getConnection("Species");
+//            System.out.println("Connection closed, making new connection");
+//        }
+//        else {
+//            System.out.println("Using old connection");
+//        }
         conn = Driver.getConnection("Species");
     }
 
@@ -41,6 +57,7 @@ public class PlantRepository {
                 String imageURL = resultSet.getString("image_url");
                 //long waterFrequency = resultSet.getLong("water_frequency");
                 plantList.add(new Plant(plantId, commonName, scientificName, familyName, imageURL));
+                System.out.println(commonName + " added to results list");
             }
         } catch (SQLException | UnknownHostException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
