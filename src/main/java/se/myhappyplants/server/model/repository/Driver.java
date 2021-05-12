@@ -14,13 +14,14 @@ import java.sql.SQLException;
  */
 
 public class Driver {
+
     public static Connection getConnection(String database) throws SQLException, UnknownHostException {
+
         String dbServerIp = PasswordsAndKeys.dbServerIp;
         String dbServerPort = PasswordsAndKeys.dbServerPort;
         String dbUser = PasswordsAndKeys.dbUsername;
         String dbPassword = PasswordsAndKeys.dbPassword;
         DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
-
 
         if (InetAddress.getLocalHost().getHostName().equals(PasswordsAndKeys.dbHostName)) {
             dbServerIp = "localhost";
@@ -28,7 +29,7 @@ public class Driver {
         String dbURL = String.format("jdbc:sqlserver://%s:%s;databaseName=" + database + ";user=%s;password=%s", dbServerIp, dbServerPort, dbUser, dbPassword);
         Connection conn = DriverManager.getConnection(dbURL);
         if (conn != null) {
-            System.out.println("Connected");
+            System.out.println("Connected to " + database);
         }
         return conn;
     }

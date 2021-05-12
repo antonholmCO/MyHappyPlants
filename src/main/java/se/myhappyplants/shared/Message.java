@@ -23,7 +23,6 @@ public class Message implements Serializable {
     private ArrayList<DBPlant> plantLibrary;
     private DBPlant dbPlant;
     private String newNickname;
-    private ArrayList<DBPlant> userLibrary;
 
     public Message(String messageType, String messageText) {
         this.messageType = messageType;
@@ -77,10 +76,6 @@ public class Message implements Serializable {
         this.user = user;
     }
 
-    public String[] getStringArray() {
-        return stringArray;
-    }
-
     public Message(String messageType, User user, DBPlant dbPlant, LocalDate date) {
         this.messageType = messageType;
         this.user = user;
@@ -113,6 +108,10 @@ public class Message implements Serializable {
 
     public boolean isSuccess() {
         return success;
+    }
+    
+    public String[] getStringArray() {
+        return stringArray;
     }
 
     public se.myhappyplants.shared.DBPlant getDbPlant() {

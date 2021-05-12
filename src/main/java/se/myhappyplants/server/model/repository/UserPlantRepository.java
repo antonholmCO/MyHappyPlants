@@ -94,26 +94,6 @@ public class UserPlantRepository {
         return plantList;
     }
 
-    /**
-     * Method that returns one specific plant based on nickname.
-     *
-     * @param nickname
-     * @return an instance of a specific plant from the database, null if no plant with the specific nickname exists
-     */
-    public DBPlant getPlant(User user, String nickname) {
-        try {
-            String sqlSafeNickname = nickname.replace("'", "''");
-            String query = "SELECT nickname, plant_id, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() + "AND nickname = '" + sqlSafeNickname + "';";
-            ResultSet resultSet = statement.executeQuery(query);
-            String plantID = resultSet.getString("plant_id");
-            Date lastWatered = resultSet.getDate("last_watered");
-            return new DBPlant(nickname, plantID, lastWatered);
-        }
-        catch (SQLException sqlException) {
-            System.out.println(sqlException.fillInStackTrace());
-            return null;
-        }
-    }
 
     /**
      * Method that makes a query to delete a specific plant from table Plant

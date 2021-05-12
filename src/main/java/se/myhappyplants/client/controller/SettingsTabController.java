@@ -37,9 +37,7 @@ public class SettingsTabController {
         imgViewUserPicture.setImage(new Image(loggedInUser.getAvatarURL()));
         changeNotifications.setSelected(loggedInUser.areNotificationsActivated());
         setNotificationsButtonText();
-
     }
-
 
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
@@ -66,7 +64,6 @@ public class SettingsTabController {
         changeNotificationsThread.start();
         setNotificationsButtonText();
         mainPaneController.getHomePaneController().createCurrentUserLibraryFromDB();
-
     }
 
     private void setNotificationsButtonText() {

@@ -28,17 +28,23 @@ public class HomeTabController {
 
     private ArrayList<DBPlant> currentUserLibrary;
 
-    @FXML private MainPaneController mainPaneController;
+    @FXML
+    private MainPaneController mainPaneController;
 
-    @FXML private PlantsTabController plantsTabController;
+    @FXML
+    private PlantsTabController plantsTabController;
 
-    @FXML private Label lblUserName;
+    @FXML
+    private Label lblUserName;
 
-    @FXML private ImageView imgViewUserPicture;
+    @FXML
+    private ImageView imgViewUserPicture;
 
-    @FXML private ListView userPlantLibrary;
+    @FXML
+    private ListView userPlantLibrary;
 
-    @FXML public ListView notificationsList;
+    @FXML
+    public ListView notificationsList;
 
     @FXML
     public void initialize() {
@@ -48,7 +54,6 @@ public class HomeTabController {
 
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
-
     }
 
     public void setMainController(MainPaneController mainPaneController) {
@@ -57,15 +62,16 @@ public class HomeTabController {
 
     @FXML
     public void addCurrentUserLibraryToHomeScreen() {
-        ObservableList<LibraryPlantPane> obsListLibraryPlantPane  = FXCollections.observableArrayList();
+        ObservableList<LibraryPlantPane> obsListLibraryPlantPane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
-            obsListLibraryPlantPane .add(new LibraryPlantPane());
-        } else {
+            obsListLibraryPlantPane.add(new LibraryPlantPane());
+        }
+        else {
             for (DBPlant plant : currentUserLibrary) {
-                obsListLibraryPlantPane .add(new LibraryPlantPane(this, plantsTabController, getRandomImagePath(), plant));
+                obsListLibraryPlantPane.add(new LibraryPlantPane(this, plantsTabController, getRandomImagePath(), plant));
             }
         }
-        Platform.runLater(() -> userPlantLibrary.setItems(obsListLibraryPlantPane ));
+        Platform.runLater(() -> userPlantLibrary.setItems(obsListLibraryPlantPane));
     }
 
     /**
@@ -97,7 +103,7 @@ public class HomeTabController {
         }
     }
 
-    public void showNotifications () {
+    public void showNotifications() {
         ObservableList<String> notificationString = FXCollections.observableArrayList();
         if (LoggedInUser.getInstance().getUser().areNotificationsActivated()) {
             int plantsThatNeedWater = 0;
@@ -116,6 +122,7 @@ public class HomeTabController {
         }
         Platform.runLater(() -> notificationsList.setItems(notificationString));
     }
+
     @FXML
     public void createCurrentUserLibraryFromDB() {
         Thread getLibraryThread = new Thread(() -> {
@@ -127,7 +134,8 @@ public class HomeTabController {
                 currentUserLibrary = response.getPlantLibrary();
                 addCurrentUserLibraryToHomeScreen();
                 showNotifications();
-            } else {
+            }
+            else {
                 Platform.runLater(() -> MessageBox.display("Couldn't load library", "The connection to the server has failed. Check your connection and try again."));
             }
         });
@@ -213,7 +221,8 @@ public class HomeTabController {
         if (!response.isSuccess()) {
             MessageBox.display("Couldn’t change nickname", "The connection to the server has failed. Check your connection and try again.");
             return false;
-        } else {
+        }
+        else {
             plant.setNickname(newNickname);
             return true;
         }

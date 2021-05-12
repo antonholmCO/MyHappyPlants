@@ -104,7 +104,7 @@ public class PlantsTabController {
                     progressIndicator.setProgress(50);
                     Platform.runLater(() -> showResultsOnPane(apiResponse));
                 } else {
-                    //skicka inget felmeddelande, visa label med sökresultat 0 istället
+                    //TODO (på riktigt) fixa skicka inget felmeddelande, visa label med sökresultat 0 istället
                 }
             } else {
                 Platform.runLater(() -> MessageBox.display("Error", "The connection to the server has failed. Check your connection and try again."));
