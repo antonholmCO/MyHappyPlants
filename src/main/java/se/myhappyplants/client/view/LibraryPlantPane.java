@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
-import se.myhappyplants.client.controller.HomeTabController;
+import se.myhappyplants.client.controller.MyPlantsTabController;
 import se.myhappyplants.client.controller.PlantsTabController;
 import se.myhappyplants.shared.Plant;
 
@@ -24,8 +24,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class LibraryPlantPane extends Pane {
 
-    private HomeTabController homeTabController;
-    private PlantsTabController plantsTabController;
+    private MyPlantsTabController myPlantsTabController;
     private ImageView image;
     private Label nickname;
     private Label lastWateredLabel;
@@ -68,13 +67,12 @@ public class LibraryPlantPane extends Pane {
      * Creates a pane using information from a user's
      * plant library
      *
-     * @param homeTabController HomeTabController which contains logic for elements to use
+     * @param myPlantsTabController MyPlantsTabController which contains logic for elements to use
      * @param imgPath           location of user's avatar image
      * @param plant             plant object from user's library
      */
-    public LibraryPlantPane(HomeTabController homeTabController, PlantsTabController plantsTabController, String imgPath, Plant plant) {
-        this.homeTabController = homeTabController;
-        this.plantsTabController = plantsTabController;
+    public LibraryPlantPane(MyPlantsTabController myPlantsTabController, String imgPath, Plant plant) {
+        this.myPlantsTabController = myPlantsTabController;
         this.setStyle("-fx-background-color: #FFFFFF;");
         this.image = new ImageView();
         initImages(imgPath);
@@ -136,7 +134,7 @@ public class LibraryPlantPane extends Pane {
         waterButton.setOnAction(action -> {
             progressBar.setProgress(100);
             setColorProgressBar(100);
-            homeTabController.changeLastWateredInDB(plant, java.time.LocalDate.now());
+            myPlantsTabController.changeLastWateredInDB(plant, java.time.LocalDate.now());
             setColorProgressBar(100);
         });
     }
@@ -273,7 +271,7 @@ public class LibraryPlantPane extends Pane {
     private void removePlant(Plant plant) {
         int answer = MessageBox.askYesNo("Delete plant", "Are you sure? The deleted plant can't be restored");
         if (answer == 1) {
-            homeTabController.removePlantFromDB(plant);
+            myPlantsTabController.removePlantFromDB(plant);
         }
     }
 
@@ -282,7 +280,7 @@ public class LibraryPlantPane extends Pane {
      */
     private void changeNickname(Plant plant) {
         String newNickname = MessageBox.askForStringInput("Change nickname", "New nickname:");
-        if (homeTabController.changeNicknameInDB(plant, newNickname)) {
+        if (myPlantsTabController.changeNicknameInDB(plant, newNickname)) {
             nickname.setText(newNickname);
         }
     }
@@ -295,6 +293,6 @@ public class LibraryPlantPane extends Pane {
         plant.setLastWatered(date);
         progressBar.setProgress(plant.getProgress());
         setColorProgressBar(plant.getProgress());
-        homeTabController.changeLastWateredInDB(plant, date);
+        myPlantsTabController.changeLastWateredInDB(plant, date);
     }
 }

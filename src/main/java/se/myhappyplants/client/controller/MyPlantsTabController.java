@@ -24,26 +24,24 @@ import java.util.Random;
 /**
  * Controller with logic used by the "Home" tab
  */
-public class HomeTabController {
+public class MyPlantsTabController {
 
     private ArrayList<Plant> currentUserLibrary;
 
     @FXML private MainPaneController mainPaneController;
 
-    @FXML private PlantsTabController plantsTabController;
-
-    @FXML private Label lblUsernameHome;
+    @FXML private Label lblUsernameMyPlants;
 
     @FXML private ImageView imgUserPicture;
 
-    @FXML private ListView userPlantLibrary;
+    @FXML private ListView lstViewUserPlantLibrary;
 
-    @FXML public ListView notificationsList;
+    @FXML private ListView lstViewNotifications;
 
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
-        lblUsernameHome.setText(loggedInUser.getUser().getUsername());
+        lblUsernameMyPlants.setText(loggedInUser.getUser().getUsername());
         imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
 
         createCurrentUserLibraryFromDB();
@@ -62,10 +60,10 @@ public class HomeTabController {
             obsListLibraryPlantPane.add(new LibraryPlantPane());
         } else {
             for (Plant plant : currentUserLibrary) {
-                obsListLibraryPlantPane.add(new LibraryPlantPane(this, plantsTabController, getRandomImagePath(), plant));
+                obsListLibraryPlantPane.add(new LibraryPlantPane(this, getRandomImagePath(), plant));
             }
         }
-        Platform.runLater(() -> userPlantLibrary.setItems(obsListLibraryPlantPane));
+        Platform.runLater(() -> lstViewUserPlantLibrary.setItems(obsListLibraryPlantPane));
     }
 
     /**
@@ -114,7 +112,7 @@ public class HomeTabController {
         else {
             notificationString.add("");
         }
-        Platform.runLater(() -> notificationsList.setItems(notificationString));
+        Platform.runLater(() -> lstViewNotifications.setItems(notificationString));
     }
     @FXML
     public void createCurrentUserLibraryFromDB() {

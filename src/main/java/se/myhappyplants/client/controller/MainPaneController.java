@@ -16,7 +16,7 @@ import java.io.IOException;
 public class MainPaneController {
 
     @FXML
-    private HomeTabController homePaneController;
+    private MyPlantsTabController homePaneController;
     @FXML
     private PlantsTabController plantsPaneController;
     @FXML
@@ -32,7 +32,7 @@ public class MainPaneController {
         settingsPaneController.setMainController(this);
     }
 
-    public HomeTabController getHomePaneController() {
+    public MyPlantsTabController getHomePaneController() {
         return homePaneController;
     }
 
