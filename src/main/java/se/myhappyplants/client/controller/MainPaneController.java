@@ -62,7 +62,5 @@ public class MainPaneController {
         settingsPaneController.updateAvatar();
     }
 
-    public PlantsTabController getPlantsTabController() {
-        return plantsPaneController;
-    }
+    
 }
