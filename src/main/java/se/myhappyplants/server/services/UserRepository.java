@@ -1,4 +1,4 @@
-package se.myhappyplants.server.repository;
+package se.myhappyplants.server.services;
 
 import org.mindrot.jbcrypt.BCrypt;
 import se.myhappyplants.shared.User;

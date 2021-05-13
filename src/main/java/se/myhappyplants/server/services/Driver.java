@@ -1,4 +1,4 @@
-package se.myhappyplants.server.repository;
+package se.myhappyplants.server.services;
 
 import se.myhappyplants.server.PasswordsAndKeys;
 

@@ -1,4 +1,4 @@
-package se.myhappyplants.server.repository;
+package se.myhappyplants.server.services;
 
 import se.myhappyplants.server.model.LightCalculator;
 import se.myhappyplants.server.model.WaterCalculator;
@@ -9,7 +9,6 @@ import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 /**
  * Class responsible for calling the database about plants.

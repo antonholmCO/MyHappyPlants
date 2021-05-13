@@ -1,8 +1,8 @@
 package se.myhappyplants.server.controller;
 
-import se.myhappyplants.server.repository.PlantRepository;
-import se.myhappyplants.server.repository.UserPlantRepository;
-import se.myhappyplants.server.repository.UserRepository;
+import se.myhappyplants.server.services.PlantRepository;
+import se.myhappyplants.server.services.UserPlantRepository;
+import se.myhappyplants.server.services.UserRepository;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;

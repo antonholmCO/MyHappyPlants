@@ -1,7 +1,5 @@
-package se.myhappyplants.server.repository;
+package se.myhappyplants.server.services;
 
-import se.myhappyplants.server.model.LightCalculator;
-import se.myhappyplants.server.model.WaterCalculator;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
 
