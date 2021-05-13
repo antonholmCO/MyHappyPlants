@@ -29,7 +29,7 @@
         <children>
             <Label layoutX="14.0" layoutY="52.0" text="Your plants:" />
             <Label layoutX="522.0" layoutY="52.0" text="Sort by: " />
-            <ComboBox fx:id="cmbSort" layoutX="591.0" layoutY="50.0" prefHeight="30.0" prefWidth="186.0" promptText="  Nickname">
+            <ComboBox fx:id="cmbSort" layoutX="591.0" layoutY="50.0" onAction="#sortOptionChanged" prefHeight="30.0" prefWidth="186.0" promptText="  Nickname">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets></ComboBox>

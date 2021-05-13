@@ -10,6 +10,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.BoxTitle;
+import se.myhappyplants.client.model.ListSorter;
 import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.PictureRandomizer;
@@ -65,6 +66,13 @@ public class MyPlantsTabController {
         sortOptions.add("  Common name");
         sortOptions.add("  Water need");
         return sortOptions;
+    }
+
+    @FXML
+    public void sortOptionChanged() {
+        String sortOption = (String) cmbSort.getValue();
+        currentUserLibrary = ListSorter.sort(sortOption, currentUserLibrary);
+        addCurrentUserLibraryToHomeScreen();
     }
 
     public void setMainController(MainPaneController mainPaneController) {
