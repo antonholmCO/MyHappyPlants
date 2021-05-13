@@ -14,8 +14,8 @@ import se.myhappyplants.client.model.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
-import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.Plant;
 
 import java.io.File;
 import java.io.IOException;

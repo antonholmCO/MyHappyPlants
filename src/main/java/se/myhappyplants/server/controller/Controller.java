@@ -1,22 +1,11 @@
 package se.myhappyplants.server.controller;
 
-
-import se.myhappyplants.server.model.repository.UserRepository;
-
 /**
  * Created by: Linn Borgström
  * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
  */
 
 public class Controller {
-    private UserRepository userRepository;
-
-    public Controller(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public Controller() {
-    }
 
     public String calculateLightLevelToString(String light) {
         String lightText = light;

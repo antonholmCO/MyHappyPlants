@@ -1,16 +1,21 @@
 package se.myhappyplants.server.controller;
 
-import se.myhappyplants.server.model.repository.DBPlantRepository;
-import se.myhappyplants.server.model.repository.UserPlantRepository;
-import se.myhappyplants.server.model.repository.UserRepository;
+import se.myhappyplants.server.model.LightCalculator;
+import se.myhappyplants.server.model.WaterCalculator;
+import se.myhappyplants.server.repository.PlantRepository;
+import se.myhappyplants.server.repository.UserPlantRepository;
+import se.myhappyplants.server.repository.UserRepository;
 
 /**
  * Created by: Frida Jacobson, Eric Simonson, Anton Holm, Linn Borgström, Christopher O'Driscoll
  */
-public class Main {
+public class StartServer {
     public static void main(String[] args) throws Exception {
         Controller controller = new Controller();
-        new Server(2555, new UserRepository(), new UserPlantRepository(controller), new DBPlantRepository(controller), controller);
-
+        LightCalculator lightCalculator = new LightCalculator();
+        WaterCalculator waterCalculator = new WaterCalculator();
+        UserRepository userRepository = new UserRepository();
+        PlantRepository plantRepository = new PlantRepository(lightCalculator, waterCalculator);
+        new Server(2555, userRepository, plantRepository, new UserPlantRepository(plantRepository));
     }
 }
