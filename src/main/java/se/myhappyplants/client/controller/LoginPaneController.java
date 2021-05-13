@@ -1,14 +1,12 @@
 package se.myhappyplants.client.controller;
 
 import java.io.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import se.myhappyplants.client.model.ClientConnection;
+import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.Verifier;
 import se.myhappyplants.client.view.PopupBox;

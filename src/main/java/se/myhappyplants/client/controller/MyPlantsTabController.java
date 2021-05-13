@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import se.myhappyplants.client.model.ClientConnection;
+import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.PictureRandomizer;
 import se.myhappyplants.client.view.LibraryPlantPane;
@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Controller with logic used by the "Home" tab

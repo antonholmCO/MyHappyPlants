@@ -16,15 +16,13 @@ import java.io.IOException;
  * 1.  mvn javafx:compile
  * 2.  mvn javafx:run
  * Created by: Christopher O'Driscoll, Eric Simonsson
+ * Updated by: Linn Borgström, 2021-05-13
  */
 public class StartClient extends Application {
 
     private static Scene scene;
     private static Stage window;
 
-    public static Stage getStage() {
-        return window;
-    }
 
     /**
      * Starts the application by opening window. Method handles close on request.

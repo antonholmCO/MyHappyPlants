@@ -6,7 +6,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.util.Duration;
-import se.myhappyplants.client.controller.StartClient;
 
 
 public class PopupBox extends Popup {

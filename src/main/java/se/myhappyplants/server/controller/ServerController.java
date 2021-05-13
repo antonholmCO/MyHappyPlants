@@ -3,103 +3,36 @@ package se.myhappyplants.server.controller;
 import se.myhappyplants.server.services.PlantRepository;
 import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.server.services.UserRepository;
-import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * Server that listens for incoming connections
- * Handles each connection with a new thread
- * <p>
- * Created by: Christopher O'Driscoll
- * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström 2021-04-28
+ * Created by: Linn Borgström
+ * Updated by: Linn Borgström, 2021-05-13
  */
-public class Server implements Runnable {
 
-    private ServerSocket serverSocket;
-    private final Thread serverThread = new Thread(this);
-    private boolean serverRunning;
-
+public class ServerController {
     private UserRepository userRepository;
     private UserPlantRepository userPlantRepository;
     private PlantRepository plantRepository;
 
-    /**
-     * Constructor opens a port and starts a thread to listen for incoming connections/requests
-     *
-     * @param port           port to be used
-     * @param userRepository to handle db requests
-     */
-    public Server(int port, UserRepository userRepository, PlantRepository plantRepository, UserPlantRepository userPlantRepository) {
-        this(port);
+    public ServerController(UserRepository userRepository, UserPlantRepository userPlantRepository, PlantRepository plantRepository){
         this.userRepository = userRepository;
-        this.plantRepository = plantRepository;
         this.userPlantRepository = userPlantRepository;
+        this.plantRepository = plantRepository;
     }
-
-    /**
-     * Simplified constructor
-     *
-     * @param port port to be used
-     */
-    public Server(int port) {
-        try {
-            serverSocket = new ServerSocket(port);
-            serverRunning = true;
-            serverThread.start();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * starts a new thread for each incoming connection from a client
-     */
-    @Override
-    public void run() {
-        System.out.println("Server running");
-        while (serverRunning) {
-            try {
-                Socket socket = serverSocket.accept();
-                ClientHandler clientHandler = new ClientHandler(socket);
-                clientHandler.start();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        System.out.println("Server stopped");
-    }
-
-    /**
-     * stops the server, closing the connection
-     */
-    public void stopServer() {
-        try {
-            serverRunning = false;
-            serverSocket.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
     /**
      * Gets a response depending on the type of requests received
      *
      * @param request request object received from client
      * @return response to be sent back to client
      */
-    private Message getResponse(Message request) throws IOException, InterruptedException {
+    public Message getResponse(Message request) throws IOException, InterruptedException {
+
         Message response;
         String messageType = request.getMessageType();
 
@@ -181,42 +114,5 @@ public class Server implements Runnable {
         return response;
     }
 
-    /**
-     * Thread that accepts requests and delivers responses to a connected client
-     */
-    private class ClientHandler extends Thread {
 
-        private final Socket socket;
-        private final ObjectInputStream ois;
-        private final ObjectOutputStream oos;
-
-        /**
-         * Constructor opens new input/output streams on creation
-         *
-         * @param socket the socket to be used for communication
-         * @throws IOException
-         */
-        private ClientHandler(Socket socket) throws IOException {
-            this.socket = socket;
-            this.ois = new ObjectInputStream(socket.getInputStream());
-            this.oos = new ObjectOutputStream(socket.getOutputStream());
-        }
-
-        /**
-         * Waits for an incoming object, gets the appropriate response, and sends it to the client
-         * Closes thread after execution
-         */
-        @Override
-        public void run() {
-            try {
-                Message request = (Message) ois.readObject();
-                Message response = getResponse(request);
-                oos.writeObject(response);
-                oos.flush();
-            }
-            catch (IOException | ClassNotFoundException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
