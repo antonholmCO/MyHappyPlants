@@ -13,47 +13,44 @@ import java.util.regex.Pattern;
 
 public class Verifier {
 
-    private TextField txtFldNewEmail;
-    @FXML
-    private TextField txtFldNewEmail1;
-    @FXML
-    private TextField txtFldNewUsername;
-    @FXML
-    private PasswordField passFldNewPassword;
-    @FXML
-    private PasswordField passFldNewPassword1;
+    private String newEmail;
+
+    private String newEmail1;
+
+    private String newUsername;
+
+    private String newPassword;
+
+    private String newPassword1;
 
 
     /**
      * @return
      */
     public boolean validateRegistration(LoginPaneController loginPaneController) {
-        ArrayList<String> loginInfoToCompare = loginPaneController.getComponentsToVerify();
-        for (String s : loginInfoToCompare) {
+        String[] loginInfoToCompare = loginPaneController.getComponentsToVerify();
 
-
-            //String email = txtFldNewEmail.getText();
-            if (!validateEmail(s)) {
+            if (!validateEmail(loginInfoToCompare[0])) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Please enter your email address in format: yourname@example.com"));
                 return false;
             }
-            if (s.isEmpty()) {
+            if (loginInfoToCompare[2].isEmpty()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Please enter a username"));
                 return false;
             }
-            if (passFldNewPassword.getText().isEmpty()) {
+            if (loginInfoToCompare[3].isEmpty()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Please enter a password"));
                 return false;
             }
-            if (!txtFldNewEmail1.getText().equals(txtFldNewEmail.getText())) {
+            if (!loginInfoToCompare[1].equals(loginInfoToCompare[0])) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Please enter the same email twice"));
                 return false;
             }
-            if (!passFldNewPassword1.getText().equals(passFldNewPassword.getText())) {
+            if (!loginInfoToCompare[4].equals(loginInfoToCompare[3])) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Please enter the same password twice"));
                 return false;
             }
-        }
+
         return true;
 
     }

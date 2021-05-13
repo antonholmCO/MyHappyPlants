@@ -64,7 +64,7 @@ public class LoginPaneController {
 
     @FXML
     private void switchToMainPane() throws IOException {
-        StartClient.setRoot(String.valueOf(RootName.mainPain));
+        StartClient.setRoot("mainPane");
     }
 
     /**
@@ -102,13 +102,13 @@ public class LoginPaneController {
         loginThread.start();
     }
 
-    public ArrayList<String> getComponentsToVerify() {
-        ArrayList<String> loginInfoToCompare = new ArrayList();
-        loginInfoToCompare.add(txtFldNewEmail.getText());
-        loginInfoToCompare.add(txtFldNewEmail1.getText());
-        loginInfoToCompare.add(txtFldNewUsername.getText());
-        loginInfoToCompare.add(passFldNewPassword.getText());
-        loginInfoToCompare.add(passFldNewPassword1.getText());
+    public String[] getComponentsToVerify() {
+        String[] loginInfoToCompare = new String[5];
+        loginInfoToCompare[0] = txtFldNewEmail.getText();
+        loginInfoToCompare[1] = txtFldNewEmail1.getText();
+        loginInfoToCompare[2] = txtFldNewUsername.getText();
+        loginInfoToCompare[3] = passFldNewPassword.getText();
+        loginInfoToCompare[4] = passFldNewPassword1.getText();
         return loginInfoToCompare;
     }
     @FXML
