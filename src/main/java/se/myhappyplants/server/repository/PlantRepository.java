@@ -11,25 +11,47 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
+/**
+ * Class responsible for calling the database about plants.
+ * Created by: Frida Jacobsson
+ * Updated by: Christopher O'Driscoll
+ */
 public class PlantRepository {
 
-    private Statement statement;
+    private Connection conn;
     private LightCalculator lightCalculator;
     private WaterCalculator waterCalculator;
 
-    public PlantRepository(LightCalculator lightCalculator, WaterCalculator waterCalculator) throws SQLException, UnknownHostException {
+    public PlantRepository(LightCalculator lightCalculator, WaterCalculator waterCalculator){
         this.waterCalculator = waterCalculator;
         this.lightCalculator = lightCalculator;
-        Connection conn = Driver.getConnection("Species");
-        statement = conn.createStatement();
     }
 
-    public ArrayList<Plant> getResult(String plantSearch) throws IOException, InterruptedException {
+    /**
+     * Makes a new connection to the database
+     * @throws SQLException
+     * @throws UnknownHostException
+     */
+    private void makeConnection() throws SQLException, UnknownHostException {
+        if (conn==null) {
+            System.out.println("New connection to Species");
+            conn = Driver.getConnection("Species");
+        }
+        else if (conn.isClosed()) {
+            System.out.println("Species connection closed, making new connection");
+            conn = Driver.getConnection("Species");
+        }
+        else {
+            System.out.println("Species connection active, reusing");
+        }
+    }
+
+    public ArrayList<Plant> getResult(String plantSearch){
         ArrayList<Plant> plantList = new ArrayList<>();
+        String query = "SELECT id, common_name, scientific_name, family, image_url FROM species WHERE scientific_name LIKE ('%" + plantSearch + "%') OR common_name LIKE ('%" + plantSearch + "%');";
         try {
-            String query = "SELECT id, common_name, scientific_name, family, image_url FROM species WHERE scientific_name LIKE ('%" + plantSearch + "%') OR common_name LIKE ('%" + plantSearch + "%');";
-            ResultSet resultSet = statement.executeQuery(query);
+            makeConnection();
+            ResultSet resultSet = conn.createStatement().executeQuery(query);
             while (resultSet.next()) {
                 String plantId = resultSet.getString("id");
                 String commonName = resultSet.getString("common_name");
@@ -39,20 +61,25 @@ public class PlantRepository {
                 //long waterFrequency = resultSet.getLong("water_frequency");
                 plantList.add(new Plant(plantId, commonName, scientificName, familyName, imageURL));
             }
-        }
-        catch (SQLException sqlException) {
+        } catch (SQLException | UnknownHostException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
-            return null;
+            plantList = null;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
-
         return plantList;
     }
 
     public String[] getMoreInformation(Plant plant) {
         String[] allInfo = new String[4];
+        String query = "SELECT genus, light, water_frequency, family FROM species WHERE id = '" + plant.getPlantId() + "';";
         try {
-            String query = "SELECT genus, light, water_frequency, family FROM species WHERE id = '" + plant.getPlantId() + "';";
-            ResultSet resultSet = statement.executeQuery(query);
+            makeConnection();
+            ResultSet resultSet = conn.createStatement().executeQuery(query);
             while (resultSet.next()) {
                 String genus = resultSet.getString("genus");
                 String light = resultSet.getString("light");
@@ -65,24 +92,27 @@ public class PlantRepository {
                 allInfo[2] = "Light:\t" + lightText + "\n";
                 allInfo[3] = "Water:\t" + waterText + "\n";
             }
-        }
-        catch (SQLException sqlException) {
+        } catch (SQLException | UnknownHostException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
-            return null;
+            allInfo = null;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
-
         return allInfo;
     }
 
     public long getWaterFrequency(String plantId) throws IOException, InterruptedException {
         long waterFrequencyMilli = 0;
+        String query = "SELECT water_frequency FROM species WHERE id = '" + plantId + "';";
         try {
-            String query = "SELECT water_frequency FROM species WHERE id = '" + plantId + "';";
-            ResultSet resultSet = statement.executeQuery(query);
+            makeConnection();
+            ResultSet resultSet = conn.createStatement().executeQuery(query);
             while (resultSet.next()) {
                 String waterFrequency = resultSet.getString("water_frequency");
-
-
                 long week = 604000000l;
                 int waterFrequencyInt = Integer.parseInt(waterFrequency);
                 if (waterFrequencyInt <= 200) {
@@ -101,13 +131,15 @@ public class PlantRepository {
                     waterFrequencyMilli = week / 2;
                 }
             }
-        }
-        catch (NumberFormatException e) {
-        }
-        catch (SQLException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
-
         return waterFrequencyMilli;
     }
 }
