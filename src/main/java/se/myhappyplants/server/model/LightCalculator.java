@@ -1,5 +1,9 @@
 package se.myhappyplants.server.model;
 
+/**
+ * Created by: Frida Jacobsson, Eric Simonsson, Susanne Vikström, Linn Borgström
+ * Updated by: Frida Jacobsson, 2021-05-12
+ */
 public class LightCalculator {
 
     public String calculateLightLevel(String light) {

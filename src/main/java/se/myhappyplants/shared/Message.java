@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Class that can be used for communication between Client/Server
  * Client/Server via TCP
  * Created by: Christopher O'Driscoll
- * Updated by: Linn Borgström 2021-04-29
+ * Updated by: Linn Borgström 2021-05-13
  */
 public class Message implements Serializable {
 

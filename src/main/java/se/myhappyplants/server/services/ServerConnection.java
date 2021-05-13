@@ -1,26 +1,20 @@
 package se.myhappyplants.server.services;
 
 import se.myhappyplants.server.controller.ServerController;
-import se.myhappyplants.server.services.PlantRepository;
-import se.myhappyplants.server.services.UserPlantRepository;
-import se.myhappyplants.server.services.UserRepository;
-import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.Message;
-import se.myhappyplants.shared.User;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
+
 
 /**
  * Server that listens for incoming connections
  * Handles each connection with a new thread
  * <p>
  * Created by: Christopher O'Driscoll
- * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström 2021-04-28
+ * Updated by: Linn Borgström, 2021-05-13
  */
 public class ServerConnection implements Runnable {
 

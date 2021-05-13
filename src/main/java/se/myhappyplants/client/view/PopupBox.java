@@ -7,7 +7,10 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.util.Duration;
 
-
+/**
+ * Created by:
+ * Updated by:
+ */
 public class PopupBox extends Popup {
     private Label label;
 

@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 /**
- * Class defining a plant from the API
+ * Class defining a plant
  * Created by: Frida Jacobsson
  * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
  */

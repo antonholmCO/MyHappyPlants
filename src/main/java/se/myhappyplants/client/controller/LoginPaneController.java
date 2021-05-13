@@ -41,7 +41,6 @@ public class LoginPaneController {
     private PasswordField passFldNewPassword1;
 
     private Verifier verifier;
-    private MessageType messageType;
 
 
     /**
@@ -76,7 +75,7 @@ public class LoginPaneController {
     @FXML
     private void loginButtonPressed() {
         Thread loginThread = new Thread(() -> {
-            Message loginMessage = new Message(messageType.login, new User(txtFldEmail.getText(), passFldPassword.getText()));
+            Message loginMessage = new Message(MessageType.login, new User(txtFldEmail.getText(), passFldPassword.getText()));
             ClientConnection connection = new ClientConnection();
             Message loginResponse = connection.makeRequest(loginMessage);
 
@@ -118,7 +117,7 @@ public class LoginPaneController {
             if (!verifiedRegistration) {
                 return;
             }
-            Message registerRequest = new Message(messageType.register, new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
+            Message registerRequest = new Message(MessageType.register, new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
             ClientConnection connection = new ClientConnection();
             Message registerResponse = connection.makeRequest(registerRequest);
 
@@ -142,7 +141,7 @@ public class LoginPaneController {
         registerThread.start();
     }
 
-    //TODO: Ta upp med gruppen om flyttad logik till klassen Verifier. Denna ger nullvärden på de varibaler som är kopplade till FXML.
+    //TODO: Ta upp med gruppen om flyttad logik till klassen Verifier.
     /**
      * @return
      */

@@ -2,6 +2,10 @@ package se.myhappyplants.client.model;
 
 import java.util.Random;
 
+/**
+ * Created by: Frida Jacobsson
+ * Updated by: Frida Jacobsson
+ */
 public class PictureRandomizer {
     /**
      * Method that generated a random path to a image of a flower

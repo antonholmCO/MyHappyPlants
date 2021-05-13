@@ -1,30 +1,20 @@
 package se.myhappyplants.client.model;
 
 import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import se.myhappyplants.client.controller.LoginPaneController;
 import se.myhappyplants.client.view.MessageBox;
-
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Created by: Linn Borgström, 2021-05-13
+ * Updated by: Linn Borgström, 2021-05-13
+ */
 public class Verifier {
-
-    private String newEmail;
-
-    private String newEmail1;
-
-    private String newUsername;
-
-    private String newPassword;
-
-    private String newPassword1;
 
 
     /**
+     *
      * @return
      */
     public boolean validateRegistration(LoginPaneController loginPaneController) {

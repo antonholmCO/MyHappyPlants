@@ -33,7 +33,6 @@ public class SettingsTabController {
     @FXML private ImageView imgViewUserPicture;
     @FXML private Label lblUserName;
     @FXML private PasswordField passFldDeleteAccount;
-    private MessageType messageType;
 
     @FXML
     public void initialize() {
@@ -57,7 +56,7 @@ public class SettingsTabController {
     @FXML
     public void changeNotificationsSetting() {
         Thread changeNotificationsThread = new Thread(() -> {
-            Message notificationRequest = new Message(messageType.changeNotifications, tglBtnChangeNotification.isSelected(), LoggedInUser.getInstance().getUser());
+            Message notificationRequest = new Message(MessageType.changeNotifications, tglBtnChangeNotification.isSelected(), LoggedInUser.getInstance().getUser());
             ClientConnection connection = new ClientConnection();
             Message notificationResponse = connection.makeRequest(notificationRequest);
             if(notificationResponse != null) {
@@ -81,14 +80,14 @@ public class SettingsTabController {
 
     //TODO: Kolla med gruppen om de vill att denna logik ska flyttas! Eftersom den är kopplad med FXML-filen till denna controller+variabler.
     //TODO: Om ja: fixa så det blir rätt anrop på rad ca. 44 & 75(samma metodnamn som nedan)
-    private void setNotificationsButtonText() {
+    /*private void setNotificationsButtonText() {
         if(tglBtnChangeNotification.isSelected()) {
             tglBtnChangeNotification.setText("On");
         }
         else {
             tglBtnChangeNotification.setText("Off");
         }
-    }
+    }*/
 
     /**
      * Method that handles actions when a user clicks button to delete account.
@@ -98,7 +97,7 @@ public class SettingsTabController {
         int answer = MessageBox.askYesNo(BoxTitle.Delete, "Are you sure you want to delete your account? \n All your personal information will be deleted. \nA deleted account can't be restored. ");
         if (answer == 1) {
             Thread deleteAccountThread = new Thread(() -> {
-                Message deleteMessage = new Message(messageType.deleteAccount, new User(LoggedInUser.getInstance().getUser().getEmail(), passFldDeleteAccount.getText()));
+                Message deleteMessage = new Message(MessageType.deleteAccount, new User(LoggedInUser.getInstance().getUser().getEmail(), passFldDeleteAccount.getText()));
                 ClientConnection connection = new ClientConnection();
                 Message deleteResponse = connection.makeRequest(deleteMessage);
                 if (deleteResponse != null) {

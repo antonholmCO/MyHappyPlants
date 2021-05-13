@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Created by: Anton Holm
+ * Updated by: Linn Borgström, 2021-05-13
+ */
 public class SetAvatar {
 
     //TODO: Fråga gruppen om detta skavara här.

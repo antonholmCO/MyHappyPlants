@@ -4,7 +4,6 @@ import java.io.*;
 
 /**
  * Created by: Linn Borgström
- * Updated by: Christopher, 2021-04-13
  * Updated by: Anton, 2021-04-29
  */
 public class User implements Serializable {
@@ -72,6 +71,10 @@ public class User implements Serializable {
         this.isNotificationsActivated = notificationsActivated;
         //setAvatarOnLogin(email);
     }
+
+    //TODO: Fråga gruppen om hur de vill göra med logiken med denna.
+    // Nu anropas den från SettingsTabController rad 42, MyPlantTabController rad 52, SearchTabController rad 53
+
     private void setAvatarOnLogin(String email) {
         try (BufferedReader br = new BufferedReader(new FileReader("resources/images/user_avatars/" + email + "_avatar.txt"))) {
             String readtxt = br.readLine();

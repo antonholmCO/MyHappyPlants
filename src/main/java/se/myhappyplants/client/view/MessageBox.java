@@ -23,7 +23,7 @@ public class MessageBox {
 
     private static Stage window;
     private static VBox vBox;
-    private BoxTitle boxTitle;
+
     public static void display(BoxTitle boxTitle, String message) {
         window = new Stage();
 

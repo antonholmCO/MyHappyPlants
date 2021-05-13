@@ -42,7 +42,6 @@ public class MyPlantsTabController {
     @FXML private ListView lstViewUserPlantLibrary;
 
     @FXML private ListView lstViewNotifications;
-    private MessageType messageType;
 
 
     @FXML
@@ -78,7 +77,7 @@ public class MyPlantsTabController {
      *
      * @return
      */
-    //TODO: Kolla med gruppen om de vill att denna logic ska flyttas! Om nej: ändra tillbaka anropet på rad 64
+    //TODO: Kolla med gruppen om de vill att denna logic ska flyttas! Om nej: ändra tillbaka anropet på rad 69
     /*private String getRandomImagePath() {
 
         Random random = new Random();
@@ -126,7 +125,7 @@ public class MyPlantsTabController {
     @FXML
     public void createCurrentUserLibraryFromDB() {
         Thread getLibraryThread = new Thread(() -> {
-            Message getLibrary = new Message(messageType.getLibrary, LoggedInUser.getInstance().getUser());
+            Message getLibrary = new Message(MessageType.getLibrary, LoggedInUser.getInstance().getUser());
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(getLibrary);
 
@@ -201,7 +200,7 @@ public class MyPlantsTabController {
      * @param date  new date to change to
      */
     public void changeLastWateredInDB(Plant plant, LocalDate date) {
-        Message changeLastWatered = new Message(messageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
+        Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
         Message response = new ClientConnection().makeRequest(changeLastWatered);
         if (!response.isSuccess()) {
             MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");

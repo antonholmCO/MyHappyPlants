@@ -43,7 +43,7 @@ public class SearchTabController {
     private ListView listViewResult;
     @FXML
     private ProgressIndicator progressIndicator;
-    private MessageType messageType;
+
 
     @FXML
     public void initialize() {
@@ -99,7 +99,7 @@ public class SearchTabController {
     @FXML
     private void searchButtonPressed() {
         Thread searchThread = new Thread(() -> {
-            Message apiRequest = new Message(messageType.search, txtFldSearchText.getText());
+            Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
             progressIndicator.setProgress(25);
             ClientConnection connection = new ClientConnection();
             Message apiResponse = connection.makeRequest(apiRequest);
@@ -124,7 +124,7 @@ public class SearchTabController {
     }
 
     public ObservableList<String> getMorePlantInfo(Plant plant) {
-        Message getInfoSearchedPlant = new Message(messageType.getMorePlantInfoOnSearch, plant);
+        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfoOnSearch, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
         if (response != null) {
