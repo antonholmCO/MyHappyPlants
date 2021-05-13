@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.MyPlantsTabController;
+import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.shared.Plant;
 
 import java.io.File;
@@ -268,7 +269,7 @@ public class LibraryPlantPane extends Pane {
      * @param plant selected plant
      */
     private void removePlant(Plant plant) {
-        int answer = MessageBox.askYesNo("Delete plant", "Are you sure? The deleted plant can't be restored");
+        int answer = MessageBox.askYesNo(BoxTitle.Delete, "Are you sure? The deleted plant can't be restored");
         if (answer == 1) {
             myPlantsTabController.removePlantFromDB(plant);
         }

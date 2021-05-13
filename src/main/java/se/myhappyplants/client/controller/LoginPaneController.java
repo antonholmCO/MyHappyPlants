@@ -1,11 +1,14 @@
 package se.myhappyplants.client.controller;
 
 import java.io.*;
+import java.util.ArrayList;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import se.myhappyplants.client.model.BoxTitle;
+import se.myhappyplants.client.model.RootName;
 import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.Verifier;
@@ -39,6 +42,7 @@ public class LoginPaneController {
 
     private Verifier verifier;
     private MessageType messageType;
+    private BoxTitle boxTitle;
 
     /**
      * Switches to 'logged in' scene
@@ -60,7 +64,7 @@ public class LoginPaneController {
 
     @FXML
     private void switchToMainPane() throws IOException {
-        StartClient.setRoot("mainPane");
+        StartClient.setRoot(String.valueOf(RootName.mainPain));
     }
 
     /**
@@ -88,20 +92,31 @@ public class LoginPaneController {
                         e.printStackTrace();
                     }
                 } else {
-                    Platform.runLater(() -> MessageBox.display("Login failed", "Sorry, we couldn't find an account with that email or you typed the password wrong. Try again or create a new account."));
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Sorry, we couldn't find an account with that email or you typed the password wrong. Try again or create a new account."));
 
                 }
             } else {
-                Platform.runLater(() -> MessageBox.display("Login failed", "The connection to the server has failed. Check your connection and try again."));
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
             }
         });
         loginThread.start();
     }
 
+    public ArrayList<String> getComponentsToVerify() {
+        ArrayList<String> loginInfoToCompare = new ArrayList();
+        loginInfoToCompare.add(txtFldNewEmail.getText());
+        loginInfoToCompare.add(txtFldNewEmail1.getText());
+        loginInfoToCompare.add(txtFldNewUsername.getText());
+        loginInfoToCompare.add(passFldNewPassword.getText());
+        loginInfoToCompare.add(passFldNewPassword1.getText());
+        return loginInfoToCompare;
+    }
     @FXML
     private void registerButtonPressed() {
+        Verifier verifier = new Verifier();
+        boolean verifiedRegistartion = verifier.validateRegistration(this);
         Thread registerThread = new Thread(() -> {
-            if (!verifier.validateRegistration()) {
+            if (!verifiedRegistartion) {
                 return;
             }
             Message registerRequest = new Message(messageType.register, new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
@@ -111,7 +126,7 @@ public class LoginPaneController {
             if (registerResponse != null) {
                 if (registerResponse.isSuccess()) {
                     LoggedInUser.getInstance().setUser(registerResponse.getUser());
-                    Platform.runLater(() -> MessageBox.display("Success", "Account created successfully! Now logged in as " + LoggedInUser.getInstance().getUser().getUsername()));
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Success, "Account created successfully! Now logged in as " + LoggedInUser.getInstance().getUser().getUsername()));
                     try {
                         switchToMainPane();
                     }
@@ -119,10 +134,10 @@ public class LoginPaneController {
                         e.printStackTrace();
                     }
                 } else {
-                    Platform.runLater(() -> MessageBox.display("Couldn't create account", "An account with this email address already exists here at My Happy Plants."));
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "An account with this email address already exists here at My Happy Plants."));
                 }
             } else {
-                Platform.runLater(() -> MessageBox.display("Couldn't create account", "The connection to the server has failed. Check your connection and try again."));
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
             }
         });
         registerThread.start();

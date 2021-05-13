@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import se.myhappyplants.client.model.BoxTitle;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -22,11 +23,12 @@ public class MessageBox {
 
     private static Stage window;
     private static VBox vBox;
-    public static void display(String title, String message) {
+    private BoxTitle boxTitle;
+    public static void display(BoxTitle boxTitle, String message) {
         window = new Stage();
 
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(title);
+        window.setTitle(String.valueOf(boxTitle));
         window.setMinWidth(250);
         window.setMinHeight(100);
 
@@ -60,17 +62,17 @@ public class MessageBox {
      * Displays a yes/no input box
      * Created by: Anton Holm
      *
-     * @param title    The title of the message box stage/window
+     * @param boxTitle    The title of the message box stage/window
      * @param question The question which the user should answer yes or no
      * @return 1 if yes, 0 if no and -1 if no answer chosen
      */
-    public static int askYesNo(String title, String question) {
+    public static int askYesNo(BoxTitle boxTitle, String question) {
         Stage window = new Stage();
         AtomicInteger answer = new AtomicInteger(-1);
 
 
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(title);
+        window.setTitle(String.valueOf(boxTitle));
         window.setMinWidth(350);
         window.setMinHeight(150);
 

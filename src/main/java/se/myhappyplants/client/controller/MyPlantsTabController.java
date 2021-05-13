@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.PictureRandomizer;
@@ -42,6 +43,7 @@ public class MyPlantsTabController {
 
     @FXML private ListView lstViewNotifications;
     private MessageType messageType;
+
 
     @FXML
     public void initialize() {
@@ -133,7 +135,7 @@ public class MyPlantsTabController {
                 addCurrentUserLibraryToHomeScreen();
                 showNotifications();
             } else {
-                Platform.runLater(() -> MessageBox.display("Couldn't load library", "The connection to the server has failed. Check your connection and try again."));
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
             }
         });
         getLibraryThread.start();
@@ -148,7 +150,7 @@ public class MyPlantsTabController {
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(deletePlant);
             if (!response.isSuccess()) {
-                Platform.runLater(() -> MessageBox.display("Couldn't delete plant", "The connection to the server has failed. Check your connection and try again."));
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
                 createCurrentUserLibraryFromDB();
             }
         });
@@ -180,7 +182,7 @@ public class MyPlantsTabController {
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(savePlant);
             if (!response.isSuccess()) {
-                Platform.runLater(() -> MessageBox.display("Couldn’t add plant to library", "The connection to the server has failed. Check your connection and try again."));
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
                 createCurrentUserLibraryFromDB();
             }
         });
@@ -202,7 +204,7 @@ public class MyPlantsTabController {
         Message changeLastWatered = new Message(messageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
         Message response = new ClientConnection().makeRequest(changeLastWatered);
         if (!response.isSuccess()) {
-            MessageBox.display("Couldn’t change date", "The connection to the server has failed. Check your connection and try again.");
+            MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
         }
         createCurrentUserLibraryFromDB();
     }
@@ -216,7 +218,7 @@ public class MyPlantsTabController {
         Message changeNicknameInDB = new Message(MessageType.changeNickname, LoggedInUser.getInstance().getUser(), plant, newNickname);
         Message response = new ClientConnection().makeRequest(changeNicknameInDB);
         if (!response.isSuccess()) {
-            MessageBox.display("Couldn’t change nickname", "The connection to the server has failed. Check your connection and try again.");
+            MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
             return false;
         } else {
             plant.setNickname(newNickname);

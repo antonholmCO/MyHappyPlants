@@ -10,6 +10,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
@@ -60,7 +61,7 @@ public class SearchTabController {
     public void addPlantToCurrentUserLibrary(Plant plantAdd) {
         String plantNickname = plantAdd.getCommonName();
 
-        int answer = MessageBox.askYesNo("Add a new plant to library", "Do you want to add a nickname for your plant?");
+        int answer = MessageBox.askYesNo(BoxTitle.Add, "Do you want to add a nickname for your plant?");
         if (answer == 1) {
             plantNickname = MessageBox.askForStringInput("Add a nickname", "Nickname:");
         }
@@ -111,7 +112,7 @@ public class SearchTabController {
                     //skicka inget felmeddelande, visa label med sökresultat 0 istället
                 }
             } else {
-                Platform.runLater(() -> MessageBox.display("Error", "The connection to the server has failed. Check your connection and try again."));
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "The connection to the server has failed. Check your connection and try again."));
             }
         });
         searchThread.start();

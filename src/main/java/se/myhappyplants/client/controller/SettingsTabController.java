@@ -8,6 +8,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.ButtonText;
@@ -65,10 +66,10 @@ public class SettingsTabController {
                     PopupBox popupBox = new PopupBox();
                     Platform.runLater(() -> popupBox.display("Notification settings changed"));
                 } else {
-                    Platform.runLater(() -> MessageBox.display("Failed", "Settings could not be changed"));
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Settings could not be changed"));
                 }
             } else {
-                Platform.runLater(() -> MessageBox.display("Failed", "The connection to the server has failed. Check your connection and try again."));
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
             }
         });
         changeNotificationsThread.start();
@@ -94,7 +95,7 @@ public class SettingsTabController {
      */
     @FXML
     private void deleteAccountButtonPressed() {
-        int answer = MessageBox.askYesNo("Delete account", "Are you sure you want to delete your account? \n All your personal information will be deleted. \nA deleted account can't be restored. ");
+        int answer = MessageBox.askYesNo(BoxTitle.Delete, "Are you sure you want to delete your account? \n All your personal information will be deleted. \nA deleted account can't be restored. ");
         if (answer == 1) {
             Thread deleteAccountThread = new Thread(() -> {
                 Message deleteMessage = new Message(messageType.deleteAccount, new User(LoggedInUser.getInstance().getUser().getEmail(), passFldDeleteAccount.getText()));
@@ -102,7 +103,7 @@ public class SettingsTabController {
                 Message deleteResponse = connection.makeRequest(deleteMessage);
                 if (deleteResponse != null) {
                     if (deleteResponse.isSuccess()) {
-                        Platform.runLater(() -> MessageBox.display("Account deleted successfully", "We are sorry to see you go"));
+                        Platform.runLater(() -> MessageBox.display(BoxTitle.Success, "We are sorry to see you go"));
                         try {
                             logoutButtonPressed();
                         }
@@ -110,10 +111,10 @@ public class SettingsTabController {
                             e.printStackTrace();
                         }
                     } else {
-                        Platform.runLater(() -> MessageBox.display("Couldn’t create account", "The passwords you entered do not match"));
+                        Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The passwords you entered do not match"));
                     }
                 } else {
-                    Platform.runLater(() -> MessageBox.display("Couldn’t create account", "The connection to the server has failed. Check your connection and try again."));
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
                 }
             });
             deleteAccountThread.start();
