@@ -21,7 +21,7 @@ import se.myhappyplants.shared.User;
 /**
  * Controls the inputs from a user that hasn't logged in
  * Created by: Eric Simonsson, Christopher O'Driscoll
- * Updated by: Christopher, 2021-04-13
+ * Updated by: Linn Borgström, 2021-05-13
  */
 public class LoginPaneController {
 
@@ -42,7 +42,7 @@ public class LoginPaneController {
 
     private Verifier verifier;
     private MessageType messageType;
-    private BoxTitle boxTitle;
+
 
     /**
      * Switches to 'logged in' scene
@@ -64,7 +64,7 @@ public class LoginPaneController {
 
     @FXML
     private void switchToMainPane() throws IOException {
-        StartClient.setRoot("mainPane");
+        StartClient.setRoot(String.valueOf(RootName.mainPane));
     }
 
     /**
@@ -113,10 +113,9 @@ public class LoginPaneController {
     }
     @FXML
     private void registerButtonPressed() {
-        Verifier verifier = new Verifier();
-        boolean verifiedRegistartion = verifier.validateRegistration(this);
+        boolean verifiedRegistration = verifier.validateRegistration(this);
         Thread registerThread = new Thread(() -> {
-            if (!verifiedRegistartion) {
+            if (!verifiedRegistration) {
                 return;
             }
             Message registerRequest = new Message(messageType.register, new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));

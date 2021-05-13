@@ -2,6 +2,7 @@ package se.myhappyplants.client.controller;
 
 import javafx.fxml.FXML;
 import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.model.RootName;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -53,7 +54,7 @@ public class MainPaneController {
             e.printStackTrace();
         }
         LoggedInUser.getInstance().setUser(null);
-        StartClient.setRoot("loginPane");
+        StartClient.setRoot(String.valueOf(RootName.loginPane));
     }
 
     public void updateAvatarOnAllTabs() {

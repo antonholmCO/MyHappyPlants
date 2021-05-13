@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import se.myhappyplants.client.model.RootName;
 import se.myhappyplants.client.view.ConfirmationBox;
 
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class StartClient extends Application {
             action.consume();
             closeProgram();
         });
-        scene = new Scene(loadFXML("loginPane"), 1000, 600);
+        scene = new Scene(loadFXML(String.valueOf(RootName.loginPane)), 1000, 600);
         window.setScene(scene);
         window.show();
     }
