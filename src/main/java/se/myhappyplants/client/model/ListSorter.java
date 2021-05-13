@@ -41,15 +41,14 @@ public class ListSorter {
     public static ArrayList<Plant> sort(String sortOption, ArrayList<Plant> currentUserLibrary) {
         ArrayList<Plant> sortedList = null;
         switch (sortOption) {
-            case "  Nickname":
-                sortedList = sortByNickname(currentUserLibrary);
-                break;
             case "  Common name":
                 sortedList = sortByCommonName(currentUserLibrary);
                 break;
             case "  Water need":
                 sortedList = sortByWaterNeed(currentUserLibrary);
                 break;
+            default:
+                sortedList = sortByNickname(currentUserLibrary);
         }
         return sortedList;
     }

@@ -41,7 +41,7 @@ public class MyPlantsTabController {
 
     @FXML private ImageView imgUserPicture;
 
-    @FXML private ComboBox cmbSort;
+    @FXML private ComboBox cmbSortOption;
 
     @FXML private ListView lstViewUserPlantLibrary;
 
@@ -54,7 +54,7 @@ public class MyPlantsTabController {
         lblUsernameMyPlants.setText(loggedInUser.getUser().getUsername());
         //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
         imgUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail())));
-        cmbSort.setItems(sortOptions());
+        cmbSortOption.setItems(sortOptions());
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
 
@@ -63,14 +63,15 @@ public class MyPlantsTabController {
     private ObservableList<String> sortOptions() {
         ObservableList<String> sortOptions = FXCollections.observableArrayList();
         sortOptions.add("  Nickname");
-        sortOptions.add("  Common name");
+        //sortOptions.add("  Common name");
         sortOptions.add("  Water need");
         return sortOptions;
     }
 
     @FXML
-    public void sortOptionChanged() {
-        String sortOption = (String) cmbSort.getValue();
+    public void sortLibrary() {
+        String sortOption = "";
+        sortOption = (String) cmbSortOption.getValue();
         currentUserLibrary = ListSorter.sort(sortOption, currentUserLibrary);
         addCurrentUserLibraryToHomeScreen();
     }
@@ -84,7 +85,8 @@ public class MyPlantsTabController {
         ObservableList<LibraryPlantPane> obsListLibraryPlantPane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
             obsListLibraryPlantPane.add(new LibraryPlantPane());
-        } else {
+        }
+        else {
             for (Plant plant : currentUserLibrary) {
                 obsListLibraryPlantPane.add(new LibraryPlantPane(this, PictureRandomizer.getRandomPicture(), plant));
             }
