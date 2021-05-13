@@ -43,8 +43,8 @@ public class HomeTabController {
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
-        this.lblUsernameHome.setText(loggedInUser.getUser().getUsername());
-        this.imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+        lblUsernameHome.setText(loggedInUser.getUser().getUsername());
+        imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
 
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
