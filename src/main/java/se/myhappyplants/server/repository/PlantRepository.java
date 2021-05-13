@@ -11,7 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
+/**
+ * Class responsible for calling the database about plants.
+ * Created by: Frida Jacobsson
+ * Updated by: Christopher O'Driscoll
+ */
 public class PlantRepository {
 
     private Connection conn;
@@ -60,13 +64,13 @@ public class PlantRepository {
         } catch (SQLException | UnknownHostException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
             plantList = null;
-        } /*finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }*/
+        }
         return plantList;
     }
 
@@ -91,13 +95,13 @@ public class PlantRepository {
         } catch (SQLException | UnknownHostException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
             allInfo = null;
-        } /*finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }*/
+        }
         return allInfo;
     }
 
@@ -129,13 +133,13 @@ public class PlantRepository {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } /*finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }*/
+        }
         return waterFrequencyMilli;
     }
 }

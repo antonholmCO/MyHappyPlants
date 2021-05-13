@@ -9,7 +9,7 @@ import java.sql.*;
 /**
  * Class responsible for calling the database about users.
  * Created by: Frida Jacobsson
- * Updated by:
+ * Updated by: Christopher O'Driscoll
  */
 public class UserRepository {
 
@@ -50,13 +50,13 @@ public class UserRepository {
             success = true;
         } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
-        } /*finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }*/
+        }
         return success;
     }
 
@@ -80,13 +80,13 @@ public class UserRepository {
             }
         } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
-        } /*finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }*/
+        }
         return isVerified;
     }
 
@@ -113,13 +113,13 @@ public class UserRepository {
             user = new User(uniqueID, email, username, notificationActivated);
         } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
-        } /*finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }*/
+        }
         return user;
     }
 
@@ -158,13 +158,13 @@ public class UserRepository {
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-            } /*finally {
+            } finally {
                 try {
                     conn.close();
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-            }*/
+            }
         }
         return accountDeleted;
     }
@@ -182,13 +182,13 @@ public class UserRepository {
             notificationsChanged = true;
         } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
-        } /*finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }*/
+        }
         return notificationsChanged;
     }
 }

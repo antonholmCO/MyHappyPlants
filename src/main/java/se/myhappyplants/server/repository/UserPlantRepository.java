@@ -12,9 +12,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * Class responsible for calling the database about plants.
+ * Class responsible for calling the database about a users library.
  * Created by: Linn Borgström
- * Updated by: Frida Jacobsson
+ * Updated by: Christopher O'Driscoll
  */
 public class UserPlantRepository {
 
@@ -68,13 +68,13 @@ public class UserPlantRepository {
             success = true;
         } catch (SQLException | UnknownHostException throwables) {
             throwables.printStackTrace();
-        } /*finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }*/
+        }
         return success;
     }
 
@@ -100,13 +100,13 @@ public class UserPlantRepository {
             }
         } catch (SQLException | IOException | InterruptedException exception) {
             System.out.println(exception.fillInStackTrace());
-        } /*finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }*/
+        }
         return plantList;
     }
 
@@ -128,13 +128,13 @@ public class UserPlantRepository {
             plant = new Plant(nickname, plantID, lastWatered);
         } catch (SQLException | UnknownHostException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
-        } /*finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }*/
+        }
         return plant;
     }
 
@@ -155,13 +155,13 @@ public class UserPlantRepository {
             plantDeleted = true;
         } catch (SQLException | UnknownHostException sqlException) {
             System.out.println(sqlException);
-        } /*finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }*/
+        }
         return plantDeleted;
     }
 
@@ -183,13 +183,13 @@ public class UserPlantRepository {
             dateChanged = true;
         } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
-        } /*finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }*/
+        }
         return dateChanged;
     }
 
@@ -204,13 +204,13 @@ public class UserPlantRepository {
             nicknameChanged = true;
         } catch (SQLException | UnknownHostException sqlException) {
             sqlException.printStackTrace();
-        } /*finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }*/
+        }
         return nicknameChanged;
     }
 }
