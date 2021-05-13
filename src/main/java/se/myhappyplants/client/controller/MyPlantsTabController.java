@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -39,6 +40,8 @@ public class MyPlantsTabController {
 
     @FXML private ImageView imgUserPicture;
 
+    @FXML private ComboBox cmbSort;
+
     @FXML private ListView lstViewUserPlantLibrary;
 
     @FXML private ListView lstViewNotifications;
@@ -50,9 +53,18 @@ public class MyPlantsTabController {
         lblUsernameMyPlants.setText(loggedInUser.getUser().getUsername());
         //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
         imgUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail())));
+        cmbSort.setItems(sortOptions());
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
 
+    }
+
+    private ObservableList<String> sortOptions() {
+        ObservableList<String> sortOptions = FXCollections.observableArrayList();
+        sortOptions.add("  Nickname");
+        sortOptions.add("  Common name");
+        sortOptions.add("  Water need");
+        return sortOptions;
     }
 
     public void setMainController(MainPaneController mainPaneController) {
