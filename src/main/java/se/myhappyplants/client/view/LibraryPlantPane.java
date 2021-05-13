@@ -215,7 +215,6 @@ public class LibraryPlantPane extends Pane {
 
         this.setPrefHeight(92.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
-        this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
     }
 
 
@@ -229,7 +228,10 @@ public class LibraryPlantPane extends Pane {
         );
         timeline.setCycleCount(32);
         timeline.play();
-        timeline.setOnFinished(action -> infoButton.setDisable(false));
+        timeline.setOnFinished(action -> {
+            infoButton.setDisable(false);
+            this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
+        });
         extended = true;
     }
 
@@ -243,6 +245,7 @@ public class LibraryPlantPane extends Pane {
         );
         timeline.setCycleCount(32);
         timeline.play();
+        this.getChildren().removeAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
         timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = false;
     }
