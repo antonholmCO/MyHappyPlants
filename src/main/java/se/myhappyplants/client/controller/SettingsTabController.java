@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import se.myhappyplants.client.model.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.view.ButtonText;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;
@@ -24,7 +25,7 @@ import java.nio.file.Files;
 
 public class SettingsTabController {
 
-    @FXML public ToggleButton changeNotifications;
+    @FXML private ToggleButton tglBtnChangeNotification;
     @FXML private MainPaneController mainPaneController;
     @FXML private ImageView imgViewUserPicture;
     @FXML private Label lblUserName;
@@ -35,8 +36,8 @@ public class SettingsTabController {
         User loggedInUser = LoggedInUser.getInstance().getUser();
         lblUserName.setText(loggedInUser.getUsername());
         imgViewUserPicture.setImage(new Image(loggedInUser.getAvatarURL()));
-        changeNotifications.setSelected(loggedInUser.areNotificationsActivated());
-        setNotificationsButtonText();
+        tglBtnChangeNotification.setSelected(loggedInUser.areNotificationsActivated());
+        ButtonText.setNotificationsButtonText();
 
     }
 
@@ -48,12 +49,12 @@ public class SettingsTabController {
     @FXML
     public void changeNotificationsSetting() {
         Thread changeNotificationsThread = new Thread(() -> {
-            Message notificationRequest = new Message("change notifications", changeNotifications.isSelected(), LoggedInUser.getInstance().getUser());
+            Message notificationRequest = new Message("change notifications", tglBtnChangeNotification.isSelected(), LoggedInUser.getInstance().getUser());
             ClientConnection connection = new ClientConnection();
             Message notificationResponse = connection.makeRequest(notificationRequest);
             if(notificationResponse != null) {
                 if(notificationResponse.isSuccess()) {
-                    LoggedInUser.getInstance().getUser().setIsNotificationsActivated(changeNotifications.isSelected());
+                    LoggedInUser.getInstance().getUser().setIsNotificationsActivated(tglBtnChangeNotification.isSelected());
                     PopupBox popupBox = new PopupBox();
                     Platform.runLater(() -> popupBox.display("Notification settings changed"));
                 } else {
@@ -64,19 +65,21 @@ public class SettingsTabController {
             }
         });
         changeNotificationsThread.start();
-        setNotificationsButtonText();
+        ButtonText.setNotificationsButtonText();
         mainPaneController.getHomePaneController().createCurrentUserLibraryFromDB();
 
     }
 
-    private void setNotificationsButtonText() {
-        if(changeNotifications.isSelected()) {
-            changeNotifications.setText("On");
+    //TODO: Kolla med gruppen om de vill att denna logik ska flyttas! Eftersom den är kopplad med FXML-filen till denna controller+variabler.
+    //TODO: Om ja: fixa så det blir rätt anrop på rad 40 & 68
+    /*private void setNotificationsButtonText() {
+        if(tglBtnChangeNotification.isSelected()) {
+            tglBtnChangeNotification.setText("On");
         }
         else {
-            changeNotifications.setText("Off");
+            tglBtnChangeNotification.setText("Off");
         }
-    }
+    }*/
 
     /**
      * Method that handles actions when a user clicks button to delete account.
