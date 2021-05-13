@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import se.myhappyplants.client.controller.PlantsTabController;
+import se.myhappyplants.client.controller.SearchTabController;
 
 import se.myhappyplants.shared.Plant;
 
@@ -28,7 +28,7 @@ public class SearchPlantPane extends Pane {
     private Button addButton;
 
     private Plant plant;
-    private PlantsTabController plantsTabController;
+    private SearchTabController searchTabController;
     private ListView listView;
     private ImageView imgViewPlusSign;
     private boolean gotInfoOnPlant;
@@ -37,8 +37,8 @@ public class SearchPlantPane extends Pane {
 
     private boolean extended;
 
-    public SearchPlantPane(PlantsTabController plantsTabController, String imgPath, Plant plant) {
-        this.plantsTabController = plantsTabController;
+    public SearchPlantPane(SearchTabController searchTabController, String imgPath, Plant plant) {
+        this.searchTabController = searchTabController;
         this.plant = plant;
         initImage(imgPath);
         initCommonName();
@@ -85,7 +85,7 @@ public class SearchPlantPane extends Pane {
             infoButton.setDisable(true);
             if (!extended) {
                 if (!gotInfoOnPlant) {
-                    getAllPlantInfo = plantsTabController.getMorePlantInfo(plant);
+                    getAllPlantInfo = searchTabController.getMorePlantInfo(plant);
                     listView.setItems(getAllPlantInfo);
 
                 }
@@ -102,7 +102,7 @@ public class SearchPlantPane extends Pane {
         addButton.setLayoutX(705.0);
         addButton.setLayoutY(16.0);
         addButton.setMnemonicParsing(false);
-        addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(plant));
+        addButton.setOnAction(action -> searchTabController.addPlantToCurrentUserLibrary(plant));
     }
 
     private void initImgViewPlusSign() {

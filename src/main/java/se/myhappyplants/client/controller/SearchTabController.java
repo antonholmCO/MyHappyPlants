@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
  */
 
-public class PlantsTabController {
+public class SearchTabController {
 
     @FXML
     private MainPaneController mainPaneController;

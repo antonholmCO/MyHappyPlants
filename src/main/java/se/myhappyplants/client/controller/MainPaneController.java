@@ -18,7 +18,7 @@ public class MainPaneController {
     @FXML
     private MyPlantsTabController homePaneController;
     @FXML
-    private PlantsTabController plantsPaneController;
+    private SearchTabController plantsPaneController;
     @FXML
     private SettingsTabController settingsPaneController;
 
@@ -62,5 +62,5 @@ public class MainPaneController {
         settingsPaneController.updateAvatar();
     }
 
-    
+
 }

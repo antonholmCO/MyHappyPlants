@@ -9,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.MyPlantsTabController;
-import se.myhappyplants.client.controller.PlantsTabController;
 import se.myhappyplants.shared.Plant;
 
 import java.io.File;
