@@ -37,10 +37,13 @@ public class SettingsTabController {
         lblUserName.setText(loggedInUser.getUsername());
         imgViewUserPicture.setImage(new Image(loggedInUser.getAvatarURL()));
         tglBtnChangeNotification.setSelected(loggedInUser.areNotificationsActivated());
-        ButtonText.setNotificationsButtonText();
+        ButtonText.setNotificationsButtonText(this);
+        //setNotificationsButtonText();
 
     }
-
+    public ToggleButton getTglBtnChangeNotification() {
+        return tglBtnChangeNotification;
+    }
 
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
@@ -65,21 +68,22 @@ public class SettingsTabController {
             }
         });
         changeNotificationsThread.start();
-        ButtonText.setNotificationsButtonText();
+        ButtonText.setNotificationsButtonText(this);
+        //setNotificationsButtonText();
         mainPaneController.getHomePaneController().createCurrentUserLibraryFromDB();
 
     }
 
     //TODO: Kolla med gruppen om de vill att denna logik ska flyttas! Eftersom den är kopplad med FXML-filen till denna controller+variabler.
     //TODO: Om ja: fixa så det blir rätt anrop på rad 40 & 68
-    /*private void setNotificationsButtonText() {
+    private void setNotificationsButtonText() {
         if(tglBtnChangeNotification.isSelected()) {
             tglBtnChangeNotification.setText("On");
         }
         else {
             tglBtnChangeNotification.setText("Off");
         }
-    }*/
+    }
 
     /**
      * Method that handles actions when a user clicks button to delete account.
