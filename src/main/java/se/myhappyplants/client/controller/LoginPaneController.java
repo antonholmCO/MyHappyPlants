@@ -10,6 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import se.myhappyplants.client.model.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.model.Verifier;
 import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.client.view.MessageBox;
@@ -37,6 +38,8 @@ public class LoginPaneController {
     @FXML
     private PasswordField passFldNewPassword1;
 
+    private Verifier verifier;
+
     /**
      * Switches to 'logged in' scene
      *
@@ -45,7 +48,7 @@ public class LoginPaneController {
     @FXML
     public void initialize() {
         String lastLoggedInUser;
-
+        verifier = new Verifier();
         try (BufferedReader br = new BufferedReader(new FileReader("resources/lastLogin.txt"));) {
             lastLoggedInUser = br.readLine();
             txtFldEmail.setText(lastLoggedInUser);
@@ -98,7 +101,7 @@ public class LoginPaneController {
     @FXML
     private void registerButtonPressed() {
         Thread registerThread = new Thread(() -> {
-            if (!validateRegistration()) {
+            if (!verifier.validateRegistration()) {
                 return;
             }
             Message registerRequest = new Message("register", new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
@@ -125,10 +128,11 @@ public class LoginPaneController {
         registerThread.start();
     }
 
+    //TODO: Ta upp med gruppen om flyttad logik till klassen Verifier. Denna ger nullvärden på de varibaler som är kopplade till FXML.
     /**
      * @return
      */
-    private boolean validateRegistration() {
+    /*private boolean validateRegistration() {
         String email = txtFldNewEmail.getText();
         if (!validateEmail(email)) {
             Platform.runLater(() -> MessageBox.display("Couldn’t create account", "Please enter your email address in format: yourname@example.com"));
@@ -151,7 +155,7 @@ public class LoginPaneController {
             return false;
         }
         return true;
-    }
+    }*/
 
     /**
      * Method for validating an email by checking that it contains @
@@ -159,10 +163,10 @@ public class LoginPaneController {
      * @param email input email from user in application
      * @return true if the email contains @, false if it is not valid
      */
-    private boolean validateEmail(String email) {
+    /*private boolean validateEmail(String email) {
         final String regex = "^(.+)@(.+)$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
-    }
+    }*/
 }

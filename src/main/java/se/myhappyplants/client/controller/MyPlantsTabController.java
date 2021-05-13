@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.model.PictureRandomizer;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.Plant;
@@ -23,6 +24,8 @@ import java.util.Random;
 
 /**
  * Controller with logic used by the "Home" tab
+ * Created by:
+ * Updated by: Linn Borgström, 2021-05-13
  */
 public class MyPlantsTabController {
 
@@ -60,7 +63,7 @@ public class MyPlantsTabController {
             obsListLibraryPlantPane.add(new LibraryPlantPane());
         } else {
             for (Plant plant : currentUserLibrary) {
-                obsListLibraryPlantPane.add(new LibraryPlantPane(this, getRandomImagePath(), plant));
+                obsListLibraryPlantPane.add(new LibraryPlantPane(this, PictureRandomizer.getRandomPicture(), plant));
             }
         }
         Platform.runLater(() -> lstViewUserPlantLibrary.setItems(obsListLibraryPlantPane));
@@ -71,7 +74,9 @@ public class MyPlantsTabController {
      *
      * @return
      */
-    private String getRandomImagePath() {
+    //TODO: Kolla med gruppen om de vill att denna logic ska flyttas! Om nej: ändra tillbaka anropet på rad 64
+    /*private String getRandomImagePath() {
+
         Random random = new Random();
         switch (1 + random.nextInt(8)) {
             case 1:
@@ -93,26 +98,26 @@ public class MyPlantsTabController {
             default:
                 return "resources/images/blomma21.jpg";
         }
-    }
+    }*/
 
     public void showNotifications () {
-        ObservableList<String> notificationString = FXCollections.observableArrayList();
+        ObservableList<String> notificationStrings = FXCollections.observableArrayList();
         if (LoggedInUser.getInstance().getUser().areNotificationsActivated()) {
             int plantsThatNeedWater = 0;
             for (Plant plant : currentUserLibrary) {
                 if (plant.getProgress() < 0.25) {
                     plantsThatNeedWater++;
-                    notificationString.add(plant.getNickname() + " needs water");
+                    notificationStrings.add(plant.getNickname() + " needs water");
                 }
             }
             if (plantsThatNeedWater == 0) {
-                notificationString.add("All your plants are watered");
+                notificationStrings.add("All your plants are watered");
             }
         }
         else {
-            notificationString.add("");
+            notificationStrings.add("");
         }
-        Platform.runLater(() -> lstViewNotifications.setItems(notificationString));
+        Platform.runLater(() -> lstViewNotifications.setItems(notificationStrings));
     }
     @FXML
     public void createCurrentUserLibraryFromDB() {
