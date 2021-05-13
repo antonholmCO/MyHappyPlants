@@ -24,6 +24,10 @@ public class StartClient extends Application {
     private static Scene scene;
     private static Stage window;
 
+    public static Stage getStage() {
+        return window;
+    }
+
 
     /**
      * Starts the application by opening window. Method handles close on request.
