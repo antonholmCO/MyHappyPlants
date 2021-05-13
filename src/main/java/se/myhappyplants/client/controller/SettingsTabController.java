@@ -14,6 +14,8 @@ import se.myhappyplants.client.view.ButtonText;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.MessageType;
+import se.myhappyplants.shared.SetAvatar;
 import se.myhappyplants.shared.User;
 
 import java.io.BufferedWriter;
@@ -30,12 +32,14 @@ public class SettingsTabController {
     @FXML private ImageView imgViewUserPicture;
     @FXML private Label lblUserName;
     @FXML private PasswordField passFldDeleteAccount;
+    private MessageType messageType;
 
     @FXML
     public void initialize() {
         User loggedInUser = LoggedInUser.getInstance().getUser();
         lblUserName.setText(loggedInUser.getUsername());
-        imgViewUserPicture.setImage(new Image(loggedInUser.getAvatarURL()));
+        //imgViewUserPicture.setImage(new Image(loggedInUser.getAvatarURL()));
+        imgViewUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getEmail())));
         tglBtnChangeNotification.setSelected(loggedInUser.areNotificationsActivated());
         ButtonText.setNotificationsButtonText(this);
         //setNotificationsButtonText();
@@ -52,7 +56,7 @@ public class SettingsTabController {
     @FXML
     public void changeNotificationsSetting() {
         Thread changeNotificationsThread = new Thread(() -> {
-            Message notificationRequest = new Message("change notifications", tglBtnChangeNotification.isSelected(), LoggedInUser.getInstance().getUser());
+            Message notificationRequest = new Message(messageType.changeNotifications, tglBtnChangeNotification.isSelected(), LoggedInUser.getInstance().getUser());
             ClientConnection connection = new ClientConnection();
             Message notificationResponse = connection.makeRequest(notificationRequest);
             if(notificationResponse != null) {
@@ -75,7 +79,7 @@ public class SettingsTabController {
     }
 
     //TODO: Kolla med gruppen om de vill att denna logik ska flyttas! Eftersom den är kopplad med FXML-filen till denna controller+variabler.
-    //TODO: Om ja: fixa så det blir rätt anrop på rad 40 & 68
+    //TODO: Om ja: fixa så det blir rätt anrop på rad ca. 44 & 75(samma metodnamn som nedan)
     private void setNotificationsButtonText() {
         if(tglBtnChangeNotification.isSelected()) {
             tglBtnChangeNotification.setText("On");
@@ -93,7 +97,7 @@ public class SettingsTabController {
         int answer = MessageBox.askYesNo("Delete account", "Are you sure you want to delete your account? \n All your personal information will be deleted. \nA deleted account can't be restored. ");
         if (answer == 1) {
             Thread deleteAccountThread = new Thread(() -> {
-                Message deleteMessage = new Message("delete account", new User(LoggedInUser.getInstance().getUser().getEmail(), passFldDeleteAccount.getText()));
+                Message deleteMessage = new Message(messageType.deleteAccount, new User(LoggedInUser.getInstance().getUser().getEmail(), passFldDeleteAccount.getText()));
                 ClientConnection connection = new ClientConnection();
                 Message deleteResponse = connection.makeRequest(deleteMessage);
                 if (deleteResponse != null) {

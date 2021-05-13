@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Message implements Serializable {
 
-    private String messageType;
+    private MessageType messageType;
     private boolean notifications;
     private String messageText;
     private String[] stringArray;
@@ -25,53 +25,53 @@ public class Message implements Serializable {
     private String newNickname;
     private ArrayList<Plant> userLibrary;
 
-    public Message(String messageType, String messageText) {
+    public Message(MessageType messageType, String messageText) {
         this.messageType = messageType;
         this.messageText = messageText;
     }
 
-    public Message(String messageType, User user) {
+    public Message(MessageType messageType, User user) {
 
         this.messageType = messageType;
         this.user = user;
     }
 
-    public Message(String messageType, String[] message) {
+    public Message(MessageType messageType, String[] message) {
         this.messageType = messageType;
         stringArray = message;
     }
 
-    public Message(String messageType, boolean success) {
+    public Message(MessageType messageType, boolean success) {
         this.messageType = messageType;
         this.success = success;
     }
 
-    public Message(String messageType, User user, boolean success) {
+    public Message(MessageType messageType, User user, boolean success) {
         this(messageType, success);
         this.user = user;
     }
 
-    public Message(String messageType, User user, ArrayList<Plant> plantLibrary, boolean success) {
+    public Message(MessageType messageType, User user, ArrayList<Plant> plantLibrary, boolean success) {
         this(messageType, user, success);
         this.plantLibrary = plantLibrary;
     }
 
-    public Message(String messageType, ArrayList<Plant> plantList, boolean success) {
+    public Message(MessageType messageType, ArrayList<Plant> plantList, boolean success) {
         this(messageType, success);
         this.plantList = plantList;
     }
 
-    public Message(String messageType, User user, Plant plant) {
+    public Message(MessageType messageType, User user, Plant plant) {
         this(messageType, user);
         this.plant = plant;
     }
 
-    public Message(String messageType, Plant plant) {
+    public Message(MessageType messageType, Plant plant) {
         this.messageType = messageType;
         this.plant = plant;
     }
 
-    public Message(String messageType, boolean notifications, User user) {
+    public Message(MessageType messageType, boolean notifications, User user) {
         this.messageType = messageType;
         this.notifications = notifications;
         this.user = user;
@@ -81,14 +81,14 @@ public class Message implements Serializable {
         return stringArray;
     }
 
-    public Message(String messageType, User user, Plant plant, LocalDate date) {
+    public Message(MessageType messageType, User user, Plant plant, LocalDate date) {
         this.messageType = messageType;
         this.user = user;
         this.plant = plant;
         this.date = date;
     }
 
-    public Message(String messageType, User user, Plant plant, String newNickname) {
+    public Message(MessageType messageType, User user, Plant plant, String newNickname) {
         this.messageType = messageType;
         this.user = user;
         this.plant = plant;
@@ -99,7 +99,7 @@ public class Message implements Serializable {
         return newNickname;
     }
 
-    public String getMessageType() {
+    public MessageType getMessageType() {
         return messageType;
     }
 

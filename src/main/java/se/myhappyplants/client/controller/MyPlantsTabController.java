@@ -13,8 +13,10 @@ import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.PictureRandomizer;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.SetAvatar;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -39,13 +41,14 @@ public class MyPlantsTabController {
     @FXML private ListView lstViewUserPlantLibrary;
 
     @FXML private ListView lstViewNotifications;
+    private MessageType messageType;
 
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameMyPlants.setText(loggedInUser.getUser().getUsername());
-        imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
-
+        //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+        imgUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail())));
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
 
@@ -121,7 +124,7 @@ public class MyPlantsTabController {
     @FXML
     public void createCurrentUserLibraryFromDB() {
         Thread getLibraryThread = new Thread(() -> {
-            Message getLibrary = new Message("getLibrary", LoggedInUser.getInstance().getUser());
+            Message getLibrary = new Message(messageType.getLibrary, LoggedInUser.getInstance().getUser());
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(getLibrary);
 
@@ -141,7 +144,7 @@ public class MyPlantsTabController {
         Thread removePlantThread = new Thread(() -> {
             currentUserLibrary.remove(plant);
             addCurrentUserLibraryToHomeScreen();
-            Message deletePlant = new Message("deletePlantFromLibrary", LoggedInUser.getInstance().getUser(), plant);
+            Message deletePlant = new Message(MessageType.deletePlantFromLibrary, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(deletePlant);
             if (!response.isSuccess()) {
@@ -173,7 +176,7 @@ public class MyPlantsTabController {
         Thread addPlantThread = new Thread(() -> {
             currentUserLibrary.add(plant);
             addCurrentUserLibraryToHomeScreen();
-            Message savePlant = new Message("savePlant", LoggedInUser.getInstance().getUser(), plant);
+            Message savePlant = new Message(MessageType.savePlant, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(savePlant);
             if (!response.isSuccess()) {
@@ -196,7 +199,7 @@ public class MyPlantsTabController {
      * @param date  new date to change to
      */
     public void changeLastWateredInDB(Plant plant, LocalDate date) {
-        Message changeLastWatered = new Message("changeLastWatered", LoggedInUser.getInstance().getUser(), plant, date);
+        Message changeLastWatered = new Message(messageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
         Message response = new ClientConnection().makeRequest(changeLastWatered);
         if (!response.isSuccess()) {
             MessageBox.display("Couldn’t change date", "The connection to the server has failed. Check your connection and try again.");
@@ -210,7 +213,7 @@ public class MyPlantsTabController {
      * @return
      */
     public boolean changeNicknameInDB(Plant plant, String newNickname) {
-        Message changeNicknameInDB = new Message("changeNickname", LoggedInUser.getInstance().getUser(), plant, newNickname);
+        Message changeNicknameInDB = new Message(MessageType.changeNickname, LoggedInUser.getInstance().getUser(), plant, newNickname);
         Message response = new ClientConnection().makeRequest(changeNicknameInDB);
         if (!response.isSuccess()) {
             MessageBox.display("Couldn’t change nickname", "The connection to the server has failed. Check your connection and try again.");

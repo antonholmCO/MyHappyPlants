@@ -12,6 +12,7 @@ import se.myhappyplants.client.model.Verifier;
 import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.User;
 
 /**
@@ -37,6 +38,7 @@ public class LoginPaneController {
     private PasswordField passFldNewPassword1;
 
     private Verifier verifier;
+    private MessageType messageType;
 
     /**
      * Switches to 'logged in' scene
@@ -70,7 +72,7 @@ public class LoginPaneController {
     @FXML
     private void loginButtonPressed() {
         Thread loginThread = new Thread(() -> {
-            Message loginMessage = new Message("login", new User(txtFldEmail.getText(), passFldPassword.getText()));
+            Message loginMessage = new Message(messageType.login, new User(txtFldEmail.getText(), passFldPassword.getText()));
             ClientConnection connection = new ClientConnection();
             Message loginResponse = connection.makeRequest(loginMessage);
 
@@ -102,7 +104,7 @@ public class LoginPaneController {
             if (!verifier.validateRegistration()) {
                 return;
             }
-            Message registerRequest = new Message("register", new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
+            Message registerRequest = new Message(messageType.register, new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
             ClientConnection connection = new ClientConnection();
             Message registerResponse = connection.makeRequest(registerRequest);
 

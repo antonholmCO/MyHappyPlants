@@ -15,7 +15,9 @@ import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
 import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.SetAvatar;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,12 +42,14 @@ public class SearchTabController {
     private ListView listViewResult;
     @FXML
     private ProgressIndicator progressIndicator;
+    private MessageType messageType;
 
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernamePlants.setText(loggedInUser.getUser().getUsername());
-        imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+        //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+        imgUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail())));
     }
 
     public void setMainController(MainPaneController mainPaneController) {
@@ -94,7 +98,7 @@ public class SearchTabController {
     @FXML
     private void searchButtonPressed() {
         Thread searchThread = new Thread(() -> {
-            Message apiRequest = new Message("search", txtFldSearchText.getText());
+            Message apiRequest = new Message(messageType.search, txtFldSearchText.getText());
             progressIndicator.setProgress(25);
             ClientConnection connection = new ClientConnection();
             Message apiResponse = connection.makeRequest(apiRequest);
@@ -119,7 +123,7 @@ public class SearchTabController {
     }
 
     public ObservableList<String> getMorePlantInfo(Plant plant) {
-        Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", plant);
+        Message getInfoSearchedPlant = new Message(messageType.getMorePlantInfoOnSearch, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
         if (response != null) {

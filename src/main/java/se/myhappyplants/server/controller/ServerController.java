@@ -4,6 +4,7 @@ import se.myhappyplants.server.services.PlantRepository;
 import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.server.services.UserRepository;
 import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
 
@@ -34,82 +35,82 @@ public class ServerController {
     public Message getResponse(Message request) throws IOException, InterruptedException {
 
         Message response;
-        String messageType = request.getMessageType();
+        MessageType messageType = request.getMessageType();
 
         switch (messageType) {
-            case "login":
+            case login:
                 String email = request.getUser().getEmail();
                 String password = request.getUser().getPassword();
 
                 boolean loginSuccess = userRepository.checkLogin(email, password);
                 if (loginSuccess) {
                     User user = userRepository.getUserDetails(email);
-                    response = new Message("login", user, true);
+                    response = new Message(messageType.login, user, true);
                 }
                 else {
-                    response = new Message("login", false);
+                    response = new Message(messageType.login, false);
                 }
                 break;
-            case "register":
+            case register:
                 User user = request.getUser();
                 if (userRepository.saveUser(user)) {
                     User savedUser = userRepository.getUserDetails(user.getEmail());
-                    response = new Message("registration", savedUser, true);
+                    response = new Message(messageType.register, savedUser, true);
                 }
                 else {
-                    response = new Message("registration", false);
+                    response = new Message(messageType.register, false);
                 }
                 break;
-            case "delete account":
+            case deleteAccount:
                 User userToDelete = request.getUser();
                 if (userRepository.deleteAccount(userToDelete.getEmail(), userToDelete.getPassword())) {
-                    response = new Message("delete account", true);
+                    response = new Message(messageType.deleteAccount, true);
                 }
                 else {
-                    response = new Message("delete account", false);
+                    response = new Message(MessageType.deleteAccount, false);
                 }
                 break;
-            case "search":
+            case search:
                 try {
                     ArrayList<Plant> plantList = plantRepository.getResult(request.getMessageText());
-                    response = new Message("search", plantList, true);
+                    response = new Message(messageType.search, plantList, true);
                 }
                 catch (Exception e) {
-                    response = new Message("search", false);
+                    response = new Message(messageType.search, false);
                     e.printStackTrace();
                 }
                 break;
-            case "getLibrary":
+            case getLibrary:
                 ArrayList<Plant> userLibrary = userPlantRepository.getUserLibrary(request.getUser());
                 User user1 = request.getUser();
-                response = new Message("library", user1, userLibrary, true);
+                response = new Message(messageType.getLibrary, user1, userLibrary, true);
                 break;
-            case "change notifications":
+            case changeNotifications:
                 boolean changeNotificationsSuccess = userRepository.changeNotifications(request.getUser(), request.getNotifications());
-                response = new Message("change notifications", changeNotificationsSuccess);
+                response = new Message(messageType.changeNotifications, changeNotificationsSuccess);
                 break;
-            case "savePlant":
+            case savePlant:
                 boolean saveSuccess = userPlantRepository.savePlant(request.getUser(), request.getDbPlant());
-                response = new Message("success", saveSuccess);
+                response = new Message(messageType.success, saveSuccess);
                 break;
-            case "deletePlantFromLibrary":
+            case deletePlantFromLibrary:
                 boolean deleteSuccess = userPlantRepository.deletePlant(request.getUser(), request.getDbPlant().getNickname());
-                response = new Message("success", deleteSuccess);
+                response = new Message(messageType.success, deleteSuccess);
                 break;
-            case "getMorePlantInfoOnSearch":
+            case getMorePlantInfoOnSearch:
                 String[] message = plantRepository.getMoreInformation(request.getPlant());
-                response = new Message("waterLightInfo", message);
+                response = new Message(messageType.waterLightInfo, message);
                 break;
-            case "changeLastWatered":
+            case changeLastWatered:
                 boolean changeDateSuccess = userPlantRepository.changeLastWatered(request.getUser(), request.getDbPlant().getNickname(), request.getDate());
-                response = new Message("success", changeDateSuccess);
+                response = new Message(messageType.success, changeDateSuccess);
                 break;
-            case "changeNickname":
+            case changeNickname:
                 boolean changeNicknameSuccess = userPlantRepository.changeNickname(request.getUser(), request.getDbPlant().getNickname(), request.getNewNickname());
-                response = new Message("success", changeNicknameSuccess);
+                response = new Message(messageType.success, changeNicknameSuccess);
                 break;
             default:
-                response = new Message("fail", false);
+                response = new Message(messageType.fail, false);
         }
         return response;
     }

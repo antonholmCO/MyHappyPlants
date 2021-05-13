@@ -38,21 +38,21 @@ public class User implements Serializable {
      * @param username
      * @param isNotificationsActivated
      */
-    public User(String email, String username, boolean isNotificationsActivated) {
+    /*public User(String email, String username, boolean isNotificationsActivated) {
         this.email = email;
         this.username = username;
         this.isNotificationsActivated = isNotificationsActivated;
-        setAvatarOnLogin(email);
-    }
+        SetAvatar.setAvatarOnLogin(email, avatarURL);
+    }*/
 
     /**
      * Simple constructor for when login/registration requests fail
      *
      * @param username
      */
-    public User(String username) {
+    /*public User(String username) {
         this.username = username;
-    }
+    }*/
 
     /**
      * Simple constructor for login requests
@@ -70,9 +70,8 @@ public class User implements Serializable {
         this.email = email;
         this.username = username;
         this.isNotificationsActivated = notificationsActivated;
-        setAvatarOnLogin(email);
+        //setAvatarOnLogin(email);
     }
-
     private void setAvatarOnLogin(String email) {
         try (BufferedReader br = new BufferedReader(new FileReader("resources/images/user_avatars/" + email + "_avatar.txt"))) {
             String readtxt = br.readLine();
@@ -82,6 +81,8 @@ public class User implements Serializable {
             this.avatarURL = new File("resources/images/user_default_img.png").toURI().toString();
         }
     }
+
+
 
     public int getUniqueId() {
         return uniqueId;
