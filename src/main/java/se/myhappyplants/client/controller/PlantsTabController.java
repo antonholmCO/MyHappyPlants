@@ -37,7 +37,7 @@ public class PlantsTabController {
     @FXML
     private TextField txtFldSearchText;
     @FXML
-    private ListView resultPane;
+    private ListView listViewResult;
     @FXML
     private ProgressIndicator progressIndicator;
 
@@ -131,6 +131,6 @@ public class PlantsTabController {
     }
 
     public void updateAvatar() {
-        imgViewUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
     }
 }

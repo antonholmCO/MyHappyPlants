@@ -43,8 +43,8 @@ public class HomeTabController {
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
-        lblUsernameHome.setText(loggedInUser.getUser().getUsername());
-        imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+        this.lblUsernameHome.setText(loggedInUser.getUser().getUsername());
+        this.imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
 
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
@@ -59,13 +59,13 @@ public class HomeTabController {
     public void addCurrentUserLibraryToHomeScreen() {
         ObservableList<LibraryPlantPane> obsListLibraryPlantPane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
-            plantPane.add(new LibraryPlantPane());
+            obsListLibraryPlantPane.add(new LibraryPlantPane());
         } else {
             for (Plant plant : currentUserLibrary) {
                 obsListLibraryPlantPane.add(new LibraryPlantPane(this, plantsTabController, getRandomImagePath(), plant));
             }
         }
-        Platform.runLater(() -> userPlantLibrary.setItems(plantPane));
+        Platform.runLater(() -> userPlantLibrary.setItems(obsListLibraryPlantPane));
     }
 
     /**
@@ -220,6 +220,6 @@ public class HomeTabController {
     }
 
     public void updateAvatar() {
-        imgViewUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
     }
 }
