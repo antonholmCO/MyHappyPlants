@@ -56,7 +56,7 @@ public class LoginPaneController {
     }
 
     @FXML
-    private void switchToSecondary() throws IOException {
+    private void switchToMainPane() throws IOException {
         StartClient.setRoot("mainPane");
     }
 
@@ -79,7 +79,7 @@ public class LoginPaneController {
                     PopupBox popupBox = new PopupBox();
                     Platform.runLater(() -> popupBox.display("Now logged in as\n" + LoggedInUser.getInstance().getUser().getUsername()));
                     try {
-                        switchToSecondary();
+                        switchToMainPane();
                     }
                     catch (IOException e) {
                         e.printStackTrace();
@@ -98,7 +98,7 @@ public class LoginPaneController {
     @FXML
     private void registerButtonPressed() {
         Thread registerThread = new Thread(() -> {
-            if (!validateAndDisplayErrors()) {
+            if (!validateRegistration()) {
                 return;
             }
             Message registerRequest = new Message("register", new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
@@ -110,7 +110,7 @@ public class LoginPaneController {
                     LoggedInUser.getInstance().setUser(registerResponse.getUser());
                     Platform.runLater(() -> MessageBox.display("Success", "Account created successfully! Now logged in as " + LoggedInUser.getInstance().getUser().getUsername()));
                     try {
-                        switchToSecondary();
+                        switchToMainPane();
                     }
                     catch (IOException e) {
                         e.printStackTrace();
@@ -128,7 +128,7 @@ public class LoginPaneController {
     /**
      * @return
      */
-    private boolean validateAndDisplayErrors() {
+    private boolean validateRegistration() {
         String email = txtFldNewEmail.getText();
         if (!validateEmail(email)) {
             Platform.runLater(() -> MessageBox.display("Couldn’t create account", "Please enter your email address in format: yourname@example.com"));

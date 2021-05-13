@@ -57,12 +57,12 @@ public class HomeTabController {
 
     @FXML
     public void addCurrentUserLibraryToHomeScreen() {
-        ObservableList<LibraryPlantPane> plantPane = FXCollections.observableArrayList();
+        ObservableList<LibraryPlantPane> obsListLibraryPlantPane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
             plantPane.add(new LibraryPlantPane());
         } else {
             for (Plant plant : currentUserLibrary) {
-                plantPane.add(new LibraryPlantPane(this, plantsTabController, getRandomImagePath(), plant));
+                obsListLibraryPlantPane.add(new LibraryPlantPane(this, plantsTabController, getRandomImagePath(), plant));
             }
         }
         Platform.runLater(() -> userPlantLibrary.setItems(plantPane));
@@ -151,18 +151,18 @@ public class HomeTabController {
     }
 
     @FXML
-    public void addPlantToCurrentUserLibrary(Plant plantAdd, String plantNickname) {
+    public void addPlantToCurrentUserLibrary(Plant selectedPlant, String plantNickname) {
         int plantsWithThisNickname = 1;
-        String nonDuplicatePlantNickname = plantNickname;
+        String uniqueNickName = plantNickname;
         for (Plant plant : currentUserLibrary) {
-            if (plant.getNickname().equals(nonDuplicatePlantNickname)) {
+            if (plant.getNickname().equals(uniqueNickName)) {
                 plantsWithThisNickname++;
-                nonDuplicatePlantNickname = plantNickname + plantsWithThisNickname;
+                uniqueNickName = plantNickname + plantsWithThisNickname;
             }
         }
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
-        Plant plantToAdd = new Plant(nonDuplicatePlantNickname, plantAdd.getPlantId(), date);
+        Plant plantToAdd = new Plant(uniqueNickName, selectedPlant.getPlantId(), date);
         addPlantToDB(plantToAdd);
     }
 
@@ -220,6 +220,6 @@ public class HomeTabController {
     }
 
     public void updateAvatar() {
-        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+        imgViewUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
     }
 }

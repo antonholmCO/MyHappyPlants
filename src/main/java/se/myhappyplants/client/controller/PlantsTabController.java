@@ -14,7 +14,7 @@ import se.myhappyplants.client.model.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
-import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
 
 import java.io.File;
@@ -71,8 +71,8 @@ public class PlantsTabController {
         for (Plant plant : searchedPlant) {
             searchPlantPanes.add(new SearchPlantPane(this, new File("resources/images/img.png").toURI().toString(), plant));
         }
-        resultPane.getItems().clear();
-        resultPane.setItems(searchPlantPanes);
+        listViewResult.getItems().clear();
+        listViewResult.setItems(searchPlantPanes);
         progressIndicator.setProgress(100);
         Thread imageThread = new Thread(() -> {
             for (SearchPlantPane spp : searchPlantPanes) {
@@ -131,6 +131,6 @@ public class PlantsTabController {
     }
 
     public void updateAvatar() {
-        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+        imgViewUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
     }
 }

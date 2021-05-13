@@ -26,15 +26,15 @@ public class SettingsTabController {
 
     @FXML public ToggleButton changeNotifications;
     @FXML private MainPaneController mainPaneController;
-    @FXML private ImageView imgUserPicture;
-    @FXML private Label lblUsernameSettings;
-    @FXML private PasswordField deleteAccountPassField;
+    @FXML private ImageView imgViewUserPicture;
+    @FXML private Label lblUserName;
+    @FXML private PasswordField passFldDeleteAccount;
 
     @FXML
     public void initialize() {
         User loggedInUser = LoggedInUser.getInstance().getUser();
-        lblUsernameSettings.setText(loggedInUser.getUsername());
-        imgUserPicture.setImage(new Image(loggedInUser.getAvatarURL()));
+        lblUserName.setText(loggedInUser.getUsername());
+        imgViewUserPicture.setImage(new Image(loggedInUser.getAvatarURL()));
         changeNotifications.setSelected(loggedInUser.areNotificationsActivated());
         setNotificationsButtonText();
 
@@ -86,7 +86,7 @@ public class SettingsTabController {
         int answer = MessageBox.askYesNo("Delete account", "Are you sure you want to delete your account? \n All your personal information will be deleted. \nA deleted account can't be restored. ");
         if (answer == 1) {
             Thread deleteAccountThread = new Thread(() -> {
-                Message deleteMessage = new Message("delete account", new User(LoggedInUser.getInstance().getUser().getEmail(), deleteAccountPassField.getText()));
+                Message deleteMessage = new Message("delete account", new User(LoggedInUser.getInstance().getUser().getEmail(), passFldDeleteAccount.getText()));
                 ClientConnection connection = new ClientConnection();
                 Message deleteResponse = connection.makeRequest(deleteMessage);
                 if (deleteResponse != null) {
@@ -115,7 +115,7 @@ public class SettingsTabController {
     }
 
     public void updateAvatar() {
-        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+        imgViewUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
     }
 
     /**
