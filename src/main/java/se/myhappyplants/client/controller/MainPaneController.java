@@ -58,14 +58,6 @@ public class MainPaneController {
         StartClient.setRoot(String.valueOf(RootName.loginPane));
     }
 
-    public static void makeAvatarRound(ImageView imgUserPicture) {
-        Rectangle clip = new Rectangle(
-                imgUserPicture.getFitWidth(), imgUserPicture.getFitHeight()
-        );
-        clip.setArcWidth(45);
-        clip.setArcHeight(45);
-        imgUserPicture.setClip(clip);
-    }
 
     public void updateAvatarOnAllTabs() {
         homePaneController.updateAvatar();

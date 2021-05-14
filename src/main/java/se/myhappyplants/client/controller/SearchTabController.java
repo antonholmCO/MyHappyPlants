@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.model.ListSorter;
 import se.myhappyplants.client.model.SortingOption;
@@ -33,7 +35,7 @@ public class SearchTabController {
     @FXML
     private MainPaneController mainPaneController;
     @FXML
-    private ImageView imgUserPicture;
+    private Circle imgUserPicture;
     @FXML
     private Label lblUsernamePlants;
     @FXML
@@ -52,9 +54,7 @@ public class SearchTabController {
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernamePlants.setText(loggedInUser.getUser().getUsername());
-        //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
-        imgUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail())));
-        MainPaneController.makeAvatarRound(imgUserPicture);
+        imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
         cmbSortOption.setItems(ListSorter.sortOptionsSearch());
     }
 
@@ -150,6 +150,6 @@ public class SearchTabController {
     }
 
     public void updateAvatar() {
-        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+        imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 }
