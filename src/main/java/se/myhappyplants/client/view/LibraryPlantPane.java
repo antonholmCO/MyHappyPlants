@@ -22,9 +22,10 @@ import java.util.concurrent.atomic.AtomicReference;
  * Created by: Christopher O'Driscoll
  * Updated by: Frida Jacobsson
  */
-public class LibraryPlantPane extends Pane {
+public class LibraryPlantPane extends Pane implements PlantPane{
 
     private MyPlantsTabController myPlantsTabController;
+    private Plant plant;
     private ImageView image;
     private Label nickname;
     private Label lastWateredLabel;
@@ -73,6 +74,7 @@ public class LibraryPlantPane extends Pane {
      */
     public LibraryPlantPane(MyPlantsTabController myPlantsTabController, String imgPath, Plant plant) {
         this.myPlantsTabController = myPlantsTabController;
+        this.plant = plant;
         this.setStyle("-fx-background-color: #FFFFFF;");
         this.image = new ImageView();
         initImages(imgPath);
@@ -297,5 +299,10 @@ public class LibraryPlantPane extends Pane {
         progressBar.setProgress(plant.getProgress());
         setColorProgressBar(plant.getProgress());
         myPlantsTabController.changeLastWateredInDB(plant, date);
+    }
+
+    @Override
+    public Plant getPlant() {
+        return plant;
     }
 }

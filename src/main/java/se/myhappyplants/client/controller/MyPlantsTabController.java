@@ -38,11 +38,11 @@ public class MyPlantsTabController {
 
     @FXML private ImageView imgUserPicture;
 
-    @FXML private ComboBox cmbSortOption;
+    @FXML private ComboBox<SortingOption> cmbSortOption;
 
     @FXML private ListView lstViewUserPlantLibrary;
 
-    @FXML private ListView lstViewNotifications;
+    @FXML private ListView<String> lstViewNotifications;
 
 
     @FXML
@@ -209,7 +209,8 @@ public class MyPlantsTabController {
         if (!response.isSuccess()) {
             MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
         }
-        createCurrentUserLibraryFromDB();
+        sortLibrary();
+        showNotifications();
     }
 
     /**
@@ -225,18 +226,19 @@ public class MyPlantsTabController {
             return false;
         } else {
             plant.setNickname(newNickname);
+            sortLibrary();
             return true;
         }
     }
     /**
      * rearranges the library based on selected sorting option
      */
-    private void sortLibrary() {
+    public void sortLibrary() {
         SortingOption selectedOption;
-        selectedOption = (SortingOption) cmbSortOption.getValue();
+        selectedOption = cmbSortOption.getValue();
         if(selectedOption==null)
             selectedOption = SortingOption.nickname;
-        currentUserLibrary = ListSorter.sort(selectedOption, currentUserLibrary);
+        lstViewUserPlantLibrary.setItems(ListSorter.sort(selectedOption, lstViewUserPlantLibrary.getItems()));
     }
 
     public void updateAvatar() {

@@ -39,7 +39,7 @@ public class SearchTabController {
     @FXML
     private TextField txtFldSearchText;
     @FXML
-    private ComboBox cmbSortOption;
+    private ComboBox<SortingOption> cmbSortOption;
     @FXML
     private ListView listViewResult;
     @FXML
@@ -84,7 +84,7 @@ public class SearchTabController {
         progressIndicator.setProgress(100);
         Thread imageThread = new Thread(() -> {
             for (SearchPlantPane spp : searchPlantPanes) {
-                Plant Plant = spp.getApiPlant();
+                Plant Plant = spp.getPlant();
                 if (Plant.getImageURL().equals("")) {
                     spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
                 } else {
@@ -139,15 +139,15 @@ public class SearchTabController {
         return waterLightInfo;
     }
     /**
-     * rearranges the library based on selected sorting option
+     * rearranges the results based on selected sorting option
      */
     @FXML
     public void sortResults() {
         SortingOption selectedOption;
-        selectedOption = (SortingOption) cmbSortOption.getValue();
-        searchResults = ListSorter.sort(selectedOption, searchResults);
-        showResultsOnPane();
+        selectedOption = cmbSortOption.getValue();
+        listViewResult.setItems(ListSorter.sort(selectedOption, listViewResult.getItems()));
     }
+
     public void updateAvatar() {
         imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
     }
