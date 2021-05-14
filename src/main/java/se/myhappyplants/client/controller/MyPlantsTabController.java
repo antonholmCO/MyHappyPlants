@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Controller with logic used by the "Home" tab
  * Created by:
- * Updated by: Linn Borgström, 2021-05-13
+ * Updated by: Christopher O'Driscoll, 2021-05-14
  */
 public class MyPlantsTabController {
 
@@ -51,18 +51,10 @@ public class MyPlantsTabController {
         lblUsernameMyPlants.setText(loggedInUser.getUser().getUsername());
         //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
         imgUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail())));
-        cmbSortOption.setItems(ListSorter.sortOptions());
+        cmbSortOption.setItems(ListSorter.sortOptionsLibrary());
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
 
-    }
-
-    @FXML
-    public void sortLibrary() {
-        SortingOption selectedOption;
-        selectedOption = (SortingOption) cmbSortOption.getValue();
-        currentUserLibrary = ListSorter.sort(selectedOption, currentUserLibrary);
-        addCurrentUserLibraryToHomeScreen();
     }
 
     public void setMainController(MainPaneController mainPaneController) {
@@ -76,6 +68,7 @@ public class MyPlantsTabController {
             obsListLibraryPlantPane.add(new LibraryPlantPane());
         }
         else {
+            sortLibrary();
             for (Plant plant : currentUserLibrary) {
                 obsListLibraryPlantPane.add(new LibraryPlantPane(this, PictureRandomizer.getRandomPicture(), plant));
             }
@@ -234,6 +227,16 @@ public class MyPlantsTabController {
             plant.setNickname(newNickname);
             return true;
         }
+    }
+    /**
+     * rearranges the library based on selected sorting option
+     */
+    private void sortLibrary() {
+        SortingOption selectedOption;
+        selectedOption = (SortingOption) cmbSortOption.getValue();
+        if(selectedOption==null)
+            selectedOption = SortingOption.nickname;
+        currentUserLibrary = ListSorter.sort(selectedOption, currentUserLibrary);
     }
 
     public void updateAvatar() {

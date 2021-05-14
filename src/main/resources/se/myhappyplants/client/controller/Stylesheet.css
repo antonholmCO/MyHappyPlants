@@ -80,7 +80,9 @@
         -fx-border-style: none;
         -fx-box-shadow: none;
 }
-
+.combo-box > .list-cell {
+    -fx-padding: 0.2em 0.2em 0.2em 0.2em;
+}
 .list-cell:selected {
     -fx-background: -fx-control-inner-background-alt;
 }
