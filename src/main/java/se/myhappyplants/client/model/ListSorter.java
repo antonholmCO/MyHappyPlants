@@ -3,9 +3,6 @@ package se.myhappyplants.client.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import se.myhappyplants.client.view.PlantPane;
-import se.myhappyplants.shared.Plant;
-
-import java.util.ArrayList;
 
 /**
  * Class that sorts lists of plant panes according to different options
@@ -15,7 +12,6 @@ import java.util.ArrayList;
 public class ListSorter {
 
     private static ObservableList<PlantPane> listToBeSorted;
-    private static ObservableList<PlantPane> sortedList;
 
     /**
      * Creates a list of sorting options for search results
@@ -23,8 +19,8 @@ public class ListSorter {
      */
     public static ObservableList<SortingOption> sortOptionsSearch() {
         ObservableList<SortingOption> sortOptions = FXCollections.observableArrayList();
-        for (SortingOption option: SortingOption.values()) {
-            if(option!=SortingOption.nickname && option!=SortingOption.waterNeed) //null on search results
+        for (SortingOption option : SortingOption.values()) {
+            if (option != SortingOption.nickname && option != SortingOption.waterNeed) //null on search results
                 sortOptions.add(option);
         }
         return sortOptions;
@@ -36,20 +32,23 @@ public class ListSorter {
      */
     public static ObservableList<SortingOption> sortOptionsLibrary() {
         ObservableList<SortingOption> sortOptions = FXCollections.observableArrayList();
-        for (SortingOption option: SortingOption.values()) {
-            if(option!=SortingOption.commonName && option!=SortingOption.scientificName) //null on library plants
-            sortOptions.add(option);
+        for (SortingOption option : SortingOption.values()) {
+            if (option != SortingOption.commonName && option != SortingOption.scientificName) //null on library plants
+                sortOptions.add(option);
         }
         return sortOptions;
     }
+
     /**
      * calls a different sorting technique based on sorting option selected
+     *
      * @param sortOption
      * @param plantList
      * @return
      */
     public static ObservableList<PlantPane> sort(SortingOption sortOption, ObservableList<PlantPane> plantList) {
         listToBeSorted = plantList;
+        ObservableList<PlantPane> sortedList;
         switch (sortOption) {
             case nickname:
                 sortedList = sortByNickname();

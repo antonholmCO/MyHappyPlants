@@ -13,9 +13,9 @@ import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.SetAvatar;
 
 import java.io.IOException;
@@ -32,17 +32,23 @@ public class MyPlantsTabController {
 
     private ArrayList<Plant> currentUserLibrary;
 
-    @FXML private MainPaneController mainPaneController;
+    @FXML
+    private MainPaneController mainPaneController;
 
-    @FXML private Label lblUsernameMyPlants;
+    @FXML
+    private Label lblUsernameMyPlants;
 
-    @FXML private ImageView imgUserPicture;
+    @FXML
+    private ImageView imgUserPicture;
 
-    @FXML private ComboBox<SortingOption> cmbSortOption;
+    @FXML
+    private ComboBox<SortingOption> cmbSortOption;
 
-    @FXML private ListView lstViewUserPlantLibrary;
+    @FXML
+    private ListView lstViewUserPlantLibrary;
 
-    @FXML private ListView<String> lstViewNotifications;
+    @FXML
+    private ListView<String> lstViewNotifications;
 
 
     @FXML
@@ -66,8 +72,7 @@ public class MyPlantsTabController {
         ObservableList<LibraryPlantPane> obsListLibraryPlantPane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
             obsListLibraryPlantPane.add(new LibraryPlantPane());
-        }
-        else {
+        } else {
             sortLibrary();
             for (Plant plant : currentUserLibrary) {
                 obsListLibraryPlantPane.add(new LibraryPlantPane(this, PictureRandomizer.getRandomPicture(), plant));
@@ -106,8 +111,7 @@ public class MyPlantsTabController {
                 return "resources/images/blomma21.jpg";
         }
     }*/
-
-    public void showNotifications () {
+    public void showNotifications() {
         ObservableList<String> notificationStrings = FXCollections.observableArrayList();
         if (LoggedInUser.getInstance().getUser().areNotificationsActivated()) {
             int plantsThatNeedWater = 0;
@@ -120,12 +124,12 @@ public class MyPlantsTabController {
             if (plantsThatNeedWater == 0) {
                 notificationStrings.add("All your plants are watered");
             }
-        }
-        else {
+        } else {
             notificationStrings.add("");
         }
         Platform.runLater(() -> lstViewNotifications.setItems(notificationStrings));
     }
+
     @FXML
     public void createCurrentUserLibraryFromDB() {
         Thread getLibraryThread = new Thread(() -> {
@@ -230,13 +234,14 @@ public class MyPlantsTabController {
             return true;
         }
     }
+
     /**
      * rearranges the library based on selected sorting option
      */
     public void sortLibrary() {
         SortingOption selectedOption;
         selectedOption = cmbSortOption.getValue();
-        if(selectedOption==null)
+        if (selectedOption == null)
             selectedOption = SortingOption.nickname;
         lstViewUserPlantLibrary.setItems(ListSorter.sort(selectedOption, lstViewUserPlantLibrary.getItems()));
     }

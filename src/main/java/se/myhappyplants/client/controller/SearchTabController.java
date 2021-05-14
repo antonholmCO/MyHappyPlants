@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 /**
  * Created by: Christopher O'Driscoll
- * Updated by: Linn Borgström, 2021-05-13
+ * Updated by: Christopher O'Driscoll, 2021-05-14
  */
 
 public class SearchTabController {

@@ -1,5 +1,9 @@
 package se.myhappyplants.client.model;
-
+/**
+ * Enum of different sorting options
+ * Created by: Christopher O'Driscoll
+ * Updated by:
+ */
 public enum SortingOption {
 
     nickname("  Nickname"),
