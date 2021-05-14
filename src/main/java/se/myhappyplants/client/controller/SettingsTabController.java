@@ -40,6 +40,7 @@ public class SettingsTabController {
         lblUserName.setText(loggedInUser.getUsername());
         //imgViewUserPicture.setImage(new Image(loggedInUser.getAvatarURL()));
         imgViewUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getEmail())));
+        MainPaneController.makeAvatarRound(imgViewUserPicture);
         tglBtnChangeNotification.setSelected(loggedInUser.areNotificationsActivated());
         ButtonText.setNotificationsButtonText(this);
         //setNotificationsButtonText();

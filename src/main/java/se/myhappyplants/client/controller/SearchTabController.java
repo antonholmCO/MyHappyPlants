@@ -54,6 +54,7 @@ public class SearchTabController {
         lblUsernamePlants.setText(loggedInUser.getUser().getUsername());
         //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
         imgUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail())));
+        MainPaneController.makeAvatarRound(imgUserPicture);
         cmbSortOption.setItems(ListSorter.sortOptionsSearch());
     }
 

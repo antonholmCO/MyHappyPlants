@@ -1,6 +1,8 @@
 package se.myhappyplants.client.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.RootName;
 
@@ -54,6 +56,15 @@ public class MainPaneController {
         }
         LoggedInUser.getInstance().setUser(null);
         StartClient.setRoot(String.valueOf(RootName.loginPane));
+    }
+
+    public static void makeAvatarRound(ImageView imgUserPicture) {
+        Rectangle clip = new Rectangle(
+                imgUserPicture.getFitWidth(), imgUserPicture.getFitHeight()
+        );
+        clip.setArcWidth(45);
+        clip.setArcHeight(45);
+        imgUserPicture.setClip(clip);
     }
 
     public void updateAvatarOnAllTabs() {
