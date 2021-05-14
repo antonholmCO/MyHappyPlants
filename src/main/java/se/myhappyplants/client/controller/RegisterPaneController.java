@@ -21,6 +21,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Created by Anton Holm
+ */
 public class RegisterPaneController {
     @FXML public TextField txtFldNewEmail;
     @FXML public TextField txtFldNewEmail1;
@@ -28,12 +31,14 @@ public class RegisterPaneController {
     @FXML public PasswordField passFldNewPassword;
     @FXML public PasswordField passFldNewPassword1;
     @FXML public Label goBackIcon;
+    @FXML public Label registerHeading;
 
     private Verifier verifier;
 
     @FXML
     public void initialize() {
         verifier = new Verifier();
+        goBackIcon.setFocusTraversable(true); //sets the goback button on focus to remove from first textfield
     }
 
     @FXML

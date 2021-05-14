@@ -108,4 +108,25 @@
     -fx-table-cell-border-color: -fx-control-inner-background-alt;
 }
 
+#goBackIcon {
+    -fx-font-size: 16px;
+    -fx-text-fill: #FFF;
+}
+
+#registerHeading {
+    -fx-font-size: 16px;
+    -fx-text-fill: #FFF;
+}
+
+#loginLargeHeading {
+    -fx-font-size: 36px;
+    -fx-text-fill: #FFF;
+    -fx-font-weight: bold;
+}
+
+#loginSmallHeading {
+    -fx-font-size: 32px;
+    -fx-text-fill: #FFF;
+}
+
 }
