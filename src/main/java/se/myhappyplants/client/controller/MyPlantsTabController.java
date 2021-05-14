@@ -9,11 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import se.myhappyplants.client.model.BoxTitle;
-import se.myhappyplants.client.model.ListSorter;
+import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ClientConnection;
-import se.myhappyplants.client.model.LoggedInUser;
-import se.myhappyplants.client.model.PictureRandomizer;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.MessageType;
@@ -54,25 +51,17 @@ public class MyPlantsTabController {
         lblUsernameMyPlants.setText(loggedInUser.getUser().getUsername());
         //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
         imgUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail())));
-        cmbSortOption.setItems(sortOptions());
+        cmbSortOption.setItems(ListSorter.sortOptions());
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
 
     }
 
-    private ObservableList<String> sortOptions() {
-        ObservableList<String> sortOptions = FXCollections.observableArrayList();
-        sortOptions.add("  Nickname");
-        //sortOptions.add("  Common name");
-        sortOptions.add("  Water need");
-        return sortOptions;
-    }
-
     @FXML
     public void sortLibrary() {
-        String sortOption = "";
-        sortOption = (String) cmbSortOption.getValue();
-        currentUserLibrary = ListSorter.sort(sortOption, currentUserLibrary);
+        SortingOption selectedOption;
+        selectedOption = (SortingOption) cmbSortOption.getValue();
+        currentUserLibrary = ListSorter.sort(selectedOption, currentUserLibrary);
         addCurrentUserLibraryToHomeScreen();
     }
 

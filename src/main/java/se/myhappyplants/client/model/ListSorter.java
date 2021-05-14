@@ -1,12 +1,44 @@
 package se.myhappyplants.client.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import se.myhappyplants.shared.Plant;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
+/**
+ * Class that sorts lists according to different options
+ */
 public class ListSorter {
+
+    public static ObservableList<SortingOption> sortOptions() {
+        ObservableList<SortingOption> sortOptions = FXCollections.observableArrayList();
+        for (SortingOption option: SortingOption.values()) {
+            sortOptions.add(option);
+        }
+        return sortOptions;
+    }
+
+    /**
+     * calls a different sorting technique based on sorting option selected
+     * @param sortOption
+     * @param currentUserLibrary
+     * @return
+     */
+    public static ArrayList<Plant> sort(SortingOption sortOption, ArrayList<Plant> currentUserLibrary) {
+        ArrayList<Plant> sortedList = null;
+        switch (sortOption) {
+            case commonName:
+                sortedList = sortByCommonName(currentUserLibrary);
+                break;
+            case waterNeed:
+                sortedList = sortByWaterNeed(currentUserLibrary);
+                break;
+            default:
+                sortedList = sortByNickname(currentUserLibrary);
+        }
+        return sortedList;
+    }
 
     public static ArrayList<Plant> sortByNickname(ArrayList<Plant> currentUserLibrary) {
 
@@ -36,20 +68,5 @@ public class ListSorter {
             return Double.compare(d1, d2);
         });
         return currentUserLibrary;
-    }
-
-    public static ArrayList<Plant> sort(String sortOption, ArrayList<Plant> currentUserLibrary) {
-        ArrayList<Plant> sortedList = null;
-        switch (sortOption) {
-            case "  Common name":
-                sortedList = sortByCommonName(currentUserLibrary);
-                break;
-            case "  Water need":
-                sortedList = sortByWaterNeed(currentUserLibrary);
-                break;
-            default:
-                sortedList = sortByNickname(currentUserLibrary);
-        }
-        return sortedList;
     }
 }
