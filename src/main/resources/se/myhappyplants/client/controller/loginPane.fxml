@@ -37,7 +37,7 @@
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="259.0" layoutX="330.0" layoutY="83.0" stroke="BLACK" strokeType="INSIDE" width="361.0" />
                         <TextField fx:id="txtFldEmail" layoutX="358.0" layoutY="133.0" prefHeight="35.0" prefWidth="310.0" promptText="Email" />
                         <PasswordField fx:id="passFldPassword" layoutX="360.0" layoutY="198.0" prefHeight="35.0" prefWidth="306.0" promptText="Password" />
-                         <Button fx:id="test" defaultButton="true" layoutX="477.0" layoutY="274.0" mnemonicParsing="false" onAction="#loginButtonPressed" styleClass="defaultButton" text="Log in" />
+                        <Button defaultButton="true" layoutX="477.0" layoutY="274.0" mnemonicParsing="false" onAction="#loginButtonPressed" styleClass="defaultButton" text="Log in" />
                         <Label layoutX="463.0" layoutY="41.0" text="Log in here" textFill="WHITE">
                            <font>
                               <Font size="26.0" />
