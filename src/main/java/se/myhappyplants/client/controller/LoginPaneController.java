@@ -4,7 +4,9 @@ import java.io.*;
 import java.util.ArrayList;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import se.myhappyplants.client.model.BoxTitle;
@@ -26,6 +28,8 @@ import se.myhappyplants.shared.User;
 public class LoginPaneController {
 
     @FXML
+    public Hyperlink registerLink;
+    @FXML
     private TextField txtFldEmail;
     @FXML
     private PasswordField passFldPassword;
@@ -40,8 +44,6 @@ public class LoginPaneController {
     @FXML
     private PasswordField passFldNewPassword1;
 
-    private Verifier verifier;
-
 
     /**
      * Switches to 'logged in' scene
@@ -51,7 +53,6 @@ public class LoginPaneController {
     @FXML
     public void initialize() {
         String lastLoggedInUser;
-        verifier = new Verifier();
         try (BufferedReader br = new BufferedReader(new FileReader("resources/lastLogin.txt"));) {
             lastLoggedInUser = br.readLine();
             txtFldEmail.setText(lastLoggedInUser);
@@ -59,11 +60,6 @@ public class LoginPaneController {
         catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    private void switchToMainPane() throws IOException {
-        StartClient.setRoot(String.valueOf(RootName.mainPane));
     }
 
     /**
@@ -100,44 +96,17 @@ public class LoginPaneController {
         loginThread.start();
     }
 
-    public String[] getComponentsToVerify() {
-        String[] loginInfoToCompare = new String[5];
-        loginInfoToCompare[0] = txtFldNewEmail.getText();
-        loginInfoToCompare[1] = txtFldNewEmail1.getText();
-        loginInfoToCompare[2] = txtFldNewUsername.getText();
-        loginInfoToCompare[3] = passFldNewPassword.getText();
-        loginInfoToCompare[4] = passFldNewPassword1.getText();
-        return loginInfoToCompare;
-    }
     @FXML
-    private void registerButtonPressed() {
-        boolean verifiedRegistration = verifier.validateRegistration(this);
-        Thread registerThread = new Thread(() -> {
-            if (!verifiedRegistration) {
-                return;
-            }
-            Message registerRequest = new Message(MessageType.register, new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
-            ClientConnection connection = new ClientConnection();
-            Message registerResponse = connection.makeRequest(registerRequest);
+    private void switchToMainPane() throws IOException {
+        StartClient.setRoot(String.valueOf(RootName.mainPane));
+    }
 
-            if (registerResponse != null) {
-                if (registerResponse.isSuccess()) {
-                    LoggedInUser.getInstance().setUser(registerResponse.getUser());
-                    Platform.runLater(() -> MessageBox.display(BoxTitle.Success, "Account created successfully! Now logged in as " + LoggedInUser.getInstance().getUser().getUsername()));
-                    try {
-                        switchToMainPane();
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "An account with this email address already exists here at My Happy Plants."));
-                }
-            } else {
-                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
-            }
-        });
-        registerThread.start();
+    public void swapToRegister(ActionEvent actionEvent) {
+        try {
+            StartClient.setRoot("registerPane");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //TODO: Ta upp med gruppen om flyttad logik till klassen Verifier.

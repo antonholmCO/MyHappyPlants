@@ -15,11 +15,8 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@Stylesheet.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.LoginPaneController">
-  <tabs>
-    <Tab text="Log in">
-         <content>
-            <BorderPane prefHeight="200.0" prefWidth="200.0">
+<?import javafx.scene.control.Hyperlink?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@Stylesheet.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.LoginPaneController">
                <top>
                   <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                      <children>
@@ -37,7 +34,8 @@
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="259.0" layoutX="330.0" layoutY="83.0" stroke="BLACK" strokeType="INSIDE" width="361.0" />
                         <TextField fx:id="txtFldEmail" layoutX="358.0" layoutY="133.0" prefHeight="35.0" prefWidth="310.0" promptText="Email" />
                         <PasswordField fx:id="passFldPassword" layoutX="360.0" layoutY="198.0" prefHeight="35.0" prefWidth="306.0" promptText="Password" />
-                         <Button fx:id="test" defaultButton="true" layoutX="477.0" layoutY="274.0" mnemonicParsing="false" onAction="#loginButtonPressed" styleClass="defaultButton" text="Log in" />
+                        <Button fx:id="test" defaultButton="true" layoutX="477.0" layoutY="274.0" mnemonicParsing="false" onAction="#loginButtonPressed" styleClass="defaultButton" text="Log in" />
+                        <Hyperlink fx:id="registerLink" layoutX="477.0" layoutY="300.0"  onAction="#swapToRegister" styleClass="" text="No account? Register here!" />
                         <Label layoutX="463.0" layoutY="41.0" text="Log in here" textFill="WHITE">
                            <font>
                               <Font size="26.0" />
@@ -56,57 +54,4 @@
                      </children>
                   </Pane>
                </center>
-            </BorderPane>
-         </content></Tab>
-    <Tab text="Register">
-         <content>
-            <BorderPane prefHeight="200.0" prefWidth="200.0">
-               <center>
-                  <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="371.0" layoutX="334.0" layoutY="90.0" stroke="BLACK" strokeType="INSIDE" width="333.0" />
-                        <TextField fx:id="txtFldNewEmail" layoutX="368.0" layoutY="115.0" prefHeight="35.0" prefWidth="267.0" promptText="youraddress@example.com" />
-                        <TextField fx:id="txtFldNewEmail1" layoutX="369.0" layoutY="170.0" prefHeight="35.0" prefWidth="267.0" promptText="confirm email address" />
-                        <TextField fx:id="txtFldNewUsername" layoutX="369.0" layoutY="225.0" prefHeight="35.0" prefWidth="267.0" promptText="username" />
-                        <PasswordField fx:id="passFldNewPassword" layoutX="369.0" layoutY="280.0" prefHeight="35.0" prefWidth="267.0" promptText="password" />
-                        <PasswordField fx:id="passFldNewPassword1" layoutX="369.0" layoutY="335.0" prefHeight="35.0" prefWidth="268.0" promptText="confirm password" />
-                        <Button defaultButton="true" layoutX="463.0" layoutY="418.0" mnemonicParsing="false" onAction="#registerButtonPressed" styleClass="defaultButton" text="Sign up" />
-                        <ImageView fitHeight="113.0" fitWidth="97.0" layoutX="571.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../Blommor/blomma11.1.png" />
-                           </image>
-                        </ImageView>
-                        <Label layoutX="330.0" layoutY="17.0" prefHeight="62.0" prefWidth="413.0" text="Create a new account here at My Happy Plants" textFill="WHITE">
-                           <font>
-                              <Font size="43.0" />
-                           </font>
-                        </Label>
-                        <ImageView fitHeight="209.0" fitWidth="150.0" layoutX="180.0" layoutY="252.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../Blommor/blomma8.1.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="104.0" fitWidth="108.0" layoutX="138.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../Blommor/vattenkanna1.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="42.0" fitWidth="38.0" layoutX="223.0" layoutY="249.0" pickOnBounds="true" preserveRatio="true" rotate="-20.6">
-                           <image>
-                              <Image url="@../../../../Blommor/vattenproppe2.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="35.0" fitWidth="29.0" layoutX="225.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true" rotate="-26.6">
-                           <image>
-                              <Image url="@../../../../Blommor/vattenproppe2.png" />
-                           </image>
-                           <rotationAxis>
-                              <Point3D x="1.0" y="1.0" z="1.0" />
-                           </rotationAxis>
-                        </ImageView>
-                     </children></AnchorPane>
-               </center>
-            </BorderPane>
-         </content></Tab>
-  </tabs>
-</TabPane>
+</BorderPane>
