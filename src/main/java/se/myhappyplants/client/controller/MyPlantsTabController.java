@@ -73,12 +73,14 @@ public class MyPlantsTabController {
         if (currentUserLibrary == null) {
             obsListLibraryPlantPane.add(new LibraryPlantPane());
         } else {
-            sortLibrary();
             for (Plant plant : currentUserLibrary) {
                 obsListLibraryPlantPane.add(new LibraryPlantPane(this, PictureRandomizer.getRandomPicture(), plant));
             }
         }
-        Platform.runLater(() -> lstViewUserPlantLibrary.setItems(obsListLibraryPlantPane));
+        Platform.runLater(() -> {
+            lstViewUserPlantLibrary.setItems(obsListLibraryPlantPane);
+            sortLibrary();
+        });
     }
 
     /**
@@ -213,7 +215,7 @@ public class MyPlantsTabController {
         if (!response.isSuccess()) {
             MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
         }
-        sortLibrary();
+        createCurrentUserLibraryFromDB();
         showNotifications();
     }
 
