@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.SearchTabPaneController;
 
+import se.myhappyplants.client.model.ImageLibrary;
 import se.myhappyplants.client.model.WaterCalculator;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.PlantDetails;
@@ -98,7 +99,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
     }
 
     private void initImgViewPlusSign() {
-        this.imgViewPlusSign = new ImageView(new Image("Blommor/plusSign.png"));
+        this.imgViewPlusSign = new ImageView(ImageLibrary.getPlusSign());
         imgViewPlusSign.setFitHeight(16);
         imgViewPlusSign.setFitWidth(15);
         addButton.setGraphic(imgViewPlusSign);

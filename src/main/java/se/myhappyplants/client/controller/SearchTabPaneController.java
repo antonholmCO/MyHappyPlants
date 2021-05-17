@@ -78,11 +78,11 @@ public class SearchTabPaneController {
     }
 
     private void showResultsOnPane() {
-        listViewResult.getItems().clear();
         ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
         for (Plant plant : searchResults) {
             searchPlantPanes.add(new SearchPlantPane(this, new File("resources/images/img.png").toURI().toString(), plant));
         }
+        listViewResult.getItems().clear();
         listViewResult.setItems(searchPlantPanes);
 
         Task getImagesTask =
