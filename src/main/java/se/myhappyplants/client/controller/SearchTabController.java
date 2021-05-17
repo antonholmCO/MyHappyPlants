@@ -40,6 +40,8 @@ public class SearchTabController {
     @FXML
     private Label lblUsernamePlants;
     @FXML
+    private Button btnSearch;
+    @FXML
     private TextField txtFldSearchText;
     @FXML
     private ComboBox<SortingOption> cmbSortOption;
@@ -112,6 +114,7 @@ public class SearchTabController {
 
     @FXML
     private void searchButtonPressed() {
+        btnSearch.setDisable(true);
         Thread searchThread = new Thread(() -> {
             Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
             ClientConnection connection = new ClientConnection();
@@ -127,6 +130,7 @@ public class SearchTabController {
             } else {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "The connection to the server has failed. Check your connection and try again."));
             }
+            btnSearch.setDisable(false);
         });
         searchThread.start();
     }
