@@ -84,8 +84,8 @@ public class PlantRepository {
                 String light = resultSet.getString("light");
                 String family = resultSet.getString("family");
                 String waterFrequency = resultSet.getString("water_frequency");
-                String lightText = lightCalculator.calculateLightLevel(light);
-                String waterText = waterCalculator.calculateWater(waterFrequency);
+                String lightText = lightCalculator.calculateLightLevelToString(light);
+                String waterText = waterCalculator.calculateWaterLevelToString(waterFrequency);
                 allInfo[0] = "Family:\t" + family + "\n";
                 allInfo[1] = "Genus:\t" + genus + "\n";
                 allInfo[2] = "Light:\t" + lightText + "\n";
@@ -112,23 +112,7 @@ public class PlantRepository {
             ResultSet resultSet = conn.createStatement().executeQuery(query);
             while (resultSet.next()) {
                 String waterFrequency = resultSet.getString("water_frequency");
-                long week = 604000000l;
-                int waterFrequencyInt = Integer.parseInt(waterFrequency);
-                if (waterFrequencyInt <= 200) {
-                    waterFrequencyMilli = week * 4;
-                }
-                else if (waterFrequencyInt > 200 && waterFrequencyInt <= 400) {
-                    waterFrequencyMilli = week * 3;
-                }
-                else if (waterFrequencyInt > 400 && waterFrequencyInt <= 600) {
-                    waterFrequencyMilli = week * 2;
-                }
-                else if (waterFrequencyInt > 600 && waterFrequencyInt <= 800) {
-                    waterFrequencyMilli = week * 1;
-                }
-                else if (waterFrequencyInt > 800) {
-                    waterFrequencyMilli = week / 2;
-                }
+                waterFrequencyMilli = waterCalculator.calculateWaterFrequencyForWatering(waterFrequency);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -141,6 +125,8 @@ public class PlantRepository {
         }
         return waterFrequencyMilli;
     }
+
+
     public String[] getMoreInformationOnLibraryPlants(Plant plant) {
         String[] allInfo = new String[6];
         try {
@@ -156,16 +142,14 @@ public class PlantRepository {
                 String family = resultSet.getString("family");
                 String light = resultSet.getString("light");
                 String waterFrequency = resultSet.getString("water_frequency");
-                String lightText = lightCalculator.calculateLightLevel(light);
-                String waterText = waterCalculator.calculateWater(waterFrequency);
+                String lightText = lightCalculator.calculateLightLevelToString(light);
+                String waterText = waterCalculator.calculateWaterLevelToString(waterFrequency);
                 allInfo[0] = "Common name:\t" + commonName + "\n";
                 allInfo[1] = "Scientific name:\t" + scientificName + "\n";
                 allInfo[2] = "Genus:\t" + genus + "\n";
                 allInfo[3] = "Family:\t" + family + "\n";
                 allInfo[4] = "Light:\t" + lightText + "\n";
                 allInfo[5] = "Water:\t" + waterText + "\n";
-
-
             }
         }
         catch (SQLException | UnknownHostException sqlException) {
@@ -179,10 +163,6 @@ public class PlantRepository {
                 throwables.printStackTrace();
             }
         }
-
-
         return allInfo;
-
     }
-
-            }
+}

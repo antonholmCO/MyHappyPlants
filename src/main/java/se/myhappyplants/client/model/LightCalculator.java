@@ -6,7 +6,7 @@ package se.myhappyplants.client.model;
  */
 public class LightCalculator {
 
-    public String calculateLightLevel(String light) {
+    public String calculateLightLevelToString(String light) {
         String lightText = light;
         if (light.equals("10")) {
             lightText = "Is happy in direct sunlight";
