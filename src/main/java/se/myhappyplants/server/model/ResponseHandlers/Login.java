@@ -3,7 +3,6 @@ package se.myhappyplants.server.model.ResponseHandlers;
 import se.myhappyplants.server.model.ResponseHandler;
 import se.myhappyplants.server.services.UserRepository;
 import se.myhappyplants.shared.Message;
-import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.User;
 
 public class Login implements ResponseHandler {
@@ -20,10 +19,9 @@ public class Login implements ResponseHandler {
         String password = request.getUser().getPassword();
         if (userRepository.checkLogin(email, password)) {
             User user = userRepository.getUserDetails(email);
-            response = new Message(MessageType.login, user, true);
-        }
-        else {
-            response = new Message(MessageType.register, false);
+            response = new Message(user, true);
+        } else {
+            response = new Message(false);
         }
         return response;
     }

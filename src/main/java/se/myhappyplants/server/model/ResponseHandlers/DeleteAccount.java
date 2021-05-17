@@ -3,7 +3,6 @@ package se.myhappyplants.server.model.ResponseHandlers;
 import se.myhappyplants.server.model.ResponseHandler;
 import se.myhappyplants.server.services.UserRepository;
 import se.myhappyplants.shared.Message;
-import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.User;
 
 public class DeleteAccount implements ResponseHandler {
@@ -19,8 +18,7 @@ public class DeleteAccount implements ResponseHandler {
         User userToDelete = request.getUser();
         if (userRepository.deleteAccount(userToDelete.getEmail(), userToDelete.getPassword())) {
             response = new Message(true);
-        }
-        else {
+        } else {
             response = new Message(false);
         }
         return response;

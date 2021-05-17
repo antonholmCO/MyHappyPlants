@@ -3,8 +3,8 @@ package se.myhappyplants.server.model.ResponseHandlers;
 import se.myhappyplants.server.model.ResponseHandler;
 import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.shared.Message;
-import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
+
 import java.time.LocalDate;
 
 public class ChangeLastWatered implements ResponseHandler {
@@ -20,10 +20,9 @@ public class ChangeLastWatered implements ResponseHandler {
         Plant plant = request.getPlant();
         String nickname = plant.getNickname();
         LocalDate lastWatered = request.getDate();
-        if(userPlantRepository.changeLastWatered(request.getUser(), nickname, lastWatered)) {
+        if (userPlantRepository.changeLastWatered(request.getUser(), nickname, lastWatered)) {
             response = new Message(true);
-        }
-        else {
+        } else {
             response = new Message(false);
         }
         return response;

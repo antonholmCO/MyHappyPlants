@@ -3,7 +3,6 @@ package se.myhappyplants.server.model.ResponseHandlers;
 import se.myhappyplants.server.model.ResponseHandler;
 import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.shared.Message;
-import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
 
@@ -22,9 +21,9 @@ public class ChangeNickname implements ResponseHandler {
         Plant plant = request.getPlant();
         String nickname = plant.getNickname();
         String newNickname = request.getNewNickname();
-        if(userPlantRepository.changeNickname(user, nickname, newNickname)) {
+        if (userPlantRepository.changeNickname(user, nickname, newNickname)) {
             response = new Message(true);
-        }else {
+        } else {
             response = new Message(false);
         }
         return response;

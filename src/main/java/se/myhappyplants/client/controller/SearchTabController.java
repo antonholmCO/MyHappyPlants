@@ -122,7 +122,7 @@ public class SearchTabController {
 
             if (apiResponse != null) {
                 if (apiResponse.isSuccess()) {
-                    searchResults = apiResponse.getResultList();
+                    searchResults = apiResponse.getPlantArray();
                     Platform.runLater(() -> showResultsOnPane());
                 } else {
                     //TODO: skicka inget felmeddelande, visa label med sökresultat 0 istället

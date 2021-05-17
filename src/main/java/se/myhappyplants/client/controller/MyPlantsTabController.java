@@ -115,7 +115,7 @@ public class MyPlantsTabController {
             Message response = connection.makeRequest(getLibrary);
 
             if (response.isSuccess()) {
-                currentUserLibrary = response.getUserLibrary();
+                currentUserLibrary = response.getPlantArray();
                 addCurrentUserLibraryToHomeScreen();
                 showNotifications();
             } else {
