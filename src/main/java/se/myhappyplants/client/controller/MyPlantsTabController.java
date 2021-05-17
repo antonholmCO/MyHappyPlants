@@ -4,20 +4,20 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import se.myhappyplants.client.model.BoxTitle;
+import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ClientConnection;
-import se.myhappyplants.client.model.LoggedInUser;
-import se.myhappyplants.client.model.PictureRandomizer;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.Message;
-import se.myhappyplants.client.model.SetAvatar;
+import se.myhappyplants.shared.SetAvatar;
+
 
 import java.io.IOException;
 import java.sql.Date;
@@ -28,21 +28,29 @@ import java.util.Random;
 /**
  * Controller with logic used by the "Home" tab
  * Created by:
- * Updated by: Linn Borgström, 2021-05-13
+ * Updated by: Christopher O'Driscoll, 2021-05-14
  */
 public class MyPlantsTabController {
 
     private ArrayList<Plant> currentUserLibrary;
 
-    @FXML private MainPaneController mainPaneController;
+    @FXML
+    private MainPaneController mainPaneController;
 
-    @FXML private Label lblUsernameMyPlants;
+    @FXML
+    private Label lblUsernameMyPlants;
 
-    @FXML private ImageView imgUserPicture;
+    @FXML
+    private ImageView imgUserPicture;
 
-    @FXML private ListView lstViewUserPlantLibrary;
+    @FXML
+    private ComboBox<SortingOption> cmbSortOption;
 
-    @FXML private ListView lstViewNotifications;
+    @FXML
+    private ListView lstViewUserPlantLibrary;
+
+    @FXML
+    private ListView<String> lstViewNotifications;
 
 
     @FXML
@@ -51,6 +59,7 @@ public class MyPlantsTabController {
         lblUsernameMyPlants.setText(loggedInUser.getUser().getUsername());
         //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
         imgUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail())));
+        cmbSortOption.setItems(ListSorter.sortOptionsLibrary());
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
 
@@ -70,12 +79,15 @@ public class MyPlantsTabController {
                 obsListLibraryPlantPane.add(new LibraryPlantPane(this, PictureRandomizer.getRandomPicture(), plant));
             }
         }
-        Platform.runLater(() -> lstViewUserPlantLibrary.setItems(obsListLibraryPlantPane));
+        Platform.runLater(() -> {
+            lstViewUserPlantLibrary.setItems(obsListLibraryPlantPane);
+            sortLibrary();
+        });
     }
 
 
-
     public void showNotifications () {
+
         ObservableList<String> notificationStrings = FXCollections.observableArrayList();
         if (LoggedInUser.getInstance().getUser().areNotificationsActivated()) {
             int plantsThatNeedWater = 0;
@@ -88,12 +100,12 @@ public class MyPlantsTabController {
             if (plantsThatNeedWater == 0) {
                 notificationStrings.add("All your plants are watered");
             }
-        }
-        else {
+        } else {
             notificationStrings.add("");
         }
         Platform.runLater(() -> lstViewNotifications.setItems(notificationStrings));
     }
+
     @FXML
     public void createCurrentUserLibraryFromDB() {
         Thread getLibraryThread = new Thread(() -> {
@@ -178,6 +190,7 @@ public class MyPlantsTabController {
             MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
         }
         createCurrentUserLibraryFromDB();
+        showNotifications();
     }
 
     /**
@@ -193,8 +206,20 @@ public class MyPlantsTabController {
             return false;
         } else {
             plant.setNickname(newNickname);
+            sortLibrary();
             return true;
         }
+    }
+
+    /**
+     * rearranges the library based on selected sorting option
+     */
+    public void sortLibrary() {
+        SortingOption selectedOption;
+        selectedOption = cmbSortOption.getValue();
+        if (selectedOption == null)
+            selectedOption = SortingOption.nickname;
+        lstViewUserPlantLibrary.setItems(ListSorter.sort(selectedOption, lstViewUserPlantLibrary.getItems()));
     }
 
     public void updateAvatar() {

@@ -4,13 +4,12 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import se.myhappyplants.client.model.BoxTitle;
+import se.myhappyplants.client.model.ListSorter;
+import se.myhappyplants.client.model.SortingOption;
 import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
@@ -26,7 +25,7 @@ import java.util.ArrayList;
 
 /**
  * Created by: Christopher O'Driscoll
- * Updated by: Linn Borgström, 2021-05-13
+ * Updated by: Christopher O'Driscoll, 2021-05-14
  */
 
 public class SearchTabController {
@@ -40,9 +39,13 @@ public class SearchTabController {
     @FXML
     private TextField txtFldSearchText;
     @FXML
+    private ComboBox<SortingOption> cmbSortOption;
+    @FXML
     private ListView listViewResult;
     @FXML
     private ProgressIndicator progressIndicator;
+
+    private ArrayList<Plant> searchResults;
 
 
     @FXML
@@ -51,6 +54,7 @@ public class SearchTabController {
         lblUsernamePlants.setText(loggedInUser.getUser().getUsername());
         //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
         imgUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail())));
+        cmbSortOption.setItems(ListSorter.sortOptionsSearch());
     }
 
     public void setMainController(MainPaneController mainPaneController) {
@@ -68,12 +72,11 @@ public class SearchTabController {
         mainPaneController.getHomePaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
     }
 
-    private void showResultsOnPane(Message apiResponse) {
+    private void showResultsOnPane() {
         progressIndicator.setProgress(75);
-        ArrayList<Plant> searchedPlant = apiResponse.getPlantList();
 
         ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
-        for (Plant plant : searchedPlant) {
+        for (Plant plant : searchResults) {
             searchPlantPanes.add(new SearchPlantPane(this, new File("resources/images/img.png").toURI().toString(), plant));
         }
         listViewResult.getItems().clear();
@@ -81,7 +84,7 @@ public class SearchTabController {
         progressIndicator.setProgress(100);
         Thread imageThread = new Thread(() -> {
             for (SearchPlantPane spp : searchPlantPanes) {
-                Plant Plant = spp.getApiPlant();
+                Plant Plant = spp.getPlant();
                 if (Plant.getImageURL().equals("")) {
                     spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
                 } else {
@@ -107,7 +110,8 @@ public class SearchTabController {
             if (apiResponse != null) {
                 if (apiResponse.isSuccess()) {
                     progressIndicator.setProgress(50);
-                    Platform.runLater(() -> showResultsOnPane(apiResponse));
+                    searchResults = apiResponse.getPlantList();
+                    Platform.runLater(() -> showResultsOnPane());
                 } else {
                     //TODO: skicka inget felmeddelande, visa label med sökresultat 0 istället
                 }
@@ -133,6 +137,15 @@ public class SearchTabController {
             }
         }
         return waterLightInfo;
+    }
+    /**
+     * rearranges the results based on selected sorting option
+     */
+    @FXML
+    public void sortResults() {
+        SortingOption selectedOption;
+        selectedOption = cmbSortOption.getValue();
+        listViewResult.setItems(ListSorter.sort(selectedOption, listViewResult.getItems()));
     }
 
     public void updateAvatar() {

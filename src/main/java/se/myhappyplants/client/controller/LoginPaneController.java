@@ -89,8 +89,7 @@ public class LoginPaneController {
             if (loginResponse != null) {
                 if (loginResponse.isSuccess()) {
                     LoggedInUser.getInstance().setUser(loginResponse.getUser());
-                    PopupBox popupBox = new PopupBox();
-                    Platform.runLater(() -> popupBox.display("Now logged in as\n" + LoggedInUser.getInstance().getUser().getUsername()));
+                    Platform.runLater(() -> PopupBox.display("Now logged in as\n" + LoggedInUser.getInstance().getUser().getUsername()));
                     try {
                         switchToMainPane();
                     }

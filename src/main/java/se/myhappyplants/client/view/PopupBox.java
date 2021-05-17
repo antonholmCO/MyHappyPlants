@@ -1,37 +1,84 @@
 package se.myhappyplants.client.view;
 
-import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Region;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import se.myhappyplants.client.controller.StartClient;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Created by:
- * Updated by:
+ * Creates a message box that disappears by itself
+ * created by: Christopher O'Driscoll
+ * updated by:
  */
 public class PopupBox extends Popup {
-    private Label label;
 
-    public void display(String message) {
+    private static Stage window;
+    private static VBox vBox;
+    private static ToggleButton tglBtnChangeNotification;
 
-        label = new Label(message);
-        label.setStyle("-fx-font-size: 14pt; -fx-text: textColor; -fx-border-color: black; -fx-font-family: 'Eras Medium ITC';");
-        label.setLayoutX(450);
-        label.setLayoutY(-200);
+    public static void display(String message) {
+
+        window = new Stage();
+        window.initModality(Modality.NONE);
+        window.initStyle(StageStyle.TRANSPARENT);
+        window.setMinWidth(150);
+        window.setMinHeight(30);
+
+        Stage mainStage = StartClient.getStage();
+        double x = mainStage.getX() + mainStage.getWidth() - 200;
+        double y = mainStage.getY() + mainStage.getHeight() - 70;
+        window.setX(x);
+        window.setY(y);
+
+        Label label = new Label();
+        label.setText(message);
         label.setTextAlignment(TextAlignment.CENTER);
-        label.setPrefWidth(Region.USE_COMPUTED_SIZE);
-        label.setPrefHeight(Region.USE_COMPUTED_SIZE);
-        getContent().add(label);
-        setAutoHide(true);
+
+        vBox = new VBox(10);
+        vBox.getChildren().add(label);
+        vBox.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(vBox, Color.TRANSPARENT);
+        scene.getStylesheets().add("/se/myhappyplants/client/controller/Stylesheet.css");
+        window.setScene(scene);
+
         showAndFade();
     }
-    private void showAndFade() {
-//        show(StartClient.getStage());
-        FadeTransition ft = new FadeTransition(Duration.millis(4000), label);
-        ft.setFromValue(1.0);
-        ft.setToValue(0.0);
-        ft.play();
+
+    private static void showAndFade() {
+        window.show();
+        AtomicReference<Double> opacity = new AtomicReference<>(1.0);
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(20), event -> {
+                    window.getScene().getRoot().opacityProperty().set(opacity.updateAndGet(v -> (double) (v - 0.01)));
+                })
+        );
+        timeline.setCycleCount(100);
+        timeline.setOnFinished(action -> {
+            if(tglBtnChangeNotification!=null){
+                tglBtnChangeNotification.setDisable(false);
+            }
+            window.close();
+        });
+        timeline.play();
+
+    }
+
+    public static void display(String message, ToggleButton tglBtnChangeNotification) {
+        PopupBox.tglBtnChangeNotification = tglBtnChangeNotification;
+        display(message);
     }
 }

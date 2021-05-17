@@ -22,9 +22,10 @@ import java.util.concurrent.atomic.AtomicReference;
  * Created by: Christopher O'Driscoll
  * Updated by: Frida Jacobsson
  */
-public class LibraryPlantPane extends Pane {
+public class LibraryPlantPane extends Pane implements PlantPane{
 
     private MyPlantsTabController myPlantsTabController;
+    private Plant plant;
     private ImageView image;
     private Label nickname;
     private Label lastWateredLabel;
@@ -73,6 +74,7 @@ public class LibraryPlantPane extends Pane {
      */
     public LibraryPlantPane(MyPlantsTabController myPlantsTabController, String imgPath, Plant plant) {
         this.myPlantsTabController = myPlantsTabController;
+        this.plant = plant;
         this.setStyle("-fx-background-color: #FFFFFF;");
         this.image = new ImageView();
         initImages(imgPath);
@@ -215,7 +217,6 @@ public class LibraryPlantPane extends Pane {
 
         this.setPrefHeight(92.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
-        this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
     }
 
 
@@ -229,7 +230,10 @@ public class LibraryPlantPane extends Pane {
         );
         timeline.setCycleCount(32);
         timeline.play();
-        timeline.setOnFinished(action -> infoButton.setDisable(false));
+        timeline.setOnFinished(action -> {
+            infoButton.setDisable(false);
+            this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
+        });
         extended = true;
     }
 
@@ -243,6 +247,7 @@ public class LibraryPlantPane extends Pane {
         );
         timeline.setCycleCount(32);
         timeline.play();
+        this.getChildren().removeAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
         timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = false;
     }
@@ -294,5 +299,10 @@ public class LibraryPlantPane extends Pane {
         progressBar.setProgress(plant.getProgress());
         setColorProgressBar(plant.getProgress());
         myPlantsTabController.changeLastWateredInDB(plant, date);
+    }
+
+    @Override
+    public Plant getPlant() {
+        return plant;
     }
 }

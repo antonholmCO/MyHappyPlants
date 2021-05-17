@@ -62,8 +62,8 @@ public class SettingsTabController {
             if(notificationResponse != null) {
                 if(notificationResponse.isSuccess()) {
                     LoggedInUser.getInstance().getUser().setIsNotificationsActivated(tglBtnChangeNotification.isSelected());
-                    PopupBox popupBox = new PopupBox();
-                    Platform.runLater(() -> popupBox.display("Notification settings changed"));
+                    tglBtnChangeNotification.setDisable(true);
+                    Platform.runLater(() -> PopupBox.display("Notification settings\n changed", tglBtnChangeNotification));
                 } else {
                     Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Settings could not be changed"));
                 }

@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * * Created by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
  * * Updated by: Linn Borgström, 2021-04-30
  */
-public class SearchPlantPane extends Pane {
+public class SearchPlantPane extends Pane implements PlantPane {
     private ImageView image;
     private Label commonName;
     private Label scientificName;
@@ -128,7 +128,7 @@ public class SearchPlantPane extends Pane {
         image.setImage(img);
     }
 
-    public Plant getApiPlant() {
+    public Plant getPlant() {
         return plant;
     }
 
