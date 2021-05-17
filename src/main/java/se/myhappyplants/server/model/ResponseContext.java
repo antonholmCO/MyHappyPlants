@@ -29,6 +29,9 @@ public class ResponseContext {
         createResponders();
     }
 
+    /**
+     * Links the relevant ResponseHandlers to each MessageType
+     */
     private void createResponders() {
         responders.put(MessageType.changeLastWatered, new ChangeLastWatered(userPlantRepository));
         responders.put(MessageType.changeNickname, new ChangeNickname(userPlantRepository));
