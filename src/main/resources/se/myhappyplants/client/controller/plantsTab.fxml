@@ -31,7 +31,7 @@
     <center>
         <Pane prefHeight="509.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
             <children>
-                <TextField fx:id="txtFldSearchText" layoutX="14.0" layoutY="14.0" prefHeight="23.0" prefWidth="441.0" promptText="Search...">
+                <TextField fx:id="txtFldSearchText" onAction="#searchButtonPressed" layoutX="14.0" layoutY="14.0" prefHeight="23.0" prefWidth="441.0" promptText="Search...">
                     <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </padding>
