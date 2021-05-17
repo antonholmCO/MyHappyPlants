@@ -2,6 +2,7 @@ package se.myhappyplants.client.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -112,15 +113,17 @@ public class SearchPlantPane extends Pane implements PlantPane {
                 if (!extended) {
                     if (!gotInfoOnPlant) {
                         PlantDetails plantDetails = searchTabPaneController.getPlantDetails(plant);
-                        String genus = plantDetails.getGenus();
-                        String light = plantDetails.getLight();
-                        String waterFrequency = plantDetails.getWaterFrequency();
-                        String family = plantDetails.getFamily();
-                        long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(waterFrequency);
-                        String waterText = WaterTextFormatter.getWaterString(waterInMilli);
-                        ObservableList<java.lang.String> names = FXCollections.observableArrayList<java.lang.String>(waterInMilli);
 
-                        plantDetailStringList = listView.setItems(plantDetailStringList);
+                        long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(plantDetails.getWaterFrequency());
+                        String waterText = WaterTextFormatter.getWaterString(waterInMilli);
+                        String lightText = LightTextFormatter.calculateLightLevelToString(plantDetails.getLight());
+                        ObservableList<String> plantInfo = FXCollections.observableArrayList();
+                        plantInfo.add("Genus: " +plantDetails.getGenus());
+                        plantInfo.add("Scientific name: "+plantDetails.getScientificName());
+                        plantInfo.add("Family: "+plantDetails.getFamily());
+                        plantInfo.add("Light: " +lightText);
+                        plantInfo.add("Water: "+waterText);
+                        listView.setItems(plantInfo);
                     }
                     extendPaneMoreInfoPlant();
                 } else {

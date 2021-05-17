@@ -107,8 +107,8 @@ public class ServerController {
                 response = new Message(messageType.success, changeNicknameSuccess);
                 break;
             case getMorePlantInfoOnLibraryPlant:
-                String[] moreInformationMessageLibraryPlants = plantRepository.getMoreInformationOnLibraryPlants(request.getPlant());
-                response = new Message(messageType.getMorePlantInfoOnLibraryPlant, moreInformationMessageLibraryPlants);
+                PlantDetails plantDetailsForPane = plantRepository.getPlantDetails(request.getPlant());
+                response = new Message(messageType.getMorePlantInfoOnLibraryPlant, plantDetailsForPane);
                 break;
 
             default:

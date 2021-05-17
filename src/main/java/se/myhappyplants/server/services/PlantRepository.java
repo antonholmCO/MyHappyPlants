@@ -1,6 +1,6 @@
 package se.myhappyplants.server.services;
 
-import se.myhappyplants.client.model.LightCalculator;
+import se.myhappyplants.client.view.LightTextFormatter;
 import se.myhappyplants.client.model.WaterCalculator;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.PlantDetails;
@@ -19,12 +19,12 @@ import java.util.ArrayList;
 public class PlantRepository {
 
     private Connection conn;
-    private LightCalculator lightCalculator;
+    private LightTextFormatter lightTextFormatter;
     private WaterCalculator waterCalculator;
 
-    public PlantRepository(LightCalculator lightCalculator, WaterCalculator waterCalculator){
+    public PlantRepository(LightTextFormatter lightTextFormatter, WaterCalculator waterCalculator){
         this.waterCalculator = waterCalculator;
-        this.lightCalculator = lightCalculator;
+        this.lightTextFormatter = lightTextFormatter;
     }
 
     /**
@@ -76,16 +76,17 @@ public class PlantRepository {
 
     public PlantDetails getPlantDetails(Plant plant) {
         PlantDetails plantDetails = null;
-        String query = "SELECT genus, light, water_frequency, family FROM species WHERE id = '" + plant.getPlantId() + "';";
+        String query = "SELECT genus, scientific_name, light, water_frequency, family FROM species WHERE id = '" + plant.getPlantId() + "';";
         try {
             makeConnection();
             ResultSet resultSet = conn.createStatement().executeQuery(query);
             while (resultSet.next()) {
                 String genus = resultSet.getString("genus");
+                String scientificName = resultSet.getString("scientific_name");
                 String light = resultSet.getString("light");
                 String waterFrequency = resultSet.getString("water_frequency");
                 String family = resultSet.getString("family");
-               plantDetails = new PlantDetails(genus, light, waterFrequency, family);
+               plantDetails = new PlantDetails(genus, scientificName, light, waterFrequency, family);
             }
         } catch (SQLException | UnknownHostException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
@@ -121,43 +122,43 @@ public class PlantRepository {
         return waterFrequencyMilli;
     }
 
-
-    public String[] getMoreInformationOnLibraryPlants(Plant plant) {
-        String[] allInfo = new String[6];
-        try {
-            String query = "select common_name,scientific_name,genus,family,light,water_frequency from species\n" +
-                    "where id = " + plant.getPlantId();
-            makeConnection();
-            ResultSet resultSet = conn.createStatement().executeQuery(query);
-
-            while (resultSet.next()) {
-                String commonName = resultSet.getString("common_name");
-                String scientificName = resultSet.getString("scientific_name");
-                String genus = resultSet.getString("genus");
-                String family = resultSet.getString("family");
-                String light = resultSet.getString("light");
-                String waterFrequency = resultSet.getString("water_frequency");
-                String lightText = lightCalculator.calculateLightLevelToString(light);
-                String waterText = waterCalculator.calculateWaterLevelToString(waterFrequency);
-                allInfo[0] = "Common name:\t" + commonName + "\n";
-                allInfo[1] = "Scientific name:\t" + scientificName + "\n";
-                allInfo[2] = "Genus:\t" + genus + "\n";
-                allInfo[3] = "Family:\t" + family + "\n";
-                allInfo[4] = "Light:\t" + lightText + "\n";
-                allInfo[5] = "Water:\t" + waterText + "\n";
-            }
-        }
-        catch (SQLException | UnknownHostException sqlException) {
-            System.out.println(sqlException.fillInStackTrace());
-            return null;
-        }
-        finally {
-            try {
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-        return allInfo;
-    }
+//
+//    public String[] getMoreInformationOnLibraryPlants(Plant plant) {
+//        String[] allInfo = new String[6];
+//        try {
+//            String query = "select common_name,scientific_name,genus,family,light,water_frequency from species\n" +
+//                    "where id = " + plant.getPlantId();
+//            makeConnection();
+//            ResultSet resultSet = conn.createStatement().executeQuery(query);
+//
+//            while (resultSet.next()) {
+//                String commonName = resultSet.getString("common_name");
+//                String scientificName = resultSet.getString("scientific_name");
+//                String genus = resultSet.getString("genus");
+//                String family = resultSet.getString("family");
+//                String light = resultSet.getString("light");
+//                String waterFrequency = resultSet.getString("water_frequency");
+//                String lightText = lightTextFormatter.calculateLightLevelToString(light);
+//                String waterText = WaterCalculator.calculateWaterLevelToString(waterFrequency);
+//                allInfo[0] = "Common name:\t" + commonName + "\n";
+//                allInfo[1] = "Scientific name:\t" + scientificName + "\n";
+//                allInfo[2] = "Genus:\t" + genus + "\n";
+//                allInfo[3] = "Family:\t" + family + "\n";
+//                allInfo[4] = "Light:\t" + lightText + "\n";
+//                allInfo[5] = "Water:\t" + waterText + "\n";
+//            }
+//        }
+//        catch (SQLException | UnknownHostException sqlException) {
+//            System.out.println(sqlException.fillInStackTrace());
+//            return null;
+//        }
+//        finally {
+//            try {
+//                conn.close();
+//            } catch (SQLException throwables) {
+//                throwables.printStackTrace();
+//            }
+//        }
+//        return allInfo;
+//    }
 }

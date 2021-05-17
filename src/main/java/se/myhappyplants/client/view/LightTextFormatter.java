@@ -1,12 +1,12 @@
-package se.myhappyplants.client.model;
+package se.myhappyplants.client.view;
 
 /**
  * Created by: Frida Jacobsson, Eric Simonsson, Susanne Vikström, Linn Borgström
  * Updated by: Frida Jacobsson, 2021-05-12
  */
-public class LightCalculator {
+public class LightTextFormatter {
 
-    public String calculateLightLevelToString(String light) {
+    public static String calculateLightLevelToString(String light) {
         String lightText = light;
         if (light.equals("10")) {
             lightText = "Is happy in direct sunlight";
