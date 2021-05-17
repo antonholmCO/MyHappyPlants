@@ -54,8 +54,6 @@ public class LoginPaneController {
     public void initialize() throws IOException {
         String lastLoggedInUser;
 
-        verifier = new Verifier();
-
         File file = new File("resources/lastLogin.txt");
         if(!file.exists()) {
             file.createNewFile();

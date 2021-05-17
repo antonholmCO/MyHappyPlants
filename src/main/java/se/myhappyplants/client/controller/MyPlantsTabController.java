@@ -19,7 +19,7 @@ import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.SetAvatar;
+import se.myhappyplants.client.model.SetAvatar;
 
 
 import java.io.IOException;
