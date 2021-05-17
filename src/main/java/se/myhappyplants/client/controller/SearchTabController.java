@@ -122,7 +122,7 @@ public class SearchTabController {
 
             if (apiResponse != null) {
                 if (apiResponse.isSuccess()) {
-                    searchResults = apiResponse.getPlantList();
+                    searchResults = apiResponse.getResultList();
                     Platform.runLater(() -> showResultsOnPane());
                 } else {
                     //TODO: skicka inget felmeddelande, visa label med sökresultat 0 istället
@@ -141,7 +141,7 @@ public class SearchTabController {
     }
 
     public ObservableList<String> getMorePlantInfo(Plant plant) {
-        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfoOnSearch, plant);
+        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
         if (response != null) {

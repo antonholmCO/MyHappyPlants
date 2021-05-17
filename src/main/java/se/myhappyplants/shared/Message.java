@@ -19,11 +19,10 @@ public class Message implements Serializable {
     private User user;
     private boolean success;
     private LocalDate date;
-    private ArrayList<Plant> plantList;
-    private ArrayList<Plant> plantLibrary;
+    private ArrayList<Plant> resultList;
+    private ArrayList<Plant> userLibrary;
     private Plant plant;
     private String newNickname;
-    private ArrayList<Plant> userLibrary;
 
     public Message(MessageType messageType, String messageText) {
         this.messageType = messageType;
@@ -36,9 +35,10 @@ public class Message implements Serializable {
         this.user = user;
     }
 
-    public Message(MessageType messageType, String[] message) {
+    public Message(MessageType messageType, String[] stringArray, boolean success) {
         this.messageType = messageType;
-        stringArray = message;
+        this.stringArray = stringArray;
+        this.success = success;
     }
 
     public Message(MessageType messageType, boolean success) {
@@ -51,14 +51,14 @@ public class Message implements Serializable {
         this.user = user;
     }
 
-    public Message(MessageType messageType, User user, ArrayList<Plant> plantLibrary, boolean success) {
+    public Message(MessageType messageType, User user, ArrayList<Plant> userLibrary, boolean success) {
         this(messageType, user, success);
-        this.plantLibrary = plantLibrary;
+        this.userLibrary = userLibrary;
     }
 
-    public Message(MessageType messageType, ArrayList<Plant> plantList, boolean success) {
+    public Message(MessageType messageType, ArrayList<Plant> resultList, boolean success) {
         this(messageType, success);
-        this.plantList = plantList;
+        this.resultList = resultList;
     }
 
     public Message(MessageType messageType, User user, Plant plant) {
@@ -92,6 +92,15 @@ public class Message implements Serializable {
         this.newNickname = newNickname;
     }
 
+    public Message(boolean success) {
+        this.success = success;
+    }
+
+    public Message(ArrayList<Plant> userLibrary, boolean success) {
+        this.userLibrary = userLibrary;
+        this.success = success;
+    }
+
     public String getNewNickname() {
         return newNickname;
     }
@@ -116,16 +125,12 @@ public class Message implements Serializable {
         return stringArray;
     }
 
-    public Plant getDbPlant() {
-        return plant;
+    public ArrayList<Plant> getResultList() {
+        return resultList;
     }
 
-    public ArrayList<Plant> getPlantList() {
-        return plantList;
-    }
-
-    public ArrayList<Plant> getPlantLibrary() {
-        return plantLibrary;
+    public ArrayList<Plant> getUserLibrary() {
+        return userLibrary;
     }
 
     public Plant getPlant() {

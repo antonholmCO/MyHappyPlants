@@ -8,10 +8,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.view.LibraryPlantPane;
@@ -26,7 +24,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Controller with logic used by the "Home" tab
@@ -118,7 +115,7 @@ public class MyPlantsTabController {
             Message response = connection.makeRequest(getLibrary);
 
             if (response.isSuccess()) {
-                currentUserLibrary = response.getPlantLibrary();
+                currentUserLibrary = response.getUserLibrary();
                 addCurrentUserLibraryToHomeScreen();
                 showNotifications();
             } else {
@@ -133,7 +130,7 @@ public class MyPlantsTabController {
         Thread removePlantThread = new Thread(() -> {
             currentUserLibrary.remove(plant);
             addCurrentUserLibraryToHomeScreen();
-            Message deletePlant = new Message(MessageType.deletePlantFromLibrary, LoggedInUser.getInstance().getUser(), plant);
+            Message deletePlant = new Message(MessageType.deletePlant, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(deletePlant);
             if (!response.isSuccess()) {
@@ -230,7 +227,7 @@ public class MyPlantsTabController {
         imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
     public ObservableList<String> getMorePlantInfoOnMyLibraryPlants(Plant plant) {
-        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfoOnLibraryPlant, plant);
+        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         ObservableList<String> extraInfoOnLibraryPlant = FXCollections.observableArrayList();
         if (response != null) {
