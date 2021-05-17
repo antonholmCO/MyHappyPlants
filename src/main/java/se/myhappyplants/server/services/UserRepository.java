@@ -134,7 +134,7 @@ public class UserRepository {
      */
     public boolean deleteAccount(String email, String password) {
         boolean accountDeleted = false;
-        if (!checkLogin(email, password)) {
+        if (checkLogin(email, password)) {
             String querySelect = "SELECT [User].id from [User] WHERE [User].email = '" + email + "';";
             try {
                 makeConnection();

@@ -9,6 +9,7 @@ public enum BoxTitle {
     Error("hej"),
     Success(""),
     Add("Hej"),
+    GDPR("GDPR"),
     Delete("Hej");
 
     //private final String text;

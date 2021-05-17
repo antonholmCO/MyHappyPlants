@@ -43,33 +43,39 @@ public class RegisterPaneController {
 
     @FXML
     private void registerButtonPressed() {
-        boolean verifiedRegistration = verifier.validateRegistration(this);
-        Thread registerThread = new Thread(() -> {
-            if (!verifiedRegistration) {
-                return;
-            }
-            Message registerRequest = new Message(MessageType.register, new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
-            ClientConnection connection = new ClientConnection();
-            Message registerResponse = connection.makeRequest(registerRequest);
+        int answer = MessageBox.askYesNo(BoxTitle.GDPR, "Your account details will be saved in accordance with GDPR requirements" + "\n" + "Do you still want to create the account?");
+        if(answer == 1){
+            boolean verifiedRegistration = verifier.validateRegistration(this);
+            Thread registerThread = new Thread(() -> {
+                if (!verifiedRegistration) {
+                    return;
+                }
+                Message registerRequest = new Message(MessageType.register, new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
+                ClientConnection connection = new ClientConnection();
+                Message registerResponse = connection.makeRequest(registerRequest);
 
-            if (registerResponse != null) {
-                if (registerResponse.isSuccess()) {
-                    LoggedInUser.getInstance().setUser(registerResponse.getUser());
-                    Platform.runLater(() -> MessageBox.display(BoxTitle.Success, "Account created successfully! Now logged in as " + LoggedInUser.getInstance().getUser().getUsername()));
-                    try {
-                        switchToMainPane();
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
+                if (registerResponse != null) {
+                    if (registerResponse.isSuccess()) {
+                        LoggedInUser.getInstance().setUser(registerResponse.getUser());
+                        Platform.runLater(() -> MessageBox.display(BoxTitle.Success, "Account created successfully! Now logged in as " + LoggedInUser.getInstance().getUser().getUsername()));
+                        try {
+                            switchToMainPane();
+                        }
+                        catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "An account with this email address already exists here at My Happy Plants."));
                     }
                 } else {
-                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "An account with this email address already exists here at My Happy Plants."));
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
                 }
-            } else {
-                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
-            }
-        });
-        registerThread.start();
+            });
+            registerThread.start();
+        }
+        else{
+            return;
+        }
     }
 
     @FXML
