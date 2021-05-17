@@ -99,7 +99,11 @@ public class SearchTabController {
                             updateProgress(i++, searchPlantPanes.size());
                         }
                         Text text = (Text) progressIndicator.lookup(".percentage");
-                        text.setText("Done");
+                        if(text!=null && text.getText().equals("Done")){
+                            text.setText("Done");
+                            progressIndicator.setPrefWidth(text.getLayoutBounds().getWidth());
+                        }
+
                         return true;
                     }
                 };
