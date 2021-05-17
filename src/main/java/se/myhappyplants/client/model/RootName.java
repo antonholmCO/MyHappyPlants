@@ -7,7 +7,7 @@ package se.myhappyplants.client.model;
 public enum RootName {
     mainPane,
     loginPane,
-    plantsTab,
-    settingsTab,
-    homeTab
+    searchTabPane,
+    settingsTabPane,
+    myPlantsTabPane;
 }

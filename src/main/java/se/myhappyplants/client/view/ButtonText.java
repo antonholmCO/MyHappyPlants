@@ -1,7 +1,7 @@
 package se.myhappyplants.client.view;
 
 import javafx.scene.control.ToggleButton;
-import se.myhappyplants.client.controller.SettingsTabController;
+import se.myhappyplants.client.controller.SettingsTabPaneController;
 
 /**
  * Created by: Linn Borgström, 2021-04-13
@@ -9,8 +9,8 @@ import se.myhappyplants.client.controller.SettingsTabController;
  */
 public class ButtonText {
 
-    public static void setNotificationsButtonText(SettingsTabController settingsTabController) {
-        ToggleButton tglBtnChangeNotification = settingsTabController.getTglBtnChangeNotification();
+    public static void setNotificationsButtonText(SettingsTabPaneController settingsTabPaneController) {
+        ToggleButton tglBtnChangeNotification = settingsTabPaneController.getTglBtnChangeNotification();
         if(tglBtnChangeNotification.isSelected()) {
             tglBtnChangeNotification.setText("On");
         }
