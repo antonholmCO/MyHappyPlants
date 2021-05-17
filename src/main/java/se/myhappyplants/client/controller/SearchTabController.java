@@ -3,15 +3,18 @@ package se.myhappyplants.client.controller;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.model.ListSorter;
+import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.SortingOption;
 import se.myhappyplants.client.service.ClientConnection;
-import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
 import se.myhappyplants.shared.Message;
@@ -33,7 +36,7 @@ public class SearchTabController {
     @FXML
     private MainPaneController mainPaneController;
     @FXML
-    private ImageView imgUserPicture;
+    private Circle imgUserPicture;
     @FXML
     private Label lblUsernamePlants;
     @FXML
@@ -52,8 +55,7 @@ public class SearchTabController {
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernamePlants.setText(loggedInUser.getUser().getUsername());
-        //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
-        imgUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail())));
+        imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
         cmbSortOption.setItems(ListSorter.sortOptionsSearch());
     }
 
@@ -73,29 +75,38 @@ public class SearchTabController {
     }
 
     private void showResultsOnPane() {
-        progressIndicator.setProgress(75);
-
         ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
         for (Plant plant : searchResults) {
             searchPlantPanes.add(new SearchPlantPane(this, new File("resources/images/img.png").toURI().toString(), plant));
         }
         listViewResult.getItems().clear();
         listViewResult.setItems(searchPlantPanes);
-        progressIndicator.setProgress(100);
-        Thread imageThread = new Thread(() -> {
-            for (SearchPlantPane spp : searchPlantPanes) {
-                Plant Plant = spp.getPlant();
-                if (Plant.getImageURL().equals("")) {
-                    spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
-                } else {
-                    try {
-                        spp.updateImage();
-                    } catch (IllegalArgumentException e) {
-                        spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
+
+        Task getImagesTask =
+                new Task() {
+                    @Override
+                    protected Object call() {
+                        long i = 1;
+                        for (SearchPlantPane spp : searchPlantPanes) {
+                            Plant Plant = spp.getPlant();
+                            if (Plant.getImageURL().equals("")) {
+                                spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
+                            } else {
+                                try {
+                                    spp.updateImage();
+                                } catch (IllegalArgumentException e) {
+                                    spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
+                                }
+                            }
+                            updateProgress(i++, searchPlantPanes.size());
+                        }
+                        Text text = (Text) progressIndicator.lookup(".percentage");
+                        text.setText("Done");
+                        return true;
                     }
-                }
-            }
-        });
+                };
+        Thread imageThread = new Thread(getImagesTask);
+        progressIndicator.progressProperty().bind(getImagesTask.progressProperty());
         imageThread.start();
     }
 
@@ -103,13 +114,11 @@ public class SearchTabController {
     private void searchButtonPressed() {
         Thread searchThread = new Thread(() -> {
             Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
-            progressIndicator.setProgress(25);
             ClientConnection connection = new ClientConnection();
             Message apiResponse = connection.makeRequest(apiRequest);
 
             if (apiResponse != null) {
                 if (apiResponse.isSuccess()) {
-                    progressIndicator.setProgress(50);
                     searchResults = apiResponse.getPlantList();
                     Platform.runLater(() -> showResultsOnPane());
                 } else {
@@ -138,6 +147,7 @@ public class SearchTabController {
         }
         return waterLightInfo;
     }
+
     /**
      * rearranges the results based on selected sorting option
      */
@@ -149,6 +159,6 @@ public class SearchTabController {
     }
 
     public void updateAvatar() {
-        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+        imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 }

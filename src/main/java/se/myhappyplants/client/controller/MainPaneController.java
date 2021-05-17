@@ -1,6 +1,8 @@
 package se.myhappyplants.client.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.RootName;
 
@@ -55,6 +57,7 @@ public class MainPaneController {
         LoggedInUser.getInstance().setUser(null);
         StartClient.setRoot(String.valueOf(RootName.loginPane));
     }
+
 
     public void updateAvatarOnAllTabs() {
         homePaneController.updateAvatar();

@@ -7,6 +7,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.service.ClientConnection;
@@ -30,7 +32,7 @@ public class SettingsTabController {
 
     @FXML private ToggleButton tglBtnChangeNotification;
     @FXML private MainPaneController mainPaneController;
-    @FXML private ImageView imgViewUserPicture;
+    @FXML private Circle imgViewUserPicture;
     @FXML private Label lblUserName;
     @FXML private PasswordField passFldDeleteAccount;
 
@@ -38,8 +40,7 @@ public class SettingsTabController {
     public void initialize() {
         User loggedInUser = LoggedInUser.getInstance().getUser();
         lblUserName.setText(loggedInUser.getUsername());
-        //imgViewUserPicture.setImage(new Image(loggedInUser.getAvatarURL()));
-        imgViewUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getEmail())));
+        imgViewUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getEmail()))));
         tglBtnChangeNotification.setSelected(loggedInUser.areNotificationsActivated());
         ButtonText.setNotificationsButtonText(this);
         //setNotificationsButtonText();
@@ -117,7 +118,7 @@ public class SettingsTabController {
     }
 
     public void updateAvatar() {
-        imgViewUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+        imgViewUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 
     /**

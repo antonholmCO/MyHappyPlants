@@ -9,6 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.view.LibraryPlantPane;
@@ -41,7 +44,7 @@ public class MyPlantsTabController {
     private Label lblUsernameMyPlants;
 
     @FXML
-    private ImageView imgUserPicture;
+    private Circle imgUserPicture;
 
     @FXML
     private ComboBox<SortingOption> cmbSortOption;
@@ -58,7 +61,8 @@ public class MyPlantsTabController {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameMyPlants.setText(loggedInUser.getUser().getUsername());
         //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
-        imgUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail())));
+        imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
+        //MainPaneController.makeAvatarRound(imgUserPicture);
         cmbSortOption.setItems(ListSorter.sortOptionsLibrary());
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
@@ -223,6 +227,6 @@ public class MyPlantsTabController {
     }
 
     public void updateAvatar() {
-        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+        imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 }
