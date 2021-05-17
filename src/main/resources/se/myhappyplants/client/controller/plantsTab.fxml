@@ -37,7 +37,7 @@
                     </padding>
                 </TextField>
                 <Button fx:id="btnSearch" layoutX="467.0" layoutY="15.0" mnemonicParsing="false" onAction="#searchButtonPressed" prefHeight="23.0" text="Search" />
-                <ProgressIndicator fx:id="progressIndicator" layoutX="545.0" layoutY="7.0" progress="0.0" />
+                <ProgressIndicator fx:id="progressIndicator" layoutX="545.0" layoutY="7.0" progress="0.0"/>
                 <ListView fx:id="listViewResult" accessibleRole="IMAGE_VIEW" fixedCellSize="-2.0" layoutX="12.0" layoutY="86.0" minHeight="50.0" prefHeight="414.0" prefWidth="765.0" />
                 <Label layoutX="14.0" layoutY="57.0" text="Your results:" />
             <Label layoutX="786.0" layoutY="196.0" text="Fun fact:" />

@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.model.ListSorter;
 import se.myhappyplants.client.model.LoggedInUser;
@@ -99,6 +100,8 @@ public class SearchTabController {
                             }
                             updateProgress(i++, searchPlantPanes.size());
                         }
+                        Text text = (Text) progressIndicator.lookup(".percentage");
+                        text.setText("Done");
                         return true;
                     }
                 };
