@@ -34,7 +34,6 @@ public class LibraryPlantPane extends Pane implements PlantPane{
     private ProgressBar progressBar;
     private Button infoButton;
     private Button waterButton;
-
     private Button changeNicknameButton;
     private Button changePictureButton;
     private Button deleteButton;
@@ -221,7 +220,6 @@ public class LibraryPlantPane extends Pane implements PlantPane{
 
         this.setPrefHeight(92.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
-        this.getChildren().addAll(listView,changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
     }
 
 
@@ -237,7 +235,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         timeline.play();
         timeline.setOnFinished(action -> {
             infoButton.setDisable(false);
-            this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
+            this.getChildren().addAll(listView, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
         });
         extended = true;
         gotInfoOnPlant = true;
@@ -257,7 +255,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         );
         timeline.setCycleCount(32);
         timeline.play();
-        this.getChildren().removeAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
+        this.getChildren().removeAll(listView, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
         timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = false;
         gotInfoOnPlant = false;

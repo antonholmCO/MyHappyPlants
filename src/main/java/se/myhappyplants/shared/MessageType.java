@@ -18,5 +18,6 @@ public enum MessageType {
     login,
     success,
     fail,
-    waterLightInfo
+    waterLightInfo,
+    getMorePlantInfoOnLibraryPlant
 }
