@@ -41,7 +41,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
     private ListView listView;
     private ObservableList<String> getAllPlantInfo;
 
-    private boolean extended;
+    public boolean extended;
     private boolean gotInfoOnPlant;
 
     /**
@@ -130,6 +130,10 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         progressBar.setPrefWidth(575.0);
     }
 
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
+
     private void initWaterButton(Plant plant) {
         this.waterButton = new Button("Water");
         waterButton.setLayoutX(400.0);
@@ -149,18 +153,21 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         infoButton.setLayoutY(55.0);
         infoButton.setMnemonicParsing(false);
         infoButton.setOnAction(onPress -> {
-            infoButton.setDisable(true);
-            if (!extended) {
-                if(!gotInfoOnPlant) {
-                    getAllPlantInfo = myPlantsTabPaneController.getMorePlantInfoOnMyLibraryPlants(plant);
-                    listView.setItems(getAllPlantInfo);
-                }
-                expand();
-            }
-            else {
-                collapse();
-            }
+            pressInfoButton();
         });
+    }
+    public void pressInfoButton() {
+        infoButton.setDisable(true);
+        if (!extended) {
+            if(!gotInfoOnPlant) {
+                getAllPlantInfo = myPlantsTabPaneController.getMorePlantInfoOnMyLibraryPlants(plant);
+                listView.setItems(getAllPlantInfo);
+            }
+            expand();
+        }
+        else {
+            collapse();
+        }
     }
 
     private void initChangeNicknameButton(Plant plant) {
@@ -234,6 +241,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         timeline.play();
         timeline.setOnFinished(action -> {
             infoButton.setDisable(false);
+            this.setPrefHeight(292.0);
             this.getChildren().addAll(listView, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
         });
         extended = true;
@@ -255,7 +263,10 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         timeline.setCycleCount(32);
         timeline.play();
         this.getChildren().removeAll(listView, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
-        timeline.setOnFinished(action -> infoButton.setDisable(false));
+        timeline.setOnFinished(action -> {
+            infoButton.setDisable(false);
+            this.setPrefHeight(92.0);
+        });
         extended = false;
         gotInfoOnPlant = false;
     }
@@ -265,7 +276,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
      *
      * @param progress How full the progress bar is(0-1.0)
      */
-    private void setColorProgressBar(double progress) {
+    public void setColorProgressBar(double progress) {
         if (progress < 0.15) {
             progressBar.setStyle("-fx-accent: #BE4052");
         }

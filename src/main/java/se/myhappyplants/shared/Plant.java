@@ -86,7 +86,10 @@ public class Plant implements Serializable {
         difference -= 43000000l;
         double progress = 1.0 - ((double) difference / (double) waterFrequency);
         if (progress <= 0) {
-            return 0.05;
+            progress = 0.05;
+        }
+        else if (progress >= 0.95) {
+            progress = 1.0;
         }
         return progress;
     }

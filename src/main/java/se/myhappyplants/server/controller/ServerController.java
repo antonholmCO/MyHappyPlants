@@ -113,7 +113,10 @@ public class ServerController {
                 String[] moreInformationMessageLibraryPlants = plantRepository.getMoreInformationOnLibraryPlants(request.getPlant());
                 response = new Message(messageType.getMorePlantInfoOnLibraryPlant, moreInformationMessageLibraryPlants);
                 break;
-
+            case changeAllToWatered:
+                boolean changeAllToWateredSuccess = userPlantRepository.changeAllToWatered(request.getUser());
+                response = new Message(MessageType.success, changeAllToWateredSuccess);
+                break;
             default:
                 response = new Message(messageType.fail, false);
         }

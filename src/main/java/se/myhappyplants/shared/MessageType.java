@@ -6,6 +6,7 @@ package se.myhappyplants.shared;
  */
 public enum MessageType {
     changeNickname,
+    changeAllToWatered,
     changeLastWatered,
     getMorePlantInfoOnSearch,
     deletePlantFromLibrary,
