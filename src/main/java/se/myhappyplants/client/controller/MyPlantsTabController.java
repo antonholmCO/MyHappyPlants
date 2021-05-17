@@ -206,7 +206,7 @@ public class MyPlantsTabController {
         Message changeNicknameInDB = new Message(MessageType.changeNickname, LoggedInUser.getInstance().getUser(), plant, newNickname);
         Message response = new ClientConnection().makeRequest(changeNicknameInDB);
         if (!response.isSuccess()) {
-            MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
+            MessageBox.display(BoxTitle.Failed, "It was not possible to change nickname for you plant. Try again.");
             return false;
         } else {
             plant.setNickname(newNickname);

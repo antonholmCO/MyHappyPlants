@@ -1,6 +1,7 @@
 package se.myhappyplants.client.view;
 
 import javafx.animation.FadeTransition;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -34,6 +35,7 @@ public class MessageBox {
 
         Label label = new Label();
         label.setText(message);
+        label.setStyle("-fx-font-size: 18px;");
 
         Button okButton = new Button("OK");
         okButton.setOnAction(action -> {
@@ -47,7 +49,7 @@ public class MessageBox {
 
         Scene scene = new Scene(vBox);
         window.setScene(scene);
-        showAndFade();
+//        showAndFade();
     }
     private static void showAndFade() {
         window.show();
@@ -91,6 +93,11 @@ public class MessageBox {
             window.close();
         });
 
+        //Styling
+        label.setStyle("-fx-font-size: 18px; -fx-padding: 20 20 20 20;");
+        yesButton.setStyle("-fx-font-size: 18px;");
+        noButton.setStyle("-fx-font-size: 18px;");
+        VBox.setMargin(noButton,new Insets(5,0,15,0));
 
         VBox vBox = new VBox(10);
         vBox.getChildren().addAll(label, yesButton, noButton);
@@ -133,6 +140,13 @@ public class MessageBox {
             input.set(textField.getText());
             window.close();
         });
+
+        //Styling
+        label.setStyle("-fx-font-size: 18px; -fx-padding: 20 20 5 20;");
+        textField.setStyle("-fx-font-size: 18px;");
+        enterButton.setStyle("-fx-font-size: 16px;");
+        VBox.setMargin(textField,new Insets(0,20,0,20));
+        VBox.setMargin(enterButton,new Insets(5,0,20,0));
 
         VBox vBox = new VBox(10);
         vBox.getChildren().addAll(label, textField, enterButton);
