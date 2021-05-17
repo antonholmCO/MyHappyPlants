@@ -43,15 +43,21 @@ public class LoginPaneController {
      * @throws IOException
      */
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
         String lastLoggedInUser;
 
-        try (BufferedReader br = new BufferedReader(new FileReader("resources/lastLogin.txt"));) {
-            lastLoggedInUser = br.readLine();
-            txtFldEmail.setText(lastLoggedInUser);
+        File file = new File("resources/lastLogin.txt");
+        if(!file.exists()) {
+            file.createNewFile();
         }
-        catch (IOException e) {
-            e.printStackTrace();
+        else if(file.exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader("resources/lastLogin.txt"));) {
+                lastLoggedInUser = br.readLine();
+                txtFldEmail.setText(lastLoggedInUser);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
