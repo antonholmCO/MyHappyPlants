@@ -8,12 +8,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ClientConnection;
+import se.myhappyplants.client.view.ExecutionMessage;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.Message;
@@ -26,7 +25,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Controller with logic used by the "Home" tab
@@ -55,12 +53,14 @@ public class MyPlantsTabController {
     @FXML
     private ListView<String> lstViewNotifications;
 
+    @FXML
+    private ListView lstViewMessage;
+
 
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameMyPlants.setText(loggedInUser.getUser().getUsername());
-        //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
         imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
         //MainPaneController.makeAvatarRound(imgUserPicture);
         cmbSortOption.setItems(ListSorter.sortOptionsLibrary());
@@ -69,12 +69,17 @@ public class MyPlantsTabController {
 
     }
 
+    public ListView getLstViewMessages() {
+        return lstViewMessage;
+    }
+
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
 
     @FXML
     public void addCurrentUserLibraryToHomeScreen() {
+
         ObservableList<LibraryPlantPane> obsListLibraryPlantPane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
             obsListLibraryPlantPane.add(new LibraryPlantPane());
@@ -112,6 +117,7 @@ public class MyPlantsTabController {
 
     @FXML
     public void createCurrentUserLibraryFromDB() {
+        ExecutionMessage.updateLstViewExecuationMessage(this,MessageText.holdOnInfo);
         Thread getLibraryThread = new Thread(() -> {
             Message getLibrary = new Message(MessageType.getLibrary, LoggedInUser.getInstance().getUser());
             ClientConnection connection = new ClientConnection();
@@ -136,6 +142,7 @@ public class MyPlantsTabController {
             Message deletePlant = new Message(MessageType.deletePlantFromLibrary, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(deletePlant);
+            ExecutionMessage.updateLstViewExecuationMessage(this,MessageText.remove);
             if (!response.isSuccess()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
                 createCurrentUserLibraryFromDB();
@@ -157,14 +164,17 @@ public class MyPlantsTabController {
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
         Plant plantToAdd = new Plant(uniqueNickName, selectedPlant.getPlantId(), date);
+        ExecutionMessage.updateLstViewExecuationMessage(this,MessageText.sucessfullyAdd);
         addPlantToDB(plantToAdd);
     }
 
     @FXML
     public void addPlantToDB(Plant plant) {
+
         Thread addPlantThread = new Thread(() -> {
             currentUserLibrary.add(plant);
             addCurrentUserLibraryToHomeScreen();
+            ExecutionMessage.updateLstViewExecuationMessage(this,MessageText.sucessfullyAdd);
             Message savePlant = new Message(MessageType.savePlant, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(savePlant);
@@ -188,6 +198,7 @@ public class MyPlantsTabController {
      * @param date  new date to change to
      */
     public void changeLastWateredInDB(Plant plant, LocalDate date) {
+        ExecutionMessage.updateLstViewExecuationMessage(this,MessageText.sucessfullyChangedDate);
         Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
         Message response = new ClientConnection().makeRequest(changeLastWatered);
         if (!response.isSuccess()) {
@@ -241,5 +252,7 @@ public class MyPlantsTabController {
         return extraInfoOnLibraryPlant;
 
     }
+
+
 
 }
