@@ -16,16 +16,10 @@ import java.io.IOException;
  */
 
 public class ServerController {
-    private UserRepository userRepository;
-    private UserPlantRepository userPlantRepository;
-    private PlantRepository plantRepository;
     private ResponseContext responseContext;
 
 
     public ServerController(UserRepository userRepository, UserPlantRepository userPlantRepository, PlantRepository plantRepository){
-        this.userRepository = userRepository;
-        this.userPlantRepository = userPlantRepository;
-        this.plantRepository = plantRepository;
         responseContext = new ResponseContext(userRepository, userPlantRepository, plantRepository);
     }
     /**

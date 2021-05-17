@@ -8,6 +8,11 @@ import se.myhappyplants.shared.MessageType;
 
 import java.util.HashMap;
 
+/**
+ * Class that stores all the different handlers for database requests
+ * Created by: Christopher O'Driscoll
+ * Updated by:
+ */
 public class ResponseContext {
 
     private HashMap<MessageType, ResponseHandler> responders = new HashMap<>();
