@@ -2,6 +2,7 @@ package se.myhappyplants.client.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -9,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.MyPlantsTabController;
+import se.myhappyplants.client.controller.SearchTabController;
 import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.shared.Plant;
 
@@ -38,6 +40,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
     private DatePicker datePicker;
     private Button changeOKWaterButton;
     private ListView listView;
+    private ObservableList<String> getAllPlantInfo;
 
     private boolean extended;
     private boolean gotInfoOnPlant;
@@ -149,9 +152,9 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         infoButton.setOnAction(onPress -> {
             infoButton.setDisable(true);
             if (!extended) {
-                if (!gotInfoOnPlant) {
-                    //getAllPlantInfo = plantsTabController.getMorePlantInfo(plant);
-                    //listView.setItems(getAllPlantInfo);
+                if(!gotInfoOnPlant) {
+                    getAllPlantInfo = myPlantsTabController.getMorePlantInfoOnMyLibraryPlants(plant);
+                    listView.setItems(getAllPlantInfo);
                 }
                 expand();
             }
@@ -210,10 +213,10 @@ public class LibraryPlantPane extends Pane implements PlantPane{
 
     private void initListView() {
         listView = new ListView();
-        listView.setLayoutX(this.getWidth());
-        listView.setLayoutY(this.getHeight() + 56.0);
-        listView.setPrefWidth(751.0);
-        listView.setPrefHeight(150.0);
+        listView.setLayoutX(this.getWidth() + 10.0);
+        listView.setLayoutY(this.getHeight() + 100.0); //56.0
+        listView.setPrefWidth(725.0);
+        listView.setPrefHeight(140.0);
 
         this.setPrefHeight(92.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
@@ -232,24 +235,30 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         timeline.play();
         timeline.setOnFinished(action -> {
             infoButton.setDisable(false);
-            this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
+            this.getChildren().addAll(listView, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
         });
         extended = true;
+        gotInfoOnPlant = true;
     }
 
     /**
      * Method for hiding tab with "more information"-buttons.
      */
     public void collapse() {
+        int size = listView.getItems().size();
+        for (int i = 0; i < size; i++) {
+            listView.getItems().remove(0);
+        }
         AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(7.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v - 6.25))))
         );
         timeline.setCycleCount(32);
         timeline.play();
-        this.getChildren().removeAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
+        this.getChildren().removeAll(listView, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
         timeline.setOnFinished(action -> infoButton.setDisable(false));
         extended = false;
+        gotInfoOnPlant = false;
     }
 
     /**
