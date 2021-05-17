@@ -118,7 +118,8 @@ public class SearchPlantPane extends Pane implements PlantPane {
                 }
             }
         };
-        commonName.setStyle("-fx-opacity: 1.0;");
+
+        commonName.setOpacity(1.0);
         commonName.setOnMouseClicked(onPress);
         infoButton.setOnAction(onPress);
     }
