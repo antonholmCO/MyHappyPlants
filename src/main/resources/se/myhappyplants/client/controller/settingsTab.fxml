@@ -11,12 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.shape.Circle?>
 <BorderPane fx:id="settingsPane" prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SettingsTabController">
     <top>
         <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
                 <Button layoutX="908.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" styleClass="logOutButton" text="Log Out" />
-                <ImageView fx:id="imgViewUserPicture" fitHeight="45.0" fitWidth="45.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
+                <Circle radius="25" fx:id="imgViewUserPicture" layoutX="30.0" layoutY="30.0" pickOnBounds="true"/>
                 <Label fx:id="lblUserName" layoutX="74.0" layoutY="18.0" text="Username">
                     <font>
                         <Font size="13.0" />

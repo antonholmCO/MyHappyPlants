@@ -5,11 +5,15 @@ package se.myhappyplants.client.model;
  * Updated by: Linn borgström, 2021-05-13
  */
 public enum BoxTitle {
-    Failed,
-    Error,
-    Success,
-    Add,
-    Delete,
+    Failed("hej"),
+    Error("hej"),
+    Success(""),
+    Add("Hej"),
+    Delete("Hej");
 
+    //private final String text;
 
+    BoxTitle(String text) {
+
+    }
 }

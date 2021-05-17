@@ -1,7 +1,7 @@
 package se.myhappyplants.server.services;
 
-import se.myhappyplants.server.model.LightCalculator;
-import se.myhappyplants.server.model.WaterCalculator;
+import se.myhappyplants.client.model.LightCalculator;
+import se.myhappyplants.client.model.WaterCalculator;
 import se.myhappyplants.shared.Plant;
 
 import java.io.IOException;
