@@ -268,7 +268,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
      */
     private void setColorProgressBar(double progress) {
         if (progress < 0.15) {
-            progressBar.setStyle("-fx-accent: #0B466B");
+            progressBar.setStyle("-fx-accent: #BE4052");
         }
         else {
             progressBar.setStyle("-fx-accent: 2D88AA");
