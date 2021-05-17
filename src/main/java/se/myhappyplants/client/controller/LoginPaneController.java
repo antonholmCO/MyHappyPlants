@@ -49,15 +49,22 @@ public class LoginPaneController {
      * @throws IOException
      */
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
         String lastLoggedInUser;
         verifier = new Verifier();
-        try (BufferedReader br = new BufferedReader(new FileReader("resources/lastLogin.txt"));) {
-            lastLoggedInUser = br.readLine();
-            txtFldEmail.setText(lastLoggedInUser);
+
+        File file = new File("resources/lastLogin.txt");
+        if(!file.exists()) {
+            file.createNewFile();
         }
-        catch (IOException e) {
-            e.printStackTrace();
+        else if(file.exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader("resources/lastLogin.txt"));) {
+                lastLoggedInUser = br.readLine();
+                txtFldEmail.setText(lastLoggedInUser);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -141,45 +148,5 @@ public class LoginPaneController {
         registerThread.start();
     }
 
-    //TODO: Ta upp med gruppen om flyttad logik till klassen Verifier.
-    /**
-     * @return
-     */
-    /*private boolean validateRegistration() {
-        String email = txtFldNewEmail.getText();
-        if (!validateEmail(email)) {
-            Platform.runLater(() -> MessageBox.display("Couldn’t create account", "Please enter your email address in format: yourname@example.com"));
-            return false;
-        }
-        if (txtFldNewUsername.getText().isEmpty()) {
-            Platform.runLater(() -> MessageBox.display("Couldn’t create account", "Please enter a username"));
-            return false;
-        }
-        if (passFldNewPassword.getText().isEmpty()) {
-            Platform.runLater(() -> MessageBox.display("Couldn’t create account", "Please enter a password"));
-            return false;
-        }
-        if (!txtFldNewEmail1.getText().equals(txtFldNewEmail.getText())) {
-            Platform.runLater(() -> MessageBox.display("Couldn’t create account", "Please enter the same email twice"));
-            return false;
-        }
-        if (!passFldNewPassword1.getText().equals(passFldNewPassword.getText())) {
-            Platform.runLater(() -> MessageBox.display("Couldn’t create account", "Please enter the same password twice"));
-            return false;
-        }
-        return true;
-    }*/
 
-    /**
-     * Method for validating an email by checking that it contains @
-     *
-     * @param email input email from user in application
-     * @return true if the email contains @, false if it is not valid
-     */
-    /*private boolean validateEmail(String email) {
-        final String regex = "^(.+)@(.+)$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }*/
 }
