@@ -274,7 +274,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
      * @param plant selected plant
      */
     private void removePlant(Plant plant) {
-        int answer = MessageBox.askYesNo(BoxTitle.Delete, "Are you sure? The deleted plant can't be restored");
+        int answer = MessageBox.askYesNo(BoxTitle.Delete, "The deleted plant can't be restored. Are you sure?");
         if (answer == 1) {
             myPlantsTabController.removePlantFromDB(plant);
         }
