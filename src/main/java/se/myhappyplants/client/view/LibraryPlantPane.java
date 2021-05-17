@@ -9,8 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
-import se.myhappyplants.client.controller.MyPlantsTabController;
-import se.myhappyplants.client.controller.SearchTabController;
+import se.myhappyplants.client.controller.MyPlantsTabPaneController;
 import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.shared.Plant;
 
@@ -26,7 +25,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class LibraryPlantPane extends Pane implements PlantPane{
 
-    private MyPlantsTabController myPlantsTabController;
+    private MyPlantsTabPaneController myPlantsTabPaneController;
     private Plant plant;
     private ImageView image;
     private Label nickname;
@@ -71,12 +70,12 @@ public class LibraryPlantPane extends Pane implements PlantPane{
      * Creates a pane using information from a user's
      * plant library
      *
-     * @param myPlantsTabController MyPlantsTabController which contains logic for elements to use
+     * @param myPlantsTabPaneController MyPlantsTabController which contains logic for elements to use
      * @param imgPath           location of user's avatar image
      * @param plant             plant object from user's library
      */
-    public LibraryPlantPane(MyPlantsTabController myPlantsTabController, String imgPath, Plant plant) {
-        this.myPlantsTabController = myPlantsTabController;
+    public LibraryPlantPane(MyPlantsTabPaneController myPlantsTabPaneController, String imgPath, Plant plant) {
+        this.myPlantsTabPaneController = myPlantsTabPaneController;
         this.plant = plant;
         this.setStyle("-fx-background-color: #FFFFFF;");
         this.image = new ImageView();
@@ -139,7 +138,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         waterButton.setOnAction(action -> {
             progressBar.setProgress(100);
             setColorProgressBar(100);
-            myPlantsTabController.changeLastWateredInDB(plant, java.time.LocalDate.now());
+            myPlantsTabPaneController.changeLastWateredInDB(plant, java.time.LocalDate.now());
             setColorProgressBar(100);
         });
     }
@@ -153,7 +152,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
             infoButton.setDisable(true);
             if (!extended) {
                 if(!gotInfoOnPlant) {
-                    getAllPlantInfo = myPlantsTabController.getMorePlantInfoOnMyLibraryPlants(plant);
+                    getAllPlantInfo = myPlantsTabPaneController.getMorePlantInfoOnMyLibraryPlants(plant);
                     listView.setItems(getAllPlantInfo);
                 }
                 expand();
@@ -268,7 +267,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
      */
     private void setColorProgressBar(double progress) {
         if (progress < 0.15) {
-            progressBar.setStyle("-fx-accent: #0B466B");
+            progressBar.setStyle("-fx-accent: #BE4052");
         }
         else {
             progressBar.setStyle("-fx-accent: 2D88AA");
@@ -285,7 +284,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
     private void removePlant(Plant plant) {
         int answer = MessageBox.askYesNo(BoxTitle.Delete, "The deleted plant can't be restored. Are you sure?");
         if (answer == 1) {
-            myPlantsTabController.removePlantFromDB(plant);
+            myPlantsTabPaneController.removePlantFromDB(plant);
         }
     }
 
@@ -297,7 +296,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         String newNickname = MessageBox.askForStringInput("Change nickname", "New nickname:");
 
         if (!newNickname.equals("")) {
-            changeSuccess = myPlantsTabController.changeNicknameInDB(plant, newNickname);
+            changeSuccess = myPlantsTabPaneController.changeNicknameInDB(plant, newNickname);
             if (changeSuccess) {
                 nickname.setText(newNickname);
             }
@@ -312,7 +311,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         plant.setLastWatered(date);
         progressBar.setProgress(plant.getProgress());
         setColorProgressBar(plant.getProgress());
-        myPlantsTabController.changeLastWateredInDB(plant, date);
+        myPlantsTabPaneController.changeLastWateredInDB(plant, date);
     }
 
     @Override
