@@ -10,17 +10,14 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import se.myhappyplants.client.model.BoxTitle;
-import se.myhappyplants.client.model.ListSorter;
-import se.myhappyplants.client.model.LoggedInUser;
-import se.myhappyplants.client.model.SortingOption;
+import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.client.view.SearchPlantPane;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
-import se.myhappyplants.client.model.SetAvatar;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,6 +68,7 @@ public class SearchTabController {
         if (answer == 1) {
             plantNickname = MessageBox.askForStringInput("Add a nickname", "Nickname:");
         }
+        PopupBox.display(MessageText.sucessfullyAddPlant.toString());
         mainPaneController.getHomePaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
     }
 
@@ -112,6 +110,7 @@ public class SearchTabController {
 
     @FXML
     private void searchButtonPressed() {
+        PopupBox.display(MessageText.holdOnInfo.toString());
         Thread searchThread = new Thread(() -> {
             Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
             ClientConnection connection = new ClientConnection();
@@ -137,6 +136,7 @@ public class SearchTabController {
     }
 
     public ObservableList<String> getMorePlantInfo(Plant plant) {
+        PopupBox.display(MessageText.holdOnInfo.toString());
         Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfoOnSearch, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         ObservableList<String> waterLightInfo = FXCollections.observableArrayList();

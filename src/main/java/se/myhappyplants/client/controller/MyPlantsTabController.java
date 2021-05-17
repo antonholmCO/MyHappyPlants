@@ -12,9 +12,9 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ClientConnection;
-import se.myhappyplants.client.view.ExecutionMessage;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
@@ -117,7 +117,7 @@ public class MyPlantsTabController {
 
     @FXML
     public void createCurrentUserLibraryFromDB() {
-        ExecutionMessage.updateLstViewExecuationMessage(this,MessageText.holdOnInfo);
+        Platform.runLater(() -> PopupBox.display(MessageText.holdOnInfo.toString()));
         Thread getLibraryThread = new Thread(() -> {
             Message getLibrary = new Message(MessageType.getLibrary, LoggedInUser.getInstance().getUser());
             ClientConnection connection = new ClientConnection();
@@ -142,7 +142,7 @@ public class MyPlantsTabController {
             Message deletePlant = new Message(MessageType.deletePlantFromLibrary, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(deletePlant);
-            ExecutionMessage.updateLstViewExecuationMessage(this,MessageText.remove);
+            PopupBox.display(MessageText.remove.toString());
             if (!response.isSuccess()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
                 createCurrentUserLibraryFromDB();
@@ -164,7 +164,7 @@ public class MyPlantsTabController {
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
         Plant plantToAdd = new Plant(uniqueNickName, selectedPlant.getPlantId(), date);
-        ExecutionMessage.updateLstViewExecuationMessage(this,MessageText.sucessfullyAdd);
+        PopupBox.display(MessageText.sucessfullyAddPlant.toString());
         addPlantToDB(plantToAdd);
     }
 
@@ -174,7 +174,7 @@ public class MyPlantsTabController {
         Thread addPlantThread = new Thread(() -> {
             currentUserLibrary.add(plant);
             addCurrentUserLibraryToHomeScreen();
-            ExecutionMessage.updateLstViewExecuationMessage(this,MessageText.sucessfullyAdd);
+            PopupBox.display(MessageText.sucessfullyAddPlant.toString());
             Message savePlant = new Message(MessageType.savePlant, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(savePlant);
@@ -198,7 +198,7 @@ public class MyPlantsTabController {
      * @param date  new date to change to
      */
     public void changeLastWateredInDB(Plant plant, LocalDate date) {
-        ExecutionMessage.updateLstViewExecuationMessage(this,MessageText.sucessfullyChangedDate);
+        PopupBox.display(MessageText.sucessfullyChangedDate.toString());
         Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
         Message response = new ClientConnection().makeRequest(changeLastWatered);
         if (!response.isSuccess()) {
@@ -214,6 +214,7 @@ public class MyPlantsTabController {
      * @return
      */
     public boolean changeNicknameInDB(Plant plant, String newNickname) {
+        PopupBox.display(MessageText.sucessfullyChangedPlant.toString());
         Message changeNicknameInDB = new Message(MessageType.changeNickname, LoggedInUser.getInstance().getUser(), plant, newNickname);
         Message response = new ClientConnection().makeRequest(changeNicknameInDB);
         if (!response.isSuccess()) {

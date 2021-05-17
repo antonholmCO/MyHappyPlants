@@ -1,11 +1,11 @@
 package se.myhappyplants.client.model;
 
 public enum MessageText {
-    sucessfullyAdd(" You successfully added a plant"),
-    sucessfullyChangedPlant(" You sucessfully changed "),
-    sucessfullyChangedDate(" You sucessfully changed the date"),
+    sucessfullyAddPlant(" You added \n a plant"),
+    sucessfullyChangedPlant(" You changed \n a plants information"),
+    sucessfullyChangedDate(" You changed \n the water date"),
     remove("You removed a plant"),
-    holdOnInfo("Hold on while we are getting your information");
+    holdOnInfo("Hold on \n while we are \n getting your information");
 
 
     private final String name;
