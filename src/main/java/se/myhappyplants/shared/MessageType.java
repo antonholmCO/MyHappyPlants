@@ -19,5 +19,4 @@ public enum MessageType {
     success,
     fail,
     plantDetails,
-    getMorePlantInfoOnLibraryPlant
 }
