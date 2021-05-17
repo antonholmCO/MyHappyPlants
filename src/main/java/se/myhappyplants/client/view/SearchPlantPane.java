@@ -12,7 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import se.myhappyplants.client.controller.SearchTabController;
+import se.myhappyplants.client.controller.SearchTabPaneController;
 
 import se.myhappyplants.shared.Plant;
 
@@ -30,7 +30,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
     private Button addButton;
 
     private Plant plant;
-    private SearchTabController searchTabController;
+    private SearchTabPaneController searchTabPaneController;
     private ListView listView;
     private ImageView imgViewPlusSign;
     private boolean gotInfoOnPlant;
@@ -39,8 +39,8 @@ public class SearchPlantPane extends Pane implements PlantPane {
 
     private boolean extended;
 
-    public SearchPlantPane(SearchTabController searchTabController, String imgPath, Plant plant) {
-        this.searchTabController = searchTabController;
+    public SearchPlantPane(SearchTabPaneController searchTabPaneController, String imgPath, Plant plant) {
+        this.searchTabPaneController = searchTabPaneController;
         this.plant = plant;
         initImage(imgPath);
         initCommonName();
@@ -91,7 +91,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
         addButton.setLayoutX(705.0);
         addButton.setLayoutY(16.0);
         addButton.setMnemonicParsing(false);
-        addButton.setOnAction(action -> searchTabController.addPlantToCurrentUserLibrary(plant));
+        addButton.setOnAction(action -> searchTabPaneController.addPlantToCurrentUserLibrary(plant));
     }
 
     private void initImgViewPlusSign() {
@@ -109,7 +109,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
                 commonName.setDisable(true);
                 if (!extended) {
                     if (!gotInfoOnPlant) {
-                        getAllPlantInfo = searchTabController.getMorePlantInfo(plant);
+                        getAllPlantInfo = searchTabPaneController.getMorePlantInfo(plant);
                         listView.setItems(getAllPlantInfo);
                     }
                     extendPaneMoreInfoPlant();

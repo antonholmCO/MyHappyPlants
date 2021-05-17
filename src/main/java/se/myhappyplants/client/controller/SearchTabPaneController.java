@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * Updated by: Christopher O'Driscoll, 2021-05-14
  */
 
-public class SearchTabController {
+public class SearchTabPaneController {
 
     @FXML
     private MainPaneController mainPaneController;

@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * Created by:
  * Updated by: Christopher O'Driscoll, 2021-05-14
  */
-public class MyPlantsTabController {
+public class MyPlantsTabPaneController {
 
     private ArrayList<Plant> currentUserLibrary;
 
