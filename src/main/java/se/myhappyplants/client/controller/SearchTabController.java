@@ -10,12 +10,15 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import se.myhappyplants.client.model.ClientConnection;
+import se.myhappyplants.client.model.BoxTitle;
+import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
-import se.myhappyplants.shared.DBPlant;
 import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.MessageType;
+import se.myhappyplants.shared.Plant;
+import se.myhappyplants.client.model.SetAvatar;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,17 +26,17 @@ import java.util.ArrayList;
 
 /**
  * Created by: Christopher O'Driscoll
- * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
+ * Updated by: Linn Borgström, 2021-05-13
  */
 
-public class PlantsTabController {
+public class SearchTabController {
 
     @FXML
     private MainPaneController mainPaneController;
     @FXML
-    private ImageView imgViewUserPicture;
+    private ImageView imgUserPicture;
     @FXML
-    private Label lblUserName;
+    private Label lblUsernamePlants;
     @FXML
     private TextField txtFldSearchText;
     @FXML
@@ -41,11 +44,13 @@ public class PlantsTabController {
     @FXML
     private ProgressIndicator progressIndicator;
 
+
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
-        lblUserName.setText(loggedInUser.getUser().getUsername());
-        imgViewUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+        lblUsernamePlants.setText(loggedInUser.getUser().getUsername());
+        //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+        imgUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail())));
     }
 
     public void setMainController(MainPaneController mainPaneController) {
@@ -53,22 +58,22 @@ public class PlantsTabController {
     }
 
     @FXML
-    public void addPlantToCurrentUserLibrary(DBPlant selectedPlant) {
-        String plantNickname = selectedPlant.getCommonName();
+    public void addPlantToCurrentUserLibrary(Plant plantAdd) {
+        String plantNickname = plantAdd.getCommonName();
 
-        int answer = MessageBox.askYesNo("Add a new plant to library", "Do you want to add a nickname for your plant?");
+        int answer = MessageBox.askYesNo(BoxTitle.Add, "Do you want to add a nickname for your plant?");
         if (answer == 1) {
             plantNickname = MessageBox.askForStringInput("Add a nickname", "Nickname:");
         }
-        mainPaneController.getHomePaneController().addPlantToCurrentUserLibrary(selectedPlant, plantNickname);
+        mainPaneController.getHomePaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
     }
 
     private void showResultsOnPane(Message apiResponse) {
         progressIndicator.setProgress(75);
-        ArrayList<DBPlant> searchedPlant = apiResponse.getPlantList();
+        ArrayList<Plant> searchedPlant = apiResponse.getPlantList();
 
         ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
-        for (DBPlant plant : searchedPlant) {
+        for (Plant plant : searchedPlant) {
             searchPlantPanes.add(new SearchPlantPane(this, new File("resources/images/img.png").toURI().toString(), plant));
         }
         listViewResult.getItems().clear();
@@ -76,8 +81,8 @@ public class PlantsTabController {
         progressIndicator.setProgress(100);
         Thread imageThread = new Thread(() -> {
             for (SearchPlantPane spp : searchPlantPanes) {
-                DBPlant DBPlant = spp.getApiPlant();
-                if (DBPlant.getImageURL().equals("")) {
+                Plant Plant = spp.getApiPlant();
+                if (Plant.getImageURL().equals("")) {
                     spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
                 } else {
                     try {
@@ -94,7 +99,7 @@ public class PlantsTabController {
     @FXML
     private void searchButtonPressed() {
         Thread searchThread = new Thread(() -> {
-            Message apiRequest = new Message("search", txtFldSearchText.getText());
+            Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
             progressIndicator.setProgress(25);
             ClientConnection connection = new ClientConnection();
             Message apiResponse = connection.makeRequest(apiRequest);
@@ -104,10 +109,10 @@ public class PlantsTabController {
                     progressIndicator.setProgress(50);
                     Platform.runLater(() -> showResultsOnPane(apiResponse));
                 } else {
-                    //TODO (på riktigt) fixa skicka inget felmeddelande, visa label med sökresultat 0 istället
+                    //TODO: skicka inget felmeddelande, visa label med sökresultat 0 istället
                 }
             } else {
-                Platform.runLater(() -> MessageBox.display("Error", "The connection to the server has failed. Check your connection and try again."));
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "The connection to the server has failed. Check your connection and try again."));
             }
         });
         searchThread.start();
@@ -118,8 +123,8 @@ public class PlantsTabController {
         mainPaneController.logoutButtonPressed();
     }
 
-    public ObservableList<String> getMorePlantInfo(DBPlant dbPlant) {
-        Message getInfoSearchedPlant = new Message("getMorePlantInfoOnSearch", dbPlant);
+    public ObservableList<String> getMorePlantInfo(Plant plant) {
+        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfoOnSearch, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
         if (response != null) {
@@ -131,6 +136,6 @@ public class PlantsTabController {
     }
 
     public void updateAvatar() {
-        imgViewUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
     }
 }

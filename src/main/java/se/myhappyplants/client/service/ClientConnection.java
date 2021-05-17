@@ -1,5 +1,5 @@
 
-package se.myhappyplants.client.model;
+package se.myhappyplants.client.service;
 
 import se.myhappyplants.shared.Message;
 

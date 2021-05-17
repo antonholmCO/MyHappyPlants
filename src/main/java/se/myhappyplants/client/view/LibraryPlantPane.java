@@ -2,19 +2,19 @@ package se.myhappyplants.client.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
-import se.myhappyplants.client.controller.HomeTabController;
-import se.myhappyplants.client.controller.PlantsTabController;
-import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.client.controller.MyPlantsTabController;
+import se.myhappyplants.client.model.BoxTitle;
+import se.myhappyplants.shared.Plant;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -23,22 +23,20 @@ import java.util.concurrent.atomic.AtomicReference;
  * Updated by: Frida Jacobsson
  */
 public class LibraryPlantPane extends Pane {
-    private HomeTabController homeTabController;
-    private PlantsTabController plantsTabController;
 
+    private MyPlantsTabController myPlantsTabController;
     private ImageView image;
     private Label nickname;
+    private Label lastWateredLabel;
     private ProgressBar progressBar;
     private Button infoButton;
     private Button waterButton;
-
     private Button changeNicknameButton;
     private Button changePictureButton;
     private Button deleteButton;
     private DatePicker datePicker;
-    private Button changeOKButton;
+    private Button changeOKWaterButton;
     private ListView listView;
-    private ObservableList<String> getAllPlantInfo;
 
     private boolean extended;
     private boolean gotInfoOnPlant;
@@ -69,18 +67,31 @@ public class LibraryPlantPane extends Pane {
      * Creates a pane using information from a user's
      * plant library
      *
-     * @param homeTabController HomeTabController which contains logic for elements to use
-     * @param imgPath    location of user's avatar image
-     * @param plant      plant object from user's library
+     * @param myPlantsTabController MyPlantsTabController which contains logic for elements to use
+     * @param imgPath           location of user's avatar image
+     * @param plant             plant object from user's library
      */
-    public LibraryPlantPane(HomeTabController homeTabController, PlantsTabController plantsTabController, String imgPath, DBPlant plant) {
-        this.homeTabController = homeTabController;
-        this.plantsTabController = plantsTabController;
+    public LibraryPlantPane(MyPlantsTabController myPlantsTabController, String imgPath, Plant plant) {
+        this.myPlantsTabController = myPlantsTabController;
         this.setStyle("-fx-background-color: #FFFFFF;");
+        this.image = new ImageView();
+        initImages(imgPath);
+        initNicknameLabel(plant);
+        initLastWateredLabel(plant);
+        initProgressBar(plant);
+        initWaterButton(plant);
+        initInfoButton();
+        initChangeNicknameButton(plant);
+        initChangePictureButton();
+        initChangeWaterOKButton(plant);
+        initDatePicker();
+        initDeleteButton(plant);
+        initListView();
+    }
+
+    private void initImages(String imgPath) {
         File fileImg = new File(imgPath);
         Image img = new Image(fileImg.toURI().toString());
-
-        this.image = new ImageView();
         image.setFitHeight(70.0);
         image.setFitWidth(70.0);
         image.setLayoutX(50.0);
@@ -88,20 +99,34 @@ public class LibraryPlantPane extends Pane {
         image.setPickOnBounds(true);
         image.setPreserveRatio(true);
         image.setImage(img);
+    }
 
+    private void initNicknameLabel(Plant plant) {
         nickname = new Label(plant.getNickname());
         nickname.setLayoutX(0);
         nickname.setLayoutY(70);
         nickname.setPrefWidth(145);
         nickname.setAlignment(Pos.CENTER);
+    }
 
+    private void initLastWateredLabel(Plant plant) {
+        this.lastWateredLabel = new Label();
+        lastWateredLabel.setLayoutY(226);
+        lastWateredLabel.setLayoutX(10);
+        Date lastWateredDate = plant.getLastWatered();
+        lastWateredLabel.setText("Last watered: " +lastWateredDate.toString());
+    }
+
+    private void initProgressBar(Plant plant) {
         this.progressBar = new ProgressBar(plant.getProgress());
         setColorProgressBar(plant.getProgress());
         progressBar.setLayoutX(150.0);
         progressBar.setLayoutY(28.0);
         progressBar.setPrefHeight(18.0);
         progressBar.setPrefWidth(575.0);
+    }
 
+    private void initWaterButton(Plant plant) {
         this.waterButton = new Button("Water");
         waterButton.setLayoutX(400.0);
         waterButton.setLayoutY(55.0);
@@ -109,10 +134,12 @@ public class LibraryPlantPane extends Pane {
         waterButton.setOnAction(action -> {
             progressBar.setProgress(100);
             setColorProgressBar(100);
-            homeTabController.changeLastWateredInDB(plant, java.time.LocalDate.now());
+            myPlantsTabController.changeLastWateredInDB(plant, java.time.LocalDate.now());
             setColorProgressBar(100);
         });
+    }
 
+    private void initInfoButton() {
         this.infoButton = new Button("Show info");
         infoButton.setLayoutX(150.0);
         infoButton.setLayoutY(55.0);
@@ -120,16 +147,19 @@ public class LibraryPlantPane extends Pane {
         infoButton.setOnAction(onPress -> {
             infoButton.setDisable(true);
             if (!extended) {
-                if(!gotInfoOnPlant) {
+                if (!gotInfoOnPlant) {
                     //getAllPlantInfo = plantsTabController.getMorePlantInfo(plant);
                     //listView.setItems(getAllPlantInfo);
                 }
                 expand();
-            } else {
+            }
+            else {
                 collapse();
             }
         });
+    }
 
+    private void initChangeNicknameButton(Plant plant) {
         this.changeNicknameButton = new Button("Change nickname");
         changeNicknameButton.setLayoutX(333.0);
         changeNicknameButton.setLayoutY(250.0);
@@ -137,28 +167,36 @@ public class LibraryPlantPane extends Pane {
         changeNicknameButton.setOnAction(onPress -> {
             changeNickname(plant);
         });
+    }
 
-        this.changeOKButton = new Button("Change");
-        changeOKButton.setLayoutX(215.0);
-        changeOKButton.setLayoutY(250.0);
-        changeOKButton.setMnemonicParsing(false);
-        changeOKButton.setOnAction(onPress -> {
+    private void initChangeWaterOKButton(Plant plant) {
+        this.changeOKWaterButton = new Button("Change");
+        changeOKWaterButton.setLayoutX(215.0);
+        changeOKWaterButton.setLayoutY(250.0);
+        changeOKWaterButton.setMnemonicParsing(false);
+        changeOKWaterButton.setOnAction(onPress -> {
             changeDate(plant);
             datePicker.setPromptText("Change last watered");
         });
+    }
 
+    private void initChangePictureButton() {
         this.changePictureButton = new Button("Change picture");
         changePictureButton.setLayoutX(488.0);
         changePictureButton.setLayoutY(250.0);
         changePictureButton.setMnemonicParsing(false);
+    }
 
+    private void initDatePicker() {
         this.datePicker = new DatePicker();
         datePicker.setLayoutX(10.0);
         datePicker.setLayoutY(250.0);
         datePicker.setEditable(false);
         datePicker.setPrefWidth(200);
         datePicker.setPromptText("Change last watered");
+    }
 
+    private void initDeleteButton(Plant plant) {
         this.deleteButton = new Button("Delete plant");
         deleteButton.setLayoutX(625.0);
         deleteButton.setLayoutY(250.0);
@@ -166,6 +204,9 @@ public class LibraryPlantPane extends Pane {
         deleteButton.setOnAction(onPress -> {
             removePlant(plant);
         });
+    }
+
+    private void initListView() {
         listView = new ListView();
         listView.setLayoutX(this.getWidth());
         listView.setLayoutY(this.getHeight() + 56.0);
@@ -173,9 +214,8 @@ public class LibraryPlantPane extends Pane {
         listView.setPrefHeight(150.0);
 
         this.setPrefHeight(92.0);
-//        this.setPrefWidth(720.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
-        this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKButton);
+        this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
     }
 
 
@@ -215,7 +255,8 @@ public class LibraryPlantPane extends Pane {
     private void setColorProgressBar(double progress) {
         if (progress < 0.15) {
             progressBar.setStyle("-fx-accent: #0B466B");
-        } else {
+        }
+        else {
             progressBar.setStyle("-fx-accent: 2D88AA");
         }
     }
@@ -227,19 +268,19 @@ public class LibraryPlantPane extends Pane {
      *
      * @param plant selected plant
      */
-    private void removePlant(DBPlant plant) {
-        int answer = MessageBox.askYesNo("Delete plant", "Are you sure? The deleted plant can't be restored");
+    private void removePlant(Plant plant) {
+        int answer = MessageBox.askYesNo(BoxTitle.Delete, "Are you sure? The deleted plant can't be restored");
         if (answer == 1) {
-            homeTabController.removePlantFromDB(plant);
+            myPlantsTabController.removePlantFromDB(plant);
         }
     }
 
     /**
      * @param plant
      */
-    private void changeNickname(DBPlant plant) {
+    private void changeNickname(Plant plant) {
         String newNickname = MessageBox.askForStringInput("Change nickname", "New nickname:");
-        if (homeTabController.changeNicknameInDB(plant, newNickname)) {
+        if (myPlantsTabController.changeNicknameInDB(plant, newNickname)) {
             nickname.setText(newNickname);
         }
     }
@@ -247,11 +288,11 @@ public class LibraryPlantPane extends Pane {
     /**
      * @param plant
      */
-    private void changeDate(DBPlant plant) {
+    private void changeDate(Plant plant) {
         LocalDate date = datePicker.getValue();
         plant.setLastWatered(date);
         progressBar.setProgress(plant.getProgress());
         setColorProgressBar(plant.getProgress());
-        homeTabController.changeLastWateredInDB(plant, date);
+        myPlantsTabController.changeLastWateredInDB(plant, date);
     }
 }

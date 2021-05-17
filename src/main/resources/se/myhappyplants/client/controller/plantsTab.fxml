@@ -12,13 +12,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="plantsPane" prefHeight="570.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.PlantsTabController">
+<BorderPane fx:id="plantsPane" prefHeight="570.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SearchTabController">
     <top>
-        <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <AnchorPane  prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
                 <Button fx:id="btnLogOut" layoutX="908.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" styleClass="logOutButton" text="Log Out" />
-                <ImageView fx:id="imgViewUserPicture" fitHeight="45.0" fitWidth="45.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
-                <Label fx:id="lblUserName" layoutX="74.0" layoutY="18.0" text="Username">
+                <ImageView fx:id="imgUserPicture" fitHeight="45.0" fitWidth="45.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
+                <Label fx:id="lblUsernamePlants" layoutX="74.0" layoutY="18.0" text="Username">
                     <font>
                         <Font size="13.0" />
                     </font>

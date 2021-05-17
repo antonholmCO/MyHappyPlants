@@ -2,6 +2,7 @@ package se.myhappyplants.client.controller;
 
 import javafx.fxml.FXML;
 import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.model.RootName;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -16,9 +17,9 @@ import java.io.IOException;
 public class MainPaneController {
 
     @FXML
-    private HomeTabController homePaneController;
+    private MyPlantsTabController homePaneController;
     @FXML
-    private PlantsTabController plantsPaneController;
+    private SearchTabController plantsPaneController;
     @FXML
     private SettingsTabController settingsPaneController;
 
@@ -32,7 +33,7 @@ public class MainPaneController {
         settingsPaneController.setMainController(this);
     }
 
-    public HomeTabController getHomePaneController() {
+    public MyPlantsTabController getHomePaneController() {
         return homePaneController;
     }
 
@@ -53,7 +54,7 @@ public class MainPaneController {
             e.printStackTrace();
         }
         LoggedInUser.getInstance().setUser(null);
-        StartClient.setRoot("loginPane");
+        StartClient.setRoot(String.valueOf(RootName.loginPane));
     }
 
     public void updateAvatarOnAllTabs() {
@@ -62,7 +63,5 @@ public class MainPaneController {
         settingsPaneController.updateAvatar();
     }
 
-    public PlantsTabController getPlantsTabController() {
-        return plantsPaneController;
-    }
+
 }

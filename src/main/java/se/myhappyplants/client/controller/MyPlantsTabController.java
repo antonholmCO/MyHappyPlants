@@ -8,12 +8,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import se.myhappyplants.client.model.ClientConnection;
+import se.myhappyplants.client.model.BoxTitle;
+import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.model.PictureRandomizer;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
-import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.MessageType;
+import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.Message;
+import se.myhappyplants.client.model.SetAvatar;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -23,37 +27,33 @@ import java.util.Random;
 
 /**
  * Controller with logic used by the "Home" tab
+ * Created by:
+ * Updated by: Linn Borgström, 2021-05-13
  */
-public class HomeTabController {
+public class MyPlantsTabController {
 
-    private ArrayList<DBPlant> currentUserLibrary;
+    private ArrayList<Plant> currentUserLibrary;
 
-    @FXML
-    private MainPaneController mainPaneController;
+    @FXML private MainPaneController mainPaneController;
 
-    @FXML
-    private PlantsTabController plantsTabController;
+    @FXML private Label lblUsernameMyPlants;
 
-    @FXML
-    private Label lblUserName;
+    @FXML private ImageView imgUserPicture;
 
-    @FXML
-    private ImageView imgViewUserPicture;
+    @FXML private ListView lstViewUserPlantLibrary;
 
-    @FXML
-    private ListView userPlantLibrary;
+    @FXML private ListView lstViewNotifications;
 
-    @FXML
-    public ListView notificationsList;
 
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
-        lblUserName.setText(loggedInUser.getUser().getUsername());
-        imgViewUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
-
+        lblUsernameMyPlants.setText(loggedInUser.getUser().getUsername());
+        //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
+        imgUserPicture.setImage(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail())));
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
+
     }
 
     public void setMainController(MainPaneController mainPaneController) {
@@ -65,68 +65,39 @@ public class HomeTabController {
         ObservableList<LibraryPlantPane> obsListLibraryPlantPane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
             obsListLibraryPlantPane.add(new LibraryPlantPane());
-        }
-        else {
-            for (DBPlant plant : currentUserLibrary) {
-                obsListLibraryPlantPane.add(new LibraryPlantPane(this, plantsTabController, getRandomImagePath(), plant));
+        } else {
+            for (Plant plant : currentUserLibrary) {
+                obsListLibraryPlantPane.add(new LibraryPlantPane(this, PictureRandomizer.getRandomPicture(), plant));
             }
         }
-        Platform.runLater(() -> userPlantLibrary.setItems(obsListLibraryPlantPane));
+        Platform.runLater(() -> lstViewUserPlantLibrary.setItems(obsListLibraryPlantPane));
     }
 
-    /**
-     * Method that generated a random path to a image of a flower
-     *
-     * @return
-     */
-    private String getRandomImagePath() {
-        Random random = new Random();
-        switch (1 + random.nextInt(8)) {
-            case 1:
-                return "resources/images/blomma2.jpg";
-            case 2:
-                return "resources/images/blomma5.jpg";
-            case 3:
-                return "resources/images/blomma6.jpg";
-            case 4:
-                return "resources/images/blomma9.jpg";
-            case 5:
-                return "resources/images/blomma10.jpg";
-            case 6:
-                return "resources/images/blomma17.jpg";
-            case 7:
-                return "resources/images/blomma18.jpg";
-            case 8:
-                return "resources/images/blomma19.jpg";
-            default:
-                return "resources/images/blomma21.jpg";
-        }
-    }
 
-    public void showNotifications() {
-        ObservableList<String> notificationString = FXCollections.observableArrayList();
+
+    public void showNotifications () {
+        ObservableList<String> notificationStrings = FXCollections.observableArrayList();
         if (LoggedInUser.getInstance().getUser().areNotificationsActivated()) {
             int plantsThatNeedWater = 0;
-            for (DBPlant plant : currentUserLibrary) {
+            for (Plant plant : currentUserLibrary) {
                 if (plant.getProgress() < 0.25) {
                     plantsThatNeedWater++;
-                    notificationString.add(plant.getNickname() + " needs water");
+                    notificationStrings.add(plant.getNickname() + " needs water");
                 }
             }
             if (plantsThatNeedWater == 0) {
-                notificationString.add("All your plants are watered");
+                notificationStrings.add("All your plants are watered");
             }
         }
         else {
-            notificationString.add("");
+            notificationStrings.add("");
         }
-        Platform.runLater(() -> notificationsList.setItems(notificationString));
+        Platform.runLater(() -> lstViewNotifications.setItems(notificationStrings));
     }
-
     @FXML
     public void createCurrentUserLibraryFromDB() {
         Thread getLibraryThread = new Thread(() -> {
-            Message getLibrary = new Message("getLibrary", LoggedInUser.getInstance().getUser());
+            Message getLibrary = new Message(MessageType.getLibrary, LoggedInUser.getInstance().getUser());
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(getLibrary);
 
@@ -134,24 +105,23 @@ public class HomeTabController {
                 currentUserLibrary = response.getPlantLibrary();
                 addCurrentUserLibraryToHomeScreen();
                 showNotifications();
-            }
-            else {
-                Platform.runLater(() -> MessageBox.display("Couldn't load library", "The connection to the server has failed. Check your connection and try again."));
+            } else {
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
             }
         });
         getLibraryThread.start();
     }
 
     @FXML
-    public void removePlantFromDB(DBPlant plant) {
+    public void removePlantFromDB(Plant plant) {
         Thread removePlantThread = new Thread(() -> {
             currentUserLibrary.remove(plant);
             addCurrentUserLibraryToHomeScreen();
-            Message deletePlant = new Message("deletePlantFromLibrary", LoggedInUser.getInstance().getUser(), plant);
+            Message deletePlant = new Message(MessageType.deletePlantFromLibrary, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(deletePlant);
             if (!response.isSuccess()) {
-                Platform.runLater(() -> MessageBox.display("Couldn't delete plant", "The connection to the server has failed. Check your connection and try again."));
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
                 createCurrentUserLibraryFromDB();
             }
         });
@@ -159,10 +129,10 @@ public class HomeTabController {
     }
 
     @FXML
-    public void addPlantToCurrentUserLibrary(DBPlant selectedPlant, String plantNickname) {
+    public void addPlantToCurrentUserLibrary(Plant selectedPlant, String plantNickname) {
         int plantsWithThisNickname = 1;
         String uniqueNickName = plantNickname;
-        for (DBPlant plant : currentUserLibrary) {
+        for (Plant plant : currentUserLibrary) {
             if (plant.getNickname().equals(uniqueNickName)) {
                 plantsWithThisNickname++;
                 uniqueNickName = plantNickname + plantsWithThisNickname;
@@ -170,20 +140,20 @@ public class HomeTabController {
         }
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
-        DBPlant plantToAdd = new DBPlant(uniqueNickName, selectedPlant.getPlantId(), date);
+        Plant plantToAdd = new Plant(uniqueNickName, selectedPlant.getPlantId(), date);
         addPlantToDB(plantToAdd);
     }
 
     @FXML
-    public void addPlantToDB(DBPlant plant) {
+    public void addPlantToDB(Plant plant) {
         Thread addPlantThread = new Thread(() -> {
             currentUserLibrary.add(plant);
             addCurrentUserLibraryToHomeScreen();
-            Message savePlant = new Message("savePlant", LoggedInUser.getInstance().getUser(), plant);
+            Message savePlant = new Message(MessageType.savePlant, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(savePlant);
             if (!response.isSuccess()) {
-                Platform.runLater(() -> MessageBox.display("Couldn’t add plant to library", "The connection to the server has failed. Check your connection and try again."));
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
                 createCurrentUserLibraryFromDB();
             }
         });
@@ -201,11 +171,11 @@ public class HomeTabController {
      * @param plant instance of the plant which to change last watered date
      * @param date  new date to change to
      */
-    public void changeLastWateredInDB(DBPlant plant, LocalDate date) {
-        Message changeLastWatered = new Message("changeLastWatered", LoggedInUser.getInstance().getUser(), plant, date);
+    public void changeLastWateredInDB(Plant plant, LocalDate date) {
+        Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
         Message response = new ClientConnection().makeRequest(changeLastWatered);
         if (!response.isSuccess()) {
-            MessageBox.display("Couldn’t change date", "The connection to the server has failed. Check your connection and try again.");
+            MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
         }
         createCurrentUserLibraryFromDB();
     }
@@ -215,20 +185,19 @@ public class HomeTabController {
      * @param newNickname
      * @return
      */
-    public boolean changeNicknameInDB(DBPlant plant, String newNickname) {
-        Message changeNicknameInDB = new Message("changeNickname", LoggedInUser.getInstance().getUser(), plant, newNickname);
+    public boolean changeNicknameInDB(Plant plant, String newNickname) {
+        Message changeNicknameInDB = new Message(MessageType.changeNickname, LoggedInUser.getInstance().getUser(), plant, newNickname);
         Message response = new ClientConnection().makeRequest(changeNicknameInDB);
         if (!response.isSuccess()) {
-            MessageBox.display("Couldn’t change nickname", "The connection to the server has failed. Check your connection and try again.");
+            MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
             return false;
-        }
-        else {
+        } else {
             plant.setNickname(newNickname);
             return true;
         }
     }
 
     public void updateAvatar() {
-        imgViewUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
     }
 }
