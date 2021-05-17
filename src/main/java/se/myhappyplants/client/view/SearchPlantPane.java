@@ -14,7 +14,9 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.SearchTabPaneController;
 
+import se.myhappyplants.client.model.WaterCalculator;
 import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.PlantDetails;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -109,8 +111,16 @@ public class SearchPlantPane extends Pane implements PlantPane {
                 commonName.setDisable(true);
                 if (!extended) {
                     if (!gotInfoOnPlant) {
-                        getAllPlantInfo = searchTabPaneController.getMorePlantInfo(plant);
-                        listView.setItems(getAllPlantInfo);
+                        PlantDetails plantDetails = searchTabPaneController.getPlantDetails(plant);
+                        String genus = plantDetails.getGenus();
+                        String light = plantDetails.getLight();
+                        String waterFrequency = plantDetails.getWaterFrequency();
+                        String family = plantDetails.getFamily();
+                        long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(waterFrequency);
+                        String waterText = WaterTextFormatter.getWaterString(waterInMilli);
+                        ObservableList<java.lang.String> names = FXCollections.observableArrayList<java.lang.String>(waterInMilli);
+
+                        plantDetailStringList = listView.setItems(plantDetailStringList);
                     }
                     extendPaneMoreInfoPlant();
                 } else {

@@ -7,17 +7,17 @@ package se.myhappyplants.shared;
 public enum MessageType {
     changeNickname,
     changeLastWatered,
-    getMorePlantInfoOnSearch,
+    getPlantDetails,
     deletePlantFromLibrary,
     savePlant,
     changeNotifications,
     getLibrary,
-    search,
+    searchForPlant,
     deleteAccount,
     register,
     login,
     success,
     fail,
-    waterLightInfo,
+    plantDetails,
     getMorePlantInfoOnLibraryPlant
 }

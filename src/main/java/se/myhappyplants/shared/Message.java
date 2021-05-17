@@ -23,7 +23,7 @@ public class Message implements Serializable {
     private ArrayList<Plant> plantLibrary;
     private Plant plant;
     private String newNickname;
-    private ArrayList<Plant> userLibrary;
+    private PlantDetails plantDetails;
 
     public Message(MessageType messageType, String messageText) {
         this.messageType = messageType;
@@ -92,6 +92,11 @@ public class Message implements Serializable {
         this.newNickname = newNickname;
     }
 
+    public Message(MessageType messageType, PlantDetails plantDetails) {
+        this.messageType = messageType;
+        this.plantDetails = plantDetails;
+    }
+
     public String getNewNickname() {
         return newNickname;
     }
@@ -138,5 +143,9 @@ public class Message implements Serializable {
 
     public boolean getNotifications() {
         return notifications;
+    }
+
+    public PlantDetails getPlantDetails() {
+        return plantDetails;
     }
 }

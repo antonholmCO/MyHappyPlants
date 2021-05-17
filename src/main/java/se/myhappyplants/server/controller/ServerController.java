@@ -3,10 +3,7 @@ package se.myhappyplants.server.controller;
 import se.myhappyplants.server.services.PlantRepository;
 import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.server.services.UserRepository;
-import se.myhappyplants.shared.Message;
-import se.myhappyplants.shared.MessageType;
-import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.User;
+import se.myhappyplants.shared.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,13 +67,13 @@ public class ServerController {
                     response = new Message(MessageType.deleteAccount, false);
                 }
                 break;
-            case search:
+            case searchForPlant:
                 try {
                     ArrayList<Plant> plantList = plantRepository.getResult(request.getMessageText());
-                    response = new Message(messageType.search, plantList, true);
+                    response = new Message(messageType.searchForPlant, plantList, true);
                 }
                 catch (Exception e) {
-                    response = new Message(messageType.search, false);
+                    response = new Message(messageType.searchForPlant, false);
                     e.printStackTrace();
                 }
                 break;
@@ -97,9 +94,9 @@ public class ServerController {
                 boolean deleteSuccess = userPlantRepository.deletePlant(request.getUser(), request.getDbPlant().getNickname());
                 response = new Message(messageType.success, deleteSuccess);
                 break;
-            case getMorePlantInfoOnSearch:
-                String[] message = plantRepository.getMoreInformation(request.getPlant());
-                response = new Message(messageType.waterLightInfo, message);
+            case getPlantDetails:
+                PlantDetails plantDetails = plantRepository.getPlantDetails(request.getPlant());
+                response = new Message(messageType.plantDetails, plantDetails);
                 break;
             case changeLastWatered:
                 boolean changeDateSuccess = userPlantRepository.changeLastWatered(request.getUser(), request.getDbPlant().getNickname(), request.getDate());

@@ -3,6 +3,7 @@ package se.myhappyplants.server.services;
 import se.myhappyplants.client.model.LightCalculator;
 import se.myhappyplants.client.model.WaterCalculator;
 import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.PlantDetails;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -73,8 +74,8 @@ public class PlantRepository {
         return plantList;
     }
 
-    public String[] getMoreInformation(Plant plant) {
-        String[] allInfo = new String[4];
+    public PlantDetails getPlantDetails(Plant plant) {
+        PlantDetails plantDetails = null;
         String query = "SELECT genus, light, water_frequency, family FROM species WHERE id = '" + plant.getPlantId() + "';";
         try {
             makeConnection();
@@ -82,18 +83,12 @@ public class PlantRepository {
             while (resultSet.next()) {
                 String genus = resultSet.getString("genus");
                 String light = resultSet.getString("light");
-                String family = resultSet.getString("family");
                 String waterFrequency = resultSet.getString("water_frequency");
-                String lightText = lightCalculator.calculateLightLevelToString(light);
-                String waterText = waterCalculator.calculateWaterLevelToString(waterFrequency);
-                allInfo[0] = "Family:\t" + family + "\n";
-                allInfo[1] = "Genus:\t" + genus + "\n";
-                allInfo[2] = "Light:\t" + lightText + "\n";
-                allInfo[3] = "Water:\t" + waterText + "\n";
+                String family = resultSet.getString("family");
+               plantDetails = new PlantDetails(genus, light, waterFrequency, family);
             }
         } catch (SQLException | UnknownHostException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
-            allInfo = null;
         } finally {
             try {
                 conn.close();
@@ -101,7 +96,7 @@ public class PlantRepository {
                 throwables.printStackTrace();
             }
         }
-        return allInfo;
+        return plantDetails;
     }
 
     public long getWaterFrequency(String plantId) throws IOException, InterruptedException {
