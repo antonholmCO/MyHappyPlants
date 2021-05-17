@@ -4,7 +4,6 @@ import java.io.*;
 
 /**
  * Created by: Linn Borgström
- * Updated by: Christopher, 2021-04-13
  * Updated by: Anton, 2021-04-29
  */
 public class User implements Serializable {
@@ -38,21 +37,21 @@ public class User implements Serializable {
      * @param username
      * @param isNotificationsActivated
      */
-    public User(String email, String username, boolean isNotificationsActivated) {
+    /*public User(String email, String username, boolean isNotificationsActivated) {
         this.email = email;
         this.username = username;
         this.isNotificationsActivated = isNotificationsActivated;
-        setAvatarOnLogin(email);
-    }
+        SetAvatar.setAvatarOnLogin(email, avatarURL);
+    }*/
 
     /**
      * Simple constructor for when login/registration requests fail
      *
      * @param username
      */
-    public User(String username) {
+    /*public User(String username) {
         this.username = username;
-    }
+    }*/
 
     /**
      * Simple constructor for login requests
@@ -70,8 +69,11 @@ public class User implements Serializable {
         this.email = email;
         this.username = username;
         this.isNotificationsActivated = notificationsActivated;
-        setAvatarOnLogin(email);
+
     }
+
+    //TODO: Fråga gruppen om hur de vill göra med logiken med denna.
+    // Nu anropas den från SettingsTabController rad 42, MyPlantTabController rad 52, SearchTabController rad 53
 
     private void setAvatarOnLogin(String email) {
         try (BufferedReader br = new BufferedReader(new FileReader("resources/images/user_avatars/" + email + "_avatar.txt"))) {

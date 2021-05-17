@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.Window;
+import se.myhappyplants.client.model.RootName;
 import se.myhappyplants.client.view.ConfirmationBox;
 
 import java.io.IOException;
@@ -17,6 +17,7 @@ import java.io.IOException;
  * 1.  mvn javafx:compile
  * 2.  mvn javafx:run
  * Created by: Christopher O'Driscoll, Eric Simonsson
+ * Updated by: Linn Borgström, 2021-05-13
  */
 public class StartClient extends Application {
 
@@ -26,6 +27,7 @@ public class StartClient extends Application {
     public static Stage getStage() {
         return window;
     }
+
 
     /**
      * Starts the application by opening window. Method handles close on request.
@@ -42,7 +44,7 @@ public class StartClient extends Application {
             action.consume();
             closeProgram();
         });
-        scene = new Scene(loadFXML("loginPane"), 1000, 600);
+        scene = new Scene(loadFXML(RootName.loginPane.toString()), 1000, 600);
         window.setScene(scene);
         window.show();
     }

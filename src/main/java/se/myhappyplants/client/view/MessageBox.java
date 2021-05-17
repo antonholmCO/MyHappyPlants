@@ -1,6 +1,7 @@
 package se.myhappyplants.client.view;
 
 import javafx.animation.FadeTransition;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,7 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import se.myhappyplants.client.controller.StartClient;
+import se.myhappyplants.client.model.BoxTitle;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -23,16 +24,18 @@ public class MessageBox {
 
     private static Stage window;
     private static VBox vBox;
-    public static void display(String title, String message) {
+
+    public static void display(BoxTitle boxTitle, String message) {
         window = new Stage();
 
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(title);
+        window.setTitle(String.valueOf(boxTitle));
         window.setMinWidth(250);
         window.setMinHeight(100);
 
         Label label = new Label();
         label.setText(message);
+        label.setStyle("-fx-font-size: 18px;");
 
         Button okButton = new Button("OK");
         okButton.setOnAction(action -> {
@@ -46,7 +49,7 @@ public class MessageBox {
 
         Scene scene = new Scene(vBox);
         window.setScene(scene);
-        showAndFade();
+//        showAndFade();
     }
     private static void showAndFade() {
         window.show();
@@ -61,17 +64,17 @@ public class MessageBox {
      * Displays a yes/no input box
      * Created by: Anton Holm
      *
-     * @param title    The title of the message box stage/window
+     * @param boxTitle    The title of the message box stage/window
      * @param question The question which the user should answer yes or no
      * @return 1 if yes, 0 if no and -1 if no answer chosen
      */
-    public static int askYesNo(String title, String question) {
+    public static int askYesNo(BoxTitle boxTitle, String question) {
         Stage window = new Stage();
         AtomicInteger answer = new AtomicInteger(-1);
 
 
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(title);
+        window.setTitle(String.valueOf(boxTitle));
         window.setMinWidth(350);
         window.setMinHeight(150);
 
@@ -90,6 +93,11 @@ public class MessageBox {
             window.close();
         });
 
+        //Styling
+        label.setStyle("-fx-font-size: 18px; -fx-padding: 20 20 20 20;");
+        yesButton.setStyle("-fx-font-size: 18px;");
+        noButton.setStyle("-fx-font-size: 18px;");
+        VBox.setMargin(noButton,new Insets(5,0,15,0));
 
         VBox vBox = new VBox(10);
         vBox.getChildren().addAll(label, yesButton, noButton);
@@ -132,6 +140,13 @@ public class MessageBox {
             input.set(textField.getText());
             window.close();
         });
+
+        //Styling
+        label.setStyle("-fx-font-size: 18px; -fx-padding: 20 20 5 20;");
+        textField.setStyle("-fx-font-size: 18px;");
+        enterButton.setStyle("-fx-font-size: 16px;");
+        VBox.setMargin(textField,new Insets(0,20,0,20));
+        VBox.setMargin(enterButton,new Insets(5,0,20,0));
 
         VBox vBox = new VBox(10);
         vBox.getChildren().addAll(label, textField, enterButton);

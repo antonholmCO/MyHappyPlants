@@ -7,12 +7,18 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
-import se.myhappyplants.client.model.ClientConnection;
+import se.myhappyplants.client.model.BoxTitle;
+import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.view.ButtonText;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.MessageType;
+import se.myhappyplants.client.model.SetAvatar;
 import se.myhappyplants.shared.User;
 
 import java.io.BufferedWriter;
@@ -24,22 +30,25 @@ import java.nio.file.Files;
 
 public class SettingsTabController {
 
-    @FXML public ToggleButton changeNotifications;
+    @FXML private ToggleButton tglBtnChangeNotification;
     @FXML private MainPaneController mainPaneController;
-    @FXML private ImageView imgUserPicture;
-    @FXML private Label lblUsernameSettings;
-    @FXML private PasswordField deleteAccountPassField;
+    @FXML private Circle imgViewUserPicture;
+    @FXML private Label lblUserName;
+    @FXML private PasswordField passFldDeleteAccount;
 
     @FXML
     public void initialize() {
         User loggedInUser = LoggedInUser.getInstance().getUser();
-        lblUsernameSettings.setText(loggedInUser.getUsername());
-        imgUserPicture.setImage(new Image(loggedInUser.getAvatarURL()));
-        changeNotifications.setSelected(loggedInUser.areNotificationsActivated());
-        setNotificationsButtonText();
+        lblUserName.setText(loggedInUser.getUsername());
+        imgViewUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getEmail()))));
+        tglBtnChangeNotification.setSelected(loggedInUser.areNotificationsActivated());
+        ButtonText.setNotificationsButtonText(this);
+        //setNotificationsButtonText();
 
     }
-
+    public ToggleButton getTglBtnChangeNotification() {
+        return tglBtnChangeNotification;
+    }
 
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
@@ -48,50 +57,44 @@ public class SettingsTabController {
     @FXML
     public void changeNotificationsSetting() {
         Thread changeNotificationsThread = new Thread(() -> {
-            Message notificationRequest = new Message("change notifications", changeNotifications.isSelected(), LoggedInUser.getInstance().getUser());
+            Message notificationRequest = new Message(MessageType.changeNotifications, tglBtnChangeNotification.isSelected(), LoggedInUser.getInstance().getUser());
             ClientConnection connection = new ClientConnection();
             Message notificationResponse = connection.makeRequest(notificationRequest);
             if(notificationResponse != null) {
                 if(notificationResponse.isSuccess()) {
-                    LoggedInUser.getInstance().getUser().setIsNotificationsActivated(changeNotifications.isSelected());
-                    PopupBox popupBox = new PopupBox();
-                    Platform.runLater(() -> popupBox.display("Notification settings changed"));
+                    LoggedInUser.getInstance().getUser().setIsNotificationsActivated(tglBtnChangeNotification.isSelected());
+                    tglBtnChangeNotification.setDisable(true);
+                    Platform.runLater(() -> PopupBox.display("Notification settings\n changed", tglBtnChangeNotification));
                 } else {
-                    Platform.runLater(() -> MessageBox.display("Failed", "Settings could not be changed"));
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Settings could not be changed"));
                 }
             } else {
-                Platform.runLater(() -> MessageBox.display("Failed", "The connection to the server has failed. Check your connection and try again."));
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
             }
         });
         changeNotificationsThread.start();
-        setNotificationsButtonText();
+        ButtonText.setNotificationsButtonText(this);
+        //setNotificationsButtonText();
         mainPaneController.getHomePaneController().createCurrentUserLibraryFromDB();
 
     }
 
-    private void setNotificationsButtonText() {
-        if(changeNotifications.isSelected()) {
-            changeNotifications.setText("On");
-        }
-        else {
-            changeNotifications.setText("Off");
-        }
-    }
+
 
     /**
      * Method that handles actions when a user clicks button to delete account.
      */
     @FXML
     private void deleteAccountButtonPressed() {
-        int answer = MessageBox.askYesNo("Delete account", "Are you sure you want to delete your account? \n All your personal information will be deleted. \nA deleted account can't be restored. ");
+        int answer = MessageBox.askYesNo(BoxTitle.Delete, "Are you sure you want to delete your account? \n All your personal information will be deleted. \nA deleted account can't be restored. ");
         if (answer == 1) {
             Thread deleteAccountThread = new Thread(() -> {
-                Message deleteMessage = new Message("delete account", new User(LoggedInUser.getInstance().getUser().getEmail(), deleteAccountPassField.getText()));
+                Message deleteMessage = new Message(MessageType.deleteAccount, new User(LoggedInUser.getInstance().getUser().getEmail(), passFldDeleteAccount.getText()));
                 ClientConnection connection = new ClientConnection();
                 Message deleteResponse = connection.makeRequest(deleteMessage);
                 if (deleteResponse != null) {
                     if (deleteResponse.isSuccess()) {
-                        Platform.runLater(() -> MessageBox.display("Account deleted successfully", "We are sorry to see you go"));
+                        Platform.runLater(() -> MessageBox.display(BoxTitle.Success, "We are sorry to see you go"));
                         try {
                             logoutButtonPressed();
                         }
@@ -99,10 +102,10 @@ public class SettingsTabController {
                             e.printStackTrace();
                         }
                     } else {
-                        Platform.runLater(() -> MessageBox.display("Couldn’t create account", "The passwords you entered do not match"));
+                        Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The passwords you entered do not match"));
                     }
                 } else {
-                    Platform.runLater(() -> MessageBox.display("Couldn’t create account", "The connection to the server has failed. Check your connection and try again."));
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
                 }
             });
             deleteAccountThread.start();
@@ -115,7 +118,7 @@ public class SettingsTabController {
     }
 
     public void updateAvatar() {
-        imgUserPicture.setImage(new Image(LoggedInUser.getInstance().getUser().getAvatarURL()));
+        imgViewUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 
     /**

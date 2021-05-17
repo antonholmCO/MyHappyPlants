@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 /**
  * Simple yes/no confirmation box
  * Created by: Christopher O'Driscoll
+ * Updated by:
  */
 public class ConfirmationBox {
 

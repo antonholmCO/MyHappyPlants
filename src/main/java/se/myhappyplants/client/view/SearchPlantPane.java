@@ -10,9 +10,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import se.myhappyplants.client.controller.PlantsTabController;
+import se.myhappyplants.client.controller.SearchTabController;
 
-import se.myhappyplants.shared.DBPlant;
+import se.myhappyplants.shared.Plant;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -20,15 +20,15 @@ import java.util.concurrent.atomic.AtomicReference;
  * * Created by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
  * * Updated by: Linn Borgström, 2021-04-30
  */
-public class SearchPlantPane extends Pane {
+public class SearchPlantPane extends Pane implements PlantPane {
     private ImageView image;
     private Label commonName;
     private Label scientificName;
     private Button infoButton;
     private Button addButton;
 
-    private DBPlant dbPlant;
-    private PlantsTabController plantsTabController;
+    private Plant plant;
+    private SearchTabController searchTabController;
     private ListView listView;
     private ImageView imgViewPlusSign;
     private boolean gotInfoOnPlant;
@@ -37,11 +37,20 @@ public class SearchPlantPane extends Pane {
 
     private boolean extended;
 
-    public SearchPlantPane(PlantsTabController plantsTabController, String imgPath, DBPlant dbPlant) {
-        this.plantsTabController = plantsTabController;
-        this.dbPlant = dbPlant;
-        Image img = new Image(imgPath);
+    public SearchPlantPane(SearchTabController searchTabController, String imgPath, Plant plant) {
+        this.searchTabController = searchTabController;
+        this.plant = plant;
+        initImage(imgPath);
+        initCommonName();
+        initScientificName();
+        initInfoButton();
+        initAddButton();
+        initImgViewPlusSign();
+        initListView();
+    }
 
+    private void initImage(String imgPath) {
+        Image img = new Image(imgPath);
         this.image = new ImageView();
         image.setFitHeight(50.0);
         image.setFitWidth(50.0);
@@ -49,19 +58,25 @@ public class SearchPlantPane extends Pane {
         image.setPickOnBounds(true);
         image.setPreserveRatio(true);
         image.setImage(img);
+    }
 
-        this.commonName = new Label(dbPlant.getCommonName());
+    private void initCommonName() {
+        this.commonName = new Label(plant.getCommonName());
         commonName.setLayoutX(60.0);
         commonName.setLayoutY(20.0);
         commonName.prefHeight(17.0);
         commonName.prefWidth(264.0);
+    }
 
-        this.scientificName = new Label(dbPlant.getScientificName());
+    private void initScientificName() {
+        this.scientificName = new Label(plant.getScientificName());
         scientificName.setLayoutX(280.0);
         scientificName.setLayoutY(20.0);
         scientificName.prefHeight(17.0);
         scientificName.prefWidth(254.0);
+    }
 
+    private void initInfoButton() {
         this.infoButton = new Button("More info");
         infoButton.setLayoutX(595.0);
         infoButton.setLayoutY(16.0);
@@ -70,7 +85,7 @@ public class SearchPlantPane extends Pane {
             infoButton.setDisable(true);
             if (!extended) {
                 if (!gotInfoOnPlant) {
-                    getAllPlantInfo = plantsTabController.getMorePlantInfo(dbPlant);
+                    getAllPlantInfo = searchTabController.getMorePlantInfo(plant);
                     listView.setItems(getAllPlantInfo);
 
                 }
@@ -80,40 +95,41 @@ public class SearchPlantPane extends Pane {
                 retractPane();
             }
         });
+    }
 
-
+    private void initAddButton() {
         this.addButton = new Button();
         addButton.setLayoutX(705.0);
         addButton.setLayoutY(16.0);
         addButton.setMnemonicParsing(false);
-        addButton.setOnAction(action -> plantsTabController.addPlantToCurrentUserLibrary(dbPlant));
+        addButton.setOnAction(action -> searchTabController.addPlantToCurrentUserLibrary(plant));
+    }
 
-
+    private void initImgViewPlusSign() {
         this.imgViewPlusSign = new ImageView(new Image("Blommor/plusSign.png"));
         imgViewPlusSign.setFitHeight(16);
         imgViewPlusSign.setFitWidth(15);
         addButton.setGraphic(imgViewPlusSign);
+    }
 
+    private void initListView() {
         listView = new ListView();
         listView.setLayoutX(this.getWidth());
         listView.setLayoutY(this.getHeight() + 56.0);
         listView.setPrefWidth(751.0);
         listView.setPrefHeight(150.0);
 
-
         this.prefHeight(56.0);
-        //this.prefWidth(761.0);
         this.getChildren().addAll(image, commonName, scientificName, infoButton, addButton);
     }
 
-
     public void updateImage() {
-        Image img = new Image(String.valueOf(dbPlant.getImageURL()));
+        Image img = new Image(String.valueOf(plant.getImageURL()));
         image.setImage(img);
     }
 
-    public DBPlant getApiPlant() {
-        return dbPlant;
+    public Plant getPlant() {
+        return plant;
     }
 
     public void setDefaultImage(String defaultImage) {

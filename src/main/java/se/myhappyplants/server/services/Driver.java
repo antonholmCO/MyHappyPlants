@@ -1,4 +1,4 @@
-package se.myhappyplants.server.model.repository;
+package se.myhappyplants.server.services;
 
 import se.myhappyplants.server.PasswordsAndKeys;
 
@@ -28,7 +28,7 @@ public class Driver {
         String dbURL = String.format("jdbc:sqlserver://%s:%s;databaseName=" + database + ";user=%s;password=%s", dbServerIp, dbServerPort, dbUser, dbPassword);
         Connection conn = DriverManager.getConnection(dbURL);
         if (conn != null) {
-            System.out.println("Connected");
+            System.out.println("Connected to database " +database);
         }
         return conn;
     }
