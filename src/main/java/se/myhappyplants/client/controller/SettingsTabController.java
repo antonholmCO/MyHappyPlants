@@ -16,7 +16,7 @@ import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
-import se.myhappyplants.shared.SetAvatar;
+import se.myhappyplants.client.model.SetAvatar;
 import se.myhappyplants.shared.User;
 
 import java.io.BufferedWriter;

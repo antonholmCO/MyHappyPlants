@@ -69,19 +69,6 @@ public class ServerConnection implements Runnable {
         System.out.println("Server stopped");
     }
 
-    /**
-     * stops the server, closing the connection
-     */
-    public void stopServer() {
-        try {
-            serverRunning = false;
-            serverSocket.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
 
 
