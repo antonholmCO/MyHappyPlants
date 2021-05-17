@@ -21,7 +21,6 @@ public class Driver {
         String dbPassword = PasswordsAndKeys.dbPassword;
         DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
 
-
         if (InetAddress.getLocalHost().getHostName().equals(PasswordsAndKeys.dbHostName)) {
             dbServerIp = "localhost";
         }

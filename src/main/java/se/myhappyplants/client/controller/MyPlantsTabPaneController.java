@@ -8,10 +8,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.view.LibraryPlantPane;
@@ -20,17 +18,17 @@ import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.client.model.SetAvatar;
+import se.myhappyplants.shared.PlantDetails;
 
 
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Controller with logic used by the "Home" tab
- * Created by:
+ * Created bygetMorePlantInfoOnLibraryPlant:
  * Updated by: Christopher O'Driscoll, 2021-05-14
  */
 public class MyPlantsTabPaneController {
@@ -229,17 +227,13 @@ public class MyPlantsTabPaneController {
     public void updateAvatar() {
         imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
-    public ObservableList<String> getMorePlantInfoOnMyLibraryPlants(Plant plant) {
-        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfoOnLibraryPlant, plant);
+    public PlantDetails getPlantDetails(Plant plant) {
+        PlantDetails plantDetails = null;
+        Message getInfoSearchedPlant = new Message(MessageType.getPlantDetails, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
-        ObservableList<String> extraInfoOnLibraryPlant = FXCollections.observableArrayList();
         if (response != null) {
-            for (int i = 0; i < response.getStringArray().length; i++) {
-                extraInfoOnLibraryPlant.add(response.getStringArray()[i]);
-            }
+            plantDetails = response.getPlantDetails();
         }
-        return extraInfoOnLibraryPlant;
-
+       return plantDetails;
     }
-
 }

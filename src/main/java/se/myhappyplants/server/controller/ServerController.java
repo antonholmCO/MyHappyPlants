@@ -106,11 +106,6 @@ public class ServerController {
                 boolean changeNicknameSuccess = userPlantRepository.changeNickname(request.getUser(), request.getDbPlant().getNickname(), request.getNewNickname());
                 response = new Message(messageType.success, changeNicknameSuccess);
                 break;
-            case getMorePlantInfoOnLibraryPlant:
-                PlantDetails plantDetailsForPane = plantRepository.getPlantDetails(request.getPlant());
-                response = new Message(messageType.getMorePlantInfoOnLibraryPlant, plantDetailsForPane);
-                break;
-
             default:
                 response = new Message(messageType.fail, false);
         }

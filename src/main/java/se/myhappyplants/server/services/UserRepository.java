@@ -15,24 +15,10 @@ public class UserRepository {
 
     private Connection conn;
 
-    /**
-     * makes a new connection to the database
-     * @throws SQLException
-     * @throws UnknownHostException
-     */
-    private void makeConnection() throws SQLException, UnknownHostException {
-        if (conn==null) {
-            System.out.println("New connection to User Database");
-            conn = Driver.getConnection("MyHappyPlants");
-        }
-        else if (conn.isClosed()) {
-            System.out.println("User Database connection closed, making new connection");
-            conn = Driver.getConnection("MyHappyPlants");
-        }
-        else {
-            System.out.println("User Database connection active, reusing");
-        }
+    public UserRepository() throws UnknownHostException, SQLException {
+        this.conn = Driver.getConnection("MyHappyPlants");
     }
+
     /**
      * Method to save a new user using BCrypt.
      *
@@ -45,17 +31,11 @@ public class UserRepository {
         String sqlSafeUsername = user.getUsername().replace("'", "''");
         String query = "INSERT INTO [User] VALUES ('" + sqlSafeUsername + "', " + "'" + user.getEmail() + "', '" + hashedPassword + "'," + 1 + ");";
         try {
-            makeConnection();
             conn.createStatement().executeUpdate(query);
             success = true;
-        } catch (SQLException | UnknownHostException sqlException) {
+        }
+        catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return success;
     }
@@ -72,20 +52,14 @@ public class UserRepository {
         boolean isVerified = false;
         String query = "SELECT password FROM [User] WHERE email = '" + email + "';";
         try {
-            makeConnection();
             ResultSet resultSet = conn.createStatement().executeQuery(query);
             if (resultSet.next()) {
                 String hashedPassword = resultSet.getString(1);
                 isVerified = BCrypt.checkpw(password, hashedPassword);
             }
-        } catch (SQLException | UnknownHostException sqlException) {
+        }
+        catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return isVerified;
     }
@@ -103,7 +77,6 @@ public class UserRepository {
         boolean notificationActivated = false;
         String query = "SELECT id, username, notification_activated FROM [User] WHERE email = '" + email + "';";
         try {
-            makeConnection();
             ResultSet resultSet = conn.createStatement().executeQuery(query);
             while (resultSet.next()) {
                 uniqueID = resultSet.getInt(1);
@@ -111,14 +84,9 @@ public class UserRepository {
                 notificationActivated = resultSet.getBoolean(3);
             }
             user = new User(uniqueID, email, username, notificationActivated);
-        } catch (SQLException | UnknownHostException sqlException) {
+        }
+        catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return user;
     }
@@ -137,7 +105,6 @@ public class UserRepository {
         if (checkLogin(email, password)) {
             String querySelect = "SELECT [User].id from [User] WHERE [User].email = '" + email + "';";
             try {
-                makeConnection();
                 conn.setAutoCommit(false);
                 Statement statement = conn.createStatement();
                 ResultSet resultSet = statement.executeQuery(querySelect);
@@ -152,16 +119,12 @@ public class UserRepository {
                 conn.commit();
                 conn.setAutoCommit(true);
                 accountDeleted = true;
-            } catch (SQLException | UnknownHostException sqlException) {
+            }
+            catch (SQLException sqlException) {
                 try {
                     conn.rollback();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
                 }
-            } finally {
-                try {
-                    conn.close();
-                } catch (SQLException throwables) {
+                catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
             }
@@ -172,22 +135,16 @@ public class UserRepository {
     public boolean changeNotifications(User user, boolean notifications) {
         boolean notificationsChanged = false;
         int notificationsActivated = 0;
-        if(notifications) {
+        if (notifications) {
             notificationsActivated = 1;
         }
-        String query = "UPDATE [User] SET notification_activated = " + notificationsActivated + " WHERE email = '"+ user.getEmail() + "';";
+        String query = "UPDATE [User] SET notification_activated = " + notificationsActivated + " WHERE email = '" + user.getEmail() + "';";
         try {
-            makeConnection();
             conn.createStatement().executeUpdate(query);
             notificationsChanged = true;
-        } catch (SQLException | UnknownHostException sqlException) {
+        }
+        catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return notificationsChanged;
     }

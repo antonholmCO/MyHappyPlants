@@ -2,6 +2,7 @@ package se.myhappyplants.client.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -11,7 +12,9 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.MyPlantsTabPaneController;
 import se.myhappyplants.client.model.BoxTitle;
+import se.myhappyplants.client.model.WaterCalculator;
 import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.PlantDetails;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -152,8 +155,19 @@ public class LibraryPlantPane extends Pane implements PlantPane{
             infoButton.setDisable(true);
             if (!extended) {
                 if(!gotInfoOnPlant) {
-                    getAllPlantInfo = myPlantsTabPaneController.getMorePlantInfoOnMyLibraryPlants(plant);
-                    listView.setItems(getAllPlantInfo);
+                    PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetails(plant);
+                    long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(plantDetails.getWaterFrequency());
+                    String waterText = WaterTextFormatter.getWaterString(waterInMilli);
+                    String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
+
+                    ObservableList<String> plantInfo = FXCollections.observableArrayList();
+                    plantInfo.add("Genus: " +plantDetails.getGenus());
+                    plantInfo.add("Scientific name: "+plantDetails.getScientificName());
+                    plantInfo.add("Family: "+plantDetails.getFamily());
+                    plantInfo.add("Light: " +lightText);
+                    plantInfo.add("Water: "+waterText);
+                    plantInfo.add("Last watered: " +plant.getLastWatered());
+                    listView.setItems(plantInfo);
                 }
                 expand();
             }
@@ -234,7 +248,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         timeline.play();
         timeline.setOnFinished(action -> {
             infoButton.setDisable(false);
-            this.getChildren().addAll(listView, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
+            this.getChildren().addAll(listView, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton);
         });
         extended = true;
         gotInfoOnPlant = true;
