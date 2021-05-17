@@ -17,7 +17,7 @@ import se.myhappyplants.client.view.SearchPlantPane;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.SetAvatar;
+import se.myhappyplants.client.model.SetAvatar;
 
 import java.io.File;
 import java.io.IOException;
@@ -113,7 +113,7 @@ public class SearchTabController {
                     searchResults = apiResponse.getPlantList();
                     Platform.runLater(() -> showResultsOnPane());
                 } else {
-                    //skicka inget felmeddelande, visa label med sökresultat 0 istället
+                    //TODO: skicka inget felmeddelande, visa label med sökresultat 0 istället
                 }
             } else {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "The connection to the server has failed. Check your connection and try again."));

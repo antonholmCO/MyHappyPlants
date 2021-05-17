@@ -69,7 +69,7 @@ public class User implements Serializable {
         this.email = email;
         this.username = username;
         this.isNotificationsActivated = notificationsActivated;
-        //setAvatarOnLogin(email);
+
     }
 
     //TODO: Fråga gruppen om hur de vill göra med logiken med denna.
@@ -84,8 +84,6 @@ public class User implements Serializable {
             this.avatarURL = new File("resources/images/user_default_img.png").toURI().toString();
         }
     }
-
-
 
     public int getUniqueId() {
         return uniqueId;

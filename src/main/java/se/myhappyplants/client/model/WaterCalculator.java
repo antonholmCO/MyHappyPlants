@@ -1,4 +1,4 @@
-package se.myhappyplants.server.model;
+package se.myhappyplants.client.model;
 
 /**
  * Created by: Frida Jacobsson, Eric Simonsson, Susanne Vikström, Linn Borgström

@@ -16,7 +16,7 @@ import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
-import se.myhappyplants.shared.SetAvatar;
+import se.myhappyplants.client.model.SetAvatar;
 import se.myhappyplants.shared.User;
 
 import java.io.BufferedWriter;
@@ -78,16 +78,7 @@ public class SettingsTabController {
 
     }
 
-    //TODO: Kolla med gruppen om de vill att denna logik ska flyttas! Eftersom den är kopplad med FXML-filen till denna controller+variabler.
-    //TODO: Om ja: fixa så det blir rätt anrop på rad ca. 44 & 75(samma metodnamn som nedan)
-    /*private void setNotificationsButtonText() {
-        if(tglBtnChangeNotification.isSelected()) {
-            tglBtnChangeNotification.setText("On");
-        }
-        else {
-            tglBtnChangeNotification.setText("Off");
-        }
-    }*/
+
 
     /**
      * Method that handles actions when a user clicks button to delete account.

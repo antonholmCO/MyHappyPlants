@@ -77,9 +77,6 @@ public class Message implements Serializable {
         this.user = user;
     }
 
-    public String[] getStringArray() {
-        return stringArray;
-    }
 
     public Message(MessageType messageType, User user, Plant plant, LocalDate date) {
         this.messageType = messageType;
@@ -113,6 +110,10 @@ public class Message implements Serializable {
 
     public boolean isSuccess() {
         return success;
+    }
+
+    public String[] getStringArray() {
+        return stringArray;
     }
 
     public Plant getDbPlant() {

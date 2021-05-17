@@ -1,4 +1,4 @@
-package se.myhappyplants.shared;
+package se.myhappyplants.client.model;
 
 import java.io.BufferedReader;
 import java.io.File;

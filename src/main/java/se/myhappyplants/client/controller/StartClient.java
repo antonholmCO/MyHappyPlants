@@ -44,7 +44,7 @@ public class StartClient extends Application {
             action.consume();
             closeProgram();
         });
-        scene = new Scene(loadFXML(String.valueOf(RootName.loginPane)), 1000, 600);
+        scene = new Scene(loadFXML(RootName.loginPane.toString()), 1000, 600);
         window.setScene(scene);
         window.show();
     }
