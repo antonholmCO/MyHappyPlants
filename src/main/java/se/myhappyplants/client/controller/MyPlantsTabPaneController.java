@@ -98,21 +98,7 @@ public class MyPlantsTabPaneController {
 
     public void showNotifications() {
 
-        ObservableList<String> notificationStrings = FXCollections.observableArrayList();
-        if (LoggedInUser.getInstance().getUser().areNotificationsActivated()) {
-            int plantsThatNeedWater = 0;
-            for (Plant plant : currentUserLibrary) {
-                if (plant.getProgress() < 0.25) {
-                    plantsThatNeedWater++;
-                    notificationStrings.add(plant.getNickname() + " needs water");
-                }
-            }
-            if (plantsThatNeedWater == 0) {
-                notificationStrings.add("All your plants are watered");
-            }
-        } else {
-            notificationStrings.add("");
-        }
+        ObservableList<String> notificationStrings = NotificationsCreator.getNotificationsStrings(currentUserLibrary);
         Platform.runLater(() -> lstViewNotifications.setItems(notificationStrings));
     }
 
@@ -124,7 +110,7 @@ public class MyPlantsTabPaneController {
             Message response = connection.makeRequest(getLibrary);
 
             if (response.isSuccess()) {
-                currentUserLibrary = response.getPlantLibrary();
+                currentUserLibrary = response.getPlantArray();
                 addCurrentUserLibraryToHomeScreen();
                 showNotifications();
             } else {
@@ -139,7 +125,7 @@ public class MyPlantsTabPaneController {
         Thread removePlantThread = new Thread(() -> {
             currentUserLibrary.remove(plant);
             addCurrentUserLibraryToHomeScreen();
-            Message deletePlant = new Message(MessageType.deletePlantFromLibrary, LoggedInUser.getInstance().getUser(), plant);
+            Message deletePlant = new Message(MessageType.deletePlant, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(deletePlant);
             if (!response.isSuccess()) {
@@ -237,7 +223,7 @@ public class MyPlantsTabPaneController {
     }
 
     public ObservableList<String> getMorePlantInfoOnMyLibraryPlants(Plant plant) {
-        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfoOnLibraryPlant, plant);
+        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         ObservableList<String> extraInfoOnLibraryPlant = FXCollections.observableArrayList();
         if (response != null) {
