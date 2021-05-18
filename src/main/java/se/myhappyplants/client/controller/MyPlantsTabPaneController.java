@@ -78,7 +78,7 @@ public class MyPlantsTabPaneController {
             obsListLibraryPlantPane.add(new LibraryPlantPane());
         } else {
             for (Plant plant : currentUserLibrary) {
-                obsListLibraryPlantPane.add(new LibraryPlantPane(this, PictureRandomizer.getRandomPicture(), plant));
+                obsListLibraryPlantPane.add(new LibraryPlantPane(this, plant));
             }
         }
         Platform.runLater(() -> {

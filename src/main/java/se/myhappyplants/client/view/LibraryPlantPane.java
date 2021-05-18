@@ -12,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.MyPlantsTabPaneController;
 import se.myhappyplants.client.model.BoxTitle;
+import se.myhappyplants.client.model.PictureRandomizer;
 import se.myhappyplants.client.model.WaterCalculator;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.PlantDetails;
@@ -77,12 +78,12 @@ public class LibraryPlantPane extends Pane implements PlantPane{
      * @param imgPath           location of user's avatar image
      * @param plant             plant object from user's library
      */
-    public LibraryPlantPane(MyPlantsTabPaneController myPlantsTabPaneController, String imgPath, Plant plant) {
+    public LibraryPlantPane(MyPlantsTabPaneController myPlantsTabPaneController, Plant plant) {
         this.myPlantsTabPaneController = myPlantsTabPaneController;
         this.plant = plant;
         this.setStyle("-fx-background-color: #FFFFFF;");
         this.image = new ImageView();
-        initImages(imgPath);
+        initImages();
         initNicknameLabel(plant);
         initLastWateredLabel(plant);
         initProgressBar(plant);
@@ -96,9 +97,8 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         initListView();
     }
 
-    private void initImages(String imgPath) {
-        File fileImg = new File(imgPath);
-        Image img = new Image(fileImg.toURI().toString());
+    private void initImages() {
+        Image img = PictureRandomizer.getRandomPicture();
         image.setFitHeight(70.0);
         image.setFitWidth(70.0);
         image.setLayoutX(50.0);
