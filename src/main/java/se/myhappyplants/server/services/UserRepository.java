@@ -13,10 +13,10 @@ import java.sql.*;
  */
 public class UserRepository {
 
-    private Connection conn;
+    private IDatabase database;
 
-    public UserRepository() throws UnknownHostException, SQLException {
-        this.conn = Driver.getConnection("MyHappyPlants");
+    public UserRepository(IDatabase database) throws UnknownHostException, SQLException {
+       this.database = database;
     }
 
     /**
@@ -31,7 +31,7 @@ public class UserRepository {
         String sqlSafeUsername = user.getUsername().replace("'", "''");
         String query = "INSERT INTO [User] VALUES ('" + sqlSafeUsername + "', " + "'" + user.getEmail() + "', '" + hashedPassword + "'," + 1 + ");";
         try {
-            conn.createStatement().executeUpdate(query);
+            database.executeUpdate(query);
             success = true;
         }
         catch (SQLException sqlException) {
@@ -52,7 +52,7 @@ public class UserRepository {
         boolean isVerified = false;
         String query = "SELECT password FROM [User] WHERE email = '" + email + "';";
         try {
-            ResultSet resultSet = conn.createStatement().executeQuery(query);
+            ResultSet resultSet = database.executeQuery(query);
             if (resultSet.next()) {
                 String hashedPassword = resultSet.getString(1);
                 isVerified = BCrypt.checkpw(password, hashedPassword);
@@ -77,7 +77,7 @@ public class UserRepository {
         boolean notificationActivated = false;
         String query = "SELECT id, username, notification_activated FROM [User] WHERE email = '" + email + "';";
         try {
-            ResultSet resultSet = conn.createStatement().executeQuery(query);
+            ResultSet resultSet = database.executeQuery(query);
             while (resultSet.next()) {
                 uniqueID = resultSet.getInt(1);
                 username = resultSet.getString(2);
@@ -105,8 +105,7 @@ public class UserRepository {
         if (checkLogin(email, password)) {
             String querySelect = "SELECT [User].id from [User] WHERE [User].email = '" + email + "';";
             try {
-                conn.setAutoCommit(false);
-                Statement statement = conn.createStatement();
+                Statement statement = database.beginTransaction();
                 ResultSet resultSet = statement.executeQuery(querySelect);
                 if (!resultSet.next()) {
                     throw new SQLException();
@@ -116,13 +115,12 @@ public class UserRepository {
                 statement.executeUpdate(queryDeletePlants);
                 String queryDeleteUser = "DELETE FROM [User] WHERE id = " + id + ";";
                 statement.executeUpdate(queryDeleteUser);
-                conn.commit();
-                conn.setAutoCommit(true);
+                database.endTransaction();
                 accountDeleted = true;
             }
             catch (SQLException sqlException) {
                 try {
-                    conn.rollback();
+                   database.rollbackTransaction();
                 }
                 catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -140,7 +138,7 @@ public class UserRepository {
         }
         String query = "UPDATE [User] SET notification_activated = " + notificationsActivated + " WHERE email = '" + user.getEmail() + "';";
         try {
-            conn.createStatement().executeUpdate(query);
+            database.executeUpdate(query);
             notificationsChanged = true;
         }
         catch (SQLException sqlException) {

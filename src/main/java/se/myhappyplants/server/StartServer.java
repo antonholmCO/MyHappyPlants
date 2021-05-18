@@ -1,12 +1,8 @@
 package se.myhappyplants.server;
 
 import se.myhappyplants.server.controller.ServerController;
-import se.myhappyplants.client.view.LightTextFormatter;
 import se.myhappyplants.client.model.WaterCalculator;
-import se.myhappyplants.server.services.PlantRepository;
-import se.myhappyplants.server.services.ServerConnection;
-import se.myhappyplants.server.services.UserPlantRepository;
-import se.myhappyplants.server.services.UserRepository;
+import se.myhappyplants.server.services.*;
 
 import java.net.UnknownHostException;
 import java.sql.SQLException;
@@ -17,7 +13,9 @@ import java.sql.SQLException;
  */
 public class StartServer {
     public static void main(String[] args) throws UnknownHostException, SQLException {
-        UserRepository userRepository = new UserRepository();
+        IConnection connectionMyHappyPlants = new DatabaseConnection("MyHappyPlants");
+        IDatabase database = new Database(connectionMyHappyPlants);
+        UserRepository userRepository = new UserRepository(database);
         PlantRepository plantRepository = new PlantRepository(new WaterCalculator());
         UserPlantRepository userPlantRepository = new UserPlantRepository(plantRepository);
         ServerController serverController = new ServerController(userRepository,userPlantRepository,plantRepository);
