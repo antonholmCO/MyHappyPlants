@@ -107,7 +107,7 @@ public class AutocompleteSearchField extends TextField {
     public void addToHistory() {
         String searchText = getText();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/searchHistory.txt", true))) {
-            bw.write(searchText);
+            bw.write(searchText + "\n");
             bw.flush();
             populateSearchHistory();
         } catch (IOException e) {
