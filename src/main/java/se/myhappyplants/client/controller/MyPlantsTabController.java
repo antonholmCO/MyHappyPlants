@@ -117,7 +117,7 @@ public class MyPlantsTabController {
 
     @FXML
     public void createCurrentUserLibraryFromDB() {
-        Platform.runLater(() -> PopupBox.display(MessageText.holdOnGettingInfo.toString()));
+
         Thread getLibraryThread = new Thread(() -> {
             Message getLibrary = new Message(MessageType.getLibrary, LoggedInUser.getInstance().getUser());
             ClientConnection connection = new ClientConnection();
@@ -136,13 +136,14 @@ public class MyPlantsTabController {
 
     @FXML
     public void removePlantFromDB(Plant plant) {
+        Platform.runLater(() ->PopupBox.display(MessageText.removePlant.toString()));
         Thread removePlantThread = new Thread(() -> {
             currentUserLibrary.remove(plant);
             addCurrentUserLibraryToHomeScreen();
             Message deletePlant = new Message(MessageType.deletePlantFromLibrary, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(deletePlant);
-            PopupBox.display(MessageText.removePlant.toString());
+
             if (!response.isSuccess()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
                 createCurrentUserLibraryFromDB();
@@ -174,7 +175,6 @@ public class MyPlantsTabController {
         Thread addPlantThread = new Thread(() -> {
             currentUserLibrary.add(plant);
             addCurrentUserLibraryToHomeScreen();
-            PopupBox.display(MessageText.sucessfullyAddPlant.toString());
             Message savePlant = new Message(MessageType.savePlant, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(savePlant);
@@ -198,9 +198,10 @@ public class MyPlantsTabController {
      * @param date  new date to change to
      */
     public void changeLastWateredInDB(Plant plant, LocalDate date) {
-        PopupBox.display(MessageText.sucessfullyChangedDate.toString());
+
         Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
         Message response = new ClientConnection().makeRequest(changeLastWatered);
+        PopupBox.display(MessageText.sucessfullyChangedDate.toString());
         if (!response.isSuccess()) {
             MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
         }
@@ -214,9 +215,10 @@ public class MyPlantsTabController {
      * @return
      */
     public boolean changeNicknameInDB(Plant plant, String newNickname) {
-        PopupBox.display(MessageText.sucessfullyChangedPlant.toString());
+
         Message changeNicknameInDB = new Message(MessageType.changeNickname, LoggedInUser.getInstance().getUser(), plant, newNickname);
         Message response = new ClientConnection().makeRequest(changeNicknameInDB);
+        PopupBox.display(MessageText.sucessfullyChangedPlant.toString());
         if (!response.isSuccess()) {
             MessageBox.display(BoxTitle.Failed, "It was not possible to change nickname for you plant. Try again.");
             return false;
