@@ -4,6 +4,7 @@ import se.myhappyplants.server.model.ResponseHandler;
 import se.myhappyplants.server.services.PlantRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.PlantDetails;
 
 public class GetMorePlantInfo implements ResponseHandler {
     private PlantRepository plantRepository;
@@ -17,8 +18,8 @@ public class GetMorePlantInfo implements ResponseHandler {
         Message response;
         Plant plant = request.getPlant();
         try {
-            String[] moreInfoOnPlant = plantRepository.getMoreInfoOnPlant(plant);
-            response = new Message(moreInfoOnPlant, true);
+            PlantDetails plantDetails = plantRepository.getPlantDetails(plant);
+            response = new Message(plantDetails, true);
         } catch (Exception e) {
             response = new Message(false);
             e.printStackTrace();

@@ -161,6 +161,11 @@ public class Message implements Serializable {
         this.success = success;
     }
 
+    public Message(PlantDetails plantDetails, boolean success) {
+        this.plantDetails = plantDetails;
+        this.success = success;
+    }
+
     public String getNewNickname() {
         return newNickname;
     }

@@ -224,23 +224,9 @@ public class MyPlantsTabPaneController {
         imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 
-
-    public ObservableList<String> getMorePlantInfoOnMyLibraryPlants(Plant plant) {
-        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
-        Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
-        ObservableList<String> extraInfoOnLibraryPlant = FXCollections.observableArrayList();
-        if (response != null) {
-            for (int i = 0; i < response.getStringArray().length; i++) {
-                extraInfoOnLibraryPlant.add(response.getStringArray()[i]);
-            }
-        }
-        return extraInfoOnLibraryPlant;
-
-    }
-
     public PlantDetails getPlantDetails(Plant plant) {
         PlantDetails plantDetails = null;
-        Message getInfoSearchedPlant = new Message(MessageType.getPlantDetails, plant);
+        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         if (response != null) {
             plantDetails = response.getPlantDetails();

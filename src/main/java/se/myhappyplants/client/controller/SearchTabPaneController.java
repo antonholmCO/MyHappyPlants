@@ -143,21 +143,9 @@ public class SearchTabPaneController {
         mainPaneController.logoutButtonPressed();
     }
 
-    public ObservableList<String> getMorePlantInfo(Plant plant) {
-        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
-        Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
-        ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
-        if (response != null) {
-            for (int i = 0; i < response.getStringArray().length; i++) {
-                waterLightInfo.add(response.getStringArray()[i]);
-            }
-        }
-        return waterLightInfo;
-    }
-
     public PlantDetails getPlantDetails(Plant plant) {
         PlantDetails plantDetails = null;
-        Message getInfoSearchedPlant = new Message(MessageType.getPlantDetails, plant);
+        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         if (response != null) {
             plantDetails = response.getPlantDetails();
