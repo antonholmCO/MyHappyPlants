@@ -117,7 +117,7 @@ public class MyPlantsTabController {
 
     @FXML
     public void createCurrentUserLibraryFromDB() {
-        Platform.runLater(() -> PopupBox.display(MessageText.holdOnInfo.toString()));
+        Platform.runLater(() -> PopupBox.display(MessageText.holdOnGettingInfo.toString()));
         Thread getLibraryThread = new Thread(() -> {
             Message getLibrary = new Message(MessageType.getLibrary, LoggedInUser.getInstance().getUser());
             ClientConnection connection = new ClientConnection();
@@ -142,7 +142,7 @@ public class MyPlantsTabController {
             Message deletePlant = new Message(MessageType.deletePlantFromLibrary, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(deletePlant);
-            PopupBox.display(MessageText.remove.toString());
+            PopupBox.display(MessageText.removePlant.toString());
             if (!response.isSuccess()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
                 createCurrentUserLibraryFromDB();

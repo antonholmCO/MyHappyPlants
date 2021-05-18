@@ -114,7 +114,7 @@ public class SearchTabController {
 
     @FXML
     private void searchButtonPressed() {
-        PopupBox.display(MessageText.holdOnInfo.toString());
+        PopupBox.display(MessageText.holdOnGettingInfo.toString());
         Thread searchThread = new Thread(() -> {
             Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
             ClientConnection connection = new ClientConnection();
@@ -140,7 +140,7 @@ public class SearchTabController {
     }
 
     public ObservableList<String> getMorePlantInfo(Plant plant) {
-        PopupBox.display(MessageText.holdOnInfo.toString());
+        PopupBox.display(MessageText.holdOnGettingInfo.toString());
         Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfoOnSearch, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
         ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
