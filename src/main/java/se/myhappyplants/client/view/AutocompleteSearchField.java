@@ -21,28 +21,26 @@ public class AutocompleteSearchField extends TextField {
     private ArrayList<String> searchHistory;
     private ContextMenu historyPopup;
 
-    public AutocompleteSearchField () throws IOException {
+    public AutocompleteSearchField() throws IOException {
         super();
         historyPopup = new ContextMenu();
         populateSearchHistory();
         setListener();
     }
 
-    public void populateSearchHistory () throws IOException {
+    public void populateSearchHistory() throws IOException {
         searchHistory = new ArrayList<>();
 
         File file = new File("resources/searchHistory.txt");
-        if(!file.exists()) {
+        if (!file.exists()) {
             file.createNewFile();
-        }
-        else if(file.exists()) {
+        } else if (file.exists()) {
             try (BufferedReader br = new BufferedReader(new FileReader("resources/searchHistory.txt"));) {
                 String line;
                 while ((line = br.readLine()) != null) {
                     searchHistory.add(line);
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -99,19 +97,21 @@ public class AutocompleteSearchField extends TextField {
         int filterIndex = text.toLowerCase().indexOf(filter.toLowerCase());
         Text textBefore = new Text(text.substring(0, filterIndex));
         Text textAfter = new Text(text.substring(filterIndex + filter.length()));
-        Text textFilter = new Text(text.substring(filterIndex,  filterIndex + filter.length())); //instead of "filter" to keep all "case sensitive"
+        Text textFilter = new Text(text.substring(filterIndex, filterIndex + filter.length())); //instead of "filter" to keep all "case sensitive"
         textFilter.setFill(Color.GREEN);
         return new TextFlow(textBefore, textFilter, textAfter);
     }
 
     public void addToHistory() {
-        String searchText = getText()+"\n";
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/searchHistory.txt", true))) {
-            bw.write(searchText);
-            bw.flush();
-            populateSearchHistory();
-        } catch (IOException e) {
-            e.printStackTrace();
+        String searchText = getText();
+        if (!searchHistory.contains(searchText)) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/searchHistory.txt", true))) {
+                bw.write(searchText + "\n");
+                bw.flush();
+                populateSearchHistory();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
