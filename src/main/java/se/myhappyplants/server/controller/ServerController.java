@@ -31,6 +31,7 @@ public class ServerController {
 
         Message response;
         MessageType messageType = request.getMessageType();
+
         ResponseHandler responseHandler = responseContext.getResponseHandler(messageType);
         response = responseHandler.getResponse(request);
         return response;

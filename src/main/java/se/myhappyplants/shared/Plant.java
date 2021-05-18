@@ -85,8 +85,11 @@ public class Plant implements Serializable {
         long difference = System.currentTimeMillis() - lastWatered.getTime();
         difference -= 43000000l;
         double progress = 1.0 - ((double) difference / (double) waterFrequency);
-        if (progress <= 0) {
-            return 0.05;
+        if (progress <= 0.02) {
+            progress = 0.02;
+        }
+        else if (progress >= 0.95) {
+            progress = 1.0;
         }
         return progress;
     }
