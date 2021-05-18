@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 /**
  * Class responsible for calling the database about plants.
  * Created by: Frida Jacobsson
@@ -21,31 +22,30 @@ public class PlantRepository {
     private LightCalculator lightCalculator;
     private WaterCalculator waterCalculator;
 
-    public PlantRepository(LightCalculator lightCalculator, WaterCalculator waterCalculator){
+    public PlantRepository(LightCalculator lightCalculator, WaterCalculator waterCalculator) {
         this.waterCalculator = waterCalculator;
         this.lightCalculator = lightCalculator;
     }
 
     /**
      * Makes a new connection to the database
+     *
      * @throws SQLException
      * @throws UnknownHostException
      */
     private void makeConnection() throws SQLException, UnknownHostException {
-        if (conn==null) {
+        if (conn == null) {
             System.out.println("New connection to Species");
             conn = Driver.getConnection("Species");
-        }
-        else if (conn.isClosed()) {
+        } else if (conn.isClosed()) {
             System.out.println("Species connection closed, making new connection");
             conn = Driver.getConnection("Species");
-        }
-        else {
+        } else {
             System.out.println("Species connection active, reusing");
         }
     }
 
-    public ArrayList<Plant> getResult(String plantSearch){
+    public ArrayList<Plant> getResult(String plantSearch) {
         ArrayList<Plant> plantList = new ArrayList<>();
         String query = "SELECT id, common_name, scientific_name, family, image_url FROM species WHERE scientific_name LIKE ('%" + plantSearch + "%') OR common_name LIKE ('%" + plantSearch + "%');";
         try {
@@ -73,37 +73,6 @@ public class PlantRepository {
         return plantList;
     }
 
-    public String[] getMoreInformation(Plant plant) {
-        String[] allInfo = new String[4];
-        String query = "SELECT genus, light, water_frequency, family FROM species WHERE id = '" + plant.getPlantId() + "';";
-        try {
-            makeConnection();
-            ResultSet resultSet = conn.createStatement().executeQuery(query);
-            while (resultSet.next()) {
-                String genus = resultSet.getString("genus");
-                String light = resultSet.getString("light");
-                String family = resultSet.getString("family");
-                String waterFrequency = resultSet.getString("water_frequency");
-                String lightText = lightCalculator.calculateLightLevelToString(light);
-                String waterText = waterCalculator.calculateWaterLevelToString(waterFrequency);
-                allInfo[0] = "Family:\t" + family + "\n";
-                allInfo[1] = "Genus:\t" + genus + "\n";
-                allInfo[2] = "Light:\t" + lightText + "\n";
-                allInfo[3] = "Water:\t" + waterText + "\n";
-            }
-        } catch (SQLException | UnknownHostException sqlException) {
-            System.out.println(sqlException.fillInStackTrace());
-            allInfo = null;
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-        return allInfo;
-    }
-
     public long getWaterFrequency(String plantId) throws IOException, InterruptedException {
         long waterFrequencyMilli = 0;
         String query = "SELECT water_frequency FROM species WHERE id = '" + plantId + "';";
@@ -127,7 +96,7 @@ public class PlantRepository {
     }
 
 
-    public String[] getMoreInformationOnLibraryPlants(Plant plant) {
+    public String[] getMoreInfoOnPlant(Plant plant) {
         String[] allInfo = new String[6];
         try {
             String query = "select common_name,scientific_name,genus,family,light,water_frequency from species\n" +
@@ -151,12 +120,10 @@ public class PlantRepository {
                 allInfo[4] = "Light:\t" + lightText + "\n";
                 allInfo[5] = "Water:\t" + waterText + "\n";
             }
-        }
-        catch (SQLException | UnknownHostException sqlException) {
+        } catch (SQLException | UnknownHostException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
             return null;
-        }
-        finally {
+        } finally {
             try {
                 conn.close();
             } catch (SQLException throwables) {

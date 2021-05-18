@@ -11,19 +11,16 @@ public class WaterCalculator {
 
         int waterFrequencyInt = Integer.parseInt(minWater);
         if (waterFrequencyInt <= 200) {
-            waterText = "Needs water 4 times a week";
+            waterText = "Needs water once a month";
         }
-        else if (waterFrequencyInt > 200 && waterFrequencyInt <= 400) {
-            waterText = "Needs water 3 times a week";
+        else if (waterFrequencyInt <= 400) {
+            waterText = "Needs water every fortnight";
         }
-        else if (waterFrequencyInt > 400 && waterFrequencyInt <= 600) {
-            waterText = "Needs water 2 times a week";
+        else if (waterFrequencyInt <= 600) {
+            waterText = "Needs water once a week";
         }
-        else if (waterFrequencyInt > 600 && waterFrequencyInt <= 800) {
-            waterText = "Needs water 1 times a week";
-        }
-        else if (waterFrequencyInt > 800) {
-            waterText = "Needs water every other week";
+        else if (waterFrequencyInt <= 800) {
+            waterText = "Needs water once every 5 days";
         }
         else {
             waterText = "There's no information about the water level";
@@ -32,23 +29,23 @@ public class WaterCalculator {
     }
 
     public long calculateWaterFrequencyForWatering(String waterFrequency){
-        long waterFrequencyMilli = 0;
+        long waterFrequencyMilli;
 
-        long week = 604000000l;
+        long week = 604000000L;
         int waterFrequencyInt = Integer.parseInt(waterFrequency);
         if (waterFrequencyInt <= 200) {
             waterFrequencyMilli = week * 4;
         }
-        else if (waterFrequencyInt > 200 && waterFrequencyInt <= 400) {
+        else if (waterFrequencyInt <= 400) {
             waterFrequencyMilli = week * 3;
         }
-        else if (waterFrequencyInt > 400 && waterFrequencyInt <= 600) {
+        else if (waterFrequencyInt <= 600) {
             waterFrequencyMilli = week * 2;
         }
-        else if (waterFrequencyInt > 600 && waterFrequencyInt <= 800) {
-            waterFrequencyMilli = week * 1;
+        else if (waterFrequencyInt <= 800) {
+            waterFrequencyMilli = week;
         }
-        else if (waterFrequencyInt > 800) {
+        else {
             waterFrequencyMilli = week / 2;
         }
         return waterFrequencyMilli;
