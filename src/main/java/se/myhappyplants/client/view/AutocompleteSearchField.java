@@ -7,13 +7,8 @@ import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import se.myhappyplants.client.controller.StartClient;
-import se.myhappyplants.client.model.LoggedInUser;
-import se.myhappyplants.client.model.RootName;
 
 import java.io.*;
 import java.util.ArrayList;
