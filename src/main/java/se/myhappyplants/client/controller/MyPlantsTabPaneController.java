@@ -92,21 +92,7 @@ public class MyPlantsTabPaneController {
 
     public void showNotifications () {
 
-        ObservableList<String> notificationStrings = FXCollections.observableArrayList();
-        if (LoggedInUser.getInstance().getUser().areNotificationsActivated()) {
-            int plantsThatNeedWater = 0;
-            for (Plant plant : currentUserLibrary) {
-                if (plant.getProgress() < 0.25) {
-                    plantsThatNeedWater++;
-                    notificationStrings.add(plant.getNickname() + " needs water");
-                }
-            }
-            if (plantsThatNeedWater == 0) {
-                notificationStrings.add("All your plants are watered");
-            }
-        } else {
-            notificationStrings.add("");
-        }
+        ObservableList<String> notificationStrings = NotificationsCreator.getNotificationsStrings(currentUserLibrary);
         Platform.runLater(() -> lstViewNotifications.setItems(notificationStrings));
     }
 
