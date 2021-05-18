@@ -15,6 +15,7 @@ import se.myhappyplants.client.model.ListSorter;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.SortingOption;
 import se.myhappyplants.client.service.ClientConnection;
+import se.myhappyplants.client.view.AutocompleteSearchField;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
 import se.myhappyplants.shared.Message;
@@ -42,7 +43,7 @@ public class SearchTabPaneController {
     @FXML
     private Button btnSearch;
     @FXML
-    private TextField txtFldSearchText;
+    private AutocompleteSearchField txtFldSearchText;
     @FXML
     private ComboBox<SortingOption> cmbSortOption;
     @FXML
@@ -115,6 +116,7 @@ public class SearchTabPaneController {
     @FXML
     private void searchButtonPressed() {
         btnSearch.setDisable(true);
+        txtFldSearchText.addToHistory();
         Thread searchThread = new Thread(() -> {
             Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
             ClientConnection connection = new ClientConnection();
