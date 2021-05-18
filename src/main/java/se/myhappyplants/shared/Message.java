@@ -24,6 +24,7 @@ public class Message implements Serializable {
     private String newNickname;
     private PlantDetails plantDetails;
 
+
     /**
      * create a message that can be used to send a boolean value
      *
@@ -192,14 +193,6 @@ public class Message implements Serializable {
 
     public Plant getDbPlant() {
         return plant;
-    }
-
-    public ArrayList<Plant> getPlantList() {
-        return plantList;
-    }
-
-    public ArrayList<Plant> getPlantLibrary() {
-        return plantLibrary;
     }
 
     public ArrayList<Plant> getPlantArray() {

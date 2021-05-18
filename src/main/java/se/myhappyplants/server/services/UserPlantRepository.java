@@ -170,10 +170,9 @@ public class UserPlantRepository {
         LocalDate date = java.time.LocalDate.now();
         String query = "UPDATE [Plant] SET last_watered = '" + date + "' WHERE user_id = " + user.getUniqueId() + ";";
         try {
-            makeConnection();
             conn.createStatement().executeUpdate(query);
             dateChanged = true;
-        } catch (SQLException | UnknownHostException sqlException) {
+        } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         } finally {
             try {

@@ -236,10 +236,22 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         listViewMoreInfo.setLayoutY(this.getHeight() + 100.0); //56.0
         listViewMoreInfo.setPrefWidth(725.0);
         listViewMoreInfo.setPrefHeight(140.0);
-        obsListMoreInfo = myPlantsTabPaneController.getMorePlantInfoOnMyLibraryPlants(plant);
-        listViewMoreInfo.setItems(obsListMoreInfo);
+        PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetails(plant);
+        long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(plantDetails.getWaterFrequency());
+        String waterText = WaterTextFormatter.getWaterString(waterInMilli);
+        String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
+
+        ObservableList<String> plantInfo = FXCollections.observableArrayList();
+        plantInfo.add("Genus: " +plantDetails.getGenus());
+        plantInfo.add("Scientific name: "+plantDetails.getScientificName());
+        plantInfo.add("Family: "+plantDetails.getFamily());
+        plantInfo.add("Light: " +lightText);
+        plantInfo.add("Water: "+waterText);
+        plantInfo.add("Last watered: " +plant.getLastWatered());
+        listViewMoreInfo.setItems(plantInfo);
         this.setPrefHeight(92.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
+        listViewMoreInfo.setItems(plantInfo);
     }
 
 
