@@ -119,7 +119,7 @@ public class SearchTabPaneController {
         btnSearch.setDisable(true);
         txtFldSearchText.addToHistory();
         Thread searchThread = new Thread(() -> {
-            Message apiRequest = new Message(MessageType.searchForPlant, txtFldSearchText.getText());
+            Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
             ClientConnection connection = new ClientConnection();
             Message apiResponse = connection.makeRequest(apiRequest);
 

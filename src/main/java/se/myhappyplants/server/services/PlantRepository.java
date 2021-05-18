@@ -38,7 +38,6 @@ public class PlantRepository {
                 String scientificName = resultSet.getString("scientific_name");
                 String familyName = resultSet.getString("family");
                 String imageURL = resultSet.getString("image_url");
-                //long waterFrequency = resultSet.getLong("water_frequency");
                 plantList.add(new Plant(plantId, commonName, scientificName, familyName, imageURL));
             }
         }
