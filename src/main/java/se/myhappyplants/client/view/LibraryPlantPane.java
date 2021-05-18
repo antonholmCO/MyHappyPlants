@@ -11,6 +11,7 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.MyPlantsTabPaneController;
 import se.myhappyplants.client.model.BoxTitle;
+import se.myhappyplants.client.model.PictureRandomizer;
 import se.myhappyplants.shared.Plant;
 
 import java.io.File;
@@ -91,6 +92,25 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         initDatePicker();
         initDeleteButton(plant);
         initListView();
+    }
+
+    public LibraryPlantPane(MyPlantsTabPaneController myPlantsTabPaneController) {
+        this.myPlantsTabPaneController = myPlantsTabPaneController;
+        initEmptyLibraryLabel();
+
+    }
+    private void initEmptyLibraryLabel () {
+
+        this.image = new ImageView();
+        initImages(PictureRandomizer.getRandomPicture());
+        Label lblEmptyInfo = new Label("Your library is currently empty \nClick here to search for plants to add    --------->");
+        lblEmptyInfo.setLayoutX(150.0);
+        lblEmptyInfo.setLayoutY(28.0);
+        Button btnSearchPlants = new Button("Search for plants");
+        btnSearchPlants.setOnAction(action -> myPlantsTabPaneController.getMainPaneController().changeToSearchTab());
+        btnSearchPlants.setLayoutX(500.0);
+        btnSearchPlants.setLayoutY(40.0);
+        this.getChildren().addAll(image, lblEmptyInfo, btnSearchPlants);
     }
 
     private void initImages(String imgPath) {

@@ -1,6 +1,8 @@
 package se.myhappyplants.client.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.RootName;
 
@@ -15,7 +17,8 @@ import java.io.IOException;
  * Updated by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
  */
 public class MainPaneController {
-
+    @FXML
+    public TabPane mainPane;
     @FXML
     private MyPlantsTabPaneController myPlantsTabPaneController;
     @FXML
@@ -64,4 +67,7 @@ public class MainPaneController {
     }
 
 
+    public void changeToSearchTab() {
+        mainPane.getSelectionModel().select(1);
+    }
 }
