@@ -34,8 +34,9 @@
             <ListView layoutX="786.0" layoutY="86.0" prefHeight="108.0" prefWidth="200.0" />
             <Label layoutX="786.0" layoutY="196.0" text="Notifications" />
             <ListView fx:id="lstViewNotifications" layoutX="786.0" layoutY="219.0" prefHeight="279.0" prefWidth="200.0" />
-            <Button fx:id="btnExpandAll" layoutX="191.0" layoutY="53.0" mnemonicParsing="false" onAction="#expandAll" text="Expand all" />
-            <Button fx:id="btnWaterAll" layoutX="331.0" layoutY="53.0" mnemonicParsing="false" onAction="#waterAll" text="Water all" />
+            <Button fx:id="btnExpandAll" layoutX="294.0" layoutY="52.0" mnemonicParsing="false" onAction="#expandAll" text="Expand all" />
+            <Button fx:id="btnWaterAll" layoutX="148.0" layoutY="53.0" mnemonicParsing="false" onAction="#waterAll" text="Water all plants" />
+            <Button fx:id="btnCollapseAll" layoutX="408.0" layoutY="53.0" mnemonicParsing="false" onAction="#collapseAll" text="Collapse all" />
         </children>
     </AnchorPane>
 </center>

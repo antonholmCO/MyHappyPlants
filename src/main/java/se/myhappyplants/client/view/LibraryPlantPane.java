@@ -38,8 +38,8 @@ public class LibraryPlantPane extends Pane implements PlantPane{
     private Button deleteButton;
     private DatePicker datePicker;
     private Button changeOKWaterButton;
-    private ListView listView;
-    private ObservableList<String> getAllPlantInfo;
+    private ListView listViewMoreInfo;
+    private ObservableList<String> obsListMoreInfo;
 
     public boolean extended;
     private boolean gotInfoOnPlant;
@@ -159,10 +159,6 @@ public class LibraryPlantPane extends Pane implements PlantPane{
     public void pressInfoButton() {
         infoButton.setDisable(true);
         if (!extended) {
-            if(!gotInfoOnPlant) {
-                getAllPlantInfo = myPlantsTabPaneController.getMorePlantInfoOnMyLibraryPlants(plant);
-                listView.setItems(getAllPlantInfo);
-            }
             expand();
         }
         else {
@@ -218,12 +214,13 @@ public class LibraryPlantPane extends Pane implements PlantPane{
     }
 
     private void initListView() {
-        listView = new ListView();
-        listView.setLayoutX(this.getWidth() + 10.0);
-        listView.setLayoutY(this.getHeight() + 100.0); //56.0
-        listView.setPrefWidth(725.0);
-        listView.setPrefHeight(140.0);
-
+        listViewMoreInfo = new ListView();
+        listViewMoreInfo.setLayoutX(this.getWidth() + 10.0);
+        listViewMoreInfo.setLayoutY(this.getHeight() + 100.0); //56.0
+        listViewMoreInfo.setPrefWidth(725.0);
+        listViewMoreInfo.setPrefHeight(140.0);
+        obsListMoreInfo = myPlantsTabPaneController.getMorePlantInfoOnMyLibraryPlants(plant);
+        listViewMoreInfo.setItems(obsListMoreInfo);
         this.setPrefHeight(92.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
     }
@@ -242,33 +239,27 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         timeline.setOnFinished(action -> {
             infoButton.setDisable(false);
             this.setPrefHeight(292.0);
-            this.getChildren().addAll(listView, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
+            this.getChildren().addAll(listViewMoreInfo, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
         });
         extended = true;
-        gotInfoOnPlant = true;
     }
 
     /**
      * Method for hiding tab with "more information"-buttons.
      */
     public void collapse() {
-        int size = listView.getItems().size();
-        for (int i = 0; i < size; i++) {
-            listView.getItems().remove(0);
-        }
         AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(7.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v - 6.25))))
         );
         timeline.setCycleCount(32);
         timeline.play();
-        this.getChildren().removeAll(listView, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
+        this.getChildren().removeAll(listViewMoreInfo, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
         timeline.setOnFinished(action -> {
             infoButton.setDisable(false);
             this.setPrefHeight(92.0);
         });
         extended = false;
-        gotInfoOnPlant = false;
     }
 
     /**

@@ -31,6 +31,7 @@ import java.util.ArrayList;
  */
 public class MyPlantsTabPaneController {
 
+
     private ArrayList<Plant> currentUserLibrary;
 
     @FXML
@@ -52,9 +53,13 @@ public class MyPlantsTabPaneController {
     private ListView<String> lstViewNotifications;
 
     @FXML
-    private Button btnExpandAll;
-    @FXML
     private Button btnWaterAll;
+
+    @FXML
+    private Button btnExpandAll;
+
+    @FXML
+    public Button btnCollapseAll;
 
 
     @FXML
@@ -242,27 +247,7 @@ public class MyPlantsTabPaneController {
         }
         return extraInfoOnLibraryPlant;
     }
-
-    public void expandAll() {
-
-        btnExpandAll.setDisable(true);
-        ObservableList<LibraryPlantPane> libraryPlantPanes = lstViewUserPlantLibrary.getItems();
-        if (btnExpandAll.getText().equals("Expand all")) {
-            for (LibraryPlantPane lpp : libraryPlantPanes) {
-                if (!lpp.extended)
-                    lpp.pressInfoButton();
-            }
-            btnExpandAll.setText("Collapse all");
-        } else {
-            for (LibraryPlantPane lpp : libraryPlantPanes) {
-                if (lpp.extended)
-                    lpp.pressInfoButton();
-            }
-            btnExpandAll.setText("Expand all");
-        }
-        btnExpandAll.setDisable(false);
-    }
-
+    @FXML
     public void waterAll() {
         btnWaterAll.setDisable(true);
         ObservableList<LibraryPlantPane> libraryPlantPanes = lstViewUserPlantLibrary.getItems();
@@ -271,8 +256,31 @@ public class MyPlantsTabPaneController {
             lpp.getProgressBar().setProgress(100);
             lpp.setColorProgressBar(100);
         }
-
     }
+    @FXML
+    public void expandAll() {
+        btnExpandAll.setDisable(true);
+        ObservableList<LibraryPlantPane> libraryPlantPanes = lstViewUserPlantLibrary.getItems();
+        for (LibraryPlantPane lpp : libraryPlantPanes) {
+            if (!lpp.extended)
+                lpp.pressInfoButton();
+        }
+        btnExpandAll.setDisable(false);
+    }
+
+    @FXML
+    public void collapseAll() {
+        btnCollapseAll.setDisable(true);
+        ObservableList<LibraryPlantPane> libraryPlantPanes = lstViewUserPlantLibrary.getItems();
+        for (LibraryPlantPane lpp : libraryPlantPanes) {
+            if (lpp.extended)
+                lpp.pressInfoButton();
+        }
+        btnCollapseAll.setDisable(false);
+    }
+
+
+
     private void changeAllToWateredInDB() {
         Thread waterAllThread = new Thread(() -> {
             Message changeAllToWatered = new Message(MessageType.changeAllToWatered, LoggedInUser.getInstance().getUser());
