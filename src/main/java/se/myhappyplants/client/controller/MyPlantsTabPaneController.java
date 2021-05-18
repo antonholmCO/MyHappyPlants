@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 
 /**
  * Controller with logic used by the "Home" tab
- * Created bygetMorePlantInfoOnLibraryPlant:
+ * Created by:
  * Updated by: Christopher O'Driscoll, 2021-05-14
  */
 public class MyPlantsTabPaneController {
@@ -52,6 +53,15 @@ public class MyPlantsTabPaneController {
 
     @FXML
     private ListView<String> lstViewNotifications;
+
+    @FXML
+    private Button btnWaterAll;
+
+    @FXML
+    private Button btnExpandAll;
+
+    @FXML
+    public Button btnCollapseAll;
 
 
     @FXML
@@ -88,23 +98,9 @@ public class MyPlantsTabPaneController {
     }
 
 
-    public void showNotifications () {
+    public void showNotifications() {
 
-        ObservableList<String> notificationStrings = FXCollections.observableArrayList();
-        if (LoggedInUser.getInstance().getUser().areNotificationsActivated()) {
-            int plantsThatNeedWater = 0;
-            for (Plant plant : currentUserLibrary) {
-                if (plant.getProgress() < 0.25) {
-                    plantsThatNeedWater++;
-                    notificationStrings.add(plant.getNickname() + " needs water");
-                }
-            }
-            if (plantsThatNeedWater == 0) {
-                notificationStrings.add("All your plants are watered");
-            }
-        } else {
-            notificationStrings.add("");
-        }
+        ObservableList<String> notificationStrings = NotificationsCreator.getNotificationsStrings(currentUserLibrary);
         Platform.runLater(() -> lstViewNotifications.setItems(notificationStrings));
     }
 
@@ -116,7 +112,7 @@ public class MyPlantsTabPaneController {
             Message response = connection.makeRequest(getLibrary);
 
             if (response.isSuccess()) {
-                currentUserLibrary = response.getPlantLibrary();
+                currentUserLibrary = response.getPlantArray();
                 addCurrentUserLibraryToHomeScreen();
                 showNotifications();
             } else {
@@ -131,7 +127,7 @@ public class MyPlantsTabPaneController {
         Thread removePlantThread = new Thread(() -> {
             currentUserLibrary.remove(plant);
             addCurrentUserLibraryToHomeScreen();
-            Message deletePlant = new Message(MessageType.deletePlantFromLibrary, LoggedInUser.getInstance().getUser(), plant);
+            Message deletePlant = new Message(MessageType.deletePlant, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(deletePlant);
             if (!response.isSuccess()) {
@@ -227,6 +223,21 @@ public class MyPlantsTabPaneController {
     public void updateAvatar() {
         imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
+
+
+    public ObservableList<String> getMorePlantInfoOnMyLibraryPlants(Plant plant) {
+        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
+        Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
+        ObservableList<String> extraInfoOnLibraryPlant = FXCollections.observableArrayList();
+        if (response != null) {
+            for (int i = 0; i < response.getStringArray().length; i++) {
+                extraInfoOnLibraryPlant.add(response.getStringArray()[i]);
+            }
+        }
+        return extraInfoOnLibraryPlant;
+
+    }
+
     public PlantDetails getPlantDetails(Plant plant) {
         PlantDetails plantDetails = null;
         Message getInfoSearchedPlant = new Message(MessageType.getPlantDetails, plant);
@@ -234,6 +245,53 @@ public class MyPlantsTabPaneController {
         if (response != null) {
             plantDetails = response.getPlantDetails();
         }
-       return plantDetails;
+        return plantDetails;
     }
+
+    @FXML
+    public void waterAll() {
+        btnWaterAll.setDisable(true);
+        ObservableList<LibraryPlantPane> libraryPlantPanes = lstViewUserPlantLibrary.getItems();
+        changeAllToWateredInDB();
+        for (LibraryPlantPane lpp : libraryPlantPanes) {
+            lpp.getProgressBar().setProgress(100);
+            lpp.setColorProgressBar(100);
+        }
+    }
+    @FXML
+    public void expandAll() {
+        btnExpandAll.setDisable(true);
+        ObservableList<LibraryPlantPane> libraryPlantPanes = lstViewUserPlantLibrary.getItems();
+        for (LibraryPlantPane lpp : libraryPlantPanes) {
+            if (!lpp.extended)
+                lpp.pressInfoButton();
+        }
+        btnExpandAll.setDisable(false);
+    }
+
+    @FXML
+    public void collapseAll() {
+        btnCollapseAll.setDisable(true);
+        ObservableList<LibraryPlantPane> libraryPlantPanes = lstViewUserPlantLibrary.getItems();
+        for (LibraryPlantPane lpp : libraryPlantPanes) {
+            if (lpp.extended)
+                lpp.pressInfoButton();
+        }
+        btnCollapseAll.setDisable(false);
+    }
+
+    private void changeAllToWateredInDB() {
+        Thread waterAllThread = new Thread(() -> {
+            Message changeAllToWatered = new Message(MessageType.changeAllToWatered, LoggedInUser.getInstance().getUser());
+            Message response = new ClientConnection().makeRequest(changeAllToWatered);
+            if (!response.isSuccess()) {
+                MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
+            }
+            btnWaterAll.setDisable(false);
+            createCurrentUserLibraryFromDB();
+            showNotifications();
+        });
+        waterAllThread.start();
+    }
+
 }

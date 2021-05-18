@@ -164,4 +164,24 @@ public class UserPlantRepository {
         }
         return nicknameChanged;
     }
+
+    public boolean changeAllToWatered(User user) {
+        boolean dateChanged = false;
+        LocalDate date = java.time.LocalDate.now();
+        String query = "UPDATE [Plant] SET last_watered = '" + date + "' WHERE user_id = " + user.getUniqueId() + ";";
+        try {
+            makeConnection();
+            conn.createStatement().executeUpdate(query);
+            dateChanged = true;
+        } catch (SQLException | UnknownHostException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return dateChanged;
+    }
 }

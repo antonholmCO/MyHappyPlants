@@ -15,6 +15,7 @@ import se.myhappyplants.client.model.ListSorter;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.SortingOption;
 import se.myhappyplants.client.service.ClientConnection;
+import se.myhappyplants.client.view.AutocompleteSearchField;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
 import se.myhappyplants.shared.Message;
@@ -43,7 +44,7 @@ public class SearchTabPaneController {
     @FXML
     private Button btnSearch;
     @FXML
-    private TextField txtFldSearchText;
+    private AutocompleteSearchField txtFldSearchText;
     @FXML
     private ComboBox<SortingOption> cmbSortOption;
     @FXML
@@ -116,6 +117,7 @@ public class SearchTabPaneController {
     @FXML
     private void searchButtonPressed() {
         btnSearch.setDisable(true);
+        txtFldSearchText.addToHistory();
         Thread searchThread = new Thread(() -> {
             Message apiRequest = new Message(MessageType.searchForPlant, txtFldSearchText.getText());
             ClientConnection connection = new ClientConnection();
@@ -123,7 +125,7 @@ public class SearchTabPaneController {
 
             if (apiResponse != null) {
                 if (apiResponse.isSuccess()) {
-                    searchResults = apiResponse.getPlantList();
+                    searchResults = apiResponse.getPlantArray();
                     Platform.runLater(() -> showResultsOnPane());
                 } else {
                     //TODO: skicka inget felmeddelande, visa label med sökresultat 0 istället
@@ -139,6 +141,18 @@ public class SearchTabPaneController {
     @FXML
     private void logoutButtonPressed() throws IOException {
         mainPaneController.logoutButtonPressed();
+    }
+
+    public ObservableList<String> getMorePlantInfo(Plant plant) {
+        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
+        Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
+        ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
+        if (response != null) {
+            for (int i = 0; i < response.getStringArray().length; i++) {
+                waterLightInfo.add(response.getStringArray()[i]);
+            }
+        }
+        return waterLightInfo;
     }
 
     public PlantDetails getPlantDetails(Plant plant) {
