@@ -23,7 +23,7 @@ public class WaterCalculator {
             waterText = "Needs water once every 5 days";
         }
         else {
-            waterText = "Needs water twice a week";
+            waterText = "There's no information about the water level";
         }
         return waterText;
     }
