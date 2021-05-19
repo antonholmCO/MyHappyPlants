@@ -27,8 +27,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * Controller with logic used by the "Home" tab
- * Created by:
+ * Controller with logic used by the "My Plants" tab
+ * Created by: Christopher O'Driscoll
  * Updated by: Christopher O'Driscoll, 2021-05-14
  */
 public class MyPlantsTabController {
@@ -57,6 +57,9 @@ public class MyPlantsTabController {
     private ListView lstViewMessage;
 
 
+    /**
+     * Method to initilize the variables
+     */
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
@@ -69,14 +72,18 @@ public class MyPlantsTabController {
 
     }
 
-    public ListView getLstViewMessages() {
-        return lstViewMessage;
-    }
 
+    /**
+     * Method to set the mainPaneController
+     * @param mainPaneController to set
+     */
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
 
+    /**
+     * Method to add a users plants to the
+     */
     @FXML
     public void addCurrentUserLibraryToHomeScreen() {
 
