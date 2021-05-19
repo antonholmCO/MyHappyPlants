@@ -2,6 +2,7 @@ package se.myhappyplants.client.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -11,7 +12,10 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.MyPlantsTabPaneController;
 import se.myhappyplants.client.model.BoxTitle;
+import se.myhappyplants.client.model.PictureRandomizer;
+import se.myhappyplants.client.model.WaterCalculator;
 import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.PlantDetails;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -23,7 +27,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * Created by: Christopher O'Driscoll
  * Updated by: Frida Jacobsson
  */
-public class LibraryPlantPane extends Pane implements PlantPane{
+public class LibraryPlantPane extends Pane implements PlantPane {
 
     private MyPlantsTabPaneController myPlantsTabPaneController;
     private Plant plant;
@@ -71,15 +75,14 @@ public class LibraryPlantPane extends Pane implements PlantPane{
      * plant library
      *
      * @param myPlantsTabPaneController MyPlantsTabController which contains logic for elements to use
-     * @param imgPath           location of user's avatar image
-     * @param plant             plant object from user's library
+     * @param plant                     plant object from user's library
      */
-    public LibraryPlantPane(MyPlantsTabPaneController myPlantsTabPaneController, String imgPath, Plant plant) {
+    public LibraryPlantPane(MyPlantsTabPaneController myPlantsTabPaneController, Plant plant) {
         this.myPlantsTabPaneController = myPlantsTabPaneController;
         this.plant = plant;
         this.setStyle("-fx-background-color: #FFFFFF;");
         this.image = new ImageView();
-        initImages(imgPath);
+        initImages();
         initNicknameLabel(plant);
         initLastWateredLabel(plant);
         initProgressBar(plant);
@@ -93,9 +96,8 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         initListView();
     }
 
-    private void initImages(String imgPath) {
-        File fileImg = new File(imgPath);
-        Image img = new Image(fileImg.toURI().toString());
+    private void initImages() {
+        Image img = PictureRandomizer.getRandomPicture();
         image.setFitHeight(70.0);
         image.setFitWidth(70.0);
         image.setLayoutX(50.0);
@@ -118,7 +120,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         lastWateredLabel.setLayoutY(226);
         lastWateredLabel.setLayoutX(10);
         Date lastWateredDate = plant.getLastWatered();
-        lastWateredLabel.setText("Last watered: " +lastWateredDate.toString());
+        lastWateredLabel.setText("Last watered: " + lastWateredDate.toString());
     }
 
     private void initProgressBar(Plant plant) {
@@ -156,9 +158,25 @@ public class LibraryPlantPane extends Pane implements PlantPane{
             pressInfoButton();
         });
     }
+
     public void pressInfoButton() {
         infoButton.setDisable(true);
         if (!extended) {
+            if (!gotInfoOnPlant) {
+                PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetails(plant);
+                long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(plantDetails.getWaterFrequency());
+                String waterText = WaterTextFormatter.getWaterString(waterInMilli);
+                String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
+
+                ObservableList<String> plantInfo = FXCollections.observableArrayList();
+                plantInfo.add("Genus: " + plantDetails.getGenus());
+                plantInfo.add("Scientific name: " + plantDetails.getScientificName());
+                plantInfo.add("Family: " + plantDetails.getFamily());
+                plantInfo.add("Light: " + lightText);
+                plantInfo.add("Water: " + waterText);
+                plantInfo.add("Last watered: " + plant.getLastWatered());
+                listViewMoreInfo.setItems(plantInfo);
+            }
             expand();
         }
         else {
@@ -219,10 +237,22 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         listViewMoreInfo.setLayoutY(this.getHeight() + 100.0); //56.0
         listViewMoreInfo.setPrefWidth(725.0);
         listViewMoreInfo.setPrefHeight(140.0);
-        obsListMoreInfo = myPlantsTabPaneController.getMorePlantInfoOnMyLibraryPlants(plant);
-        listViewMoreInfo.setItems(obsListMoreInfo);
+        PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetails(plant);
+        long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(plantDetails.getWaterFrequency());
+        String waterText = WaterTextFormatter.getWaterString(waterInMilli);
+        String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
+        ObservableList<String> plantInfo = FXCollections.observableArrayList();
+        plantInfo.add("Genus: " + plantDetails.getGenus());
+        plantInfo.add("Scientific name: " + plantDetails.getScientificName());
+        plantInfo.add("Family: " + plantDetails.getFamily());
+        plantInfo.add("Light: " + lightText);
+        plantInfo.add("Water: " + waterText);
+        plantInfo.add("Last watered: " + plant.getLastWatered());
+        listViewMoreInfo.setItems(plantInfo);
         this.setPrefHeight(92.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
+        listViewMoreInfo.setItems(plantInfo);
+
     }
 
 
@@ -239,7 +269,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         timeline.setOnFinished(action -> {
             infoButton.setDisable(false);
             this.setPrefHeight(292.0);
-            this.getChildren().addAll(listViewMoreInfo, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
+            this.getChildren().addAll(listViewMoreInfo, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton);
         });
         extended = true;
     }

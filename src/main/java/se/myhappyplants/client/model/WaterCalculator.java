@@ -6,46 +6,23 @@ package se.myhappyplants.client.model;
  */
 public class WaterCalculator {
 
-    public String calculateWaterLevelToString(String minWater) {
-        String waterText;
+    public static long calculateWaterFrequencyForWatering(int waterFrequency) {
+        long waterFrequencyMilli = 0;
 
-        int waterFrequencyInt = Integer.parseInt(minWater);
-        if (waterFrequencyInt <= 200) {
-            waterText = "Needs water once a month";
-        }
-        else if (waterFrequencyInt <= 400) {
-            waterText = "Needs water every fortnight";
-        }
-        else if (waterFrequencyInt <= 600) {
-            waterText = "Needs water once a week";
-        }
-        else if (waterFrequencyInt <= 800) {
-            waterText = "Needs water once every 5 days";
-        }
-        else {
-            waterText = "There's no information about the water level";
-        }
-        return waterText;
-    }
-
-    public long calculateWaterFrequencyForWatering(String waterFrequency){
-        long waterFrequencyMilli;
-
-        long week = 604000000L;
-        int waterFrequencyInt = Integer.parseInt(waterFrequency);
-        if (waterFrequencyInt <= 200) {
+        long week = 604000000l;
+        if (waterFrequency <= 200) {
             waterFrequencyMilli = week * 4;
         }
-        else if (waterFrequencyInt <= 400) {
+        else if (waterFrequency > 200 && waterFrequency <= 400) {
             waterFrequencyMilli = week * 3;
         }
-        else if (waterFrequencyInt <= 600) {
+        else if (waterFrequency > 400 && waterFrequency <= 600) {
             waterFrequencyMilli = week * 2;
         }
-        else if (waterFrequencyInt <= 800) {
-            waterFrequencyMilli = week;
+        else if (waterFrequency > 600 && waterFrequency <= 800) {
+            waterFrequencyMilli = week * 1;
         }
-        else {
+        else if (waterFrequency > 800) {
             waterFrequencyMilli = week / 2;
         }
         return waterFrequencyMilli;

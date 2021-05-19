@@ -18,6 +18,9 @@ import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
+import se.myhappyplants.client.model.SetAvatar;
+import se.myhappyplants.shared.PlantDetails;
+
 
 import java.io.IOException;
 import java.sql.Date;
@@ -30,7 +33,6 @@ import java.util.ArrayList;
  * Updated by: Christopher O'Driscoll, 2021-05-14
  */
 public class MyPlantsTabPaneController {
-
 
     private ArrayList<Plant> currentUserLibrary;
 
@@ -86,7 +88,7 @@ public class MyPlantsTabPaneController {
             obsListLibraryPlantPane.add(new LibraryPlantPane());
         } else {
             for (Plant plant : currentUserLibrary) {
-                obsListLibraryPlantPane.add(new LibraryPlantPane(this, PictureRandomizer.getRandomPicture(), plant));
+                obsListLibraryPlantPane.add(new LibraryPlantPane(this, plant));
             }
         }
         Platform.runLater(() -> {
@@ -222,17 +224,16 @@ public class MyPlantsTabPaneController {
         imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 
-    public ObservableList<String> getMorePlantInfoOnMyLibraryPlants(Plant plant) {
+    public PlantDetails getPlantDetails(Plant plant) {
+        PlantDetails plantDetails = null;
         Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
-        ObservableList<String> extraInfoOnLibraryPlant = FXCollections.observableArrayList();
         if (response != null) {
-            for (int i = 0; i < response.getStringArray().length; i++) {
-                extraInfoOnLibraryPlant.add(response.getStringArray()[i]);
-            }
+            plantDetails = response.getPlantDetails();
         }
-        return extraInfoOnLibraryPlant;
+        return plantDetails;
     }
+
     @FXML
     public void waterAll() {
         btnWaterAll.setDisable(true);
@@ -265,8 +266,6 @@ public class MyPlantsTabPaneController {
         btnCollapseAll.setDisable(false);
     }
 
-
-
     private void changeAllToWateredInDB() {
         Thread waterAllThread = new Thread(() -> {
             Message changeAllToWatered = new Message(MessageType.changeAllToWatered, LoggedInUser.getInstance().getUser());
@@ -280,4 +279,5 @@ public class MyPlantsTabPaneController {
         });
         waterAllThread.start();
     }
+
 }

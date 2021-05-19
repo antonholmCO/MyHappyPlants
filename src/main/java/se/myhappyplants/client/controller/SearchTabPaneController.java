@@ -22,6 +22,7 @@ import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.client.model.SetAvatar;
+import se.myhappyplants.shared.PlantDetails;
 
 import java.io.File;
 import java.io.IOException;
@@ -142,16 +143,14 @@ public class SearchTabPaneController {
         mainPaneController.logoutButtonPressed();
     }
 
-    public ObservableList<String> getMorePlantInfo(Plant plant) {
+    public PlantDetails getPlantDetails(Plant plant) {
+        PlantDetails plantDetails = null;
         Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
-        ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
         if (response != null) {
-            for (int i = 0; i < response.getStringArray().length; i++) {
-                waterLightInfo.add(response.getStringArray()[i]);
-            }
+            plantDetails = response.getPlantDetails();
         }
-        return waterLightInfo;
+        return plantDetails;
     }
 
     /**

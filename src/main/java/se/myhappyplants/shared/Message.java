@@ -22,6 +22,8 @@ public class Message implements Serializable {
     private ArrayList<Plant> plantArray;
     private Plant plant;
     private String newNickname;
+    private PlantDetails plantDetails;
+
 
     /**
      * create a message that can be used to send a boolean value
@@ -110,6 +112,11 @@ public class Message implements Serializable {
         this.newNickname = newNickname;
     }
 
+    public Message(MessageType messageType, PlantDetails plantDetails) {
+        this.messageType = messageType;
+        this.plantDetails = plantDetails;
+    }
+
 
     /**
      * Creates a message that can be used to send a plant array
@@ -155,6 +162,11 @@ public class Message implements Serializable {
         this.success = success;
     }
 
+    public Message(PlantDetails plantDetails, boolean success) {
+        this.plantDetails = plantDetails;
+        this.success = success;
+    }
+
     public String getNewNickname() {
         return newNickname;
     }
@@ -179,6 +191,10 @@ public class Message implements Serializable {
         return stringArray;
     }
 
+    public Plant getDbPlant() {
+        return plant;
+    }
+
     public ArrayList<Plant> getPlantArray() {
         return plantArray;
     }
@@ -193,5 +209,9 @@ public class Message implements Serializable {
 
     public boolean getNotifications() {
         return notifications;
+    }
+
+    public PlantDetails getPlantDetails() {
+        return plantDetails;
     }
 }

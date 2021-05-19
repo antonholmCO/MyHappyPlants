@@ -7,6 +7,9 @@ import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.server.services.UserRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
+import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.User;
+import se.myhappyplants.shared.*;
 
 import java.io.IOException;
 
