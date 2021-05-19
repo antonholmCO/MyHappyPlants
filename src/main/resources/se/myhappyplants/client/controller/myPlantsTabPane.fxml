@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="myPlantsTab" prefHeight="575.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.MyPlantsTabPaneController">
+<BorderPane fx:id="myPlantsTab" prefHeight="575.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.MyPlantsTabPaneController">
 <top>
     <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
         <children>
@@ -28,14 +28,12 @@
         <children>
             <Label layoutX="14.0" layoutY="57.0" text="Your plants:" />
             <Label layoutX="522.0" layoutY="57.0" text="Sort by: " />
-            <ComboBox fx:id="cmbSortOption" layoutX="591.0" layoutY="50.0" onAction="#sortLibrary" prefHeight="30.0" prefWidth="186.0" promptText="  Nickname" />
+            <ComboBox fx:id="cmbSortOption" layoutX="591.0" layoutY="51.0" onAction="#sortLibrary" prefHeight="30.0" prefWidth="186.0" promptText="  Nickname" />
             <ListView fx:id="lstViewUserPlantLibrary" layoutX="12.0" layoutY="86.0" prefHeight="414.0" prefWidth="765.0" />
-            <Label layoutX="786.0" layoutY="57.0" prefHeight="17.0" prefWidth="82.0" text="Messages:" />
-            <ListView layoutX="786.0" layoutY="86.0" prefHeight="108.0" prefWidth="200.0" />
-            <Label layoutX="786.0" layoutY="196.0" text="Notifications" />
-            <ListView fx:id="lstViewNotifications" layoutX="786.0" layoutY="219.0" prefHeight="279.0" prefWidth="200.0" />
-            <Button fx:id="btnExpandAll" layoutX="294.0" layoutY="52.0" mnemonicParsing="false" onAction="#expandAll" text="Expand all" />
-            <Button fx:id="btnWaterAll" layoutX="148.0" layoutY="53.0" mnemonicParsing="false" onAction="#waterAll" text="Water all plants" />
+            <Label layoutX="786.0" layoutY="58.0" text="Notifications" />
+            <ListView fx:id="lstViewNotifications" layoutX="786.0" layoutY="86.0" prefHeight="414.0" prefWidth="200.0" />
+            <Button fx:id="btnExpandAll" layoutX="296.0" layoutY="53.0" mnemonicParsing="false" onAction="#expandAll" text="Expand all" />
+            <Button fx:id="btnWaterAll" layoutX="151.0" layoutY="53.0" mnemonicParsing="false" onAction="#waterAll" text="Water all plants" />
             <Button fx:id="btnCollapseAll" layoutX="408.0" layoutY="53.0" mnemonicParsing="false" onAction="#collapseAll" text="Collapse all" />
         </children>
     </AnchorPane>
