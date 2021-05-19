@@ -30,10 +30,8 @@
             <Label layoutX="522.0" layoutY="57.0" text="Sort by: " />
             <ComboBox fx:id="cmbSortOption" layoutX="591.0" layoutY="50.0" onAction="#sortLibrary" prefHeight="30.0" prefWidth="186.0" promptText="  Nickname" />
             <ListView fx:id="lstViewUserPlantLibrary" layoutX="12.0" layoutY="86.0" prefHeight="414.0" prefWidth="765.0" />
-            <Label layoutX="786.0" layoutY="57.0" prefHeight="17.0" prefWidth="82.0" text="Messages:" />
-            <ListView fx:id="lstViewMessage" layoutX="786.0" layoutY="86.0" prefHeight="108.0" prefWidth="200.0" />
-            <Label layoutX="786.0" layoutY="196.0" text="Notifications" />
-            <ListView fx:id="lstViewNotifications" layoutX="786.0" layoutY="219.0" prefHeight="279.0" prefWidth="200.0" />
+            <Label layoutX="786.0" layoutY="63.0" text="Notifications" />
+            <ListView fx:id="lstViewNotifications" layoutX="786.0" layoutY="86.0" prefHeight="413.0" prefWidth="200.0" />
         </children>
     </AnchorPane>
 </center>
