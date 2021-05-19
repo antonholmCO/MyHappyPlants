@@ -45,6 +45,7 @@ public class ConfirmationBox {
         vBox.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(vBox);
+        scene.getStylesheets().add("/se/myhappyplants/client/controller/Stylesheet.css");
         window.setScene(scene);
         window.showAndWait();
 
