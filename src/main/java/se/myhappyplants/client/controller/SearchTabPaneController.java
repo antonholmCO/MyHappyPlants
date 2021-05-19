@@ -49,20 +49,37 @@ public class SearchTabPaneController {
     private ListView listViewResult;
     @FXML
     private ProgressIndicator progressIndicator;
-
+    @FXML
+    public Label lblFunFactTitle;
+    @FXML
+    public Label lblFunFactText;
     private ArrayList<Plant> searchResults;
 
 
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernamePlants.setText(loggedInUser.getUser().getUsername());
         imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
         cmbSortOption.setItems(ListSorter.sortOptionsSearch());
+        showFunFact(LoggedInUser.getInstance().getUser().areFunFactsActivated());
     }
 
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
+    }
+
+    public void showFunFact (boolean factsActivated){
+
+        FunFacts funFacts = new FunFacts();
+        if(factsActivated) {
+            lblFunFactText.setText(funFacts.getRandomFact());
+            lblFunFactTitle.setVisible(true);
+            lblFunFactText.setVisible(true);
+        } else {
+            lblFunFactTitle.setVisible(false);
+            lblFunFactText.setVisible(false);
+        }
     }
 
     @FXML
@@ -74,7 +91,7 @@ public class SearchTabPaneController {
             plantNickname = MessageBox.askForStringInput("Add a nickname", "Nickname:");
         }
         PopupBox.display(MessageText.sucessfullyAddPlant.toString());
-        mainPaneController.getHomePaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
+        mainPaneController.getMyPlantsTabPaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
     }
 
     private void showResultsOnPane() {

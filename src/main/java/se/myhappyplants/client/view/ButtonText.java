@@ -9,13 +9,12 @@ import se.myhappyplants.client.controller.SettingsTabPaneController;
  */
 public class ButtonText {
 
-    public static void setNotificationsButtonText(SettingsTabPaneController settingsTabPaneController) {
-        ToggleButton tglBtnChangeNotification = settingsTabPaneController.getTglBtnChangeNotification();
-        if(tglBtnChangeNotification.isSelected()) {
-            tglBtnChangeNotification.setText("On");
+    public static void setButtonText(ToggleButton tglButton) {
+        if(tglButton.isSelected()) {
+            tglButton.setText("On");
         }
         else {
-            tglBtnChangeNotification.setText("Off");
+            tglButton.setText("Off");
         }
     }
 }

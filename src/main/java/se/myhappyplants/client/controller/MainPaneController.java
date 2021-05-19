@@ -36,8 +36,12 @@ public class MainPaneController {
         settingsTabPaneController.setMainController(this);
     }
 
-    public MyPlantsTabPaneController getHomePaneController() {
+    public MyPlantsTabPaneController getMyPlantsTabPaneController() {
         return myPlantsTabPaneController;
+    }
+
+    public SearchTabPaneController getSearchTabPaneController() {
+        return searchTabPaneController;
     }
 
     /**

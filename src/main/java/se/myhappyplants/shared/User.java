@@ -14,6 +14,7 @@ public class User implements Serializable {
     private String password;
     private String avatarURL;
     private boolean isNotificationsActivated = true;
+    private boolean funFactsActivated = true;
 
     /**
      * Constructor used when registering a new user account
@@ -124,5 +125,13 @@ public class User implements Serializable {
 
     public void setAvatar(String pathToImg) {
         this.avatarURL = new File(pathToImg).toURI().toString();
+    }
+
+    public boolean areFunFactsActivated() {
+        return funFactsActivated;
+    }
+
+    public void setFunFactsActivated(boolean funFactsActivated) {
+        this.funFactsActivated = funFactsActivated;
     }
 }

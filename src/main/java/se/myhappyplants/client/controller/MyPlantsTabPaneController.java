@@ -102,7 +102,6 @@ public class MyPlantsTabPaneController {
         if (currentUserLibrary == null) {
             obsListLibraryPlantPane.add(new LibraryPlantPane());
         } else {
-            System.out.println("library size = " +currentUserLibrary.size());
             if (currentUserLibrary.size()<1) {
                 obsListLibraryPlantPane.add(new LibraryPlantPane(this));
             } else {
