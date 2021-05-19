@@ -33,7 +33,6 @@ public class Plant implements Serializable {
         this.plantId = plantId;
         this.lastWatered = lastWatered;
         this.waterFrequency = waterFrequency;
-
     }
 
     public Plant(String nickname, String plantID, Date lastWatered) {

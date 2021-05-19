@@ -96,7 +96,6 @@ public class MyPlantsTabPaneController {
      */
     @FXML
     public void addCurrentUserLibraryToHomeScreen() {
-
         ObservableList<LibraryPlantPane> obsListLibraryPlantPane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
             obsListLibraryPlantPane.add(new LibraryPlantPane());
