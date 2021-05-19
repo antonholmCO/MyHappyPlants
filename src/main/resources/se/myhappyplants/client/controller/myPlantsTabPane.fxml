@@ -14,11 +14,7 @@
     <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
         <children>
             <Circle fx:id="imgUserPicture" layoutX="30.0" layoutY="30.0" pickOnBounds="true" radius="25" />
-            <Label fx:id="lblUsernameMyPlants" layoutX="74.0" layoutY="18.0" text="Username">
-                <font>
-                    <Font size="13.0" />
-                </font>
-            </Label>
+            <Label fx:id="lblUsernameMyPlants" layoutX="74.0" layoutY="18.0" text="Username"/>
             <Button layoutX="908.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" styleClass="logOutButton" text="Log Out" />
         </children>
     </AnchorPane>

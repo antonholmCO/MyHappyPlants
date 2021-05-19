@@ -17,11 +17,7 @@
             <children>
                 <Button layoutX="908.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" styleClass="logOutButton" text="Log Out" />
                 <Circle fx:id="imgViewUserPicture" layoutX="30.0" layoutY="30.0" pickOnBounds="true" radius="25" />
-                <Label fx:id="lblUserName" layoutX="74.0" layoutY="18.0" text="Username">
-                    <font>
-                        <Font size="13.0" />
-                    </font>
-                </Label>
+                <Label fx:id="lblUserName" layoutX="74.0" layoutY="18.0" text="Username"/>
             </children>
             <BorderPane.margin>
                 <Insets />
