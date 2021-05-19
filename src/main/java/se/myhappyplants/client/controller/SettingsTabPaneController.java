@@ -86,7 +86,8 @@ public class SettingsTabPaneController {
      */
     @FXML
     private void deleteAccountButtonPressed() {
-        int answer = MessageBox.askYesNo(BoxTitle.Delete, "Are you sure you want to delete your account? \n All your personal information will be deleted. \nA deleted account can't be restored. ");
+        MessageBox.display(BoxTitle.Delete, "All your personal information will be deleted. \n A deleted account cannot be restored.");
+        int answer = MessageBox.askYesNo(BoxTitle.Delete, "Are you sure you want to delete your account?");
         if (answer == 1) {
             Thread deleteAccountThread = new Thread(() -> {
                 Message deleteMessage = new Message(MessageType.deleteAccount, new User(LoggedInUser.getInstance().getUser().getEmail(), passFldDeleteAccount.getText()));

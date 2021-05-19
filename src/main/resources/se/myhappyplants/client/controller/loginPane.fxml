@@ -24,17 +24,17 @@
                   <Pane prefHeight="442.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                      <children>
                         <Label fx:id="loginSmallHeading" layoutX="454.0" layoutY="149.0" text="Log in" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="259.0" layoutX="332.0" layoutY="195.0" stroke="BLACK" strokeType="INSIDE" width="361.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="202.0" layoutX="333.0" layoutY="200.0" stroke="BLACK" strokeType="INSIDE" width="361.0" />
                         <TextField fx:id="txtFldEmail" layoutX="358.0" layoutY="221.0" prefHeight="35.0" prefWidth="310.0" promptText="Email" />
                         <PasswordField fx:id="passFldPassword" layoutX="360.0" layoutY="266.0" prefHeight="35.0" prefWidth="306.0" promptText="Password" />
-                        <Button fx:id="test" defaultButton="true" layoutX="466.0" layoutY="309.0" mnemonicParsing="false" onAction="#loginButtonPressed" styleClass="defaultButton" text="Log in" />
-                        <Hyperlink fx:id="registerLink" layoutX="405.0" layoutY="339.0" onAction="#swapToRegister" text="No account? Register here!" />
-                        <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="588.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true">
+                        <Button fx:id="test" defaultButton="true" layoutX="471.0" layoutY="309.0" mnemonicParsing="false" onAction="#loginButtonPressed" styleClass="defaultButton" text="Log in" />
+                        <Hyperlink fx:id="registerLink" layoutX="404.0" layoutY="353.0" onAction="#swapToRegister" text="No account? Register here!" />
+                        <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="598.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../Blommor/blomma15.1.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="302.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="302.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../Blommor/blomma13.1.png" />
                            </image>
