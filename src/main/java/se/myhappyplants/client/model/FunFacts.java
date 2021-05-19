@@ -27,7 +27,7 @@ public class FunFacts {
 
     public String getRandomFact() {
         Random random = new Random();
-        int randomIndex = random.nextInt(factsArray.size()) - 1;
+        int randomIndex = random.nextInt(factsArray.size());
         return factsArray.get(randomIndex);
     }
 
