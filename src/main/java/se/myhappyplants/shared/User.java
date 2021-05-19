@@ -14,6 +14,7 @@ public class User implements Serializable {
     private String password;
     private String avatarURL;
     private boolean isNotificationsActivated = true;
+    private boolean funFactsActivated = true;
 
     /**
      * Constructor used when registering a new user account
@@ -72,6 +73,15 @@ public class User implements Serializable {
 
     }
 
+    public User(int uniqueId, String email, String username, boolean isNotificationsActivated, boolean funFactsActivated) {
+
+        this.uniqueId = uniqueId;
+        this.email = email;
+        this.username = username;
+        this.isNotificationsActivated = isNotificationsActivated;
+        this.funFactsActivated = funFactsActivated;
+    }
+
     //TODO: Fråga gruppen om hur de vill göra med logiken med denna.
     // Nu anropas den från SettingsTabController rad 42, MyPlantTabController rad 52, SearchTabController rad 53
 
@@ -124,5 +134,13 @@ public class User implements Serializable {
 
     public void setAvatar(String pathToImg) {
         this.avatarURL = new File(pathToImg).toURI().toString();
+    }
+
+    public boolean areFunFactsActivated() {
+        return funFactsActivated;
+    }
+
+    public void setFunFactsActivated(boolean funFactsActivated) {
+        this.funFactsActivated = funFactsActivated;
     }
 }

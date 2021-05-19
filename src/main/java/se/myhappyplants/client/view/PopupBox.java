@@ -27,7 +27,7 @@ public class PopupBox extends Popup {
 
     private static Stage window;
     private static VBox vBox;
-    private static ToggleButton tglBtnChangeNotification;
+    private static ToggleButton toggleButton;
 
     public static void display(String message) {
 
@@ -62,14 +62,14 @@ public class PopupBox extends Popup {
         window.show();
         AtomicReference<Double> opacity = new AtomicReference<>(1.0);
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(40), event -> {
+                new KeyFrame(Duration.millis(20), event -> {
                     window.getScene().getRoot().opacityProperty().set(opacity.updateAndGet(v -> (double) (v - 0.01)));
                 })
         );
         timeline.setCycleCount(100);
         timeline.setOnFinished(action -> {
-            if(tglBtnChangeNotification!=null){
-                tglBtnChangeNotification.setDisable(false);
+            if(toggleButton !=null){
+                toggleButton.setDisable(false);
             }
             window.close();
         });
@@ -77,8 +77,8 @@ public class PopupBox extends Popup {
 
     }
 
-    public static void display(String message, ToggleButton tglBtnChangeNotification) {
-        PopupBox.tglBtnChangeNotification = tglBtnChangeNotification;
+    public static void display(String message, ToggleButton toggleButton) {
+        PopupBox.toggleButton = toggleButton;
         display(message);
     }
 }

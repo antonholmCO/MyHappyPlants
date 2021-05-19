@@ -37,8 +37,8 @@
                 <ProgressIndicator fx:id="progressIndicator" layoutX="545.0" layoutY="10.0" progress="0.0" />
                 <ListView fx:id="listViewResult" accessibleRole="IMAGE_VIEW" fixedCellSize="-2.0" layoutX="14.0" layoutY="86.0" minHeight="50.0" prefHeight="414.0" prefWidth="765.0" />
                 <Label layoutX="14.0" layoutY="57.0" text="Your results:" />
-                <Label layoutX="786.0" layoutY="64.0" text="Fun fact:" />
-                <ListView layoutX="786.0" layoutY="87.0" prefHeight="414.0" prefWidth="200.0" />
+                <Label fx:id="lblFunFactTitle" layoutX="786.0" layoutY="64.0" text="Fun fact:" />
+                <Label fx:id="lblFunFactText" wrapText="true" layoutX="786.0" layoutY="77.0" prefHeight="150.0" prefWidth="200.0"/>
                 <Label layoutX="522.0" layoutY="57.0" text="Sort by: " />
                 <ComboBox fx:id="cmbSortOption" layoutX="591.0" layoutY="50.0" onAction="#sortResults" prefHeight="30.0" prefWidth="186.0" promptText="  Common name" />
             </children>

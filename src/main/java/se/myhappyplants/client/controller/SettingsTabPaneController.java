@@ -6,19 +6,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import se.myhappyplants.client.model.BoxTitle;
-import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.model.SetAvatar;
+import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.view.ButtonText;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
-import se.myhappyplants.client.model.SetAvatar;
 import se.myhappyplants.shared.User;
 
 import java.io.BufferedWriter;
@@ -30,11 +29,18 @@ import java.nio.file.Files;
 
 public class SettingsTabPaneController {
 
-    @FXML private ToggleButton tglBtnChangeNotification;
-    @FXML private MainPaneController mainPaneController;
-    @FXML private Circle imgViewUserPicture;
-    @FXML private Label lblUserName;
-    @FXML private PasswordField passFldDeleteAccount;
+    @FXML
+    private ToggleButton tglBtnChangeFunFacts;
+    @FXML
+    private ToggleButton tglBtnChangeNotification;
+    @FXML
+    private MainPaneController mainPaneController;
+    @FXML
+    private Circle imgViewUserPicture;
+    @FXML
+    private Label lblUserName;
+    @FXML
+    private PasswordField passFldDeleteAccount;
 
     @FXML
     public void initialize() {
@@ -42,12 +48,10 @@ public class SettingsTabPaneController {
         lblUserName.setText(loggedInUser.getUsername());
         imgViewUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getEmail()))));
         tglBtnChangeNotification.setSelected(loggedInUser.areNotificationsActivated());
-        ButtonText.setNotificationsButtonText(this);
-        //setNotificationsButtonText();
+        ButtonText.setButtonText(tglBtnChangeNotification);
+        tglBtnChangeFunFacts.setSelected(loggedInUser.areFunFactsActivated());
+        ButtonText.setButtonText(tglBtnChangeFunFacts);
 
-    }
-    public ToggleButton getTglBtnChangeNotification() {
-        return tglBtnChangeNotification;
     }
 
     public void setMainController(MainPaneController mainPaneController) {
@@ -60,8 +64,8 @@ public class SettingsTabPaneController {
             Message notificationRequest = new Message(MessageType.changeNotifications, tglBtnChangeNotification.isSelected(), LoggedInUser.getInstance().getUser());
             ClientConnection connection = new ClientConnection();
             Message notificationResponse = connection.makeRequest(notificationRequest);
-            if(notificationResponse != null) {
-                if(notificationResponse.isSuccess()) {
+            if (notificationResponse != null) {
+                if (notificationResponse.isSuccess()) {
                     LoggedInUser.getInstance().getUser().setIsNotificationsActivated(tglBtnChangeNotification.isSelected());
                     tglBtnChangeNotification.setDisable(true);
                     Platform.runLater(() -> PopupBox.display("Notification settings\n changed", tglBtnChangeNotification));
@@ -71,14 +75,35 @@ public class SettingsTabPaneController {
             } else {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
             }
+
         });
         changeNotificationsThread.start();
-        ButtonText.setNotificationsButtonText(this);
-        //setNotificationsButtonText();
-        mainPaneController.getHomePaneController().createCurrentUserLibraryFromDB();
-
+        ButtonText.setButtonText(tglBtnChangeNotification);
+        mainPaneController.getMyPlantsTabPaneController().createCurrentUserLibraryFromDB();
     }
 
+    @FXML
+    public void changeFunFactsSetting() {
+        Thread changeFunFactsThread = new Thread(() -> {
+            Message changeFunFactsRequest = new Message(MessageType.changeFunFacts, tglBtnChangeFunFacts.isSelected(), LoggedInUser.getInstance().getUser());
+            ClientConnection connection = new ClientConnection();
+            Message funFactsResponse = connection.makeRequest(changeFunFactsRequest);
+            if (funFactsResponse != null) {
+                if (funFactsResponse.isSuccess()) {
+                    LoggedInUser.getInstance().getUser().setFunFactsActivated(tglBtnChangeFunFacts.isSelected());
+                    tglBtnChangeFunFacts.setDisable(true);
+                    Platform.runLater(() -> PopupBox.display("Fun Facts settings\n changed", tglBtnChangeFunFacts));
+                } else {
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Settings could not be changed"));
+                }
+            } else {
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
+            }
+        });
+        changeFunFactsThread.start();
+        ButtonText.setButtonText(tglBtnChangeFunFacts);
+        mainPaneController.getSearchTabPaneController().showFunFact(tglBtnChangeFunFacts.isSelected());
+    }
 
 
     /**
@@ -98,8 +123,7 @@ public class SettingsTabPaneController {
                         Platform.runLater(() -> MessageBox.display(BoxTitle.Success, "We are sorry to see you go"));
                         try {
                             logoutButtonPressed();
-                        }
-                        catch (IOException e) {
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     } else {
@@ -145,8 +169,7 @@ public class SettingsTabPaneController {
             try {
                 try {
                     Files.copy(selectedImage.toPath(), new File("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension).toPath());
-                }
-                catch (FileAlreadyExistsException e) {
+                } catch (FileAlreadyExistsException e) {
                     Files.delete(new File("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension).toPath());
                     Files.copy(selectedImage.toPath(), new File("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension).toPath());
                 }
@@ -154,15 +177,13 @@ public class SettingsTabPaneController {
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/images/user_avatars/" + user.getEmail() + "_avatar.txt"))) {
                     bw.write("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension);
                     bw.flush();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
                 user.setAvatar("resources/images/user_avatars/" + user.getEmail() + "_avatar" + imageExtension);
                 mainPaneController.updateAvatarOnAllTabs();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

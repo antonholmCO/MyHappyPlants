@@ -205,6 +205,7 @@ PasswordsAndKeys.java
 PasswordsAndKeys.class
 
 lastLogin.txt
+searchHistory.txt
 
 # Ignores neccesary files to save user avatar
 resources/images/user_avatars/*.txt
