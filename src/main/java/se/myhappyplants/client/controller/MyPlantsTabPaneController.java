@@ -88,6 +88,9 @@ public class MyPlantsTabPaneController {
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
+    public MainPaneController getMainPaneController() {
+        return mainPaneController;
+    }
 
     /**
      * Method to add a users plants to myPlantsTab
@@ -99,8 +102,13 @@ public class MyPlantsTabPaneController {
         if (currentUserLibrary == null) {
             obsListLibraryPlantPane.add(new LibraryPlantPane());
         } else {
-            for (Plant plant : currentUserLibrary) {
-                obsListLibraryPlantPane.add(new LibraryPlantPane(this, plant));
+            System.out.println("library size = " +currentUserLibrary.size());
+            if (currentUserLibrary.size()<1) {
+                obsListLibraryPlantPane.add(new LibraryPlantPane(this));
+            } else {
+                for (Plant plant : currentUserLibrary) {
+                    obsListLibraryPlantPane.add(new LibraryPlantPane(this, PictureRandomizer.getRandomPicture(), plant));
+                }
             }
         }
         Platform.runLater(() -> {
