@@ -104,7 +104,7 @@ public class SearchTabPaneController {
                             updateProgress(i++, searchPlantPanes.size());
                         }
                         Text text = (Text) progressIndicator.lookup(".percentage");
-                        if(text!=null && text.getText().equals("Done")){
+                        if(text!=null && text.getText().equals("Utförd")){
                             text.setText("Done");
                             progressIndicator.setPrefWidth(text.getLayoutBounds().getWidth());
                         }
