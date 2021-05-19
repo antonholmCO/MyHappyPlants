@@ -80,7 +80,6 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     public LibraryPlantPane(MyPlantsTabPaneController myPlantsTabPaneController, Plant plant) {
         this.myPlantsTabPaneController = myPlantsTabPaneController;
         this.plant = plant;
-        this.setStyle("-fx-background-color: #FFFFFF;");
         this.image = new ImageView();
         initImages();
         initNicknameLabel(plant);
