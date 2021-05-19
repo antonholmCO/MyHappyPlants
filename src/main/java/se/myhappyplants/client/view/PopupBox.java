@@ -62,7 +62,7 @@ public class PopupBox extends Popup {
         window.show();
         AtomicReference<Double> opacity = new AtomicReference<>(1.0);
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(60), event -> {
+                new KeyFrame(Duration.millis(40), event -> {
                     window.getScene().getRoot().opacityProperty().set(opacity.updateAndGet(v -> (double) (v - 0.01)));
                 })
         );
