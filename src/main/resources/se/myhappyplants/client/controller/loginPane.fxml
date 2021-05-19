@@ -29,7 +29,7 @@
                         <PasswordField fx:id="passFldPassword" layoutX="360.0" layoutY="198.0" prefHeight="35.0" prefWidth="306.0" promptText="Password" />
                         <Button fx:id="test" defaultButton="true" layoutX="477.0" layoutY="274.0" mnemonicParsing="false" onAction="#loginButtonPressed" styleClass="defaultButton" text="Log in" />
                         <Hyperlink fx:id="registerLink" layoutX="412.0" layoutY="310.0" onAction="#swapToRegister" text="No account? Register here!" />
-                        <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="593.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="593.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../Blommor/blomma15.1.png" />
                            </image>

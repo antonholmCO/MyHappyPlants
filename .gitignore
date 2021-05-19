@@ -216,3 +216,4 @@ resources/images/user_avatars/*.png
 resources/Testdata
 UsabilityTestProgram.java
 UsabilityTestProgram.class
+/resources/searchHistory.txt
