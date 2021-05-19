@@ -146,5 +146,22 @@ public class UserRepository {
         }
         return notificationsChanged;
     }
+
+    public boolean changeFunFacts(User user, Boolean funFactsActivated) {
+        boolean funFactsChanged = false;
+        int funFactsBitValue = 0;
+        if (funFactsActivated) {
+            funFactsBitValue = 1;
+        }
+        String query = "UPDATE [User] SET notification_activated = " + funFactsBitValue + " WHERE email = '" + user.getEmail() + "';";
+        try {
+            database.executeUpdate(query);
+            funFactsChanged = true;
+        }
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return funFactsChanged;
+    }
 }
 

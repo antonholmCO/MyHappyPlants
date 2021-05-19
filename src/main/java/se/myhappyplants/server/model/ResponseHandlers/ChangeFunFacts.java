@@ -13,20 +13,19 @@ public class ChangeFunFacts implements ResponseHandler {
     }
 
     /**
-     * todo: implement functionality in userRepository & database - always returns true at the moment
      * @param request
      * @return
      */
     @Override
     public Message getResponse(Message request) {
         Message response;
-//        User user = request.getUser();
-//        Boolean funFactsActivated = request.getNotifications();
-//        if (userRepository.changeFunFacts(user, funFactsActivated)) {
+        User user = request.getUser();
+        Boolean funFactsActivated = request.getNotifications();
+        if (userRepository.changeFunFacts(user, funFactsActivated)) {
             response = new Message(true);
-//        } else {
-//            response = new Message(false);
-//        }
+        } else {
+            response = new Message(false);
+        }
         return response;
     }
 }
