@@ -65,6 +65,7 @@ public class PictureRandomizer {
 //            default:
 //                return flower9;
 //        }
+        //todo Commented out just for video recording purposes!
         return new Image(new File("src/main/resources/Blommor/blomma11.1.png").toURI().toString());
     }
 }
