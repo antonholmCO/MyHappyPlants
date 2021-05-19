@@ -44,26 +44,28 @@ public class PictureRandomizer {
      * @return String path to a picture
      */
     public static Image getRandomPicture() {
-        Random random = new Random();
-        switch (1 + random.nextInt(8)) {
-            case 1:
-                return flower1;
-            case 2:
-                return flower2;
-            case 3:
-                return flower3;
-            case 4:
-                return flower4;
-            case 5:
-                return flower5;
-            case 6:
-                return flower6;
-            case 7:
-                return flower7;
-            case 8:
-                return flower8;
-            default:
-                return flower9;
-        }
+//        Random random = new Random();
+//        switch (1 + random.nextInt(8)) {
+//            case 1:
+//                return flower1;
+//            case 2:
+//                return flower2;
+//            case 3:
+//                return flower3;
+//            case 4:
+//                return flower4;
+//            case 5:
+//                return flower5;
+//            case 6:
+//                return flower6;
+//            case 7:
+//                return flower7;
+//            case 8:
+//                return flower8;
+//            default:
+//                return flower9;
+//        }
+        //todo Commented out just for video recording purposes!
+        return new Image(new File("src/main/resources/Blommor/blomma11.1.png").toURI().toString());
     }
 }

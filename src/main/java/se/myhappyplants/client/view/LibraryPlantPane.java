@@ -81,7 +81,6 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     public LibraryPlantPane(MyPlantsTabPaneController myPlantsTabPaneController, Plant plant) {
         this.myPlantsTabPaneController = myPlantsTabPaneController;
         this.plant = plant;
-        this.setStyle("-fx-background-color: #FFFFFF;");
         this.image = new ImageView();
         initImages();
         initNicknameLabel(plant);
@@ -96,6 +95,26 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         initDeleteButton(plant);
         initListView();
     }
+
+    public LibraryPlantPane(MyPlantsTabPaneController myPlantsTabPaneController) {
+        this.myPlantsTabPaneController = myPlantsTabPaneController;
+        initEmptyLibraryLabel();
+
+    }
+    private void initEmptyLibraryLabel () {
+
+        this.image = new ImageView();
+        initImages();
+        Label lblEmptyInfo = new Label("Your library is currently empty \nClick here to search for plants to add    --------->");
+        lblEmptyInfo.setLayoutX(150.0);
+        lblEmptyInfo.setLayoutY(28.0);
+        Button btnSearchPlants = new Button("Search for plants");
+        btnSearchPlants.setOnAction(action -> myPlantsTabPaneController.getMainPaneController().changeToSearchTab());
+        btnSearchPlants.setLayoutX(500.0);
+        btnSearchPlants.setLayoutY(40.0);
+        this.getChildren().addAll(image, lblEmptyInfo, btnSearchPlants);
+    }
+
 
     private void initImages() {
         Image img = PictureRandomizer.getRandomPicture();
@@ -243,7 +262,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         listViewMoreInfo.setLayoutX(this.getWidth() + 10.0);
         listViewMoreInfo.setLayoutY(this.getHeight() + 100.0); //56.0
         listViewMoreInfo.setPrefWidth(725.0);
-        listViewMoreInfo.setPrefHeight(120.0);
+        listViewMoreInfo.setPrefHeight(140.0);
         PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetails(plant);
         long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(plantDetails.getWaterFrequency());
         String waterText = WaterTextFormatter.getWaterString(waterInMilli);
@@ -255,7 +274,6 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         plantInfo.add("Light: " + lightText);
         plantInfo.add("Water: " + waterText);
         plantInfo.add("Last watered: " + plant.getLastWatered());
-        listViewMoreInfo.setItems(plantInfo);
         this.setPrefHeight(92.0);
         this.getChildren().addAll(image, nickname, daysUntilWaterlbl, progressBar, waterButton, infoButton);
         listViewMoreInfo.setItems(plantInfo);
