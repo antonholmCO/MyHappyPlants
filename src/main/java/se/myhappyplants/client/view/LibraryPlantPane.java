@@ -44,6 +44,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     private Button changeOKWaterButton;
     private ListView listViewMoreInfo;
     private ObservableList<String> obsListMoreInfo;
+    private Label daysUntilWaterlbl;
 
     public boolean extended;
     private boolean gotInfoOnPlant;
@@ -124,6 +125,12 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     }
 
     private void initProgressBar(Plant plant) {
+        daysUntilWaterlbl = new Label();
+        String daysUntilWaterText = plant.getDaysUntilWater();
+        daysUntilWaterlbl.setText(daysUntilWaterText);
+        daysUntilWaterlbl.setLayoutX(350.0);
+        daysUntilWaterlbl.setLayoutY(5.0);
+
         this.progressBar = new ProgressBar(plant.getProgress());
         setColorProgressBar(plant.getProgress());
         progressBar.setLayoutX(150.0);
@@ -250,7 +257,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         plantInfo.add("Last watered: " + plant.getLastWatered());
         listViewMoreInfo.setItems(plantInfo);
         this.setPrefHeight(92.0);
-        this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
+        this.getChildren().addAll(image, nickname, daysUntilWaterlbl, progressBar, waterButton, infoButton);
         listViewMoreInfo.setItems(plantInfo);
 
     }

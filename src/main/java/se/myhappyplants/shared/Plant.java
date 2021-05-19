@@ -10,7 +10,7 @@ import java.time.LocalDate;
  * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
  */
 public class Plant implements Serializable {
-
+    private static final long serialVersionUID = 867522155232174497L;
     private String plantId;
     private String commonName;
     private String scientificName;
@@ -92,5 +92,27 @@ public class Plant implements Serializable {
             progress = 1.0;
         }
         return progress;
+    }
+
+    public String getDaysUntilWater() {
+        long millisSinceLastWatered = System.currentTimeMillis() - lastWatered.getTime();
+        long millisUntilNextWatering = waterFrequency - millisSinceLastWatered;
+        long millisInADay = 86400000;
+
+        double daysExactlyUntilWatering = (double) millisUntilNextWatering / (double) millisInADay;
+
+        int daysUntilWatering = (int) daysExactlyUntilWatering;
+        double decimals = daysExactlyUntilWatering - (int) daysExactlyUntilWatering;
+
+        if (decimals > 0.5) {
+            daysUntilWatering = (int) daysExactlyUntilWatering + 1;
+        }
+
+        String strToReturn = String.format("Needs water in %d days", daysUntilWatering);
+        if (getProgress() == 0.02 || daysUntilWatering == 0) {
+            strToReturn = "You need to water this plant now!";
+        }
+
+        return strToReturn;
     }
 }
