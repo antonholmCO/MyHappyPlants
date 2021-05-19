@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="settingsPane" prefHeight="454.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SettingsTabPaneController">
     <top>
@@ -17,7 +18,7 @@
             <children>
                 <Button layoutX="908.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" styleClass="logOutButton" text="Log Out" />
                 <Circle fx:id="imgViewUserPicture" layoutX="30.0" layoutY="30.0" pickOnBounds="true" radius="25" />
-                <Label fx:id="lblUserName" layoutX="74.0" layoutY="18.0" text="Username"/>
+                <Label fx:id="lblUserName" layoutX="74.0" layoutY="18.0" text="Username" />
             </children>
             <BorderPane.margin>
                 <Insets />
@@ -48,11 +49,16 @@
    <bottom>
       <AnchorPane prefHeight="47.0" prefWidth="898.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="100.0" layoutY="15.0" text="Creators:" />
-            <Label layoutX="161.0" layoutY="14.0" prefHeight="20.0" prefWidth="752.0" text="Christopher O'Driscoll, Linn Borgström, Susanne Vikström, Anton Holm, Frida Jacobsson, Eric Simonsson">
+            <Label layoutX="441.0" layoutY="14.0" prefHeight="20.0" prefWidth="118.0" style="-fx-font-style: italic; -fx-font-size: 12px;" text="© My Happy Plants" textAlignment="CENTER">
                <padding>
                   <Insets left="5.0" />
                </padding>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+               <effect>
+                  <Glow />
+               </effect>
             </Label>
          </children>
       </AnchorPane>

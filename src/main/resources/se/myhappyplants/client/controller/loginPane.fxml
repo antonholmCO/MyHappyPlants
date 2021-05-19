@@ -23,23 +23,23 @@
                <center>
                   <Pane prefHeight="442.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label fx:id="loginSmallHeading" layoutX="454.0" layoutY="149.0" text="Log in" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="202.0" layoutX="333.0" layoutY="200.0" stroke="BLACK" strokeType="INSIDE" width="361.0" />
-                        <TextField fx:id="txtFldEmail" layoutX="358.0" layoutY="221.0" prefHeight="35.0" prefWidth="310.0" promptText="Email" />
-                        <PasswordField fx:id="passFldPassword" layoutX="360.0" layoutY="266.0" prefHeight="35.0" prefWidth="306.0" promptText="Password" />
-                        <Button fx:id="test" defaultButton="true" layoutX="471.0" layoutY="309.0" mnemonicParsing="false" onAction="#loginButtonPressed" styleClass="defaultButton" text="Log in" />
-                        <Hyperlink fx:id="registerLink" layoutX="404.0" layoutY="353.0" onAction="#swapToRegister" text="No account? Register here!" />
-                        <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="598.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="272.0" layoutX="261.0" layoutY="154.0" stroke="BLACK" strokeType="INSIDE" width="478.0" />
+                        <Label fx:id="loginSmallHeading" layoutX="455.0" layoutY="165.0" prefHeight="43.0" prefWidth="90.0" text="Log in" />
+                        <TextField fx:id="txtFldEmail" layoutX="332.0" layoutY="221.0" prefHeight="39.0" prefWidth="336.0" promptText="Email" />
+                        <PasswordField fx:id="passFldPassword" layoutX="332.0" layoutY="281.0" prefHeight="39.0" prefWidth="336.0" promptText="Password" />
+                        <Button fx:id="test" defaultButton="true" layoutX="453.0" layoutY="337.0" mnemonicParsing="false" onAction="#loginButtonPressed" prefHeight="36.0" prefWidth="94.0" styleClass="defaultButton" text="Log in" />
+                        <Hyperlink fx:id="registerLink" layoutX="399.0" layoutY="385.0" onAction="#swapToRegister" text="No account? Register here!" />
+                        <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="634.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../Blommor/blomma15.1.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="302.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="246.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../Blommor/blomma13.1.png" />
                            </image>
                         </ImageView>
-            <ImageView fx:id="logo" disable="true" fitHeight="256.0" fitWidth="267.0" layoutX="372.0" layoutY="-68.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="logo" disable="true" fitHeight="276.0" fitWidth="296.0" layoutX="350.0" layoutY="-40.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Blommor/logo.png" />
                </image>

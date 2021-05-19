@@ -33,7 +33,9 @@
 }
 .defaultButton {
     -fx-text-fill: #031D44;
-    -fx-background-color: #3FA607;
+    -fx-text: #031D44, textColor;
+    -fx-font-family: 'Eras Medium ITC';
+    -fx-base: #7BC054, BackgroundGreen;
 }
 /*{
     -fx-text-fill: #000000;
