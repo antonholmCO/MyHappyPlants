@@ -12,6 +12,11 @@ public class ChangeFunFacts implements ResponseHandler {
         this.userRepository = userRepository;
     }
 
+    /**
+     * todo: implement functionality in userRepository & database - always returns true at the moment
+     * @param request
+     * @return
+     */
     @Override
     public Message getResponse(Message request) {
         Message response;
