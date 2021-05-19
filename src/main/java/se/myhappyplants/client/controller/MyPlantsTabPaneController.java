@@ -100,12 +100,15 @@ public class MyPlantsTabPaneController {
 
         ObservableList<LibraryPlantPane> obsListLibraryPlantPane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
+            disableButtons();
             obsListLibraryPlantPane.add(new LibraryPlantPane());
         } else {
             System.out.println("library size = " +currentUserLibrary.size());
             if (currentUserLibrary.size()<1) {
+                disableButtons();
                 obsListLibraryPlantPane.add(new LibraryPlantPane(this));
             } else {
+                enableButtons();
                 for (Plant plant : currentUserLibrary) {
                     obsListLibraryPlantPane.add(new LibraryPlantPane(this, plant));
                 }
@@ -117,6 +120,16 @@ public class MyPlantsTabPaneController {
         });
     }
 
+    private void disableButtons () {
+        btnWaterAll.setDisable(true);
+        btnExpandAll.setDisable(true);
+        btnCollapseAll.setDisable(true);
+    }
+    private void enableButtons () {
+        btnWaterAll.setDisable(false);
+        btnExpandAll.setDisable(false);
+        btnCollapseAll.setDisable(false);
+    }
 
     public void showNotifications() {
 

@@ -1,5 +1,7 @@
 package se.myhappyplants.shared;
 
+import se.myhappyplants.client.model.PictureRandomizer;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -12,7 +14,6 @@ import java.time.LocalDate;
 public class Plant implements Serializable {
 
     private String plantId;
-    private Date date;
     private String commonName;
     private String scientificName;
     private String familyName;
@@ -20,7 +21,6 @@ public class Plant implements Serializable {
     private String nickname;
     private Date lastWatered;
     private long waterFrequency;
-    private String uniqueNickName;
 
     public Plant(String plantId, String commonName, String scientificName, String familyName, String imageURL) {
         this.plantId = plantId;
@@ -53,11 +53,11 @@ public class Plant implements Serializable {
         this.imageURL = imageURL;
     }
 
-    public Plant(String nickname, String plantId, Date date, String imageURL) {
+    public Plant(String nickname, String plantId, Date lastWatered, String imageURL) {
 
         this.nickname = nickname;
         this.plantId = plantId;
-        this.date = date;
+        this.lastWatered = lastWatered;
         this.imageURL = imageURL;
     }
 
@@ -87,6 +87,9 @@ public class Plant implements Serializable {
     }
 
     public String getImageURL() {
+        if(imageURL==null) {
+            imageURL = PictureRandomizer.getRandomPictureURL();
+        }
         String httpImageURL = imageURL.replace("https", "http");
         return httpImageURL;
     }
