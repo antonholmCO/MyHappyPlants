@@ -82,7 +82,7 @@ public class MyPlantsTabController {
     }
 
     /**
-     * Method to add a users plants to the
+     * Method to add a users plants to myPlantsTab
      */
     @FXML
     public void addCurrentUserLibraryToHomeScreen() {

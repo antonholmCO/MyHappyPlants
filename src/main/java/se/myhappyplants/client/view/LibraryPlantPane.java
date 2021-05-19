@@ -216,7 +216,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         listView.setLayoutX(this.getWidth() + 10.0);
         listView.setLayoutY(this.getHeight() + 100.0); //56.0
         listView.setPrefWidth(725.0);
-        listView.setPrefHeight(140.0);
+        listView.setPrefHeight(120.0);
 
         this.setPrefHeight(92.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
