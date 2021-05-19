@@ -71,7 +71,7 @@ public class UserPlantRepository {
                 String nickname = resultSet.getString("nickname");
                 String plantId = resultSet.getString("plant_id");
                 Date lastWatered = resultSet.getDate("last_watered");
-                long waterFrequency = plantRepository.getWaterFrequency(plantId);
+                int waterFrequency = plantRepository.getWaterFrequency(plantId);
                 plantList.add(new Plant(nickname, plantId, lastWatered, waterFrequency));
             }
         }

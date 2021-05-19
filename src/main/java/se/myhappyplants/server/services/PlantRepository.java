@@ -82,19 +82,20 @@ public class PlantRepository {
         }
     }
 
-    public long getWaterFrequency(String plantId) throws IOException, InterruptedException {
-        long waterFrequencyMilli = 0;
+    public int getWaterFrequency(String plantId) throws IOException, InterruptedException {
+        int water = -1;
         String query = "SELECT water_frequency FROM species WHERE id = '" + plantId + "';";
         try {
             ResultSet resultSet = database.executeQuery(query);
             while (resultSet.next()) {
-                int waterFrequency = Integer.parseInt(resultSet.getString("water_frequency"));
-                waterFrequencyMilli = waterCalculator.calculateWaterFrequencyForWatering(waterFrequency);
+                String waterText = resultSet.getString("water_frequency");
+
+                water = (isNumeric(waterText)) ? Integer.parseInt(waterText) : -1;
             }
         }
         catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return waterFrequencyMilli;
+        return water;
     }
 }
