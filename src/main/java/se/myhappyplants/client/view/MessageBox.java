@@ -35,13 +35,14 @@ public class MessageBox {
 
         Label label = new Label();
         label.setText(message);
-        label.setStyle("-fx-font-size: 18px;");
 
         Button okButton = new Button("OK");
         okButton.setOnAction(action -> {
             window.close();
         });
 
+        label.setStyle("-fx-font-size: 18px; -fx-padding: 20 20 20 20;");
+        okButton.setStyle("-fx-font-size: 18px;");
 
         vBox = new VBox(10);
         vBox.getChildren().addAll(label, okButton);
@@ -49,16 +50,9 @@ public class MessageBox {
 
         Scene scene = new Scene(vBox);
         window.setScene(scene);
-//        showAndFade();
+        window.showAndWait();
     }
-    private static void showAndFade() {
-        window.show();
-        FadeTransition ft = new FadeTransition(Duration.millis(4000), vBox);
-        ft.setFromValue(1.0);
-        ft.setToValue(0.0);
-        ft.play();
 
-    }
 
     /**
      * Displays a yes/no input box

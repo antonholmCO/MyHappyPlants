@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 
-public class SettingsTabController {
+public class SettingsTabPaneController {
 
     @FXML private ToggleButton tglBtnChangeNotification;
     @FXML private MainPaneController mainPaneController;

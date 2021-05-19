@@ -12,12 +12,15 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ClientConnection;
+import se.myhappyplants.client.view.AutocompleteSearchField;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.client.view.SearchPlantPane;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
+import se.myhappyplants.client.model.SetAvatar;
+import se.myhappyplants.shared.PlantDetails;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +31,7 @@ import java.util.ArrayList;
  * Updated by: Christopher O'Driscoll, 2021-05-14
  */
 
-public class SearchTabController {
+public class SearchTabPaneController {
 
     @FXML
     private MainPaneController mainPaneController;
@@ -37,7 +40,9 @@ public class SearchTabController {
     @FXML
     private Label lblUsernamePlants;
     @FXML
-    private TextField txtFldSearchText;
+    private Button btnSearch;
+    @FXML
+    private AutocompleteSearchField txtFldSearchText;
     @FXML
     private ComboBox<SortingOption> cmbSortOption;
     @FXML
@@ -114,6 +119,8 @@ public class SearchTabController {
 
     @FXML
     private void searchButtonPressed() {
+        btnSearch.setDisable(true);
+        txtFldSearchText.addToHistory();
         PopupBox.display(MessageText.holdOnGettingInfo.toString());
         Thread searchThread = new Thread(() -> {
             Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
@@ -122,7 +129,7 @@ public class SearchTabController {
 
             if (apiResponse != null) {
                 if (apiResponse.isSuccess()) {
-                    searchResults = apiResponse.getPlantList();
+                    searchResults = apiResponse.getPlantArray();
                     Platform.runLater(() -> showResultsOnPane());
                 } else {
                     //TODO: skicka inget felmeddelande, visa label med sökresultat 0 istället
@@ -130,6 +137,7 @@ public class SearchTabController {
             } else {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "The connection to the server has failed. Check your connection and try again."));
             }
+            btnSearch.setDisable(false);
         });
         searchThread.start();
     }
@@ -139,17 +147,15 @@ public class SearchTabController {
         mainPaneController.logoutButtonPressed();
     }
 
-    public ObservableList<String> getMorePlantInfo(Plant plant) {
+    public PlantDetails getPlantDetails(Plant plant) {
         PopupBox.display(MessageText.holdOnGettingInfo.toString());
-        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfoOnSearch, plant);
+        PlantDetails plantDetails = null;
+        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
-        ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
         if (response != null) {
-            for (int i = 0; i < response.getStringArray().length; i++) {
-                waterLightInfo.add(response.getStringArray()[i]);
-            }
+            plantDetails = response.getPlantDetails();
         }
-        return waterLightInfo;
+        return plantDetails;
     }
 
     /**

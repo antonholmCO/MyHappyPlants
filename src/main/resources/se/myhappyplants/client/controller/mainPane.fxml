@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 
-<TabPane fx:id="secondaryPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@Stylesheet.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.MainPaneController">
+<TabPane fx:id="secondaryPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@Stylesheet.css" tabClosingPolicy="UNAVAILABLE" tabMinHeight="60.0" tabMinWidth="60.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.MainPaneController">
   <tabs>
-     <Tab fx:id="homeTab" text="Home">
+     <Tab fx:id="myPlantsTab" text="My Plants">
         <content>
-           <fx:include fx:id="homePane" source="homeTab.fxml" />
+           <fx:include fx:id="myPlantsTabPane" source="myPlantsTabPane.fxml" />
         </content>
      </Tab>
-    <Tab fx:id="plantsTab" text="Plants">
+    <Tab fx:id="searchTab" text="Search">
          <content>
-            <fx:include fx:id="plantsPane" source="plantsTab.fxml" />
+            <fx:include fx:id="searchTabPane" source="searchTabPane.fxml" />
          </content>
     </Tab>
       <Tab fx:id="settingsTab" text="Settings">
          <content>
-            <fx:include fx:id="settingsPane" source="settingsTab.fxml" />
+            <fx:include fx:id="settingsTabPane" source="settingsTabPane.fxml" />
          </content>
       </Tab>
   </tabs>
+   <padding>
+      <Insets left="5.0" top="5.0" />
+   </padding>
 </TabPane>

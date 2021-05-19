@@ -2,7 +2,10 @@ package se.myhappyplants.client.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -10,9 +13,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import se.myhappyplants.client.controller.SearchTabController;
+import se.myhappyplants.client.controller.SearchTabPaneController;
 
+import se.myhappyplants.client.model.ImageLibrary;
+import se.myhappyplants.client.model.WaterCalculator;
 import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.PlantDetails;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -28,7 +34,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
     private Button addButton;
 
     private Plant plant;
-    private SearchTabController searchTabController;
+    private SearchTabPaneController searchTabPaneController;
     private ListView listView;
     private ImageView imgViewPlusSign;
     private boolean gotInfoOnPlant;
@@ -37,8 +43,8 @@ public class SearchPlantPane extends Pane implements PlantPane {
 
     private boolean extended;
 
-    public SearchPlantPane(SearchTabController searchTabController, String imgPath, Plant plant) {
-        this.searchTabController = searchTabController;
+    public SearchPlantPane(SearchTabPaneController searchTabPaneController, String imgPath, Plant plant) {
+        this.searchTabPaneController = searchTabPaneController;
         this.plant = plant;
         initImage(imgPath);
         initCommonName();
@@ -47,6 +53,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
         initAddButton();
         initImgViewPlusSign();
         initListView();
+        initEventHandlerForInfo();
     }
 
     private void initImage(String imgPath) {
@@ -81,20 +88,6 @@ public class SearchPlantPane extends Pane implements PlantPane {
         infoButton.setLayoutX(595.0);
         infoButton.setLayoutY(16.0);
         infoButton.setMnemonicParsing(false);
-        infoButton.setOnAction(onPress -> {
-            infoButton.setDisable(true);
-            if (!extended) {
-                if (!gotInfoOnPlant) {
-                    getAllPlantInfo = searchTabController.getMorePlantInfo(plant);
-                    listView.setItems(getAllPlantInfo);
-
-                }
-                extendPaneMoreInfoPlant();
-            }
-            else {
-                retractPane();
-            }
-        });
     }
 
     private void initAddButton() {
@@ -102,21 +95,53 @@ public class SearchPlantPane extends Pane implements PlantPane {
         addButton.setLayoutX(705.0);
         addButton.setLayoutY(16.0);
         addButton.setMnemonicParsing(false);
-        addButton.setOnAction(action -> searchTabController.addPlantToCurrentUserLibrary(plant));
+        addButton.setOnAction(action -> searchTabPaneController.addPlantToCurrentUserLibrary(plant));
     }
 
     private void initImgViewPlusSign() {
-        this.imgViewPlusSign = new ImageView(new Image("Blommor/plusSign.png"));
+        this.imgViewPlusSign = new ImageView(ImageLibrary.getPlusSign());
         imgViewPlusSign.setFitHeight(16);
         imgViewPlusSign.setFitWidth(15);
         addButton.setGraphic(imgViewPlusSign);
+    }
+
+    public void initEventHandlerForInfo() {
+        EventHandler onPress = new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                infoButton.setDisable(true);
+                commonName.setDisable(true);
+                if (!extended) {
+                    if (!gotInfoOnPlant) {
+                        PlantDetails plantDetails = searchTabPaneController.getPlantDetails(plant);
+                        String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
+                        long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(plantDetails.getWaterFrequency());
+                        String waterText = WaterTextFormatter.getWaterString(waterInMilli);
+                        ObservableList<String> plantInfo = FXCollections.observableArrayList();
+                        plantInfo.add("Genus: " +plantDetails.getGenus());
+                        plantInfo.add("Scientific name: "+plantDetails.getScientificName());
+                        plantInfo.add("Family: "+plantDetails.getFamily());
+                        plantInfo.add("Light: " +lightText);
+                        plantInfo.add("Water: "+waterText);
+                        listView.setItems(plantInfo);
+                    }
+                    extendPaneMoreInfoPlant();
+                } else {
+                    retractPane();
+                }
+            }
+        };
+
+        commonName.setOpacity(1.0);
+        commonName.setOnMouseClicked(onPress);
+        infoButton.setOnAction(onPress);
     }
 
     private void initListView() {
         listView = new ListView();
         listView.setLayoutX(this.getWidth());
         listView.setLayoutY(this.getHeight() + 56.0);
-        listView.setPrefWidth(751.0);
+        listView.setPrefWidth(740.0);
         listView.setPrefHeight(150.0);
 
         this.prefHeight(56.0);
@@ -147,6 +172,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
         timeline.setOnFinished(action -> {
             this.getChildren().addAll(listView);
             infoButton.setDisable(false);
+            commonName.setDisable(false);
         });
         extended = true;
         gotInfoOnPlant = true;
@@ -165,7 +191,10 @@ public class SearchPlantPane extends Pane implements PlantPane {
         timeline.setCycleCount(32);
         timeline.play();
         this.getChildren().removeAll(listView);
-        timeline.setOnFinished(action -> infoButton.setDisable(false));
+        timeline.setOnFinished(action -> {
+            infoButton.setDisable(false);
+            commonName.setDisable(false);
+        });
         extended = false;
         gotInfoOnPlant = false;
     }

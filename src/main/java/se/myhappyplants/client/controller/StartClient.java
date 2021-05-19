@@ -42,7 +42,7 @@ public class StartClient extends Application {
         window.initStyle(StageStyle.DECORATED);
         window.setOnCloseRequest(action -> {
             action.consume();
-            closeProgram();
+            close();
         });
         scene = new Scene(loadFXML(RootName.loginPane.toString()), 1000, 600);
         window.setScene(scene);
@@ -52,7 +52,7 @@ public class StartClient extends Application {
     /**
      * Method handles close on request.
      */
-    private void closeProgram() {
+    private void close() {
         if (ConfirmationBox.display("Exit", "Are you sure?")) {
             window.close();
         }

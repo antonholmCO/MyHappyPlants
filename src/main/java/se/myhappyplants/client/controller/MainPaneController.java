@@ -1,8 +1,6 @@
 package se.myhappyplants.client.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.image.ImageView;
-import javafx.scene.shape.Rectangle;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.RootName;
 
@@ -19,24 +17,24 @@ import java.io.IOException;
 public class MainPaneController {
 
     @FXML
-    private MyPlantsTabController homePaneController;
+    private MyPlantsTabPaneController myPlantsTabPaneController;
     @FXML
-    private SearchTabController plantsPaneController;
+    private SearchTabPaneController searchTabPaneController;
     @FXML
-    private SettingsTabController settingsPaneController;
+    private SettingsTabPaneController settingsTabPaneController;
 
     /**
      * Constructor that has access to FXML variables
      */
     @FXML
     public void initialize() {
-        homePaneController.setMainController(this);
-        plantsPaneController.setMainController(this);
-        settingsPaneController.setMainController(this);
+        myPlantsTabPaneController.setMainController(this);
+        searchTabPaneController.setMainController(this);
+        settingsTabPaneController.setMainController(this);
     }
 
-    public MyPlantsTabController getHomePaneController() {
-        return homePaneController;
+    public MyPlantsTabPaneController getHomePaneController() {
+        return myPlantsTabPaneController;
     }
 
     /**
@@ -62,9 +60,9 @@ public class MainPaneController {
      * Method to update so the user picture is the same on all the tabs
      */
     public void updateAvatarOnAllTabs() {
-        homePaneController.updateAvatar();
-        plantsPaneController.updateAvatar();
-        settingsPaneController.updateAvatar();
+        myPlantsTabPaneController.updateAvatar();
+        searchTabPaneController.updateAvatar();
+        settingsTabPaneController.updateAvatar();
     }
 
 
