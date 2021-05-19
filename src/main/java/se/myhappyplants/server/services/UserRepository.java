@@ -75,15 +75,17 @@ public class UserRepository {
         int uniqueID = 0;
         String username = null;
         boolean notificationActivated = false;
-        String query = "SELECT id, username, notification_activated FROM [User] WHERE email = '" + email + "';";
+        boolean funFactsActivated = false;
+        String query = "SELECT id, username, notification_activated, fun_facts_activated FROM [User] WHERE email = '" + email + "';";
         try {
             ResultSet resultSet = database.executeQuery(query);
             while (resultSet.next()) {
                 uniqueID = resultSet.getInt(1);
                 username = resultSet.getString(2);
                 notificationActivated = resultSet.getBoolean(3);
+                funFactsActivated = resultSet.getBoolean(4);
             }
-            user = new User(uniqueID, email, username, notificationActivated);
+            user = new User(uniqueID, email, username, notificationActivated, funFactsActivated);
         }
         catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -153,7 +155,7 @@ public class UserRepository {
         if (funFactsActivated) {
             funFactsBitValue = 1;
         }
-        String query = "UPDATE [User] SET notification_activated = " + funFactsBitValue + " WHERE email = '" + user.getEmail() + "';";
+        String query = "UPDATE [User] SET fun_facts_activated = " + funFactsBitValue + " WHERE email = '" + user.getEmail() + "';";
         try {
             database.executeUpdate(query);
             funFactsChanged = true;

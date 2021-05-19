@@ -73,6 +73,15 @@ public class User implements Serializable {
 
     }
 
+    public User(int uniqueId, String email, String username, boolean isNotificationsActivated, boolean funFactsActivated) {
+
+        this.uniqueId = uniqueId;
+        this.email = email;
+        this.username = username;
+        this.isNotificationsActivated = isNotificationsActivated;
+        this.funFactsActivated = funFactsActivated;
+    }
+
     //TODO: Fråga gruppen om hur de vill göra med logiken med denna.
     // Nu anropas den från SettingsTabController rad 42, MyPlantTabController rad 52, SearchTabController rad 53
 
