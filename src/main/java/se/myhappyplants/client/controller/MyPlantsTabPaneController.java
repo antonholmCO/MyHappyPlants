@@ -98,11 +98,14 @@ public class MyPlantsTabPaneController {
     public void addCurrentUserLibraryToHomeScreen() {
         ObservableList<LibraryPlantPane> obsListLibraryPlantPane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
+            disableButtons();
             obsListLibraryPlantPane.add(new LibraryPlantPane());
         } else {
             if (currentUserLibrary.size()<1) {
+                disableButtons();
                 obsListLibraryPlantPane.add(new LibraryPlantPane(this));
             } else {
+                enableButtons();
                 for (Plant plant : currentUserLibrary) {
                     obsListLibraryPlantPane.add(new LibraryPlantPane(this, plant));
                 }
@@ -114,6 +117,16 @@ public class MyPlantsTabPaneController {
         });
     }
 
+    private void disableButtons () {
+        btnWaterAll.setDisable(true);
+        btnExpandAll.setDisable(true);
+        btnCollapseAll.setDisable(true);
+    }
+    private void enableButtons () {
+        btnWaterAll.setDisable(false);
+        btnExpandAll.setDisable(false);
+        btnCollapseAll.setDisable(false);
+    }
 
     public void showNotifications() {
         ObservableList<String> notificationStrings = NotificationsCreator.getNotificationsStrings(currentUserLibrary);
@@ -168,7 +181,9 @@ public class MyPlantsTabPaneController {
         }
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
-        Plant plantToAdd = new Plant(uniqueNickName, selectedPlant.getPlantId(), date);
+        String imageURL = PictureRandomizer.getRandomPictureURL();
+        //todo add random picture here so that it gets saved to the database
+        Plant plantToAdd = new Plant(uniqueNickName, selectedPlant.getPlantId(), date, imageURL);
         PopupBox.display(MessageText.sucessfullyAddPlant.toString());
         addPlantToDB(plantToAdd);
     }

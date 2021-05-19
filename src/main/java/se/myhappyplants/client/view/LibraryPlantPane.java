@@ -82,7 +82,8 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         this.myPlantsTabPaneController = myPlantsTabPaneController;
         this.plant = plant;
         this.image = new ImageView();
-        initImages();
+        Image img = new Image(plant.getImageURL());
+        initImages(img);
         initNicknameLabel(plant);
         initLastWateredLabel(plant);
         initProgressBar(plant);
@@ -104,7 +105,8 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     private void initEmptyLibraryLabel () {
 
         this.image = new ImageView();
-        initImages();
+        Image img = PictureRandomizer.getRandomPicture();
+        initImages(img);
         Label lblEmptyInfo = new Label("Your library is currently empty \nClick here to search for plants to add    --------->");
         lblEmptyInfo.setLayoutX(150.0);
         lblEmptyInfo.setLayoutY(28.0);
@@ -116,8 +118,8 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     }
 
 
-    private void initImages() {
-        Image img = PictureRandomizer.getRandomPicture();
+    private void initImages(Image img) {
+
         image.setFitHeight(70.0);
         image.setFitWidth(70.0);
         image.setLayoutX(50.0);
