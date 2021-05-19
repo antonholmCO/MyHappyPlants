@@ -16,8 +16,8 @@ import java.util.ArrayList;
  */
 public class UserPlantRepository {
 
-    private Connection conn;
     private PlantRepository plantRepository;
+    private IDatabase database;
 
     /**
      * Constructor that creates a connection to the database.
@@ -25,9 +25,10 @@ public class UserPlantRepository {
      * @throws SQLException
      * @throws UnknownHostException
      */
-    public UserPlantRepository(PlantRepository plantRepository) throws UnknownHostException, SQLException {
+    public UserPlantRepository(PlantRepository plantRepository, IDatabase database) throws UnknownHostException, SQLException {
         this.plantRepository = plantRepository;
-        this.conn = Driver.getConnection("MyHappyPlants");
+        this.database = database;
+
     }
 
     /**
@@ -44,16 +45,12 @@ public class UserPlantRepository {
         String sqlSafeNickname = plant.getNickname().replace("'", "''");
         String query = "INSERT INTO Plant (user_id, nickname, plant_id, last_watered) values (" + user.getUniqueId() + ", '" + sqlSafeNickname + "', '" + plant.getPlantId() + "', '" + plant.getLastWatered() + "')";
         try {
-            conn.prepareCall(query).execute();
+            //conn.prepareCall(query).execute();
+            database.executeUpdate(query);
             success = true;
-        } catch (SQLException throwables) {
+        }
+        catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return success;
     }
@@ -69,7 +66,7 @@ public class UserPlantRepository {
         ArrayList<Plant> plantList = new ArrayList<Plant>();
         String query = "SELECT nickname, plant_id, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() + ";";
         try {
-            ResultSet resultSet = conn.createStatement().executeQuery(query);
+            ResultSet resultSet = database.executeQuery(query);
             while (resultSet.next()) {
                 String nickname = resultSet.getString("nickname");
                 String plantId = resultSet.getString("plant_id");
@@ -77,7 +74,8 @@ public class UserPlantRepository {
                 long waterFrequency = plantRepository.getWaterFrequency(plantId);
                 plantList.add(new Plant(nickname, plantId, lastWatered, waterFrequency));
             }
-        } catch (SQLException | IOException | InterruptedException exception) {
+        }
+        catch (SQLException | IOException | InterruptedException exception) {
             System.out.println(exception.fillInStackTrace());
         }
         return plantList;
@@ -94,11 +92,12 @@ public class UserPlantRepository {
         String sqlSafeNickname = nickname.replace("'", "''");
         String query = "SELECT nickname, plant_id, last_watered FROM [Plant] WHERE user_id =" + user.getUniqueId() + "AND nickname = '" + sqlSafeNickname + "';";
         try {
-            ResultSet resultSet = conn.createStatement().executeQuery(query);
+            ResultSet resultSet = database.executeQuery(query);
             String plantID = resultSet.getString("plant_id");
             Date lastWatered = resultSet.getDate("last_watered");
             plant = new Plant(nickname, plantID, lastWatered);
-        } catch (SQLException sqlException) {
+        }
+        catch (SQLException sqlException) {
             System.out.println(sqlException.fillInStackTrace());
         }
         return plant;
@@ -116,16 +115,11 @@ public class UserPlantRepository {
         String sqlSafeNickname = nickname.replace("'", "''");
         String query = "DELETE FROM [plant] WHERE user_id =" + user.getUniqueId() + "AND nickname = '" + sqlSafeNickname + "';";
         try {
-            conn.createStatement().executeUpdate(query);
+            database.executeUpdate(query);
             plantDeleted = true;
-        } catch (SQLException sqlException) {
+        }
+        catch (SQLException sqlException) {
             System.out.println(sqlException);
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return plantDeleted;
     }
@@ -143,9 +137,10 @@ public class UserPlantRepository {
         String sqlSafeNickname = nickname.replace("'", "''");
         String query = "UPDATE [Plant] SET last_watered = '" + date + "' WHERE user_id = " + user.getUniqueId() + " AND nickname = '" + sqlSafeNickname + "';";
         try {
-            conn.createStatement().executeUpdate(query);
+            database.executeUpdate(query);
             dateChanged = true;
-        } catch (SQLException sqlException) {
+        }
+        catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
         return dateChanged;
@@ -157,9 +152,10 @@ public class UserPlantRepository {
         String sqlSafeNewNickname = newNickname.replace("'", "''");
         String query = "UPDATE [Plant] SET nickname = '" + sqlSafeNewNickname + "' WHERE user_id = " + user.getUniqueId() + " AND nickname = '" + sqlSafeNickname + "';";
         try {
-            conn.createStatement().executeUpdate(query);
+            database.executeUpdate(query);
             nicknameChanged = true;
-        } catch (SQLException sqlException) {
+        }
+        catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
         return nicknameChanged;
@@ -170,16 +166,11 @@ public class UserPlantRepository {
         LocalDate date = java.time.LocalDate.now();
         String query = "UPDATE [Plant] SET last_watered = '" + date + "' WHERE user_id = " + user.getUniqueId() + ";";
         try {
-            conn.createStatement().executeUpdate(query);
+            database.executeUpdate(query);
             dateChanged = true;
-        } catch (SQLException sqlException) {
+        }
+        catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return dateChanged;
     }

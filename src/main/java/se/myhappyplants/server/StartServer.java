@@ -17,7 +17,7 @@ public class StartServer {
         IDatabase database = new Database(connectionMyHappyPlants);
         UserRepository userRepository = new UserRepository(database);
         PlantRepository plantRepository = new PlantRepository(new WaterCalculator());
-        UserPlantRepository userPlantRepository = new UserPlantRepository(plantRepository);
+        UserPlantRepository userPlantRepository = new UserPlantRepository(plantRepository, database);
         ServerController serverController = new ServerController(userRepository,userPlantRepository,plantRepository);
         new ServerConnection(2555,serverController);
     }

@@ -20,8 +20,7 @@ public class SavePlant implements ResponseHandler {
         Message response;
         User user = request.getUser();
         Plant plant = request.getPlant();
-        String nickname = plant.getNickname();
-        if (userPlantRepository.deletePlant(user, nickname)) {
+        if (userPlantRepository.savePlant(user, plant)) {
             response = new Message(true);
 
         } else {
