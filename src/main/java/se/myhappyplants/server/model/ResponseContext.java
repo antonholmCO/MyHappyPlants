@@ -40,7 +40,7 @@ public class ResponseContext {
         responders.put(MessageType.deleteAccount, new DeleteAccount(userRepository));
         responders.put(MessageType.deletePlant, new DeletePlant(userPlantRepository));
         responders.put(MessageType.getLibrary, new GetLibrary(userPlantRepository));
-        responders.put(MessageType.getMorePlantInfo, new GetMorePlantInfo(plantRepository));
+        responders.put(MessageType.getMorePlantInfo, new GetPlantDetails(plantRepository));
         responders.put(MessageType.login, new Login(userRepository));
         responders.put(MessageType.register, new Register(userRepository));
         responders.put(MessageType.savePlant, new SavePlant(userPlantRepository));

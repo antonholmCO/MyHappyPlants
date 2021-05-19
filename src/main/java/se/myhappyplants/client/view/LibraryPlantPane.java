@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * Created by: Christopher O'Driscoll
  * Updated by: Frida Jacobsson
  */
-public class LibraryPlantPane extends Pane implements PlantPane{
+public class LibraryPlantPane extends Pane implements PlantPane {
 
     private MyPlantsTabPaneController myPlantsTabPaneController;
     private Plant plant;
@@ -75,7 +75,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
      * plant library
      *
      * @param myPlantsTabPaneController MyPlantsTabController which contains logic for elements to use
-     * @param plant             plant object from user's library
+     * @param plant                     plant object from user's library
      */
     public LibraryPlantPane(MyPlantsTabPaneController myPlantsTabPaneController, Plant plant) {
         this.myPlantsTabPaneController = myPlantsTabPaneController;
@@ -120,7 +120,7 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         lastWateredLabel.setLayoutY(226);
         lastWateredLabel.setLayoutX(10);
         Date lastWateredDate = plant.getLastWatered();
-        lastWateredLabel.setText("Last watered: " +lastWateredDate.toString());
+        lastWateredLabel.setText("Last watered: " + lastWateredDate.toString());
     }
 
     private void initProgressBar(Plant plant) {
@@ -158,22 +158,23 @@ public class LibraryPlantPane extends Pane implements PlantPane{
             pressInfoButton();
         });
     }
+
     public void pressInfoButton() {
         infoButton.setDisable(true);
         if (!extended) {
-            if(!gotInfoOnPlant) {
+            if (!gotInfoOnPlant) {
                 PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetails(plant);
                 long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(plantDetails.getWaterFrequency());
                 String waterText = WaterTextFormatter.getWaterString(waterInMilli);
                 String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
 
                 ObservableList<String> plantInfo = FXCollections.observableArrayList();
-                plantInfo.add("Genus: " +plantDetails.getGenus());
-                plantInfo.add("Scientific name: "+plantDetails.getScientificName());
-                plantInfo.add("Family: "+plantDetails.getFamily());
-                plantInfo.add("Light: " +lightText);
-                plantInfo.add("Water: "+waterText);
-                plantInfo.add("Last watered: " +plant.getLastWatered());
+                plantInfo.add("Genus: " + plantDetails.getGenus());
+                plantInfo.add("Scientific name: " + plantDetails.getScientificName());
+                plantInfo.add("Family: " + plantDetails.getFamily());
+                plantInfo.add("Light: " + lightText);
+                plantInfo.add("Water: " + waterText);
+                plantInfo.add("Last watered: " + plant.getLastWatered());
                 listViewMoreInfo.setItems(plantInfo);
             }
             expand();
@@ -240,18 +241,18 @@ public class LibraryPlantPane extends Pane implements PlantPane{
         long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(plantDetails.getWaterFrequency());
         String waterText = WaterTextFormatter.getWaterString(waterInMilli);
         String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
-
         ObservableList<String> plantInfo = FXCollections.observableArrayList();
-        plantInfo.add("Genus: " +plantDetails.getGenus());
-        plantInfo.add("Scientific name: "+plantDetails.getScientificName());
-        plantInfo.add("Family: "+plantDetails.getFamily());
-        plantInfo.add("Light: " +lightText);
-        plantInfo.add("Water: "+waterText);
-        plantInfo.add("Last watered: " +plant.getLastWatered());
+        plantInfo.add("Genus: " + plantDetails.getGenus());
+        plantInfo.add("Scientific name: " + plantDetails.getScientificName());
+        plantInfo.add("Family: " + plantDetails.getFamily());
+        plantInfo.add("Light: " + lightText);
+        plantInfo.add("Water: " + waterText);
+        plantInfo.add("Last watered: " + plant.getLastWatered());
         listViewMoreInfo.setItems(plantInfo);
         this.setPrefHeight(92.0);
         this.getChildren().addAll(image, nickname, progressBar, waterButton, infoButton);
         listViewMoreInfo.setItems(plantInfo);
+
     }
 
 

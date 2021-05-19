@@ -14,10 +14,12 @@ import java.sql.SQLException;
 public class StartServer {
     public static void main(String[] args) throws UnknownHostException, SQLException {
         IConnection connectionMyHappyPlants = new DatabaseConnection("MyHappyPlants");
-        IDatabase database = new Database(connectionMyHappyPlants);
-        UserRepository userRepository = new UserRepository(database);
-        PlantRepository plantRepository = new PlantRepository(new WaterCalculator());
-        UserPlantRepository userPlantRepository = new UserPlantRepository(plantRepository, database);
+        IConnection connectionSpecies = new DatabaseConnection("Species");
+        IDatabase databaseMyHappyPlants = new Database(connectionMyHappyPlants);
+        IDatabase databaseSpecies = new Database(connectionSpecies);
+        UserRepository userRepository = new UserRepository(databaseMyHappyPlants);
+        PlantRepository plantRepository = new PlantRepository(new WaterCalculator(), databaseSpecies);
+        UserPlantRepository userPlantRepository = new UserPlantRepository(plantRepository, databaseMyHappyPlants);
         ServerController serverController = new ServerController(userRepository,userPlantRepository,plantRepository);
         new ServerConnection(2555,serverController);
     }

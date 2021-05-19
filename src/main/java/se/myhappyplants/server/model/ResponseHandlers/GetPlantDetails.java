@@ -6,10 +6,10 @@ import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.PlantDetails;
 
-public class GetMorePlantInfo implements ResponseHandler {
+public class GetPlantDetails implements ResponseHandler {
     private PlantRepository plantRepository;
 
-    public GetMorePlantInfo(PlantRepository plantRepository) {
+    public GetPlantDetails(PlantRepository plantRepository) {
         this.plantRepository = plantRepository;
     }
 
