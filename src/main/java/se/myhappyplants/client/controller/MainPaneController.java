@@ -9,8 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * Controls the inputs from a 'logged in' user
- * <p>
+ * Controls the inputs from a 'logged in' user and is the mainPane for the GUI
+ *
  * Created by: Christopher O'Driscoll, Eric Simonsson
  * Updated by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
  */
@@ -38,7 +38,7 @@ public class MainPaneController {
     }
 
     /**
-     * Logs out user, then switches scenes
+     * Method to logs out the user and then switches scenes to the loginPane
      *
      * @throws IOException
      */
@@ -56,7 +56,9 @@ public class MainPaneController {
         StartClient.setRoot(String.valueOf(RootName.loginPane));
     }
 
-
+    /**
+     * Method to update so the user picture is the same on all the tabs
+     */
     public void updateAvatarOnAllTabs() {
         myPlantsTabPaneController.updateAvatar();
         searchTabPaneController.updateAvatar();

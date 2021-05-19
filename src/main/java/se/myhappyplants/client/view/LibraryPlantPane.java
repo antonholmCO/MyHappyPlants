@@ -236,7 +236,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         listViewMoreInfo.setLayoutX(this.getWidth() + 10.0);
         listViewMoreInfo.setLayoutY(this.getHeight() + 100.0); //56.0
         listViewMoreInfo.setPrefWidth(725.0);
-        listViewMoreInfo.setPrefHeight(140.0);
+        listViewMoreInfo.setPrefHeight(120.0);
         PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetails(plant);
         long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(plantDetails.getWaterFrequency());
         String waterText = WaterTextFormatter.getWaterString(waterInMilli);

@@ -10,13 +10,11 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import se.myhappyplants.client.model.BoxTitle;
-import se.myhappyplants.client.model.ListSorter;
-import se.myhappyplants.client.model.LoggedInUser;
-import se.myhappyplants.client.model.SortingOption;
+import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.view.AutocompleteSearchField;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.client.view.SearchPlantPane;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
@@ -75,6 +73,7 @@ public class SearchTabPaneController {
         if (answer == 1) {
             plantNickname = MessageBox.askForStringInput("Add a nickname", "Nickname:");
         }
+        PopupBox.display(MessageText.sucessfullyAddPlant.toString());
         mainPaneController.getHomePaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
     }
 
@@ -105,7 +104,11 @@ public class SearchTabPaneController {
                             updateProgress(i++, searchPlantPanes.size());
                         }
                         Text text = (Text) progressIndicator.lookup(".percentage");
-                        text.setText("Done");
+                        if(text!=null && text.getText().equals("Done")){
+                            text.setText("Done");
+                            progressIndicator.setPrefWidth(text.getLayoutBounds().getWidth());
+                        }
+
                         return true;
                     }
                 };
@@ -118,6 +121,7 @@ public class SearchTabPaneController {
     private void searchButtonPressed() {
         btnSearch.setDisable(true);
         txtFldSearchText.addToHistory();
+        PopupBox.display(MessageText.holdOnGettingInfo.toString());
         Thread searchThread = new Thread(() -> {
             Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
             ClientConnection connection = new ClientConnection();
@@ -144,6 +148,7 @@ public class SearchTabPaneController {
     }
 
     public PlantDetails getPlantDetails(Plant plant) {
+        PopupBox.display(MessageText.holdOnGettingInfo.toString());
         PlantDetails plantDetails = null;
         Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);

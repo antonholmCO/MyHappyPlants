@@ -15,6 +15,7 @@ import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
@@ -28,8 +29,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * Controller with logic used by the "Home" tab
- * Created by:
+ * Controller with logic used by the "My Plants" tab
+ * Created by: Christopher O'Driscoll
  * Updated by: Christopher O'Driscoll, 2021-05-14
  */
 public class MyPlantsTabPaneController {
@@ -63,12 +64,14 @@ public class MyPlantsTabPaneController {
     @FXML
     public Button btnCollapseAll;
 
+    /**
+     * Method to initilize the variables
+     */
 
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernameMyPlants.setText(loggedInUser.getUser().getUsername());
-        //imgUserPicture.setImage(new Image(loggedInUser.getUser().getAvatarURL()));
         imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
         //MainPaneController.makeAvatarRound(imgUserPicture);
         cmbSortOption.setItems(ListSorter.sortOptionsLibrary());
@@ -77,12 +80,21 @@ public class MyPlantsTabPaneController {
 
     }
 
+
+    /**
+     * Method to set the mainPaneController
+     * @param mainPaneController to set
+     */
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
 
+    /**
+     * Method to add a users plants to myPlantsTab
+     */
     @FXML
     public void addCurrentUserLibraryToHomeScreen() {
+
         ObservableList<LibraryPlantPane> obsListLibraryPlantPane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
             obsListLibraryPlantPane.add(new LibraryPlantPane());
@@ -124,12 +136,14 @@ public class MyPlantsTabPaneController {
 
     @FXML
     public void removePlantFromDB(Plant plant) {
+        Platform.runLater(() ->PopupBox.display(MessageText.removePlant.toString()));
         Thread removePlantThread = new Thread(() -> {
             currentUserLibrary.remove(plant);
             addCurrentUserLibraryToHomeScreen();
             Message deletePlant = new Message(MessageType.deletePlant, LoggedInUser.getInstance().getUser(), plant);
             ClientConnection connection = new ClientConnection();
             Message response = connection.makeRequest(deletePlant);
+
             if (!response.isSuccess()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
                 createCurrentUserLibraryFromDB();
@@ -151,6 +165,7 @@ public class MyPlantsTabPaneController {
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
         Plant plantToAdd = new Plant(uniqueNickName, selectedPlant.getPlantId(), date);
+        PopupBox.display(MessageText.sucessfullyAddPlant.toString());
         addPlantToDB(plantToAdd);
     }
 
@@ -184,6 +199,7 @@ public class MyPlantsTabPaneController {
     public void changeLastWateredInDB(Plant plant, LocalDate date) {
         Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
         Message response = new ClientConnection().makeRequest(changeLastWatered);
+        PopupBox.display(MessageText.sucessfullyChangedDate.toString());
         if (!response.isSuccess()) {
             MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
         }
@@ -199,6 +215,7 @@ public class MyPlantsTabPaneController {
     public boolean changeNicknameInDB(Plant plant, String newNickname) {
         Message changeNicknameInDB = new Message(MessageType.changeNickname, LoggedInUser.getInstance().getUser(), plant, newNickname);
         Message response = new ClientConnection().makeRequest(changeNicknameInDB);
+        PopupBox.display(MessageText.sucessfullyChangedPlant.toString());
         if (!response.isSuccess()) {
             MessageBox.display(BoxTitle.Failed, "It was not possible to change nickname for you plant. Try again.");
             return false;
