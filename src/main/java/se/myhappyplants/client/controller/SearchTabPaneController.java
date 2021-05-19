@@ -22,7 +22,6 @@ import se.myhappyplants.shared.Plant;
 import se.myhappyplants.client.model.SetAvatar;
 import se.myhappyplants.shared.PlantDetails;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -80,7 +79,7 @@ public class SearchTabPaneController {
     private void showResultsOnPane() {
         ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
         for (Plant plant : searchResults) {
-            searchPlantPanes.add(new SearchPlantPane(this, new File("resources/images/img.png").toURI().toString(), plant));
+            searchPlantPanes.add(new SearchPlantPane(this, ImageLibrary.getLoadingImageFile().toURI().toString(), plant));
         }
         listViewResult.getItems().clear();
         listViewResult.setItems(searchPlantPanes);
@@ -93,12 +92,12 @@ public class SearchTabPaneController {
                         for (SearchPlantPane spp : searchPlantPanes) {
                             Plant Plant = spp.getPlant();
                             if (Plant.getImageURL().equals("")) {
-                                spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
+                                spp.setDefaultImage(ImageLibrary.getDefaultPlantImage().toURI().toString());
                             } else {
                                 try {
                                     spp.updateImage();
                                 } catch (IllegalArgumentException e) {
-                                    spp.setDefaultImage(new File("resources/images/Grn_vxt.png").toURI().toString());
+                                    spp.setDefaultImage(ImageLibrary.getDefaultPlantImage().toURI().toString());
                                 }
                             }
                             updateProgress(i++, searchPlantPanes.size());

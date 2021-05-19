@@ -1,13 +1,11 @@
 package se.myhappyplants.server.services;
 
-import se.myhappyplants.client.view.LightTextFormatter;
-import se.myhappyplants.client.model.WaterCalculator;
+import se.myhappyplants.shared.WaterCalculator;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.PlantDetails;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -83,18 +81,19 @@ public class PlantRepository {
     }
 
     public long getWaterFrequency(String plantId) throws IOException, InterruptedException {
-        long waterFrequencyMilli = 0;
+        long waterFrequency = -1;
         String query = "SELECT water_frequency FROM species WHERE id = '" + plantId + "';";
         try {
             ResultSet resultSet = database.executeQuery(query);
             while (resultSet.next()) {
-                int waterFrequency = Integer.parseInt(resultSet.getString("water_frequency"));
-                waterFrequencyMilli = waterCalculator.calculateWaterFrequencyForWatering(waterFrequency);
+                String waterText = resultSet.getString("water_frequency");
+                int water = (isNumeric(waterText)) ? Integer.parseInt(waterText) : -1;
+                waterFrequency = WaterCalculator.calculateWaterFrequencyForWatering(water);
             }
         }
         catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return waterFrequencyMilli;
+        return waterFrequency;
     }
 }

@@ -1,7 +1,7 @@
 package se.myhappyplants.server;
 
 import se.myhappyplants.server.controller.ServerController;
-import se.myhappyplants.client.model.WaterCalculator;
+import se.myhappyplants.shared.WaterCalculator;
 import se.myhappyplants.server.services.*;
 
 import java.net.UnknownHostException;

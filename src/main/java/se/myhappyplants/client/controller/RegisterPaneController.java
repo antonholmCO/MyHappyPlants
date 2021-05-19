@@ -85,7 +85,7 @@ public class RegisterPaneController {
 
     public void swapToLogin(MouseEvent mouseEvent) {
         try {
-            StartClient.setRoot("loginPane");
+            StartClient.setRoot(RootName.loginPane.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

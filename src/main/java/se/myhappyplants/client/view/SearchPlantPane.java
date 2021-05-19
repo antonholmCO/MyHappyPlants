@@ -16,7 +16,7 @@ import javafx.util.Duration;
 import se.myhappyplants.client.controller.SearchTabPaneController;
 
 import se.myhappyplants.client.model.ImageLibrary;
-import se.myhappyplants.client.model.WaterCalculator;
+import se.myhappyplants.shared.WaterCalculator;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.PlantDetails;
 

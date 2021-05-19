@@ -26,7 +26,6 @@ public class GetLibrary implements ResponseHandler {
             response = new Message(false);
             e.printStackTrace();
         }
-        System.out.println("getting library for " + user.getUsername());
         return response;
     }
 }
