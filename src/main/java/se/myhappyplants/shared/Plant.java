@@ -12,6 +12,7 @@ import java.time.LocalDate;
 public class Plant implements Serializable {
 
     private String plantId;
+    private Date date;
     private String commonName;
     private String scientificName;
     private String familyName;
@@ -19,6 +20,7 @@ public class Plant implements Serializable {
     private String nickname;
     private Date lastWatered;
     private long waterFrequency;
+    private String uniqueNickName;
 
     public Plant(String plantId, String commonName, String scientificName, String familyName, String imageURL) {
         this.plantId = plantId;
@@ -40,6 +42,23 @@ public class Plant implements Serializable {
         this.nickname = nickname;
         this.plantId = plantID;
         this.lastWatered = lastWatered;
+    }
+
+    public Plant(String nickname, String plantId, Date lastWatered, long waterFrequency, String imageURL) {
+
+        this.nickname = nickname;
+        this.plantId = plantId;
+        this.lastWatered = lastWatered;
+        this.waterFrequency = waterFrequency;
+        this.imageURL = imageURL;
+    }
+
+    public Plant(String nickname, String plantId, Date date, String imageURL) {
+
+        this.nickname = nickname;
+        this.plantId = plantId;
+        this.date = date;
+        this.imageURL = imageURL;
     }
 
     public String toString() {

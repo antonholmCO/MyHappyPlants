@@ -68,4 +68,28 @@ public class PictureRandomizer {
         //todo Commented out just for video recording purposes!
         return new Image(new File("src/main/resources/Blommor/blomma11.1.png").toURI().toString());
     }
+
+    public static String getRandomPictureURL() {
+        Random random = new Random();
+        switch (1 + random.nextInt(8)) {
+            case 1:
+                return flower1.getUrl();
+            case 2:
+                return flower2.getUrl();
+            case 3:
+                return flower3.getUrl();
+            case 4:
+                return flower4.getUrl();
+            case 5:
+                return flower5.getUrl();
+            case 6:
+                return flower6.getUrl();
+            case 7:
+                return flower7.getUrl();
+            case 8:
+                return flower8.getUrl();
+            default:
+                return flower9.getUrl();
+        }
+    }
 }
