@@ -14,8 +14,7 @@ public class ImageLibrary {
         return plusSign;
     }
 
-    public Image getDefaultImage() {
-        Image img = new Image(fileImg.toURI().toString());
-        return img;
+    public static File getDefaultImage() {
+        return fileImg;
     }
 }
