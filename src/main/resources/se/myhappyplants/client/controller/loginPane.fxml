@@ -16,7 +16,7 @@
                <top>
                   <AnchorPane prefHeight="89.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label fx:id="loginLargeHeading" layoutX="383.0" layoutY="40.0" prefHeight="29.0" prefWidth="256.0" text="My Happy Plants" />
+                        <Label fx:id="loginLargeHeading" layoutX="383.0" layoutY="40.0" prefHeight="42.0" prefWidth="281.0" text="My Happy Plants" />
                      </children>
                   </AnchorPane>
                </top>
@@ -34,7 +34,7 @@
                               <Image url="@../../../../Blommor/blomma15.1.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="314.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="314.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../Blommor/blomma13.1.png" />
                            </image>

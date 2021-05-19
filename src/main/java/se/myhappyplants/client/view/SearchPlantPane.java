@@ -2,6 +2,7 @@ package se.myhappyplants.client.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -14,7 +15,10 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import se.myhappyplants.client.controller.SearchTabPaneController;
 
+import se.myhappyplants.client.model.ImageLibrary;
+import se.myhappyplants.client.model.WaterCalculator;
 import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.PlantDetails;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -95,7 +99,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
     }
 
     private void initImgViewPlusSign() {
-        this.imgViewPlusSign = new ImageView(new Image("Blommor/plusSign.png"));
+        this.imgViewPlusSign = new ImageView(ImageLibrary.getPlusSign());
         imgViewPlusSign.setFitHeight(16);
         imgViewPlusSign.setFitWidth(15);
         addButton.setGraphic(imgViewPlusSign);
@@ -109,8 +113,17 @@ public class SearchPlantPane extends Pane implements PlantPane {
                 commonName.setDisable(true);
                 if (!extended) {
                     if (!gotInfoOnPlant) {
-                        getAllPlantInfo = searchTabPaneController.getMorePlantInfo(plant);
-                        listView.setItems(getAllPlantInfo);
+                        PlantDetails plantDetails = searchTabPaneController.getPlantDetails(plant);
+                        String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
+                        long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(plantDetails.getWaterFrequency());
+                        String waterText = WaterTextFormatter.getWaterString(waterInMilli);
+                        ObservableList<String> plantInfo = FXCollections.observableArrayList();
+                        plantInfo.add("Genus: " +plantDetails.getGenus());
+                        plantInfo.add("Scientific name: "+plantDetails.getScientificName());
+                        plantInfo.add("Family: "+plantDetails.getFamily());
+                        plantInfo.add("Light: " +lightText);
+                        plantInfo.add("Water: "+waterText);
+                        listView.setItems(plantInfo);
                     }
                     extendPaneMoreInfoPlant();
                 } else {

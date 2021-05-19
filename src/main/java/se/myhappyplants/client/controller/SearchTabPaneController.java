@@ -10,17 +10,17 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import se.myhappyplants.client.model.BoxTitle;
-import se.myhappyplants.client.model.ListSorter;
-import se.myhappyplants.client.model.LoggedInUser;
-import se.myhappyplants.client.model.SortingOption;
+import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ClientConnection;
+import se.myhappyplants.client.view.AutocompleteSearchField;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.client.view.SearchPlantPane;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.client.model.SetAvatar;
+import se.myhappyplants.shared.PlantDetails;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +42,7 @@ public class SearchTabPaneController {
     @FXML
     private Button btnSearch;
     @FXML
-    private TextField txtFldSearchText;
+    private AutocompleteSearchField txtFldSearchText;
     @FXML
     private ComboBox<SortingOption> cmbSortOption;
     @FXML
@@ -73,6 +73,7 @@ public class SearchTabPaneController {
         if (answer == 1) {
             plantNickname = MessageBox.askForStringInput("Add a nickname", "Nickname:");
         }
+        PopupBox.display(MessageText.sucessfullyAddPlant.toString());
         mainPaneController.getHomePaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
     }
 
@@ -103,7 +104,11 @@ public class SearchTabPaneController {
                             updateProgress(i++, searchPlantPanes.size());
                         }
                         Text text = (Text) progressIndicator.lookup(".percentage");
-                        text.setText("Done");
+                        if(text!=null && text.getText().equals("Utförd")){
+                            text.setText("Done");
+                            progressIndicator.setPrefWidth(text.getLayoutBounds().getWidth());
+                        }
+
                         return true;
                     }
                 };
@@ -115,6 +120,8 @@ public class SearchTabPaneController {
     @FXML
     private void searchButtonPressed() {
         btnSearch.setDisable(true);
+        txtFldSearchText.addToHistory();
+        PopupBox.display(MessageText.holdOnGettingInfo.toString());
         Thread searchThread = new Thread(() -> {
             Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
             ClientConnection connection = new ClientConnection();
@@ -122,7 +129,7 @@ public class SearchTabPaneController {
 
             if (apiResponse != null) {
                 if (apiResponse.isSuccess()) {
-                    searchResults = apiResponse.getPlantList();
+                    searchResults = apiResponse.getPlantArray();
                     Platform.runLater(() -> showResultsOnPane());
                 } else {
                     //TODO: skicka inget felmeddelande, visa label med sökresultat 0 istället
@@ -140,16 +147,15 @@ public class SearchTabPaneController {
         mainPaneController.logoutButtonPressed();
     }
 
-    public ObservableList<String> getMorePlantInfo(Plant plant) {
-        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfoOnSearch, plant);
+    public PlantDetails getPlantDetails(Plant plant) {
+        PopupBox.display(MessageText.holdOnGettingInfo.toString());
+        PlantDetails plantDetails = null;
+        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
         Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
-        ObservableList<String> waterLightInfo = FXCollections.observableArrayList();
         if (response != null) {
-            for (int i = 0; i < response.getStringArray().length; i++) {
-                waterLightInfo.add(response.getStringArray()[i]);
-            }
+            plantDetails = response.getPlantDetails();
         }
-        return waterLightInfo;
+        return plantDetails;
     }
 
     /**

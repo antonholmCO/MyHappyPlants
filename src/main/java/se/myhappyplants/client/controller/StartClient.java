@@ -45,6 +45,7 @@ public class StartClient extends Application {
             close();
         });
         scene = new Scene(loadFXML(RootName.loginPane.toString()), 1000, 600);
+        scene.getStylesheets().add("/se/myhappyplants/client/controller/Stylesheet.css");
         window.setScene(scene);
         window.show();
     }

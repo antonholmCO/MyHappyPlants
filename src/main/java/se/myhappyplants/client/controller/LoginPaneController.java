@@ -71,8 +71,7 @@ public class LoginPaneController {
     }
 
     /**
-     * Tries to log in user.
-     * If successful, changes scene
+     * Method which tries to log in user. If it's successful, it changes scene
      *
      * @throws IOException
      */
@@ -104,11 +103,19 @@ public class LoginPaneController {
         loginThread.start();
     }
 
+    /**
+     * Method to switch to the mainPane FXML
+     * @throws IOException
+     */
     @FXML
     private void switchToMainPane() throws IOException {
         StartClient.setRoot(String.valueOf(RootName.mainPane));
     }
 
+    /**
+     * Method to switch to the registerPane
+     * @param actionEvent
+     */
     public void swapToRegister(ActionEvent actionEvent) {
         try {
             StartClient.setRoot("registerPane");
