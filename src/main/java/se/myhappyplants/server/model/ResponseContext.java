@@ -15,11 +15,10 @@ import java.util.HashMap;
  */
 public class ResponseContext {
 
-    private HashMap<MessageType, ResponseHandler> responders = new HashMap<>();
+    private HashMap<MessageType, IResponseHandler> responders = new HashMap<>();
     private UserRepository userRepository;
     private UserPlantRepository userPlantRepository;
     private PlantRepository plantRepository;
-
 
     public ResponseContext(UserRepository userRepository, UserPlantRepository userPlantRepository, PlantRepository plantRepository) {
 
@@ -48,8 +47,7 @@ public class ResponseContext {
         responders.put(MessageType.search, new Search(plantRepository));
     }
 
-    public ResponseHandler getResponseHandler(MessageType messageType) {
+    public IResponseHandler getResponseHandler(MessageType messageType) {
         return responders.get(messageType);
     }
-
 }

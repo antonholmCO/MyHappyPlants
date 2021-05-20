@@ -6,7 +6,7 @@ import se.myhappyplants.shared.Message;
  * Interface makes sure all ResponseHandlers have at
  * least these methods
  */
-public interface ResponseHandler {
+public interface IResponseHandler {
 
     Message getResponse(Message request);
 }

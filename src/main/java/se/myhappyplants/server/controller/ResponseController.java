@@ -1,15 +1,12 @@
 package se.myhappyplants.server.controller;
 
-import se.myhappyplants.server.model.ResponseHandler;
+import se.myhappyplants.server.model.IResponseHandler;
 import se.myhappyplants.server.model.ResponseContext;
 import se.myhappyplants.server.services.PlantRepository;
 import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.server.services.UserRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
-import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.User;
-import se.myhappyplants.shared.*;
 
 import java.io.IOException;
 
@@ -35,7 +32,7 @@ public class ResponseController {
         Message response;
         MessageType messageType = request.getMessageType();
 
-        ResponseHandler responseHandler = responseContext.getResponseHandler(messageType);
+        IResponseHandler responseHandler = responseContext.getResponseHandler(messageType);
         response = responseHandler.getResponse(request);
         return response;
     }

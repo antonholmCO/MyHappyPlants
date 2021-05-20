@@ -1,6 +1,6 @@
 package se.myhappyplants.server.model.ResponseHandlers;
 
-import se.myhappyplants.server.model.ResponseHandler;
+import se.myhappyplants.server.model.IResponseHandler;
 import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
@@ -8,7 +8,8 @@ import se.myhappyplants.shared.User;
 
 import java.util.ArrayList;
 
-public class GetLibrary implements ResponseHandler {
+public class GetLibrary implements IResponseHandler {
+
     private UserPlantRepository userPlantRepository;
 
     public GetLibrary(UserPlantRepository userPlantRepository) {
