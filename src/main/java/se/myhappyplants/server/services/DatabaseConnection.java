@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DatabaseConnection implements IConnection {
+public class DatabaseConnection implements IDatabaseConnection {
 
     private java.sql.Connection conn;
     private String databaseName;

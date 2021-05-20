@@ -18,11 +18,11 @@ import java.io.IOException;
  * Updated by: Linn Borgström, 2021-05-13
  */
 
-public class ServerController {
+public class ResponseController {
     private ResponseContext responseContext;
 
 
-    public ServerController(UserRepository userRepository, UserPlantRepository userPlantRepository, PlantRepository plantRepository){
+    public ResponseController(UserRepository userRepository, UserPlantRepository userPlantRepository, PlantRepository plantRepository){
         responseContext = new ResponseContext(userRepository, userPlantRepository, plantRepository);
     }
     /**

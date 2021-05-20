@@ -7,27 +7,26 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 /**
  * Class that opens a connection to the server, to send request and receive response objects.
  * Created by: Christopher O'Driscoll
  * Updated by: Christopher, 2021-04-13
  */
-public class ClientConnection {
+public class ServerConnection {
 
-    private static ClientConnection connection;
+    private static ServerConnection connection;
     private String ipAddress = "localhost";
     private int port = 2555;
 
-    public static ClientConnection getClientConnection() {
+    public static ServerConnection getClientConnection() {
         if(connection==null) {
-            connection = new ClientConnection();
+            connection = new ServerConnection();
         }
         return connection;
     }
 
-    private ClientConnection() {
+    private ServerConnection() {
     }
 
     /**

@@ -6,9 +6,9 @@ import java.sql.Statement;
 
 public class Database implements IDatabase {
 
-    private IConnection connection;
+    private IDatabaseConnection connection;
 
-    public Database(IConnection connection) {
+    public Database(IDatabaseConnection connection) {
         this.connection = connection;
     }
 
