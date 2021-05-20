@@ -9,6 +9,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import se.myhappyplants.client.model.*;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 public class MyPlantsTabPaneController {
 
     @FXML
-    public Label lblNotifications;
+    public ImageView imgNotifications;
 
     private ArrayList<Plant> currentUserLibrary;
 
@@ -132,7 +133,7 @@ public class MyPlantsTabPaneController {
     }
 
     public void showNotifications() {
-        ObservableList<String> notificationStrings = NotificationsCreator.getNotificationsStrings(currentUserLibrary, lblNotifications);
+        ObservableList<String> notificationStrings = NotificationsCreator.getNotificationsStrings(currentUserLibrary, imgNotifications);
         Platform.runLater(() -> lstViewNotifications.setItems(notificationStrings));
     }
 

@@ -7,6 +7,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -50,7 +51,7 @@ public class SearchTabPaneController {
     @FXML
     private ProgressIndicator progressIndicator;
     @FXML
-    public Label lblFunFactTitle;
+    public ImageView imgFunFactTitle;
     @FXML
     public Label lblFunFactText;
     private ArrayList<Plant> searchResults;
@@ -73,10 +74,10 @@ public class SearchTabPaneController {
 
         FunFacts funFacts = new FunFacts();
         if(factsActivated) {
-            lblFunFactTitle.setVisible(true);
+            imgFunFactTitle.setVisible(true);
             lstFunFacts.setItems(funFacts.getRandomFact());
         } else {
-            lblFunFactTitle.setVisible(false);
+            imgFunFactTitle.setVisible(false);
             lstFunFacts.setItems(null);
         }
     }

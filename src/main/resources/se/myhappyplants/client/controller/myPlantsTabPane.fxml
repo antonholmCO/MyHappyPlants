@@ -33,19 +33,24 @@
 <center>
     <AnchorPane prefHeight="527.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
         <children>
+            <ImageView fx:id="imgNotifications" fitHeight="527.0" fitWidth="1000.0" BorderPane.alignment="CENTER" />
             <Label layoutX="522.0" layoutY="57.0" text="Sort by: " />
             <ComboBox fx:id="cmbSortOption" layoutX="591.0" layoutY="51.0" onAction="#sortLibrary" prefHeight="30.0" prefWidth="186.0" promptText="  Nickname" />
             <ListView fx:id="lstViewUserPlantLibrary" layoutX="12.0" layoutY="86.0" prefHeight="384.0" prefWidth="765.0" />
-            <Label fx:id="lblNotifications" layoutX="786.0" layoutY="58.0" text="Notifications" />
             <ListView fx:id="lstViewNotifications" layoutX="786.0" layoutY="86.0" prefHeight="296.0" prefWidth="200.0" />
             <Button fx:id="btnExpandAll" layoutX="296.0" layoutY="53.0" mnemonicParsing="false" onAction="#expandAll" text="Expand all" />
             <Button fx:id="btnWaterAll" layoutX="151.0" layoutY="53.0" mnemonicParsing="false" onAction="#waterAll" text="Water all plants" />
             <Button fx:id="btnCollapseAll" layoutX="408.0" layoutY="53.0" mnemonicParsing="false" onAction="#collapseAll" text="Collapse all" />
             <ListView layoutX="786.0" layoutY="388.0" prefHeight="82.0" prefWidth="200.0" />
             <ImageView fitHeight="63.0" fitWidth="108.0" layoutX="37.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fitHeight="104.0" fitWidth="115.0" layoutX="14.0" layoutY="16.0">
+            <ImageView fitHeight="121.0" fitWidth="137.0" layoutX="8.0" layoutY="14.0">
                <image>
                   <Image url="@../../../../Blommor/yourplants.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="141.0" fitWidth="156.0" layoutX="786.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Blommor/notifications.png" />
                </image>
             </ImageView>
         </children>
