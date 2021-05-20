@@ -31,7 +31,8 @@ import java.util.ArrayList;
  */
 
 public class SearchTabPaneController {
-
+    @FXML
+    public ListView lstFunFacts;
     @FXML
     private MainPaneController mainPaneController;
     @FXML
@@ -72,12 +73,11 @@ public class SearchTabPaneController {
 
         FunFacts funFacts = new FunFacts();
         if(factsActivated) {
-            lblFunFactText.setText(funFacts.getRandomFact());
             lblFunFactTitle.setVisible(true);
-            lblFunFactText.setVisible(true);
+            lstFunFacts.setItems(funFacts.getRandomFact());
         } else {
             lblFunFactTitle.setVisible(false);
-            lblFunFactText.setVisible(false);
+            lstFunFacts.setItems(null);
         }
     }
 
@@ -89,7 +89,6 @@ public class SearchTabPaneController {
         if (answer == 1) {
             plantNickname = MessageBox.askForStringInput("Add a nickname", "Nickname:");
         }
-        PopupBox.display(MessageText.sucessfullyAddPlant.toString());
         mainPaneController.getMyPlantsTabPaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
     }
 

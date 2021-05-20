@@ -35,6 +35,9 @@ import java.util.ArrayList;
  */
 public class MyPlantsTabPaneController {
 
+    @FXML
+    public Label lblNotifications;
+
     private ArrayList<Plant> currentUserLibrary;
 
     @FXML
@@ -129,7 +132,7 @@ public class MyPlantsTabPaneController {
     }
 
     public void showNotifications() {
-        ObservableList<String> notificationStrings = NotificationsCreator.getNotificationsStrings(currentUserLibrary);
+        ObservableList<String> notificationStrings = NotificationsCreator.getNotificationsStrings(currentUserLibrary, lblNotifications);
         Platform.runLater(() -> lstViewNotifications.setItems(notificationStrings));
     }
 
@@ -182,7 +185,6 @@ public class MyPlantsTabPaneController {
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
         String imageURL = PictureRandomizer.getRandomPictureURL();
-        //todo add random picture here so that it gets saved to the database
         Plant plantToAdd = new Plant(uniqueNickName, selectedPlant.getPlantId(), date, imageURL);
         PopupBox.display(MessageText.sucessfullyAddPlant.toString());
         addPlantToDB(plantToAdd);
