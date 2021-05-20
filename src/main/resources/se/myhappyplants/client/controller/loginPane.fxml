@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@Stylesheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.LoginPaneController">
                <top>
@@ -23,25 +24,37 @@
                <center>
                   <Pane prefHeight="442.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="272.0" layoutX="261.0" layoutY="154.0" stroke="BLACK" strokeType="INSIDE" width="478.0" />
-                        <Label fx:id="loginSmallHeading" layoutX="455.0" layoutY="165.0" prefHeight="43.0" prefWidth="90.0" text="Log in" />
-                        <TextField fx:id="txtFldEmail" layoutX="332.0" layoutY="221.0" prefHeight="39.0" prefWidth="336.0" promptText="Email" />
-                        <PasswordField fx:id="passFldPassword" layoutX="332.0" layoutY="281.0" prefHeight="39.0" prefWidth="336.0" promptText="Password" />
-                        <Button fx:id="test" defaultButton="true" layoutX="453.0" layoutY="337.0" mnemonicParsing="false" onAction="#loginButtonPressed" prefHeight="36.0" prefWidth="94.0" styleClass="defaultButton" text="Log in" />
-                        <Hyperlink fx:id="registerLink" layoutX="399.0" layoutY="385.0" onAction="#swapToRegister" text="No account? Register here!" />
-                        <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="634.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true">
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="272.0" layoutX="259.0" layoutY="177.0" stroke="BLACK" strokeType="INSIDE" width="478.0" />
+                        <TextField fx:id="txtFldEmail" layoutX="330.0" layoutY="244.0" prefHeight="39.0" prefWidth="336.0" promptText="Email" />
+                        <PasswordField fx:id="passFldPassword" layoutX="330.0" layoutY="304.0" prefHeight="39.0" prefWidth="336.0" promptText="Password" />
+                        <Button fx:id="test" defaultButton="true" layoutX="451.0" layoutY="360.0" mnemonicParsing="false" onAction="#loginButtonPressed" prefHeight="36.0" prefWidth="94.0" styleClass="defaultButton" text="Log in" />
+                        <Hyperlink fx:id="registerLink" layoutX="401.0" layoutY="408.0" onAction="#swapToRegister" text="No account? Register here!">
+               <font>
+                  <Font name="Silom" size="13.0" />
+               </font></Hyperlink>
+                        <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="632.0" layoutY="121.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../Blommor/blomma15.1.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="246.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="229.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../Blommor/blomma13.1.png" />
                            </image>
                         </ImageView>
-            <ImageView fx:id="logo" disable="true" fitHeight="276.0" fitWidth="296.0" layoutX="350.0" layoutY="-40.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="277.0" fitWidth="246.0" layoutX="392.0" layoutY="-36.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Blommor/logo.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="130.0" fitWidth="116.0" layoutX="442.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Blommor/login.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="105.0" fitWidth="109.0" layoutX="287.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Blommor/logopic.png" />
                </image>
             </ImageView>
                      </children>
