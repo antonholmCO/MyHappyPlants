@@ -1,5 +1,7 @@
 package se.myhappyplants.client.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
 
 import java.io.BufferedReader;
@@ -14,7 +16,7 @@ public class FunFacts {
 
     public FunFacts() {
         factsArray = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/facts.txt"));) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/facts.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 factsArray.add(line);
@@ -25,10 +27,15 @@ public class FunFacts {
 
     }
 
-    public String getRandomFact() {
+    public ObservableList<Label> getRandomFact() {
         Random random = new Random();
         int randomIndex = random.nextInt(factsArray.size());
-        return factsArray.get(randomIndex);
+        ObservableList<Label> funFactsList = FXCollections.observableArrayList();
+        Label lblFunFactText = new Label();
+        lblFunFactText.setMaxWidth(195);
+        lblFunFactText.setWrapText(true);
+        lblFunFactText.setText(factsArray.get(randomIndex));
+        funFactsList.add(lblFunFactText);
+        return funFactsList;
     }
-
 }

@@ -34,12 +34,12 @@ public class PopupBox extends Popup {
         window = new Stage();
         window.initModality(Modality.NONE);
         window.initStyle(StageStyle.TRANSPARENT);
-        window.setMinWidth(150);
-        window.setMinHeight(30);
+        window.setMinWidth(190);
+        window.setMinHeight(70);
 
         Stage mainStage = StartClient.getStage();
-        double x = mainStage.getX() + mainStage.getWidth() - 200;
-        double y = mainStage.getY() + mainStage.getHeight() - 70;
+        double x = mainStage.getX() + mainStage.getWidth() - 222;
+        double y = mainStage.getY() + mainStage.getHeight() - 100;
         window.setX(x);
         window.setY(y);
 

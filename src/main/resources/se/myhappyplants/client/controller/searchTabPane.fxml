@@ -14,6 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import se.myhappyplants.client.view.AutocompleteSearchField?>
 
+<?import javafx.scene.shape.Rectangle?>
 <BorderPane fx:id="plantsPane" prefHeight="570.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SearchTabPaneController">
     <top>
         <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
@@ -38,9 +39,10 @@
                 <ListView fx:id="listViewResult" accessibleRole="IMAGE_VIEW" fixedCellSize="-2.0" layoutX="14.0" layoutY="86.0" minHeight="50.0" prefHeight="414.0" prefWidth="765.0" />
                 <Label layoutX="14.0" layoutY="57.0" text="Your results:" />
                 <Label fx:id="lblFunFactTitle" layoutX="786.0" layoutY="64.0" text="Fun fact:" />
-                <Label fx:id="lblFunFactText" wrapText="true" layoutX="786.0" layoutY="77.0" prefHeight="150.0" prefWidth="200.0"/>
+                <ListView fx:id="lstFunFacts" layoutX="786.0" layoutY="86.0" prefHeight="326.0" prefWidth="200.0" />
                 <Label layoutX="522.0" layoutY="57.0" text="Sort by: " />
                 <ComboBox fx:id="cmbSortOption" layoutX="591.0" layoutY="50.0" onAction="#sortResults" prefHeight="30.0" prefWidth="186.0" promptText="  Common name" />
+                <ListView layoutX="786.0" layoutY="418.0" prefHeight="82.0" prefWidth="200.0" />
             </children>
         </Pane>
     </center>
