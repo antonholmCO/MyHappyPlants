@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * Class that opens a connection to the server, to send request and receive response objects.
@@ -15,13 +16,24 @@ import java.net.Socket;
  */
 public class ClientConnection {
 
-    private String ipAddress;
-    private int port;
+    private String ipAddress = "localhost";
+    private int port = 2555;
     private Socket socket;
+    private  ObjectOutputStream oos;
+    private ObjectInputStream ois;
 
     public ClientConnection() {
-        ipAddress = "localhost";
-        port = 2555;
+        try {
+            socket = new Socket(ipAddress, port);
+            oos = new ObjectOutputStream(socket.getOutputStream());
+            ois = new ObjectInputStream(socket.getInputStream());
+        }
+        catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -34,9 +46,6 @@ public class ClientConnection {
 
         Message response = null;
         try {
-            socket = new Socket(ipAddress, port);
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             oos.writeObject(request);
             oos.flush();
             response = (Message) ois.readObject();
