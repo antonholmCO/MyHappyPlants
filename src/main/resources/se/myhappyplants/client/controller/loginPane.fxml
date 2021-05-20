@@ -42,17 +42,17 @@
                               <Image url="@../../../../Blommor/blomma13.1.png" />
                            </image>
                         </ImageView>
-            <ImageView fitHeight="212.0" fitWidth="214.0" layoutX="382.0" layoutY="-35.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="212.0" fitWidth="214.0" layoutX="392.0" layoutY="-35.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Blommor/logo.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="130.0" fitWidth="116.0" layoutX="442.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="130.0" fitWidth="116.0" layoutX="430.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Blommor/login.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="105.0" fitWidth="109.0" layoutX="287.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="105.0" fitWidth="109.0" layoutX="293.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Blommor/logopic.png" />
                </image>
