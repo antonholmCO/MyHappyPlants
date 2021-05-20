@@ -50,7 +50,7 @@ public class RegisterPaneController {
                 if (!verifiedRegistration) {
                     return;
                 }
-                Message registerRequest = new Message(MessageType.register, new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
+                Message registerRequest = new Message(MessageType.register, new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText()));
                 ClientConnection connection = new ClientConnection();
                 Message registerResponse = connection.makeRequest(registerRequest);
 

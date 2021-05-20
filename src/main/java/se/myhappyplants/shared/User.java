@@ -1,6 +1,7 @@
 package se.myhappyplants.shared;
 
-import java.io.*;
+import java.io.File;
+import java.io.Serializable;
 
 /**
  * Created by: Linn Borgström
@@ -13,86 +14,48 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String avatarURL;
-    private boolean isNotificationsActivated = true;
+    private boolean notificationsActivated = true;
     private boolean funFactsActivated = true;
-
-    /**
-     * Constructor used when registering a new user account
-     *
-     * @param email
-     * @param username
-     * @param password
-     * @param isNotificationsActivated
-     */
-    public User(String email, String username, String password, boolean isNotificationsActivated) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.isNotificationsActivated = isNotificationsActivated;
-    }
-
-    /**
-     * Constructor for login responses from database
-     *
-     * @param email
-     * @param username
-     * @param isNotificationsActivated
-     */
-    /*public User(String email, String username, boolean isNotificationsActivated) {
-        this.email = email;
-        this.username = username;
-        this.isNotificationsActivated = isNotificationsActivated;
-        SetAvatar.setAvatarOnLogin(email, avatarURL);
-    }*/
-
-    /**
-     * Simple constructor for when login/registration requests fail
-     *
-     * @param username
-     */
-    /*public User(String username) {
-        this.username = username;
-    }*/
 
     /**
      * Simple constructor for login requests
      *
-     * @param email
-     * @param password
+     * @param email    Email address
+     * @param password Password
      */
     public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public User(int uniqueID, String email, String username, boolean notificationsActivated) {
-        this.uniqueId = uniqueID;
+    /**
+     * Constructor used when registering a new user account
+     *
+     * @param email    Email address
+     * @param username Username
+     * @param password Password
+     */
+    public User(String email, String username, String password) {
         this.email = email;
         this.username = username;
-        this.isNotificationsActivated = notificationsActivated;
-
+        this.password = password;
     }
 
-    public User(int uniqueId, String email, String username, boolean isNotificationsActivated, boolean funFactsActivated) {
-
+    /**
+     * Constructor used to return a users details from the database
+     *
+     * @param uniqueId               A user's unique id in the database
+     * @param email                  Email address
+     * @param username               Username
+     * @param notificationsActivated True if notifications wanted
+     * @param funFactsActivated      True if fun facts wanted
+     */
+    public User(int uniqueId, String email, String username, boolean notificationsActivated, boolean funFactsActivated) {
         this.uniqueId = uniqueId;
         this.email = email;
         this.username = username;
-        this.isNotificationsActivated = isNotificationsActivated;
+        this.notificationsActivated = notificationsActivated;
         this.funFactsActivated = funFactsActivated;
-    }
-
-    //TODO: Fråga gruppen om hur de vill göra med logiken med denna.
-    // Nu anropas den från SettingsTabController rad 42, MyPlantTabController rad 52, SearchTabController rad 53
-
-    private void setAvatarOnLogin(String email) {
-        try (BufferedReader br = new BufferedReader(new FileReader("resources/images/user_avatars/" + email + "_avatar.txt"))) {
-            String readtxt = br.readLine();
-            this.avatarURL = new File(readtxt).toURI().toString();
-        }
-        catch (IOException e) {
-            this.avatarURL = new File("resources/images/user_default_img.png").toURI().toString();
-        }
     }
 
     public int getUniqueId() {
@@ -103,11 +66,6 @@ public class User implements Serializable {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-
     public String getEmail() {
         return email;
     }
@@ -116,24 +74,20 @@ public class User implements Serializable {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean areNotificationsActivated() {
-        return isNotificationsActivated;
-    }
-
-    public void setIsNotificationsActivated(boolean notificationsActivated) {
-        this.isNotificationsActivated = notificationsActivated;
-    }
-
     public String getAvatarURL() {
         return avatarURL;
     }
 
     public void setAvatar(String pathToImg) {
         this.avatarURL = new File(pathToImg).toURI().toString();
+    }
+
+    public boolean areNotificationsActivated() {
+        return notificationsActivated;
+    }
+
+    public void setNotificationsActivated(boolean notificationsActivated) {
+        this.notificationsActivated = notificationsActivated;
     }
 
     public boolean areFunFactsActivated() {

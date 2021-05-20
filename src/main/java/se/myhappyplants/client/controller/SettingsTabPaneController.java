@@ -66,7 +66,7 @@ public class SettingsTabPaneController {
             Message notificationResponse = connection.makeRequest(notificationRequest);
             if (notificationResponse != null) {
                 if (notificationResponse.isSuccess()) {
-                    LoggedInUser.getInstance().getUser().setIsNotificationsActivated(tglBtnChangeNotification.isSelected());
+                    LoggedInUser.getInstance().getUser().setNotificationsActivated(tglBtnChangeNotification.isSelected());
                     tglBtnChangeNotification.setDisable(true);
                     Platform.runLater(() -> PopupBox.display("Notification settings\n changed", tglBtnChangeNotification));
                 } else {

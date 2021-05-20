@@ -28,10 +28,7 @@
                         <TextField fx:id="txtFldEmail" layoutX="330.0" layoutY="244.0" prefHeight="39.0" prefWidth="336.0" promptText="Email" />
                         <PasswordField fx:id="passFldPassword" layoutX="330.0" layoutY="304.0" prefHeight="39.0" prefWidth="336.0" promptText="Password" />
                         <Button fx:id="test" defaultButton="true" layoutX="451.0" layoutY="360.0" mnemonicParsing="false" onAction="#loginButtonPressed" prefHeight="36.0" prefWidth="94.0" styleClass="defaultButton" text="Log in" />
-                        <Hyperlink fx:id="registerLink" layoutX="401.0" layoutY="408.0" onAction="#swapToRegister" text="No account? Register here!">
-               <font>
-                  <Font name="Silom" size="13.0" />
-               </font></Hyperlink>
+                        <Hyperlink fx:id="registerLink" layoutX="401.0" layoutY="408.0" onAction="#swapToRegister" text="No account? Register here!"></Hyperlink>
                         <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="632.0" layoutY="121.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../Blommor/blomma15.1.png" />

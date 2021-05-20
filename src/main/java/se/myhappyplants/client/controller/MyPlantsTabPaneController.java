@@ -220,7 +220,7 @@ public class MyPlantsTabPaneController {
     public void changeLastWateredInDB(Plant plant, LocalDate date) {
         Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
         Message response = new ClientConnection().makeRequest(changeLastWatered);
-        PopupBox.display(MessageText.sucessfullyChangedDate.toString());
+        Platform.runLater(() -> PopupBox.display(MessageText.sucessfullyChangedDate.toString()));
         if (!response.isSuccess()) {
             MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
         }
@@ -236,7 +236,7 @@ public class MyPlantsTabPaneController {
     public boolean changeNicknameInDB(Plant plant, String newNickname) {
         Message changeNicknameInDB = new Message(MessageType.changeNickname, LoggedInUser.getInstance().getUser(), plant, newNickname);
         Message response = new ClientConnection().makeRequest(changeNicknameInDB);
-        PopupBox.display(MessageText.sucessfullyChangedPlant.toString());
+        Platform.runLater(() -> PopupBox.display(MessageText.sucessfullyChangedPlant.toString()));
         if (!response.isSuccess()) {
             MessageBox.display(BoxTitle.Failed, "It was not possible to change nickname for you plant. Try again.");
             return false;

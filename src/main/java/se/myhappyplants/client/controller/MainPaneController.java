@@ -1,7 +1,6 @@
 package se.myhappyplants.client.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.RootName;
@@ -12,19 +11,16 @@ import java.io.IOException;
 
 /**
  * Controls the inputs from a 'logged in' user and is the mainPane for the GUI
- *
  * Created by: Christopher O'Driscoll, Eric Simonsson
  * Updated by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
  */
 public class MainPaneController {
-    @FXML
-    public TabPane mainPane;
-    @FXML
-    private MyPlantsTabPaneController myPlantsTabPaneController;
-    @FXML
-    private SearchTabPaneController searchTabPaneController;
-    @FXML
-    private SettingsTabPaneController settingsTabPaneController;
+
+    @FXML public TabPane mainPane;
+
+    @FXML private MyPlantsTabPaneController myPlantsTabPaneController;
+    @FXML private SearchTabPaneController searchTabPaneController;
+    @FXML private SettingsTabPaneController settingsTabPaneController;
 
     /**
      * Constructor that has access to FXML variables
