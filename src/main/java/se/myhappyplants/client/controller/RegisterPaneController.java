@@ -17,8 +17,6 @@ import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.User;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
 /**
@@ -51,7 +49,7 @@ public class RegisterPaneController {
                     return;
                 }
                 Message registerRequest = new Message(MessageType.register, new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
-                ClientConnection connection = new ClientConnection();
+                ClientConnection connection = ClientConnection.getClientConnection();
                 Message registerResponse = connection.makeRequest(registerRequest);
 
                 if (registerResponse != null) {

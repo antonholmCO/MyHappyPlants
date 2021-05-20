@@ -141,7 +141,7 @@ public class MyPlantsTabPaneController {
     public void createCurrentUserLibraryFromDB() {
         Thread getLibraryThread = new Thread(() -> {
             Message getLibrary = new Message(MessageType.getLibrary, LoggedInUser.getInstance().getUser());
-            ClientConnection connection = new ClientConnection();
+            ClientConnection connection = ClientConnection.getClientConnection();
             Message response = connection.makeRequest(getLibrary);
 
             if (response.isSuccess()) {
@@ -162,7 +162,7 @@ public class MyPlantsTabPaneController {
             currentUserLibrary.remove(plant);
             addCurrentUserLibraryToHomeScreen();
             Message deletePlant = new Message(MessageType.deletePlant, LoggedInUser.getInstance().getUser(), plant);
-            ClientConnection connection = new ClientConnection();
+            ClientConnection connection = ClientConnection.getClientConnection();
             Message response = connection.makeRequest(deletePlant);
 
             if (!response.isSuccess()) {
@@ -197,7 +197,7 @@ public class MyPlantsTabPaneController {
             currentUserLibrary.add(plant);
             addCurrentUserLibraryToHomeScreen();
             Message savePlant = new Message(MessageType.savePlant, LoggedInUser.getInstance().getUser(), plant);
-            ClientConnection connection = new ClientConnection();
+            ClientConnection connection = ClientConnection.getClientConnection();
             Message response = connection.makeRequest(savePlant);
             if (!response.isSuccess()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
@@ -220,7 +220,8 @@ public class MyPlantsTabPaneController {
      */
     public void changeLastWateredInDB(Plant plant, LocalDate date) {
         Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
-        Message response = new ClientConnection().makeRequest(changeLastWatered);
+        ClientConnection connection = ClientConnection.getClientConnection();
+        Message response = connection.makeRequest(changeLastWatered);
         PopupBox.display(MessageText.sucessfullyChangedDate.toString());
         if (!response.isSuccess()) {
             MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
@@ -236,7 +237,8 @@ public class MyPlantsTabPaneController {
      */
     public boolean changeNicknameInDB(Plant plant, String newNickname) {
         Message changeNicknameInDB = new Message(MessageType.changeNickname, LoggedInUser.getInstance().getUser(), plant, newNickname);
-        Message response = new ClientConnection().makeRequest(changeNicknameInDB);
+        ClientConnection connection = ClientConnection.getClientConnection();
+        Message response = connection.makeRequest(changeNicknameInDB);
         PopupBox.display(MessageText.sucessfullyChangedPlant.toString());
         if (!response.isSuccess()) {
             MessageBox.display(BoxTitle.Failed, "It was not possible to change nickname for you plant. Try again.");
@@ -266,7 +268,8 @@ public class MyPlantsTabPaneController {
     public PlantDetails getPlantDetails(Plant plant) {
         PlantDetails plantDetails = null;
         Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
-        Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
+        ClientConnection connection = ClientConnection.getClientConnection();
+        Message response = connection.makeRequest(getInfoSearchedPlant);
         if (response != null) {
             plantDetails = response.getPlantDetails();
         }
@@ -308,7 +311,8 @@ public class MyPlantsTabPaneController {
     private void changeAllToWateredInDB() {
         Thread waterAllThread = new Thread(() -> {
             Message changeAllToWatered = new Message(MessageType.changeAllToWatered, LoggedInUser.getInstance().getUser());
-            Message response = new ClientConnection().makeRequest(changeAllToWatered);
+            ClientConnection connection = ClientConnection.getClientConnection();
+            Message response = connection.makeRequest(changeAllToWatered);
             if (!response.isSuccess()) {
                 MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
             }

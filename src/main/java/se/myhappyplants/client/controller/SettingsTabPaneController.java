@@ -62,7 +62,7 @@ public class SettingsTabPaneController {
     public void changeNotificationsSetting() {
         Thread changeNotificationsThread = new Thread(() -> {
             Message notificationRequest = new Message(MessageType.changeNotifications, tglBtnChangeNotification.isSelected(), LoggedInUser.getInstance().getUser());
-            ClientConnection connection = new ClientConnection();
+            ClientConnection connection = ClientConnection.getClientConnection();
             Message notificationResponse = connection.makeRequest(notificationRequest);
             if (notificationResponse != null) {
                 if (notificationResponse.isSuccess()) {
@@ -86,7 +86,7 @@ public class SettingsTabPaneController {
     public void changeFunFactsSetting() {
         Thread changeFunFactsThread = new Thread(() -> {
             Message changeFunFactsRequest = new Message(MessageType.changeFunFacts, tglBtnChangeFunFacts.isSelected(), LoggedInUser.getInstance().getUser());
-            ClientConnection connection = new ClientConnection();
+            ClientConnection connection = ClientConnection.getClientConnection();
             Message funFactsResponse = connection.makeRequest(changeFunFactsRequest);
             if (funFactsResponse != null) {
                 if (funFactsResponse.isSuccess()) {
@@ -116,7 +116,7 @@ public class SettingsTabPaneController {
         if (answer == 1) {
             Thread deleteAccountThread = new Thread(() -> {
                 Message deleteMessage = new Message(MessageType.deleteAccount, new User(LoggedInUser.getInstance().getUser().getEmail(), passFldDeleteAccount.getText()));
-                ClientConnection connection = new ClientConnection();
+                ClientConnection connection = ClientConnection.getClientConnection();
                 Message deleteResponse = connection.makeRequest(deleteMessage);
                 if (deleteResponse != null) {
                     if (deleteResponse.isSuccess()) {

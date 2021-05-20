@@ -140,7 +140,7 @@ public class SearchTabPaneController {
         PopupBox.display(MessageText.holdOnGettingInfo.toString());
         Thread searchThread = new Thread(() -> {
             Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
-            ClientConnection connection = new ClientConnection();
+            ClientConnection connection = ClientConnection.getClientConnection();
             Message apiResponse = connection.makeRequest(apiRequest);
 
             if (apiResponse != null) {
@@ -167,7 +167,8 @@ public class SearchTabPaneController {
         PopupBox.display(MessageText.holdOnGettingInfo.toString());
         PlantDetails plantDetails = null;
         Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
-        Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
+        ClientConnection connection = ClientConnection.getClientConnection();
+        Message response = connection.makeRequest(getInfoSearchedPlant);
         if (response != null) {
             plantDetails = response.getPlantDetails();
         }

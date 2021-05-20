@@ -16,24 +16,18 @@ import java.net.UnknownHostException;
  */
 public class ClientConnection {
 
+    private static ClientConnection connection;
     private String ipAddress = "localhost";
     private int port = 2555;
-    private Socket socket;
-    private  ObjectOutputStream oos;
-    private ObjectInputStream ois;
 
-    public ClientConnection() {
-        try {
-            socket = new Socket(ipAddress, port);
-            oos = new ObjectOutputStream(socket.getOutputStream());
-            ois = new ObjectInputStream(socket.getInputStream());
+    public static ClientConnection getClientConnection() {
+        if(connection==null) {
+            connection = new ClientConnection();
         }
-        catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        return connection;
+    }
+
+    private ClientConnection() {
     }
 
     /**
@@ -43,25 +37,17 @@ public class ClientConnection {
      * @return instance of Message class with a certain response
      */
     public Message makeRequest(Message request) {
-
         Message response = null;
         try {
+            Socket socket = new Socket(ipAddress, port);
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             oos.writeObject(request);
             oos.flush();
             response = (Message) ois.readObject();
         }
         catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-        }
-        finally {
-            if (socket != null) {
-                try {
-                    socket.close();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return response;
     }

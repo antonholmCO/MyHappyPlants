@@ -77,7 +77,7 @@ public class LoginPaneController {
     private void loginButtonPressed() {
         Thread loginThread = new Thread(() -> {
             Message loginMessage = new Message(MessageType.login, new User(txtFldEmail.getText(), passFldPassword.getText()));
-            ClientConnection connection = new ClientConnection();
+            ClientConnection connection = ClientConnection.getClientConnection();
             Message loginResponse = connection.makeRequest(loginMessage);
 
             if (loginResponse != null) {

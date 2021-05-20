@@ -5,6 +5,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.RootName;
+import se.myhappyplants.client.service.ClientConnection;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
