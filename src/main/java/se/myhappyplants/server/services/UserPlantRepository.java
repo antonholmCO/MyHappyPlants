@@ -12,12 +12,12 @@ import java.util.ArrayList;
 /**
  * Class responsible for calling the database about a users library.
  * Created by: Linn Borgström
- * Updated by: Christopher O'Driscoll
+ * Updated by: Frida Jacobsson 2021-05-21
  */
 public class UserPlantRepository {
 
     private PlantRepository plantRepository;
-    private IDatabase database;
+    private IQueryExecutor database;
 
     /**
      * Constructor that creates a connection to the database.
@@ -25,7 +25,7 @@ public class UserPlantRepository {
      * @throws SQLException
      * @throws UnknownHostException
      */
-    public UserPlantRepository(PlantRepository plantRepository, IDatabase database) throws UnknownHostException, SQLException {
+    public UserPlantRepository(PlantRepository plantRepository, IQueryExecutor database) throws UnknownHostException, SQLException {
         this.plantRepository = plantRepository;
         this.database = database;
 

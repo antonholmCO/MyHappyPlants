@@ -6,6 +6,10 @@ import java.net.UnknownHostException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Class for handling connection with a specific database
+ * Created by: Frida Jacobsson 2021-05-21
+ */
 public class DatabaseConnection implements IDatabaseConnection {
 
     private java.sql.Connection conn;

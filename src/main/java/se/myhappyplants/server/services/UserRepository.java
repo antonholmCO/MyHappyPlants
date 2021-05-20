@@ -8,14 +8,14 @@ import java.sql.*;
 
 /**
  * Class responsible for calling the database about users.
- * Created by: Frida Jacobsson
- * Updated by: Christopher O'Driscoll
+ * Created by: Frida Jacobsson 2021-03-30
+ * Updated by: Frida Jacobsson 2021-05-21
  */
 public class UserRepository {
 
-    private IDatabase database;
+    private IQueryExecutor database;
 
-    public UserRepository(IDatabase database) throws UnknownHostException, SQLException {
+    public UserRepository(IQueryExecutor database) throws UnknownHostException, SQLException {
        this.database = database;
     }
 

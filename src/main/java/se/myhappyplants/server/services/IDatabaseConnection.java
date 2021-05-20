@@ -3,7 +3,7 @@ package se.myhappyplants.server.services;
 import java.sql.Connection;
 
 /**
- * Interface for all classes handling Connection
+ * Interface for defining methods needed in a DatabaseConnection class
  * Created by: Frida Jacobsson 2021-05-21
  */
 public interface IDatabaseConnection {

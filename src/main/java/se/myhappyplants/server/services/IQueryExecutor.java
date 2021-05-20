@@ -4,7 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public interface IDatabase {
+/**
+ * Interface for defining query executor methods
+ * Created by: Frida Jacobsson 2021-05-19
+ */
+public interface IQueryExecutor {
 
     void executeUpdate(String query) throws SQLException;
 
