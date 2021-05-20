@@ -42,7 +42,7 @@
                               <Image url="@../../../../Blommor/blomma13.1.png" />
                            </image>
                         </ImageView>
-            <ImageView fitHeight="277.0" fitWidth="246.0" layoutX="392.0" layoutY="-36.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="212.0" fitWidth="214.0" layoutX="382.0" layoutY="-35.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Blommor/logo.png" />
                </image>
