@@ -53,7 +53,7 @@ public class SearchTabPaneController {
     @FXML
     public ImageView imgFunFactTitle;
     @FXML
-    public Label lblNbrOfResults;
+    public TextField txtNbrOfResults;
 
     private ArrayList<Plant> searchResults;
 
@@ -151,14 +151,14 @@ public class SearchTabPaneController {
                 if (apiResponse.isSuccess()) {
                     searchResults = apiResponse.getPlantArray();
                     if (searchResults.size() == 0) {
-                        Platform.runLater(() -> lblNbrOfResults.setText("Number of results: " + 0));
+                        Platform.runLater(() -> txtNbrOfResults.setText("Number of results: " + 0));
                         System.out.println("heere!");
                         btnSearch.setDisable(false);
                         return;
                     }
                     String nbrOfResults = String.valueOf(searchResults.size());
                     System.out.println(nbrOfResults);
-                    Platform.runLater(() -> lblNbrOfResults.setText("Number of results: " + nbrOfResults));
+                    Platform.runLater(() -> txtNbrOfResults.setText("Number of results: " + nbrOfResults));
                     Platform.runLater(() -> showResultsOnPane());
                 }
             }

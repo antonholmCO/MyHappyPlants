@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,6 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
 <?import se.myhappyplants.client.view.AutocompleteSearchField?>
+
 
 <BorderPane fx:id="plantsPane" prefHeight="570.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SearchTabPaneController">
     <top>
@@ -34,9 +36,8 @@
             </children>
         </AnchorPane>
     </top>
-   <left>
-        <Pane>
-            <Label fx:id="lblNbrOfResults" focusTraversable="true" prefHeight="509.0" prefWidth="1000.0" BorderPane.alignment="CENTER"/>
+    <left>
+        <Pane prefHeight="509.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
             <children>
                 <AutocompleteSearchField fx:id="txtFldSearchText" layoutX="14.0" layoutY="10.0" onAction="#searchButtonPressed" prefHeight="23.0" prefWidth="441.0" promptText="Search...">
 
@@ -51,18 +52,18 @@
                 <Label layoutX="522.0" layoutY="57.0" text="Sort by: " />
                 <ComboBox fx:id="cmbSortOption" layoutX="591.0" layoutY="50.0" onAction="#sortResults" prefHeight="30.0" prefWidth="186.0" promptText="  Common name" />
                 <ListView layoutX="786.0" layoutY="388.0" prefHeight="82.0" prefWidth="200.0" />
-            <ImageView fitHeight="96.0" fitWidth="114.0" layoutX="14.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../Blommor/results.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="imgFunFactTitle" fitHeight="108.0" fitWidth="134.0" layoutX="786.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../Blommor/funfacts.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="315.0" layoutY="66.0" text="Number of results:" />
+                <ImageView fitHeight="96.0" fitWidth="114.0" layoutX="14.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../../Blommor/results.png" />
+                    </image>
+                </ImageView>
+                <ImageView fx:id="imgFunFactTitle" fitHeight="108.0" fitWidth="134.0" layoutX="786.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../../Blommor/funfacts.png" />
+                    </image>
+                </ImageView>
+            <TextField fx:id="txtNbrOfResults" layoutX="191.0" layoutY="62.0" promptText="Number of results:" />
             </children>
         </Pane>
-   </left>
+    </left>
 </BorderPane>
