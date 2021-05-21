@@ -50,12 +50,7 @@
                   <Image url="@../../../../Blommor/blomma11.1.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="126.0" fitWidth="157.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../Blommor/vattenproppe2.png" />
-               </image>
-            </ImageView>
-                <PasswordField fx:id="passFldDeleteAccount" layoutX="118.0" layoutY="308.0" prefHeight="25.0" prefWidth="276.0" promptText="enter password here to delete account" />
+                <PasswordField fx:id="passFldDeleteAccount" layoutX="118.0" layoutY="308.0" prefHeight="25.0" prefWidth="309.0" promptText="enter password here to delete account" />
             </children>
         </AnchorPane>
     </center>
