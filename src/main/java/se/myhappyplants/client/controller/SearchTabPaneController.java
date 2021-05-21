@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -40,7 +39,7 @@ public class SearchTabPaneController {
     @FXML
     private Circle imgUserPicture;
     @FXML
-    private Label lblUsernamePlants;
+    private Label lblUsername;
     @FXML
     private Button btnSearch;
     @FXML
@@ -62,7 +61,7 @@ public class SearchTabPaneController {
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
-        lblUsernamePlants.setText(loggedInUser.getUser().getUsername());
+        lblUsername.setText(loggedInUser.getUser().getUsername());
         imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
         cmbSortOption.setItems(ListSorter.sortOptionsSearch());
         showFunFact(LoggedInUser.getInstance().getUser().areFunFactsActivated());

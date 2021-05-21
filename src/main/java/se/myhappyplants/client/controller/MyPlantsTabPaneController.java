@@ -45,7 +45,7 @@ public class MyPlantsTabPaneController {
     private MainPaneController mainPaneController;
 
     @FXML
-    private Label lblUsernameMyPlants;
+    private Label lblUsername;
 
     @FXML
     private Circle imgUserPicture;
@@ -75,7 +75,7 @@ public class MyPlantsTabPaneController {
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
-        lblUsernameMyPlants.setText(loggedInUser.getUser().getUsername());
+        lblUsername.setText(loggedInUser.getUser().getUsername());
         imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
         //MainPaneController.makeAvatarRound(imgUserPicture);
         cmbSortOption.setItems(ListSorter.sortOptionsLibrary());

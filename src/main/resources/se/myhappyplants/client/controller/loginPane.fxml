@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@Stylesheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.LoginPaneController">
                <top>
@@ -27,8 +26,8 @@
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="272.0" layoutX="259.0" layoutY="177.0" stroke="BLACK" strokeType="INSIDE" width="478.0" />
                         <TextField fx:id="txtFldEmail" layoutX="330.0" layoutY="244.0" prefHeight="39.0" prefWidth="336.0" promptText="Email" />
                         <PasswordField fx:id="passFldPassword" layoutX="330.0" layoutY="304.0" prefHeight="39.0" prefWidth="336.0" promptText="Password" />
-                        <Button fx:id="test" defaultButton="true" layoutX="451.0" layoutY="360.0" mnemonicParsing="false" onAction="#loginButtonPressed" prefHeight="36.0" prefWidth="94.0" styleClass="defaultButton" text="Log in" />
-                        <Hyperlink fx:id="registerLink" layoutX="411.0" layoutY="408.0" onAction="#swapToRegister" text="No account? Register here!">
+                        <Button fx:id="test" defaultButton="true" layoutX="441.0" layoutY="358.0" mnemonicParsing="false" onAction="#loginButtonPressed" prefHeight="36.0" prefWidth="94.0" styleClass="defaultButton" text="Log in" />
+                        <Hyperlink fx:id="registerLink" layoutX="387.0" layoutY="407.0" onAction="#swapToRegister" text="No account? Register here!">
                </Hyperlink>
                         <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="632.0" layoutY="121.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -40,19 +39,14 @@
                               <Image url="@../../../../Blommor/blomma13.1.png" />
                            </image>
                         </ImageView>
-            <ImageView fitHeight="173.0" fitWidth="182.0" layoutX="412.0" layoutY="-28.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../Blommor/logo.png" />
-               </image>
-            </ImageView>
             <ImageView fitHeight="130.0" fitWidth="116.0" layoutX="430.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Blommor/login.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="105.0" fitWidth="109.0" layoutX="315.0" layoutY="-28.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="170.0" fitWidth="250.0" layoutX="334.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../Blommor/logopic.png" />
+                  <Image url="@../../../../Blommor/Logotyp.png" />
                </image>
             </ImageView>
                      </children>

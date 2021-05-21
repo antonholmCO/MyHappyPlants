@@ -36,17 +36,17 @@ public class SettingsTabPaneController {
     @FXML
     private MainPaneController mainPaneController;
     @FXML
-    private Circle imgViewUserPicture;
+    private Circle imgUserPicture;
     @FXML
-    private Label lblUserName;
+    private Label lblUsername;
     @FXML
     private PasswordField passFldDeleteAccount;
 
     @FXML
     public void initialize() {
         User loggedInUser = LoggedInUser.getInstance().getUser();
-        lblUserName.setText(loggedInUser.getUsername());
-        imgViewUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getEmail()))));
+        lblUsername.setText(loggedInUser.getUsername());
+        imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getEmail()))));
         tglBtnChangeNotification.setSelected(loggedInUser.areNotificationsActivated());
         ButtonText.setButtonText(tglBtnChangeNotification);
         tglBtnChangeFunFacts.setSelected(loggedInUser.areFunFactsActivated());
@@ -143,7 +143,7 @@ public class SettingsTabPaneController {
     }
 
     public void updateAvatar() {
-        imgViewUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
+        imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 
     /**

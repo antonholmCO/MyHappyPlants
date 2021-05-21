@@ -29,7 +29,9 @@
 }
 .logOutButton {
     -fx-text-fill: #031D44;
-    -fx-background-color: #BE4052;
+    -fx-text: #031D44, textColor;
+    -fx-font-family: 'Eras Medium ITC';
+    -fx-base: #BE4052;
 }
 .defaultButton {
     -fx-text-fill: #031D44;
@@ -68,7 +70,7 @@
 -fx-font-size: 12pt;
 -fx-text: #031D44, textColor;
 -fx-font-family: 'Eras Medium ITC';
--fx-base: #7BC054, BackgroundGreen;
+-fx-base: #7BC477, BackgroundGreen;  /*7BC36E*/
 }
 /* Tar bort blå "focus ring" runt selectade element */
 #lstViewUserPlantLibrary {

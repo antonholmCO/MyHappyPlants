@@ -14,28 +14,23 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane fx:id="settingsPane" prefHeight="454.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SettingsTabPaneController">
+<BorderPane fx:id="settingsPane" prefHeight="575.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SettingsTabPaneController">
     <top>
         <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
-                <Button layoutX="908.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" styleClass="logOutButton" text="Log Out" />
-                <Circle fx:id="imgViewUserPicture" layoutX="30.0" layoutY="30.0" pickOnBounds="true" radius="25" />
-                <Label fx:id="lblUserName" layoutX="74.0" layoutY="18.0" text="Username" />
-                <ImageView fitHeight="92.0" fitWidth="107.0" layoutX="800.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+                <Circle fx:id="imgUserPicture" layoutX="32.0" layoutY="37.0" pickOnBounds="true" radius="25" />
+                <Label fx:id="lblUsername" layoutX="77.0" layoutY="30.0" text="Username" />
+                <Button layoutX="909.0" layoutY="24.0" mnemonicParsing="false" onAction="#logoutButtonPressed" styleClass="logOutButton" text="Log Out" />
+                <ImageView fitHeight="79.0" fitWidth="125.0" layoutX="770.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../../Blommor/logo.png" />
-                    </image>
-                </ImageView>
-                <ImageView fitHeight="63.0" fitWidth="66.0" layoutX="737.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../../Blommor/logopic.png" />
+                        <Image url="@../../../../Blommor/Logotyp.png" />
                     </image>
                 </ImageView>
             </children>
         </AnchorPane>
     </top>
     <center>
-        <AnchorPane prefHeight="347.0" prefWidth="800.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="391.0" prefWidth="800.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
             <children>
                 <Label layoutX="204.0" layoutY="78.0" text="Notifications " />
                 <Label layoutX="204.0" layoutY="140.0" text="Fun facts about plants " />
@@ -45,12 +40,22 @@
                 <Button layoutX="118.0" layoutY="190.0" mnemonicParsing="false" onAction="#selectPicture" prefHeight="25.0" prefWidth="80.0" text="Select" />
                 <Button fx:id="btnDeleteAccount" layoutX="118.0" layoutY="249.0" mnemonicParsing="false" onAction="#deleteAccountButtonPressed" prefHeight="25.0" prefWidth="79.0" text="Delete " textFill="#d31717" />
                 <Label layoutX="206.0" layoutY="253.0" text="Delete account at My Happy Plants" />
-            <ImageView fitHeight="170.0" fitWidth="155.0" layoutX="496.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="308.0" fitWidth="318.0" layoutX="454.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../Blommor/blomma11.1.png" />
+                  <Image url="@../../../../Blommor/blomma_med_piedistal.png" />
                </image>
             </ImageView>
                 <PasswordField fx:id="passFldDeleteAccount" layoutX="118.0" layoutY="308.0" prefHeight="25.0" prefWidth="336.0" promptText="enter password here to delete account" />
+            <ImageView fitHeight="88.0" fitWidth="130.0" layoutX="610.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Blommor/bi.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="69.0" fitWidth="58.0" layoutX="39.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Blommor/biFlipped.png" />
+               </image>
+            </ImageView>
             </children>
         </AnchorPane>
     </center>
@@ -61,7 +66,7 @@
         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
     </right>
    <bottom>
-      <AnchorPane prefHeight="47.0" prefWidth="898.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="61.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="441.0" layoutY="14.0" prefHeight="20.0" prefWidth="118.0" style="-fx-font-style: italic; -fx-font-size: 12px;" text="© My Happy Plants" textAlignment="CENTER">
                <padding>

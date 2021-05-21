@@ -18,17 +18,12 @@
     <top>
         <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="btnLogOut" layoutX="908.0" layoutY="16.0" mnemonicParsing="false" onAction="#logoutButtonPressed" styleClass="logOutButton" text="Log Out" />
-                <Circle fx:id="imgUserPicture" layoutX="30.0" layoutY="30.0" pickOnBounds="true" radius="25" />
-                <Label fx:id="lblUsernamePlants" layoutX="74.0" layoutY="18.0" text="Username" />
-                <ImageView fitHeight="92.0" fitWidth="107.0" layoutX="800.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+                <Circle fx:id="imgUserPicture" layoutX="32.0" layoutY="37.0" pickOnBounds="true" radius="25" />
+                <Label fx:id="lblUsername" layoutX="77.0" layoutY="30.0" text="Username" />
+                <Button layoutX="909.0" layoutY="24.0" mnemonicParsing="false" onAction="#logoutButtonPressed" styleClass="logOutButton" text="Log Out" />
+                <ImageView fitHeight="79.0" fitWidth="125.0" layoutX="770.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../../Blommor/logo.png" />
-                    </image>
-                </ImageView>
-                <ImageView fitHeight="63.0" fitWidth="66.0" layoutX="737.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../../Blommor/logopic.png" />
+                        <Image url="@../../../../Blommor/Logotyp.png" />
                     </image>
                 </ImageView>
             </children>
