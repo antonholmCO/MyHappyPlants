@@ -195,7 +195,6 @@ public class MyPlantsTabPaneController {
     public void addPlantToDB(Plant plant) {
         Thread addPlantThread = new Thread(() -> {
             currentUserLibrary.add(plant);
-            addCurrentUserLibraryToHomeScreen();
             Message savePlant = new Message(MessageType.savePlant, LoggedInUser.getInstance().getUser(), plant);
             ServerConnection connection = ServerConnection.getClientConnection();
             Message response = connection.makeRequest(savePlant);
