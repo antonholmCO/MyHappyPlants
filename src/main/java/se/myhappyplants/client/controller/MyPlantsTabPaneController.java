@@ -201,8 +201,8 @@ public class MyPlantsTabPaneController {
             Message response = connection.makeRequest(savePlant);
             if (!response.isSuccess()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
-                createCurrentUserLibraryFromDB();
             }
+            createCurrentUserLibraryFromDB();
         });
         addPlantThread.start();
     }
