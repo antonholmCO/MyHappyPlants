@@ -3,5 +3,3 @@ cactus
 coconut
 fern
 monstera
-coc
-Monstrera
