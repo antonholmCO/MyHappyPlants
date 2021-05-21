@@ -28,7 +28,7 @@
                         <TextField fx:id="txtFldEmail" layoutX="330.0" layoutY="244.0" prefHeight="39.0" prefWidth="336.0" promptText="Email" />
                         <PasswordField fx:id="passFldPassword" layoutX="330.0" layoutY="304.0" prefHeight="39.0" prefWidth="336.0" promptText="Password" />
                         <Button fx:id="test" defaultButton="true" layoutX="451.0" layoutY="360.0" mnemonicParsing="false" onAction="#loginButtonPressed" prefHeight="36.0" prefWidth="94.0" styleClass="defaultButton" text="Log in" />
-                        <Hyperlink fx:id="registerLink" layoutX="401.0" layoutY="408.0" onAction="#swapToRegister" text="No account? Register here!">
+                        <Hyperlink fx:id="registerLink" layoutX="411.0" layoutY="408.0" onAction="#swapToRegister" text="No account? Register here!">
                <font>
                   <Font name="Silom" size="13.0" />
                </font></Hyperlink>
@@ -42,7 +42,7 @@
                               <Image url="@../../../../Blommor/blomma13.1.png" />
                            </image>
                         </ImageView>
-            <ImageView fitHeight="212.0" fitWidth="214.0" layoutX="392.0" layoutY="-35.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="173.0" fitWidth="182.0" layoutX="412.0" layoutY="-28.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Blommor/logo.png" />
                </image>
@@ -52,7 +52,7 @@
                   <Image url="@../../../../Blommor/login.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="105.0" fitWidth="109.0" layoutX="293.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="105.0" fitWidth="109.0" layoutX="315.0" layoutY="-28.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Blommor/logopic.png" />
                </image>

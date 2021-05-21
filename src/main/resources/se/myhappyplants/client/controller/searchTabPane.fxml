@@ -61,7 +61,7 @@
                         <Image url="@../../../../Blommor/funfacts.png" />
                     </image>
                 </ImageView>
-            <TextField fx:id="txtNbrOfResults" editable="false" style= "-fx-background-color: transparent" layoutX="181.0" layoutY="53.0" pickOnBounds="false" text="Number of results:" />
+            <TextField fx:id="txtNbrOfResults" editable="false" style= "-fx-background-color: transparent" layoutX="181.0" layoutY="53.0" pickOnBounds="false" />
             </children>
         </Pane>
     </left>
