@@ -23,7 +23,7 @@ public class NotificationsCreator {
                 }
             }
             if (plantsThatNeedWater == 0) {
-                notificationStrings.add("All your plants are watered");
+                notificationStrings.add("All your plants are happy!");
             }
         } else {
             imgNotifications.setVisible(false);
