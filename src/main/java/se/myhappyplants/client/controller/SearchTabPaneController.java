@@ -124,12 +124,11 @@ public class SearchTabPaneController {
                             }
                             updateProgress(i++, searchPlantPanes.size());
                         }
-                        Text text = (Text) progressIndicator.lookup(".percentage");
-                        if (text != null && text.getText().equals("Utförd")) {
-                            text.setText("Done");
-                            progressIndicator.setPrefWidth(text.getLayoutBounds().getWidth());
-                        }
-
+                            Text text = (Text) progressIndicator.lookup(".percentage");
+                            if(text.getText().equals("90%") || text.getText().equals("Done")){
+                                text.setText("Done");
+                                progressIndicator.setPrefWidth(text.getLayoutBounds().getWidth());
+                            }
                         return true;
                     }
                 };

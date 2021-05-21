@@ -29,7 +29,7 @@ public class UserRepository {
         boolean success = false;
         String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         String sqlSafeUsername = user.getUsername().replace("'", "''");
-        String query = "INSERT INTO [User] VALUES ('" + sqlSafeUsername + "', " + "'" + user.getEmail() + "', '" + hashedPassword + "'," + 1 + ");";
+        String query = "INSERT INTO [User] VALUES ('" + sqlSafeUsername + "', '" + user.getEmail() + "', '" + hashedPassword + "'," + 1 + "," + 1 + ");";
         try {
             database.executeUpdate(query);
             success = true;
