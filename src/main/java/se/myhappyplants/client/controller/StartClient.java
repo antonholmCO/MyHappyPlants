@@ -28,7 +28,6 @@ public class StartClient extends Application {
         return window;
     }
 
-
     /**
      * Starts the application by opening window. Method handles close on request.
      *

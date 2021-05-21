@@ -1,11 +1,12 @@
 package se.myhappyplants.server.model.ResponseHandlers;
 
-import se.myhappyplants.server.model.ResponseHandler;
+import se.myhappyplants.server.model.IResponseHandler;
 import se.myhappyplants.server.services.UserRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
 
-public class Register implements ResponseHandler {
+public class Register implements IResponseHandler {
+
     private UserRepository userRepository;
 
     public Register(UserRepository userRepository) {

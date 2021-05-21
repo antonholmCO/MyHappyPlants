@@ -1,19 +1,18 @@
 package se.myhappyplants.server.model.ResponseHandlers;
 
-import se.myhappyplants.server.model.ResponseHandler;
+import se.myhappyplants.server.model.IResponseHandler;
 import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
 
-public class DeletePlant implements ResponseHandler {
+public class DeletePlant implements IResponseHandler {
 
     private UserPlantRepository userPlantRepository;
 
     public DeletePlant(UserPlantRepository userPlantRepository) {
         this.userPlantRepository = userPlantRepository;
     }
-
 
     @Override
     public Message getResponse(Message request) {

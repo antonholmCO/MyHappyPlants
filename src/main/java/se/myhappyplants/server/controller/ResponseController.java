@@ -1,15 +1,12 @@
 package se.myhappyplants.server.controller;
 
-import se.myhappyplants.server.model.ResponseHandler;
+import se.myhappyplants.server.model.IResponseHandler;
 import se.myhappyplants.server.model.ResponseContext;
 import se.myhappyplants.server.services.PlantRepository;
 import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.server.services.UserRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
-import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.User;
-import se.myhappyplants.shared.*;
 
 import java.io.IOException;
 
@@ -18,11 +15,11 @@ import java.io.IOException;
  * Updated by: Linn Borgström, 2021-05-13
  */
 
-public class ServerController {
+public class ResponseController {
     private ResponseContext responseContext;
 
 
-    public ServerController(UserRepository userRepository, UserPlantRepository userPlantRepository, PlantRepository plantRepository){
+    public ResponseController(UserRepository userRepository, UserPlantRepository userPlantRepository, PlantRepository plantRepository){
         responseContext = new ResponseContext(userRepository, userPlantRepository, plantRepository);
     }
     /**
@@ -35,7 +32,7 @@ public class ServerController {
         Message response;
         MessageType messageType = request.getMessageType();
 
-        ResponseHandler responseHandler = responseContext.getResponseHandler(messageType);
+        IResponseHandler responseHandler = responseContext.getResponseHandler(messageType);
         response = responseHandler.getResponse(request);
         return response;
     }

@@ -13,15 +13,20 @@ import java.net.Socket;
  * Created by: Christopher O'Driscoll
  * Updated by: Christopher, 2021-04-13
  */
-public class ClientConnection {
+public class ServerConnection {
 
-    private String ipAddress;
-    private int port;
-    private Socket socket;
+    private static ServerConnection connection;
+    private String ipAddress = "localhost";
+    private int port = 2555;
 
-    public ClientConnection() {
-        ipAddress = "localhost";
-        port = 2555;
+    public static ServerConnection getClientConnection() {
+        if(connection==null) {
+            connection = new ServerConnection();
+        }
+        return connection;
+    }
+
+    private ServerConnection() {
     }
 
     /**
@@ -31,10 +36,9 @@ public class ClientConnection {
      * @return instance of Message class with a certain response
      */
     public Message makeRequest(Message request) {
-
         Message response = null;
         try {
-            socket = new Socket(ipAddress, port);
+            Socket socket = new Socket(ipAddress, port);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             oos.writeObject(request);
@@ -43,16 +47,6 @@ public class ClientConnection {
         }
         catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-        }
-        finally {
-            if (socket != null) {
-                try {
-                    socket.close();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return response;
     }

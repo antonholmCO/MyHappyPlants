@@ -4,11 +4,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Database implements IDatabase {
+/**
+ * Class for handling querys to database
+ * Created by: Frida Jacobsson 2021-05-21
+ */
+public class QueryExecutor implements IQueryExecutor {
 
-    private IConnection connection;
+    private IDatabaseConnection connection;
 
-    public Database(IConnection connection) {
+    public QueryExecutor(IDatabaseConnection connection) {
         this.connection = connection;
     }
 

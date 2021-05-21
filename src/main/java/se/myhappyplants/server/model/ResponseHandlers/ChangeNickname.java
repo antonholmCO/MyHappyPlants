@@ -1,18 +1,18 @@
 package se.myhappyplants.server.model.ResponseHandlers;
 
-import se.myhappyplants.server.model.ResponseHandler;
+import se.myhappyplants.server.model.IResponseHandler;
 import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
 
-public class ChangeNickname implements ResponseHandler {
+public class ChangeNickname implements IResponseHandler {
+
     private UserPlantRepository userPlantRepository;
 
     public ChangeNickname(UserPlantRepository userPlantRepository) {
         this.userPlantRepository = userPlantRepository;
     }
-
 
     @Override
     public Message getResponse(Message request) {

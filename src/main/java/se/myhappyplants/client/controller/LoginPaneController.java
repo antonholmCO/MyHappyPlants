@@ -10,7 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.model.RootName;
-import se.myhappyplants.client.service.ClientConnection;
+import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;
@@ -77,7 +77,7 @@ public class LoginPaneController {
     private void loginButtonPressed() {
         Thread loginThread = new Thread(() -> {
             Message loginMessage = new Message(MessageType.login, new User(txtFldEmail.getText(), passFldPassword.getText()));
-            ClientConnection connection = new ClientConnection();
+            ServerConnection connection = ServerConnection.getClientConnection();
             Message loginResponse = connection.makeRequest(loginMessage);
 
             if (loginResponse != null) {
