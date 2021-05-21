@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -152,7 +153,6 @@ public class SearchTabPaneController {
                     searchResults = apiResponse.getPlantArray();
                     if (searchResults.size() == 0) {
                         Platform.runLater(() -> txtNbrOfResults.setText("Number of results: " + 0));
-                        System.out.println("heere!");
                         btnSearch.setDisable(false);
                         return;
                     }
