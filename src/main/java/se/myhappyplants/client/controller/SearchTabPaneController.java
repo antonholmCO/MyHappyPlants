@@ -152,13 +152,14 @@ public class SearchTabPaneController {
                 if (apiResponse.isSuccess()) {
                     searchResults = apiResponse.getPlantArray();
                     if (searchResults.size() == 0) {
-                        Platform.runLater(() -> txtNbrOfResults.setText("Number of results: " + 0));
+                        Platform.runLater(() -> txtNbrOfResults.setText(0 + " results"));
                         btnSearch.setDisable(false);
+                        searchResults.clear();
                         return;
                     }
                     String nbrOfResults = String.valueOf(searchResults.size());
                     System.out.println(nbrOfResults);
-                    Platform.runLater(() -> txtNbrOfResults.setText("Number of results: " + nbrOfResults));
+                    Platform.runLater(() -> txtNbrOfResults.setText(nbrOfResults + " results"));
                     Platform.runLater(() -> showResultsOnPane());
                 }
             }

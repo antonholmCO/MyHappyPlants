@@ -37,15 +37,25 @@
     <center>
         <AnchorPane prefHeight="347.0" prefWidth="800.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
             <children>
-                <Label layoutX="118.0" layoutY="78.0" text="Notifications " />
-                <Label layoutX="118.0" layoutY="148.0" text="Fun facts about plants " />
-                <Label layoutX="118.0" layoutY="220.0" text="Change profile picture" />
-                <ToggleButton fx:id="tglBtnChangeNotification" layoutX="512.0" layoutY="74.0" mnemonicParsing="false" onAction="#changeNotificationsSetting" prefHeight="25.0" prefWidth="160.0" selected="true" text="On" />
-                <ToggleButton fx:id="tglBtnChangeFunFacts" layoutX="512.0" layoutY="144.0" mnemonicParsing="false" onAction="#changeFunFactsSetting" prefHeight="25.0" prefWidth="160.0" selected="true" text="On" />
-                <Button layoutX="512.0" layoutY="216.0" mnemonicParsing="false" onAction="#selectPicture" prefHeight="25.0" prefWidth="160.0" text="Select picture" />
-                <Button fx:id="btnDeleteAccount" layoutX="592.0" layoutY="289.0" mnemonicParsing="false" onAction="#deleteAccountButtonPressed" prefHeight="25.0" prefWidth="83.0" text="Delete " textFill="#d31717" />
-                <PasswordField fx:id="passFldDeleteAccount" layoutX="440.0" layoutY="289.0" prefHeight="25.0" prefWidth="145.0" promptText="Password" />
-                <Label layoutX="118.0" layoutY="293.0" text="Delete account at My Happy Plants" />
+                <Label layoutX="204.0" layoutY="78.0" text="Notifications " />
+                <Label layoutX="204.0" layoutY="140.0" text="Fun facts about plants " />
+                <Label layoutX="206.0" layoutY="194.0" text="Change profile picture" />
+                <ToggleButton fx:id="tglBtnChangeNotification" layoutX="118.0" layoutY="74.0" mnemonicParsing="false" onAction="#changeNotificationsSetting" prefHeight="25.0" prefWidth="76.0" selected="true" text="On" />
+                <ToggleButton fx:id="tglBtnChangeFunFacts" layoutX="118.0" layoutY="136.0" mnemonicParsing="false" onAction="#changeFunFactsSetting" prefHeight="25.0" prefWidth="77.0" selected="true" text="On" />
+                <Button layoutX="118.0" layoutY="190.0" mnemonicParsing="false" onAction="#selectPicture" prefHeight="25.0" prefWidth="80.0" text="Select" />
+                <Button fx:id="btnDeleteAccount" layoutX="118.0" layoutY="249.0" mnemonicParsing="false" onAction="#deleteAccountButtonPressed" prefHeight="25.0" prefWidth="79.0" text="Delete " textFill="#d31717" />
+                <Label layoutX="206.0" layoutY="253.0" text="Delete account at My Happy Plants" />
+            <ImageView fitHeight="170.0" fitWidth="155.0" layoutX="496.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Blommor/blomma11.1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="126.0" fitWidth="157.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Blommor/vattenproppe2.png" />
+               </image>
+            </ImageView>
+                <PasswordField fx:id="passFldDeleteAccount" layoutX="118.0" layoutY="308.0" prefHeight="25.0" prefWidth="276.0" promptText="enter password here to delete account" />
             </children>
         </AnchorPane>
     </center>
