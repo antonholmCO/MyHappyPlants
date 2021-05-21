@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -53,12 +54,13 @@ public class SearchTabPaneController {
     @FXML
     public ImageView imgFunFactTitle;
     @FXML
-    public Label lblFunFactText;
+    public TextField txtNbrOfResults;
+
     private ArrayList<Plant> searchResults;
 
 
     @FXML
-    public void initialize() throws IOException {
+    public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsernamePlants.setText(loggedInUser.getUser().getUsername());
         imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
@@ -70,13 +72,14 @@ public class SearchTabPaneController {
         this.mainPaneController = mainPaneController;
     }
 
-    public void showFunFact (boolean factsActivated){
+    public void showFunFact(boolean factsActivated) {
 
         FunFacts funFacts = new FunFacts();
-        if(factsActivated) {
+        if (factsActivated) {
             imgFunFactTitle.setVisible(true);
             lstFunFacts.setItems(funFacts.getRandomFact());
-        } else {
+        }
+        else {
             imgFunFactTitle.setVisible(false);
             lstFunFacts.setItems(null);
         }
@@ -110,10 +113,12 @@ public class SearchTabPaneController {
                             Plant Plant = spp.getPlant();
                             if (Plant.getImageURL().equals("")) {
                                 spp.setDefaultImage(ImageLibrary.getDefaultPlantImage().toURI().toString());
-                            } else {
+                            }
+                            else {
                                 try {
                                     spp.updateImage();
-                                } catch (IllegalArgumentException e) {
+                                }
+                                catch (IllegalArgumentException e) {
                                     spp.setDefaultImage(ImageLibrary.getDefaultPlantImage().toURI().toString());
                                 }
                             }
@@ -145,11 +150,19 @@ public class SearchTabPaneController {
             if (apiResponse != null) {
                 if (apiResponse.isSuccess()) {
                     searchResults = apiResponse.getPlantArray();
+                    if (searchResults.size() == 0) {
+                        Platform.runLater(() -> txtNbrOfResults.setText(0 + " results"));
+                        btnSearch.setDisable(false);
+                        searchResults.clear();
+                        return;
+                    }
+                    String nbrOfResults = String.valueOf(searchResults.size());
+                    System.out.println(nbrOfResults);
+                    Platform.runLater(() -> txtNbrOfResults.setText(nbrOfResults + " results"));
                     Platform.runLater(() -> showResultsOnPane());
-                } else {
-                    //TODO: skicka inget felmeddelande, visa label med sökresultat 0 istället
                 }
-            } else {
+            }
+            else {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "The connection to the server has failed. Check your connection and try again."));
             }
             btnSearch.setDisable(false);
