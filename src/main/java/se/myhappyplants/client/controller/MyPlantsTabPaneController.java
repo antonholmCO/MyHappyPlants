@@ -24,8 +24,11 @@ import se.myhappyplants.client.model.SetAvatar;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -322,7 +325,7 @@ public class MyPlantsTabPaneController {
         waterAllThread.start();
     }
 
-    public void setNewPlantImage(LibraryPlantPane lpp) {
+    public void setNewPlantPicture(LibraryPlantPane lpp) {
         FileChooser fc = new FileChooser();
         FileChooser.ExtensionFilter fileExtensions = new FileChooser.ExtensionFilter("Images", "*.jpg", "*.jpeg", "*.png");
         fc.getExtensionFilters().add(fileExtensions);
@@ -331,15 +334,15 @@ public class MyPlantsTabPaneController {
         if (selectedImage != null) {
             String imagePath = selectedImage.toString();
             String imageExtension = imagePath.substring(imagePath.indexOf("."));
-            File pictureLocation = new File("resources/images/plants/" + lpp.getPlant().getNickname() + imageExtension);
+            File newPictureFile = new File("resources/images/plants/" + lpp.getPlant().getNickname() + imageExtension);
             try {
                 try {
-                    Files.copy(selectedImage.toPath(), pictureLocation.toPath());
+                    Files.copy(selectedImage.toPath(), newPictureFile.toPath());
                 } catch (FileAlreadyExistsException e) {
-                    Files.delete(pictureLocation.toPath());
-                    Files.copy(selectedImage.toPath(), pictureLocation.toPath());
+                    Files.delete(newPictureFile.toPath());
+                    Files.copy(selectedImage.toPath(), newPictureFile.toPath());
                 }
-                lpp.getPlant().setImageURL(pictureLocation.toURI().toURL().toString());
+                lpp.getPlant().setImageURL(newPictureFile.toURI().toURL().toString());
                 lpp.updateImage();
                 Thread changePlantPictureThread = new Thread(() -> {
                     Message changePlantPicture = new Message(MessageType.changePlantPicture, LoggedInUser.getInstance().getUser(), lpp.getPlant());
