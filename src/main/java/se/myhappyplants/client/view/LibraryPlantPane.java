@@ -243,7 +243,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         changePictureButton.setLayoutY(250.0);
         changePictureButton.setMnemonicParsing(false);
         changePictureButton.setOnAction(action ->
-                myPlantsTabPaneController.setNewPlantImage(this));
+                myPlantsTabPaneController.setNewPlantPicture(this));
     }
 
     private void initDatePicker() {
