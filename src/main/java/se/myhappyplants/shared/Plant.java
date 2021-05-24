@@ -85,6 +85,10 @@ public class Plant implements Serializable {
         return plantId;
     }
 
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
     public String getImageURL() {
         if(imageURL==null) {
             imageURL = PictureRandomizer.getRandomPictureURL();

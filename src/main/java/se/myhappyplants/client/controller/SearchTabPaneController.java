@@ -37,7 +37,7 @@ public class SearchTabPaneController {
     @FXML
     private MainPaneController mainPaneController;
     @FXML
-    private Circle imgUserPicture;
+    private Circle imgUserAvatar;
     @FXML
     private Label lblUsername;
     @FXML
@@ -62,7 +62,7 @@ public class SearchTabPaneController {
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsername.setText(loggedInUser.getUser().getUsername());
-        imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
+        imgUserAvatar.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
         cmbSortOption.setItems(ListSorter.sortOptionsSearch());
         showFunFact(LoggedInUser.getInstance().getUser().areFunFactsActivated());
     }
@@ -197,6 +197,6 @@ public class SearchTabPaneController {
     }
 
     public void updateAvatar() {
-        imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
+        imgUserAvatar.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 }

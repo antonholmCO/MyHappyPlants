@@ -10,6 +10,7 @@ public enum MessageType {
     changeLastWatered,
     changeNickname,
     changeNotifications,
+    changePlantPicture,
     deleteAccount,
     deletePlant,
     getLibrary,

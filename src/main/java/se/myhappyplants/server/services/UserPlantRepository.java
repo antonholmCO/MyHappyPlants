@@ -177,4 +177,19 @@ public class UserPlantRepository {
         }
         return dateChanged;
     }
+
+    public boolean changePlantPicture(User user, Plant plant) {
+        boolean pictureChanged = false;
+        String nickname = plant.getNickname();
+        String sqlSafeNickname = nickname.replace("'", "''");
+        String query = "UPDATE [Plant] SET image_url = '" + plant.getImageURL() + "' WHERE user_id = " + user.getUniqueId() + " AND nickname = '" + sqlSafeNickname + "';";
+        try {
+            database.executeUpdate(query);
+            pictureChanged = true;
+        }
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return pictureChanged;
+    }
 }

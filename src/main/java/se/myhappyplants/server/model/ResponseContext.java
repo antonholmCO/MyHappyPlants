@@ -37,6 +37,7 @@ public class ResponseContext {
         responders.put(MessageType.changeLastWatered, new ChangeLastWatered(userPlantRepository));
         responders.put(MessageType.changeNickname, new ChangeNickname(userPlantRepository));
         responders.put(MessageType.changeNotifications, new ChangeNotifications(userRepository));
+        responders.put(MessageType.changePlantPicture, new ChangePlantPicture(userPlantRepository));
         responders.put(MessageType.deleteAccount, new DeleteAccount(userRepository));
         responders.put(MessageType.deletePlant, new DeletePlant(userPlantRepository));
         responders.put(MessageType.getLibrary, new GetLibrary(userPlantRepository));

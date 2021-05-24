@@ -118,6 +118,10 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     }
 
 
+    public void updateImage() {
+        Image img = new Image(plant.getImageURL());
+        image.setImage(img);
+    }
     private void initImages(Image img) {
 
         image.setFitHeight(70.0);
@@ -238,6 +242,8 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         changePictureButton.setLayoutX(488.0);
         changePictureButton.setLayoutY(250.0);
         changePictureButton.setMnemonicParsing(false);
+        changePictureButton.setOnAction(action ->
+                myPlantsTabPaneController.setNewPlantImage(this));
     }
 
     private void initDatePicker() {
