@@ -152,6 +152,7 @@ public class SearchTabPaneController {
                     if (searchResults.size() == 0) {
                         Platform.runLater(() -> txtNbrOfResults.setText(0 + " results"));
                         btnSearch.setDisable(false);
+                        progressIndicator.setProgress(100);
                         searchResults.clear();
                         return;
                     }
