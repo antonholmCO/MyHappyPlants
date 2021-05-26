@@ -154,6 +154,7 @@ public class SearchTabPaneController {
                         progressIndicator.progressProperty().unbind();
                         progressIndicator.setProgress(100);
                         btnSearch.setDisable(false);
+                        Platform.runLater(() -> listViewResult.getItems().clear());
                         return;
                     }
                     Platform.runLater(() -> showResultsOnPane());
