@@ -149,19 +149,14 @@ public class SearchTabPaneController {
             if (apiResponse != null) {
                 if (apiResponse.isSuccess()) {
                     searchResults = apiResponse.getPlantArray();
-                    if (searchResults.size() == 0) {
-                        Platform.runLater(() -> txtNbrOfResults.setText(0 + " results"));
+                    Platform.runLater(() -> txtNbrOfResults.setText(searchResults.size() + " results"));
+                    if(searchResults.size() == 0) {
+                        progressIndicator.progressProperty().unbind();
+                        progressIndicator.setProgress(100);
                         btnSearch.setDisable(false);
-                        Text text = (Text) progressIndicator.lookup(".percentage");
-                        if(text.getText().equals("90%") || text.getText().equals("Done")){
-                            text.setText("Done");
-                            progressIndicator.setPrefWidth(text.getLayoutBounds().getWidth());
-                        }
-                        searchResults.clear();
+                        Platform.runLater(() -> listViewResult.getItems().clear());
                         return;
                     }
-                    String nbrOfResults = String.valueOf(searchResults.size());
-                    Platform.runLater(() -> txtNbrOfResults.setText(nbrOfResults + " results"));
                     Platform.runLater(() -> showResultsOnPane());
                 }
             }
