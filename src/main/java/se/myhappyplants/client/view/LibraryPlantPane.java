@@ -43,7 +43,6 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     private DatePicker datePicker;
     private Button changeOKWaterButton;
     private ListView listViewMoreInfo;
-    private ObservableList<String> obsListMoreInfo;
     private Label daysUntilWaterlbl;
 
     public boolean extended;

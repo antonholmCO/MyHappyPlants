@@ -15,7 +15,7 @@ public class UserRepository {
 
     private IQueryExecutor database;
 
-    public UserRepository(IQueryExecutor database) throws UnknownHostException, SQLException {
+    public UserRepository(IQueryExecutor database){
        this.database = database;
     }
 

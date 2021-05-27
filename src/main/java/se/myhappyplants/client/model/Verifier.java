@@ -15,8 +15,8 @@ public class Verifier {
 
 
     /**
-     *
-     * @return
+     * Method to validate the logged in user
+     * @return true / false if it's successful
      */
     public boolean validateRegistration(RegisterPaneController registerPaneController) {
         String[] loginInfoToCompare = registerPaneController.getComponentsToVerify();

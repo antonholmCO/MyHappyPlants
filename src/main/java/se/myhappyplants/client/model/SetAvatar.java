@@ -11,9 +11,6 @@ import java.io.IOException;
  */
 public class SetAvatar {
 
-    //TODO: Fråga gruppen om detta skavara här.
-    // Om ja: ta bort kommentarer i SearchTabConroller rad 51, MyPlantsTabController rad 50,
-    //TODO: samt settingsTebController rad 40
     public static String setAvatarOnLogin(String email) {
         String avatarURL;
         try (BufferedReader br = new BufferedReader(new FileReader("resources/images/user_avatars/" + email + "_avatar.txt"))) {

@@ -19,7 +19,7 @@ public class PlantRepository {
 
     private IQueryExecutor database;
 
-    public PlantRepository(IQueryExecutor database) throws UnknownHostException, SQLException {
+    public PlantRepository(IQueryExecutor database) {
         this.database = database;
     }
 

@@ -31,16 +31,6 @@ public class LoginPaneController {
     private TextField txtFldEmail;
     @FXML
     private PasswordField passFldPassword;
-    @FXML
-    private TextField txtFldNewEmail;
-    @FXML
-    private TextField txtFldNewEmail1;
-    @FXML
-    private TextField txtFldNewUsername;
-    @FXML
-    private PasswordField passFldNewPassword;
-    @FXML
-    private PasswordField passFldNewPassword1;
 
 
     /**

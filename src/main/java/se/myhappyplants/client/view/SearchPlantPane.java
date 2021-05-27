@@ -23,8 +23,9 @@ import se.myhappyplants.shared.PlantDetails;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * * Created by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
- * * Updated by: Linn Borgström, 2021-04-30
+ * Class for the pane that shows the search results
+ * Created by: Linn Borgström, Eric Simonsson, Susanne Vikström, 2021-04-21
+ * Updated by: Linn Borgström, 2021-04-30
  */
 public class SearchPlantPane extends Pane implements PlantPane {
     private ImageView image;
@@ -38,9 +39,6 @@ public class SearchPlantPane extends Pane implements PlantPane {
     private ListView listView;
     private ImageView imgViewPlusSign;
     private boolean gotInfoOnPlant;
-
-    private ObservableList<String> getAllPlantInfo;
-
     private boolean extended;
 
     public SearchPlantPane(SearchTabPaneController searchTabPaneController, String imgPath, Plant plant) {

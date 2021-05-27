@@ -1,5 +1,10 @@
 package se.myhappyplants.client.view;
 
+/**
+ * Created by: Frida Jacobsson
+ * Updated by: Frida Jacobsson
+ */
+
 public class WaterTextFormatter {
 
     public static String getWaterString(long waterInMilli) {

@@ -28,7 +28,6 @@ public class RegisterPaneController {
     @FXML public PasswordField passFldNewPassword;
     @FXML public PasswordField passFldNewPassword1;
     @FXML public Label goBackIcon;
-    @FXML public Label registerHeading;
 
     private Verifier verifier;
 
