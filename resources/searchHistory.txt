@@ -3,3 +3,13 @@ cactus
 coconut
 fern
 monstera
+lily
+orchid
+aloe vera
+daisy
+onion
+hortensia
+rose
+forget me not
+strawberry
+lavender

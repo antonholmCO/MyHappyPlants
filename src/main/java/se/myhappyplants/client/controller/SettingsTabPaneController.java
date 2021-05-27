@@ -36,7 +36,7 @@ public class SettingsTabPaneController {
     @FXML
     private MainPaneController mainPaneController;
     @FXML
-    private Circle imgUserPicture;
+    private Circle imgUserAvatar;
     @FXML
     private Label lblUsername;
     @FXML
@@ -46,7 +46,7 @@ public class SettingsTabPaneController {
     public void initialize() {
         User loggedInUser = LoggedInUser.getInstance().getUser();
         lblUsername.setText(loggedInUser.getUsername());
-        imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getEmail()))));
+        imgUserAvatar.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getEmail()))));
         tglBtnChangeNotification.setSelected(loggedInUser.areNotificationsActivated());
         ButtonText.setButtonText(tglBtnChangeNotification);
         tglBtnChangeFunFacts.setSelected(loggedInUser.areFunFactsActivated());
@@ -143,7 +143,7 @@ public class SettingsTabPaneController {
     }
 
     public void updateAvatar() {
-        imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
+        imgUserAvatar.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 
     /**
@@ -154,7 +154,7 @@ public class SettingsTabPaneController {
      * @author Anton
      */
     @FXML
-    private void selectPicture() {
+    private void selectAvatarImage() {
         User user = LoggedInUser.getInstance().getUser();
         FileChooser fc = new FileChooser();
 

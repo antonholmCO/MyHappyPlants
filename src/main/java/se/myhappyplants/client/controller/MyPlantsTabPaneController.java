@@ -12,19 +12,30 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.PopupBox;
-import se.myhappyplants.shared.Message;
-import se.myhappyplants.shared.MessageType;
-import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.*;
 import se.myhappyplants.client.model.SetAvatar;
-import se.myhappyplants.shared.PlantDetails;
 
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -48,7 +59,7 @@ public class MyPlantsTabPaneController {
     private Label lblUsername;
 
     @FXML
-    private Circle imgUserPicture;
+    private Circle imgUserAvatar;
 
     @FXML
     private ComboBox<SortingOption> cmbSortOption;
@@ -76,7 +87,7 @@ public class MyPlantsTabPaneController {
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsername.setText(loggedInUser.getUser().getUsername());
-        imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
+        imgUserAvatar.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
         cmbSortOption.setItems(ListSorter.sortOptionsLibrary());
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
@@ -222,7 +233,7 @@ public class MyPlantsTabPaneController {
         Message response = connection.makeRequest(changeLastWatered);
         PopupBox.display(MessageText.sucessfullyChangedDate.toString());
         if (!response.isSuccess()) {
-            MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
+            Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
         }
         createCurrentUserLibraryFromDB();
         showNotifications();
@@ -239,7 +250,7 @@ public class MyPlantsTabPaneController {
         Message response = connection.makeRequest(changeNicknameInDB);
         PopupBox.display(MessageText.sucessfullyChangedPlant.toString());
         if (!response.isSuccess()) {
-            MessageBox.display(BoxTitle.Failed, "It was not possible to change nickname for you plant. Try again.");
+            Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "It was not possible to change nickname for you plant. Try again."));
             return false;
         } else {
             plant.setNickname(newNickname);
@@ -260,7 +271,7 @@ public class MyPlantsTabPaneController {
     }
 
     public void updateAvatar() {
-        imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
+        imgUserAvatar.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 
     public PlantDetails getPlantDetails(Plant plant) {
@@ -312,7 +323,7 @@ public class MyPlantsTabPaneController {
             ServerConnection connection = ServerConnection.getClientConnection();
             Message response = connection.makeRequest(changeAllToWatered);
             if (!response.isSuccess()) {
-                MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
             }
             btnWaterAll.setDisable(false);
             createCurrentUserLibraryFromDB();
@@ -321,4 +332,37 @@ public class MyPlantsTabPaneController {
         waterAllThread.start();
     }
 
+    public void setNewPlantPicture(LibraryPlantPane lpp) {
+        FileChooser fc = new FileChooser();
+        FileChooser.ExtensionFilter fileExtensions = new FileChooser.ExtensionFilter("Images", "*.jpg", "*.jpeg", "*.png");
+        fc.getExtensionFilters().add(fileExtensions);
+        File selectedImage = fc.showOpenDialog(null);
+
+        if (selectedImage != null) {
+            String imagePath = selectedImage.toString();
+            String imageExtension = imagePath.substring(imagePath.indexOf("."));
+            File newPictureFile = new File("resources/images/plants/" + lpp.getPlant().getNickname() + imageExtension);
+            try {
+                try {
+                    Files.copy(selectedImage.toPath(), newPictureFile.toPath());
+                } catch (FileAlreadyExistsException e) {
+                    Files.delete(newPictureFile.toPath());
+                    Files.copy(selectedImage.toPath(), newPictureFile.toPath());
+                }
+                lpp.getPlant().setImageURL(newPictureFile.toURI().toURL().toString());
+                lpp.updateImage();
+                Thread changePlantPictureThread = new Thread(() -> {
+                    Message changePlantPicture = new Message(MessageType.changePlantPicture, LoggedInUser.getInstance().getUser(), lpp.getPlant());
+                    ServerConnection connection = ServerConnection.getClientConnection();
+                    Message response = connection.makeRequest(changePlantPicture);
+                    if (!response.isSuccess()) {
+                        Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
+                    }
+                });
+                changePlantPictureThread.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
