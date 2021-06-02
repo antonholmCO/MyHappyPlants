@@ -11,3 +11,4 @@ Applikationen påminner även användaren när det är tid att vattna, enligt ap
 3. Execute maven goal mvn javafx:run (startar klient)
 4. Kör main metod i se/myhappyplants/server/StartServer.java (startar server)
 
+https://github.com/antonholmCO/MyHappyPlants
