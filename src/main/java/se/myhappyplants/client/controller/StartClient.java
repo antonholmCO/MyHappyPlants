@@ -59,10 +59,21 @@ public class StartClient extends Application {
         }
     }
 
+    /**
+     * Method to set the root
+     * @param fxml to set
+     * @throws IOException
+     */
     public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
+    /**
+     * Method to load the right fxml-file
+     * @param fxml to load
+     * @return
+     * @throws IOException
+     */
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StartClient.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();

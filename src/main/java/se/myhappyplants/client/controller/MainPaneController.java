@@ -32,10 +32,19 @@ public class MainPaneController {
         settingsTabPaneController.setMainController(this);
     }
 
+    /**
+     * Getter-method to get the myPlantsTabPaneController
+     * @return MyPlantsTabPaneController
+     */
+
     public MyPlantsTabPaneController getMyPlantsTabPaneController() {
         return myPlantsTabPaneController;
     }
 
+    /**
+     * Getter-method to get the searchTabPaneController
+     * @return searchTabPaneController
+     */
     public SearchTabPaneController getSearchTabPaneController() {
         return searchTabPaneController;
     }
@@ -68,7 +77,9 @@ public class MainPaneController {
         settingsTabPaneController.updateAvatar();
     }
 
-
+    /**
+     * Method to switch to the tab the user selects
+     */
     public void changeToSearchTab() {
         mainPane.getSelectionModel().select(1);
     }

@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * Class that controls the logic of the "search"-tab
  * Created by: Christopher O'Driscoll
  * Updated by: Christopher O'Driscoll, 2021-05-14
  */
@@ -56,7 +57,10 @@ public class SearchTabPaneController {
     public Label lblFunFactText;
     private ArrayList<Plant> searchResults;
 
-
+    /**
+     * Method to initialize the GUI
+     * @throws IOException
+     */
     @FXML
     public void initialize() throws IOException {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
@@ -66,10 +70,18 @@ public class SearchTabPaneController {
         showFunFact(LoggedInUser.getInstance().getUser().areFunFactsActivated());
     }
 
+    /**
+     * Method to message the right controller-class that the log out-button has been pressed
+     * @throws IOException
+     */
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
 
+    /**
+     * Method to set and display the fun facts
+     * @param factsActivated boolean, if the user has activated the option to true
+     */
     public void showFunFact (boolean factsActivated){
 
         FunFacts funFacts = new FunFacts();
@@ -82,6 +94,10 @@ public class SearchTabPaneController {
         }
     }
 
+    /**
+     * Method to add a plant to the logged in users library. Asks the user if it wants to add a nickname to the plant and receives a string if the answer is yes
+     * @param plantAdd the selected plant to add
+     */
     @FXML
     public void addPlantToCurrentUserLibrary(Plant plantAdd) {
         String plantNickname = plantAdd.getCommonName();
@@ -93,6 +109,9 @@ public class SearchTabPaneController {
         mainPaneController.getMyPlantsTabPaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
     }
 
+    /**
+     * Method to show the search result on the pane
+     */
     private void showResultsOnPane() {
         ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
         for (Plant plant : searchResults) {
@@ -133,6 +152,9 @@ public class SearchTabPaneController {
         imageThread.start();
     }
 
+    /**
+     * Method to sent a message to the server to get the results from the database. Displays a message to the user that more info is on its way
+     */
     @FXML
     private void searchButtonPressed() {
         btnSearch.setDisable(true);
@@ -147,8 +169,6 @@ public class SearchTabPaneController {
                 if (apiResponse.isSuccess()) {
                     searchResults = apiResponse.getPlantArray();
                     Platform.runLater(() -> showResultsOnPane());
-                } else {
-                    //TODO: skicka inget felmeddelande, visa label med sökresultat 0 istället
                 }
             } else {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "The connection to the server has failed. Check your connection and try again."));
@@ -158,6 +178,10 @@ public class SearchTabPaneController {
         searchThread.start();
     }
 
+    /**
+     * Method to message the right controller-class that the log out-button has been pressed
+     * @throws IOException
+     */
     @FXML
     private void logoutButtonPressed() throws IOException {
         mainPaneController.logoutButtonPressed();
@@ -175,7 +199,7 @@ public class SearchTabPaneController {
     }
 
     /**
-     * rearranges the results based on selected sorting option
+     * Method to rearranges the results based on selected sorting option
      */
     @FXML
     public void sortResults() {
@@ -184,6 +208,9 @@ public class SearchTabPaneController {
         listViewResult.setItems(ListSorter.sort(selectedOption, listViewResult.getItems()));
     }
 
+    /**
+     * Method to update the users avatar picture on the tab
+     */
     public void updateAvatar() {
         imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }

@@ -91,6 +91,11 @@ public class MyPlantsTabPaneController {
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
+
+    /**
+     * Getter-method to get the mainPaneController
+     * @return MainPaneController
+     */
     public MainPaneController getMainPaneController() {
         return mainPaneController;
     }
@@ -121,22 +126,35 @@ public class MyPlantsTabPaneController {
         });
     }
 
+    /**
+     * Method to disable the buttons
+     */
     private void disableButtons () {
         btnWaterAll.setDisable(true);
         btnExpandAll.setDisable(true);
         btnCollapseAll.setDisable(true);
     }
+
+    /**
+     * Mehtod to enable the buttons
+     */
     private void enableButtons () {
         btnWaterAll.setDisable(false);
         btnExpandAll.setDisable(false);
         btnCollapseAll.setDisable(false);
     }
 
+    /**
+     * Method to show the notification
+     */
     public void showNotifications() {
         ObservableList<String> notificationStrings = NotificationsCreator.getNotificationsStrings(currentUserLibrary, imgNotifications);
         Platform.runLater(() -> lstViewNotifications.setItems(notificationStrings));
     }
 
+    /**
+     * Method to create the logged in users library from the database
+     */
     @FXML
     public void createCurrentUserLibraryFromDB() {
         Thread getLibraryThread = new Thread(() -> {
@@ -155,6 +173,10 @@ public class MyPlantsTabPaneController {
         getLibraryThread.start();
     }
 
+    /**
+     * Method to remove a selected plant from the database
+     * @param plant
+     */
     @FXML
     public void removePlantFromDB(Plant plant) {
         Platform.runLater(() ->PopupBox.display(MessageText.removePlant.toString()));
@@ -173,6 +195,11 @@ public class MyPlantsTabPaneController {
         removePlantThread.start();
     }
 
+    /**
+     * Method to add a plant to the logged in users library with a nickname.
+     * @param selectedPlant the plant that the user selects
+     * @param plantNickname the nickname of the plant that the user chooses
+     */
     @FXML
     public void addPlantToCurrentUserLibrary(Plant selectedPlant, String plantNickname) {
         int plantsWithThisNickname = 1;
@@ -191,6 +218,10 @@ public class MyPlantsTabPaneController {
         addPlantToDB(plantToAdd);
     }
 
+    /**
+     * Method to save the plant to the database
+     * @param plant the selected plant that the user has chosen
+     */
     @FXML
     public void addPlantToDB(Plant plant) {
         Thread addPlantThread = new Thread(() -> {
@@ -207,6 +238,10 @@ public class MyPlantsTabPaneController {
         addPlantThread.start();
     }
 
+    /**
+     * Method to message the right controller-class that the log out-button has been pressed
+     * @throws IOException
+     */
     @FXML
     private void logoutButtonPressed() throws IOException {
         mainPaneController.logoutButtonPressed();
@@ -230,9 +265,10 @@ public class MyPlantsTabPaneController {
     }
 
     /**
-     * @param plant
-     * @param newNickname
-     * @return
+     * Method to send to the server to change the nickname of a selected plant in the database.
+     * @param plant the selected plant
+     * @param newNickname the new nickname of the plant
+     * @return if it's successful. true or false
      */
     public boolean changeNicknameInDB(Plant plant, String newNickname) {
         Message changeNicknameInDB = new Message(MessageType.changeNickname, LoggedInUser.getInstance().getUser(), plant, newNickname);
@@ -249,7 +285,7 @@ public class MyPlantsTabPaneController {
     }
 
     /**
-     * rearranges the library based on selected sorting option
+     * Method to rearranges the library based on selected sorting option
      */
     public void sortLibrary() {
         SortingOption selectedOption;
@@ -259,10 +295,19 @@ public class MyPlantsTabPaneController {
         lstViewUserPlantLibrary.setItems(ListSorter.sort(selectedOption, lstViewUserPlantLibrary.getItems()));
     }
 
+    /**
+     * Method to update the users avatar picture
+     */
+
     public void updateAvatar() {
         imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 
+    /**
+     * Method to send to the server to get extended information about the plant
+     * @param plant the selected plant
+     * @return an instance of the class PlantDetails
+     */
     public PlantDetails getPlantDetails(Plant plant) {
         PlantDetails plantDetails = null;
         Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
@@ -273,6 +318,9 @@ public class MyPlantsTabPaneController {
         return plantDetails;
     }
 
+    /**
+     * Method to water all the plant at once
+     */
     @FXML
     public void waterAll() {
         btnWaterAll.setDisable(true);
@@ -283,6 +331,10 @@ public class MyPlantsTabPaneController {
             lpp.setColorProgressBar(100);
         }
     }
+
+    /**
+     * Method to expand all the plants "flaps" at the same time
+     */
     @FXML
     public void expandAll() {
         btnExpandAll.setDisable(true);
@@ -294,6 +346,9 @@ public class MyPlantsTabPaneController {
         btnExpandAll.setDisable(false);
     }
 
+    /**
+     * Method to collaps att the plants "flaps" at the same time
+     */
     @FXML
     public void collapseAll() {
         btnCollapseAll.setDisable(true);
@@ -305,6 +360,9 @@ public class MyPlantsTabPaneController {
         btnCollapseAll.setDisable(false);
     }
 
+    /**
+     * Method to send a message to the server to change the date of the last watered in the database
+     */
     private void changeAllToWateredInDB() {
         Thread waterAllThread = new Thread(() -> {
             Message changeAllToWatered = new Message(MessageType.changeAllToWatered, LoggedInUser.getInstance().getUser());

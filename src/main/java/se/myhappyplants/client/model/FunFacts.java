@@ -10,10 +10,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Class to get read the fun fact from a file and show it to the user
+ * Created by: Christopher O'Driscoll
+ * Updated by: Christopher O'Driscoll
+ */
 public class FunFacts {
 
     private ArrayList<String> factsArray;
 
+    /**
+     * Constructor that reads from a file
+     */
     public FunFacts() {
         factsArray = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/facts.txt"))) {
