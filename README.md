@@ -13,5 +13,7 @@ Applikationen påminner även användaren när det är tid att vattna, enligt ap
 3. Execute maven goal "mvn javafx:run" för att starta klienten
 4. Kör main-metoden i se/myhappyplants/server/StartServer.java för att starta servern
 
-Bilden visar hur man exekverar ett maven goal.
+
+Bilden nedan visar hur man exekverar ett maven goal.
+
 ![bild](https://user-images.githubusercontent.com/77005138/114137664-cd6c0d80-990c-11eb-8350-bdc3172e48d7.png)
