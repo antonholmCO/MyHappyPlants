@@ -6,6 +6,9 @@ import java.net.UnknownHostException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Class that uses the PasswordsAndKeys class to handles the connection to the database
+ */
 public class DatabaseConnection implements IConnection {
 
     private java.sql.Connection conn;

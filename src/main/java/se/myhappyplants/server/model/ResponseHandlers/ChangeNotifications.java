@@ -5,6 +5,9 @@ import se.myhappyplants.server.services.UserRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
 
+/**
+ * Class that handles the change of the notifications
+ */
 public class ChangeNotifications implements ResponseHandler {
     private UserRepository userRepository;
 

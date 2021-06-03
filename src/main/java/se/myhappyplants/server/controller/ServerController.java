@@ -14,6 +14,7 @@ import se.myhappyplants.shared.*;
 import java.io.IOException;
 
 /**
+ * Class that handles the logic from the Server
  * Created by: Linn Borgström
  * Updated by: Linn Borgström, 2021-05-13
  */

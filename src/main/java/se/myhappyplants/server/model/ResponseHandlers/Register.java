@@ -4,7 +4,9 @@ import se.myhappyplants.server.model.ResponseHandler;
 import se.myhappyplants.server.services.UserRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
-
+/**
+ * Class that handles the procedure of a registration
+ */
 public class Register implements ResponseHandler {
     private UserRepository userRepository;
 

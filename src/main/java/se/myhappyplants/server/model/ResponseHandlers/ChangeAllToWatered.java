@@ -8,6 +8,9 @@ import se.myhappyplants.shared.User;
 
 import java.time.LocalDate;
 
+/**
+ * Class that handles to change all plants to watered
+ */
 public class ChangeAllToWatered implements ResponseHandler{
     private UserPlantRepository userPlantRepository;
 

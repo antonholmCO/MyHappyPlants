@@ -8,8 +8,18 @@ import se.myhappyplants.shared.Plant;
 
 import java.util.ArrayList;
 
+/**
+ * Class that created the notification in the
+
+ */
 public class NotificationsCreator {
 
+    /**
+     * Getter method to get the notifications
+     * @param currentUserLibrary
+     * @param imgNotifications
+     * @return ObservableList<String> to set in the listView in the GUI
+     */
     public static ObservableList<String> getNotificationsStrings (ArrayList<Plant> currentUserLibrary, ImageView imgNotifications) {
 
         ObservableList<String> notificationStrings = FXCollections.observableArrayList();

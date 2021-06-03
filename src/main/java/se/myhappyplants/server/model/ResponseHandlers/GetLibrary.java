@@ -7,7 +7,9 @@ import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
 
 import java.util.ArrayList;
-
+/**
+ * Class that gets the users library
+ */
 public class GetLibrary implements ResponseHandler {
     private UserPlantRepository userPlantRepository;
 

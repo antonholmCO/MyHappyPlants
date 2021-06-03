@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 
 /**
+ * Container class that defines a User
  * Created by: Linn Borgström
  * Updated by: Anton, 2021-04-29
  */

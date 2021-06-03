@@ -19,6 +19,9 @@ public class ClientConnection {
     private int port;
     private Socket socket;
 
+    /**
+     * Constructor to set the ip and port
+     */
     public ClientConnection() {
         ipAddress = "localhost";
         port = 2555;

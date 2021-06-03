@@ -25,6 +25,11 @@ public class MessageBox {
     private static Stage window;
     private static VBox vBox;
 
+    /**
+     * Method to initialize and display the pop up message box
+     * @param boxTitle the title of the box
+     * @param message the message of the box
+     */
     public static void display(BoxTitle boxTitle, String message) {
         window = new Stage();
 

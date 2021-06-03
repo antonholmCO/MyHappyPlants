@@ -2,7 +2,7 @@ package se.myhappyplants.client.model;
 /**
  * Enum of different sorting options
  * Created by: Christopher O'Driscoll
- * Updated by:
+ * Updated by: Christopher O'Driscoll
  */
 public enum SortingOption {
 
@@ -13,10 +13,17 @@ public enum SortingOption {
 
     private final String name;
 
+    /**
+     * Constreuctor to set the text
+     * @param name
+     */
     SortingOption(String name) {
         this.name = name;
     }
-
+    /**
+     * ToString method with the text
+     * @return
+     */
     public String toString() {
         return name;
     }

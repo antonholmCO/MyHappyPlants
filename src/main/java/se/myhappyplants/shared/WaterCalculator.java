@@ -1,6 +1,7 @@
 package se.myhappyplants.shared;
 
 /**
+ * Class that calculated how much water a plant needs from the values from the database
  * Created by: Frida Jacobsson, Eric Simonsson, Susanne Vikström, Linn Borgström
  * Updated by: Frida Jacobsson, 2021-05-12
  */

@@ -5,6 +5,9 @@ import se.myhappyplants.server.services.UserRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
 
+/**
+ * Class that handles to change the fun facts
+ */
 public class ChangeFunFacts implements ResponseHandler {
     private UserRepository userRepository;
 

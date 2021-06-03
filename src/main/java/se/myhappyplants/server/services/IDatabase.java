@@ -4,6 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Interface to the database class
+ */
 public interface IDatabase {
 
     void executeUpdate(String query) throws SQLException;

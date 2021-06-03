@@ -8,6 +8,7 @@ import java.net.UnknownHostException;
 import java.sql.SQLException;
 
 /**
+ * Class that starts the server
  * Created by: Frida Jacobson, Eric Simonson, Anton Holm, Linn Borgström, Christopher O'Driscoll
  * Updated by: Linn Borgström, 2021-05-13
  */

@@ -16,11 +16,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class to read from a file to get the user some suggestions when searching for a plant
+ * Created by: Christopher O'Driscoll
+ * Updated by: Christopher O'Driscoll
+ */
 public class AutocompleteSearchField extends TextField {
 
     private ArrayList<String> searchHistory;
     private ContextMenu historyPopup;
 
+    /**
+     * Constructor to start the class
+     * @throws IOException
+     */
     public AutocompleteSearchField() throws IOException {
         super();
         historyPopup = new ContextMenu();
@@ -28,6 +37,10 @@ public class AutocompleteSearchField extends TextField {
         setListener();
     }
 
+    /**
+     * Method to read a file with search history
+     * @throws IOException
+     */
     public void populateSearchHistory() throws IOException {
         searchHistory = new ArrayList<>();
 
@@ -46,6 +59,9 @@ public class AutocompleteSearchField extends TextField {
         }
     }
 
+    /**
+     * Method to set a listener to the search history and sets it on the GUI
+     */
     private void setListener() {
         textProperty().addListener((observable, oldValue, newValue) -> {
             String enteredText = getText();
@@ -71,6 +87,11 @@ public class AutocompleteSearchField extends TextField {
         });
     }
 
+    /**
+     * Method to populate the pop up
+     * @param searchResult
+     * @param enteredText
+     */
     private void populatePopup(List<String> searchResult, String enteredText) {
 
         List<CustomMenuItem> menuItems = new LinkedList<>();
@@ -93,6 +114,12 @@ public class AutocompleteSearchField extends TextField {
         historyPopup.getItems().addAll(menuItems);
     }
 
+    /**
+     * Method to build the text flow
+     * @param text
+     * @param filter
+     * @return
+     */
     private Node buildTextFlow(String text, String filter) {
         int filterIndex = text.toLowerCase().indexOf(filter.toLowerCase());
         Text textBefore = new Text(text.substring(0, filterIndex));
@@ -102,6 +129,9 @@ public class AutocompleteSearchField extends TextField {
         return new TextFlow(textBefore, textFilter, textAfter);
     }
 
+    /**
+     * Method to write to file new suggestions on what to search on
+     */
     public void addToHistory() {
         String searchText = getText();
         if (!searchHistory.contains(searchText)) {

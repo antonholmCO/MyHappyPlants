@@ -5,7 +5,9 @@ import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
-
+/**
+ * Class that saved a users plant
+ */
 public class SavePlant implements ResponseHandler {
     private UserPlantRepository userPlantRepository;
 

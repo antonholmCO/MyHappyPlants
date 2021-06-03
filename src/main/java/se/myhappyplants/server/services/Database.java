@@ -4,6 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Class that handles the connection to the database and executes a query and translation
+ */
 public class Database implements IDatabase {
 
     private IConnection connection;

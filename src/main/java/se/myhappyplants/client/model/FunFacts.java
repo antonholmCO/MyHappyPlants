@@ -20,7 +20,7 @@ public class FunFacts {
     private ArrayList<String> factsArray;
 
     /**
-     * Constructor that reads from a file
+     * Constructor that reads from a text file.
      */
     public FunFacts() {
         factsArray = new ArrayList<>();
@@ -35,6 +35,10 @@ public class FunFacts {
 
     }
 
+    /**
+     * Method to randomize the facts
+     * @return ObservableList<Labels> to put on the ListView
+     */
     public ObservableList<Label> getRandomFact() {
         Random random = new Random();
         int randomIndex = random.nextInt(factsArray.size());
