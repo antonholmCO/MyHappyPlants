@@ -7,7 +7,7 @@ import se.myhappyplants.shared.User;
 /**
  * Class that handles the procedure of a registration
  */
-public class Register implements ResponseHandler {
+public class Register implements IResponseHandler {
     private UserRepository userRepository;
 
     public Register(UserRepository userRepository) {

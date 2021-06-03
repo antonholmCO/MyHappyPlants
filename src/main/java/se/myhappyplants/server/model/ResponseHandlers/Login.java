@@ -7,7 +7,7 @@ import se.myhappyplants.shared.User;
 /**
  * Class that handles the procedure when a user logs in
  */
-public class Login implements ResponseHandler {
+public class Login implements IResponseHandler {
     private UserRepository userRepository;
 
     public Login(UserRepository userRepository) {

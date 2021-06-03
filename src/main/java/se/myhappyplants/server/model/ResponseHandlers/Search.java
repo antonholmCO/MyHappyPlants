@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Class that handles the request of a search
  */
-public class Search implements ResponseHandler {
+public class Search implements IResponseHandler {
     private PlantRepository plantRepository;
 
     public Search(PlantRepository plantRepository) {

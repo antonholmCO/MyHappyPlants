@@ -56,7 +56,7 @@ public class User implements Serializable {
      * @param uniqueId               A user's unique id in the database
      * @param email                  Email address
      * @param username               Username
-     * @param notificationsActivated True if notifications wanted
+     * @param isNotificationsActivated True if notifications wanted
      * @param funFactsActivated      True if fun facts wanted
      */
     public User(int uniqueId, String email, String username, boolean isNotificationsActivated, boolean funFactsActivated) {

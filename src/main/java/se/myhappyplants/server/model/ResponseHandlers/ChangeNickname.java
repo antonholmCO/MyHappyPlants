@@ -8,7 +8,7 @@ import se.myhappyplants.shared.User;
 /**
  * Class that handles the chang of a nickname of a plant
  */
-public class ChangeNickname implements ResponseHandler {
+public class ChangeNickname implements IResponseHandler {
     private UserPlantRepository userPlantRepository;
 
     public ChangeNickname(UserPlantRepository userPlantRepository) {

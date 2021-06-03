@@ -8,7 +8,7 @@ import se.myhappyplants.shared.User;
 /**
  * Class that handles the change of the notifications
  */
-public class ChangeNotifications implements ResponseHandler {
+public class ChangeNotifications implements IResponseHandler {
     private UserRepository userRepository;
 
     public ChangeNotifications(UserRepository userRepository) {

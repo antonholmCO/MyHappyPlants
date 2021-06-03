@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * Class that handles the change of the last watered date
  */
 
-public class ChangeLastWatered implements ResponseHandler {
+public class ChangeLastWatered implements IResponseHandler {
     private UserPlantRepository userPlantRepository;
 
     public ChangeLastWatered(UserPlantRepository userPlantRepository) {

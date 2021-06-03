@@ -8,7 +8,7 @@ import se.myhappyplants.shared.User;
 /**
  * Class that handles the change when the user wants to delete a plant
  */
-public class DeletePlant implements ResponseHandler {
+public class DeletePlant implements IResponseHandler {
 
     private UserPlantRepository userPlantRepository;
 

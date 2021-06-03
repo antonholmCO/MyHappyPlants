@@ -12,8 +12,6 @@ import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.RootName;
 import se.myhappyplants.client.service.ServerConnection;
-import se.myhappyplants.client.model.LoggedInUser;
-import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;

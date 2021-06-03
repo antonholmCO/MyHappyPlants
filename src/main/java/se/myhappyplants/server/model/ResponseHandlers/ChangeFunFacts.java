@@ -7,7 +7,7 @@ import se.myhappyplants.shared.User;
 /**
  * Class that handles to change the fun facts
  */
-public class ChangeFunFacts implements ResponseHandler {
+public class ChangeFunFacts implements IResponseHandler {
     private UserRepository userRepository;
 
     public ChangeFunFacts (UserRepository userRepository) {

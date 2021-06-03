@@ -8,7 +8,7 @@ import se.myhappyplants.shared.PlantDetails;
 /**
  * Class that gets the plant details
  */
-public class GetPlantDetails implements ResponseHandler {
+public class GetPlantDetails implements IResponseHandler {
     private PlantRepository plantRepository;
 
     public GetPlantDetails(PlantRepository plantRepository) {

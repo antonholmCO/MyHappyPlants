@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Class that gets the users library
  */
-public class GetLibrary implements ResponseHandler {
+public class GetLibrary implements IResponseHandler {
     private UserPlantRepository userPlantRepository;
 
     public GetLibrary(UserPlantRepository userPlantRepository) {

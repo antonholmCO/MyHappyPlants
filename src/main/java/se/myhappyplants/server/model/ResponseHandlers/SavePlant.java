@@ -8,7 +8,7 @@ import se.myhappyplants.shared.User;
 /**
  * Class that saved a users plant
  */
-public class SavePlant implements ResponseHandler {
+public class SavePlant implements IResponseHandler {
     private UserPlantRepository userPlantRepository;
 
     public SavePlant(UserPlantRepository userPlantRepository) {
