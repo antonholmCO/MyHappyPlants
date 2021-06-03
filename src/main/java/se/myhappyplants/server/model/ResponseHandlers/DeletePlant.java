@@ -5,14 +5,17 @@ import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
-
-public class DeletePlant implements IResponseHandler {
+/**
+ * Class that handles the change when the user wants to delete a plant
+ */
+public class DeletePlant implements ResponseHandler {
 
     private UserPlantRepository userPlantRepository;
 
     public DeletePlant(UserPlantRepository userPlantRepository) {
         this.userPlantRepository = userPlantRepository;
     }
+
 
     @Override
     public Message getResponse(Message request) {

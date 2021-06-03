@@ -13,17 +13,32 @@ public final class LoggedInUser {
     private User user;
     private final static LoggedInUser INSTANCE = new LoggedInUser();
 
+    /**
+     * Private constructor to get only one instance of the class
+     */
     private LoggedInUser() {
     }
 
+    /**
+     * Getter method to get the only instance of the class
+     * @return
+     */
     public static LoggedInUser getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Setter method to set the current user
+     * @param user
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Getter method to get the current user
+     * @return
+     */
     public User getUser() {
         return this.user;
     }

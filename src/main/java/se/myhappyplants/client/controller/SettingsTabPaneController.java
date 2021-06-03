@@ -27,6 +27,11 @@ import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 
+/**
+ * A controller class to the "settings"-tab
+ * Created by: Linn Borgström, Anton Holm, Frida Jacobsson, Eric Simonsson, Susanne Vikström, Christopher O'Driscoll
+ * Updated by: Linn Borgström, 2021-06-02
+ */
 public class SettingsTabPaneController {
 
     @FXML
@@ -42,6 +47,9 @@ public class SettingsTabPaneController {
     @FXML
     private PasswordField passFldDeleteAccount;
 
+    /**
+     * Method to initialize the GUI
+     */
     @FXML
     public void initialize() {
         User loggedInUser = LoggedInUser.getInstance().getUser();
@@ -53,11 +61,17 @@ public class SettingsTabPaneController {
         ButtonText.setButtonText(tglBtnChangeFunFacts);
 
     }
-
+    /**
+     * Method to set the mainController
+     * @param mainPaneController the controller to set
+     */
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
 
+    /**
+     * Method to send to the server to change settings of the notifications.
+     */
     @FXML
     public void changeNotificationsSetting() {
         Thread changeNotificationsThread = new Thread(() -> {
@@ -66,7 +80,7 @@ public class SettingsTabPaneController {
             Message notificationResponse = connection.makeRequest(notificationRequest);
             if (notificationResponse != null) {
                 if (notificationResponse.isSuccess()) {
-                    LoggedInUser.getInstance().getUser().setIsNotificationsActivated(tglBtnChangeNotification.isSelected());
+                    LoggedInUser.getInstance().getUser().setNotificationsActivated(tglBtnChangeNotification.isSelected());
                     tglBtnChangeNotification.setDisable(true);
                     Platform.runLater(() -> PopupBox.display("Notification settings\n changed", tglBtnChangeNotification));
                 } else {
@@ -82,6 +96,9 @@ public class SettingsTabPaneController {
         mainPaneController.getMyPlantsTabPaneController().createCurrentUserLibraryFromDB();
     }
 
+    /**
+     * Message to send to the server to change the setting of the fun facts
+     */
     @FXML
     public void changeFunFactsSetting() {
         Thread changeFunFactsThread = new Thread(() -> {
@@ -136,12 +153,18 @@ public class SettingsTabPaneController {
             deleteAccountThread.start();
         }
     }
-
+    /**
+     * Method to message the right controller-class that the log out-button has been pressed
+     * @throws IOException
+     */
     @FXML
     private void logoutButtonPressed() throws IOException {
         mainPaneController.logoutButtonPressed();
     }
 
+    /**
+     * Method to update the users avatar picture on the tab
+     */
     public void updateAvatar() {
         imgUserAvatar.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }

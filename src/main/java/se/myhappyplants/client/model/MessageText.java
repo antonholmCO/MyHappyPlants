@@ -15,10 +15,18 @@ public enum MessageText {
 
     private final String name;
 
+    /**
+     * Constreuctor to set the text
+     * @param name
+     */
     MessageText(String name) {
         this.name = name;
     }
 
+    /**
+     * ToString method with the text
+     * @return
+     */
     public String toString() {
         return name;
     }

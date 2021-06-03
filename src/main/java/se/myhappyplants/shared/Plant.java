@@ -12,6 +12,7 @@ import java.time.LocalDate;
  * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
  */
 public class Plant implements Serializable {
+
     private static final long serialVersionUID = 867522155232174497L;
     private String plantId;
     private String commonName;
@@ -22,6 +23,16 @@ public class Plant implements Serializable {
     private Date lastWatered;
     private long waterFrequency;
 
+    /**
+     * Creates a plant object from information
+     * in the Species database
+     *
+     * @param plantId        Unique plant id in Species database
+     * @param commonName     Common name
+     * @param scientificName Scientific name
+     * @param familyName     Family name
+     * @param imageURL       Image location
+     */
     public Plant(String plantId, String commonName, String scientificName, String familyName, String imageURL) {
         this.plantId = plantId;
         this.commonName = commonName;
@@ -42,7 +53,16 @@ public class Plant implements Serializable {
         this.plantId = plantID;
         this.lastWatered = lastWatered;
     }
-
+    /**
+     * Creates a plant object from a users library
+     * in the MyHappyPlants database
+     *
+     * @param nickname
+     * @param plantId        Unique plant id in Species database
+     * @param lastWatered    Date the plant was last watered
+     * @param waterFrequency How often the plant needs water in milliseconds
+     * @param imageURL       Image location
+     */
     public Plant(String nickname, String plantId, Date lastWatered, long waterFrequency, String imageURL) {
 
         this.nickname = nickname;
@@ -52,6 +72,15 @@ public class Plant implements Serializable {
         this.imageURL = imageURL;
     }
 
+    /**
+     * Creates a plant object that can be used to update
+     * a users library in the MyHappyPlants database
+     *
+     * @param nickname
+     * @param plantId     Unique plant id in Species database
+     * @param lastWatered Date the plant was last watered
+     * @param imageURL    Image location
+     */
     public Plant(String nickname, String plantId, Date lastWatered, String imageURL) {
 
         this.nickname = nickname;
@@ -84,13 +113,16 @@ public class Plant implements Serializable {
     public String getPlantId() {
         return plantId;
     }
-
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
-
+    /**
+     * Image location for selected plant
+     *
+     * @return URL location of image
+     */
     public String getImageURL() {
-        if(imageURL==null) {
+        if(imageURL == null) {
             imageURL = PictureRandomizer.getRandomPictureURL();
         }
         String httpImageURL = imageURL.replace("https", "http");
@@ -106,6 +138,13 @@ public class Plant implements Serializable {
         this.lastWatered = date;
     }
 
+    /**
+     * Compares the length of time since the plant was watered
+     * with recommended frequency of watering. Returns a decimal value
+     * that can be used in a progress bar or indicator
+     *
+     * @return Double between 0.02 (max time elapsed) and 1.0 (min time elapsed)
+     */
     public double getProgress() {
         long difference = System.currentTimeMillis() - lastWatered.getTime();
         difference -= 43000000l;
@@ -119,6 +158,13 @@ public class Plant implements Serializable {
         return progress;
     }
 
+    /**
+     * Converts time since last water from milliseconds
+     * into days, then returns the value as
+     * an explanation text
+     *
+     * @return Days since last water
+     */
     public String getDaysUntilWater() {
         long millisSinceLastWatered = System.currentTimeMillis() - lastWatered.getTime();
         long millisUntilNextWatering = waterFrequency - millisSinceLastWatered;

@@ -29,6 +29,10 @@ public class PopupBox extends Popup {
     private static VBox vBox;
     private static ToggleButton toggleButton;
 
+    /**
+     * Method to initialize and isplay the pop up box
+     * @param message the message to show
+     */
     public static void display(String message) {
 
         window = new Stage();
@@ -58,6 +62,9 @@ public class PopupBox extends Popup {
         showAndFade();
     }
 
+    /**
+     * Method to get the pop up box to pop up and then fade
+     */
     private static void showAndFade() {
         window.show();
         AtomicReference<Double> opacity = new AtomicReference<>(1.0);
@@ -77,6 +84,11 @@ public class PopupBox extends Popup {
 
     }
 
+    /**
+     * Method to display the message
+     * @param message
+     * @param toggleButton
+     */
     public static void display(String message, ToggleButton toggleButton) {
         PopupBox.toggleButton = toggleButton;
         display(message);

@@ -36,6 +36,7 @@ public class ServerConnection {
      * @return instance of Message class with a certain response
      */
     public Message makeRequest(Message request) {
+
         Message response = null;
         try {
             Socket socket = new Socket(ipAddress, port);

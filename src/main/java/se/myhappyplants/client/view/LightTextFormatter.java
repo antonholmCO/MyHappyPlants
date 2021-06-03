@@ -1,6 +1,7 @@
 package se.myhappyplants.client.view;
 
 /**
+ * Class to format the text about the light level on a plant
  * Created by: Frida Jacobsson, Eric Simonsson, Susanne Vikström, Linn Borgström
  * Updated by: Frida Jacobsson, 2021-05-12
  */

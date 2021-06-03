@@ -7,8 +7,11 @@ import se.myhappyplants.shared.Plant;
 
 import java.time.LocalDate;
 
-public class ChangeLastWatered implements IResponseHandler {
+/**
+ * Class that handles the change of the last watered date
+ */
 
+public class ChangeLastWatered implements ResponseHandler {
     private UserPlantRepository userPlantRepository;
 
     public ChangeLastWatered(UserPlantRepository userPlantRepository) {

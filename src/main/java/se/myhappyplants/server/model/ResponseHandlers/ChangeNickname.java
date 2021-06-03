@@ -5,9 +5,10 @@ import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
-
-public class ChangeNickname implements IResponseHandler {
-
+/**
+ * Class that handles the chang of a nickname of a plant
+ */
+public class ChangeNickname implements ResponseHandler {
     private UserPlantRepository userPlantRepository;
 
     public ChangeNickname(UserPlantRepository userPlantRepository) {

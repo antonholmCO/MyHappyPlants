@@ -8,15 +8,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by: Linn Borgström, 2021-05-13
- * Updated by: Linn Borgström, 2021-05-13
+ * Class to validate the registration
  */
 public class Verifier {
 
 
     /**
-     * Method to validate the logged in user
-     * @return true / false if it's successful
+     * Static method to validate the registration when a user register a new account
+     * @return boolean if successful
      */
     public boolean validateRegistration(RegisterPaneController registerPaneController) {
         String[] loginInfoToCompare = registerPaneController.getComponentsToVerify();

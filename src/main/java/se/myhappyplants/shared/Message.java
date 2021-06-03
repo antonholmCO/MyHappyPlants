@@ -15,7 +15,6 @@ public class Message implements Serializable {
     private MessageType messageType;
     private boolean notifications;
     private String messageText;
-    private String[] stringArray;
     private User user;
     private boolean success;
     private LocalDate date;
@@ -47,7 +46,8 @@ public class Message implements Serializable {
     }
 
     /**
-     * Creates a message that can be used to send a user and a plant
+     * Creates a message that can be used to send
+     * a user and a plant object
      *
      * @param messageType
      * @param user
@@ -59,7 +59,8 @@ public class Message implements Serializable {
     }
 
     /**
-     * create a message that can be used to send a plant
+     * create a message that can be used to send
+     * a plant object
      *
      * @param messageType
      * @param plant
@@ -70,20 +71,21 @@ public class Message implements Serializable {
     }
 
     /**
-     * Creates a message that can be used to send a notification setting and a user
+     * Creates a message that can be used to send
+     * a notification setting and a user
      *
      * @param messageType
      * @param notifications
      * @param user
      */
     public Message(MessageType messageType, boolean notifications, User user) {
-        this.messageType = messageType;
+        this(messageType, user);
         this.notifications = notifications;
-        this.user = user;
     }
 
     /**
-     * Creates a message that can be used to send a user, a plant and a date
+     * Creates a message that can be used to send
+     * a user, a plant and a date
      *
      * @param messageType
      * @param user
@@ -91,14 +93,13 @@ public class Message implements Serializable {
      * @param date
      */
     public Message(MessageType messageType, User user, Plant plant, LocalDate date) {
-        this.messageType = messageType;
-        this.user = user;
-        this.plant = plant;
+        this(messageType, user, plant);
         this.date = date;
     }
 
     /**
-     * Creates a message that can be used to send a user, a plant and a new nickname
+     * Creates a message that can be used to send
+     * a user, a plant and it's new nickname
      *
      * @param messageType
      * @param user
@@ -106,20 +107,14 @@ public class Message implements Serializable {
      * @param newNickname
      */
     public Message(MessageType messageType, User user, Plant plant, String newNickname) {
-        this.messageType = messageType;
-        this.user = user;
-        this.plant = plant;
+        this(messageType, user, plant);
         this.newNickname = newNickname;
-    }
-
-    public Message(MessageType messageType, PlantDetails plantDetails) {
-        this.messageType = messageType;
-        this.plantDetails = plantDetails;
     }
 
 
     /**
-     * Creates a message that can be used to send a plant array
+     * Creates a message that can be used to send
+     * an array of plants
      *
      * @param plantArray
      * @param success
@@ -130,7 +125,8 @@ public class Message implements Serializable {
     }
 
     /**
-     * Creates a message which can be used to send a string
+     * Creates a message which can be used to send
+     * text
      *
      * @param messageType
      * @param messageText
@@ -141,18 +137,8 @@ public class Message implements Serializable {
     }
 
     /**
-     * Creates a message which can be used to send a string array
-     *
-     * @param stringArray
-     * @param success
-     */
-    public Message(String[] stringArray, boolean success) {
-        this.stringArray = stringArray;
-        this.success = success;
-    }
-
-    /**
-     * Creates a message which can be used to send a user and a boolean value
+     * Creates a message which can be used to send
+     * a user and a boolean value
      *
      * @param user
      * @param success
@@ -162,6 +148,12 @@ public class Message implements Serializable {
         this.success = success;
     }
 
+    /**
+     * Creates a message that can be used to send
+     * further information about a plant
+     * @param plantDetails
+     * @param success
+     */
     public Message(PlantDetails plantDetails, boolean success) {
         this.plantDetails = plantDetails;
         this.success = success;
@@ -185,14 +177,6 @@ public class Message implements Serializable {
 
     public boolean isSuccess() {
         return success;
-    }
-
-    public String[] getStringArray() {
-        return stringArray;
-    }
-
-    public Plant getDbPlant() {
-        return plant;
     }
 
     public ArrayList<Plant> getPlantArray() {

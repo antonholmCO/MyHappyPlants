@@ -9,14 +9,21 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import se.myhappyplants.client.model.BoxTitle;
+import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.RootName;
 import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.service.ClientConnection;
+import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.Message;
-import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.User;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Controls the inputs from a user that hasn't logged in

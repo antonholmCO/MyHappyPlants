@@ -5,9 +5,10 @@ import se.myhappyplants.server.services.PlantRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.PlantDetails;
-
-public class GetPlantDetails implements IResponseHandler {
-
+/**
+ * Class that gets the plant details
+ */
+public class GetPlantDetails implements ResponseHandler {
     private PlantRepository plantRepository;
 
     public GetPlantDetails(PlantRepository plantRepository) {

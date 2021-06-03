@@ -4,9 +4,10 @@ import se.myhappyplants.server.model.IResponseHandler;
 import se.myhappyplants.server.services.UserRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
-
-public class DeleteAccount implements IResponseHandler {
-
+/**
+ * Class that handles the changes when the user want to delete an account
+ */
+public class DeleteAccount implements ResponseHandler {
     private UserRepository userRepository;
 
     public DeleteAccount(UserRepository userRepository) {

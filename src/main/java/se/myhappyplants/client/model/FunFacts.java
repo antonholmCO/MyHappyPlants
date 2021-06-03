@@ -10,10 +10,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Class to get read the fun fact from a file and show it to the user
+ * Created by: Christopher O'Driscoll
+ * Updated by: Christopher O'Driscoll
+ */
 public class FunFacts {
 
     private ArrayList<String> factsArray;
 
+    /**
+     * Constructor that reads from a text file.
+     */
     public FunFacts() {
         factsArray = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/facts.txt"))) {
@@ -27,6 +35,10 @@ public class FunFacts {
 
     }
 
+    /**
+     * Method to randomize the facts
+     * @return ObservableList<Labels> to put on the ListView
+     */
     public ObservableList<Label> getRandomFact() {
         Random random = new Random();
         int randomIndex = random.nextInt(factsArray.size());

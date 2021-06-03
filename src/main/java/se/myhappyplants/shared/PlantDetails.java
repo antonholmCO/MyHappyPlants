@@ -2,6 +2,11 @@ package se.myhappyplants.shared;
 
 import java.io.Serializable;
 
+/**
+ * Container class for more detailed information about a plant
+ * Created by: Frida Jacobsson
+ * Updated by:
+ **/
 public class PlantDetails implements Serializable {
 
     private String genus;
@@ -16,10 +21,6 @@ public class PlantDetails implements Serializable {
         this.light = light;
         this.waterFrequency = waterFrequency;
         this.family = family;
-    }
-
-    public PlantDetails getPlantDetails() {
-        return getPlantDetails();
     }
 
     public String getScientificName() {

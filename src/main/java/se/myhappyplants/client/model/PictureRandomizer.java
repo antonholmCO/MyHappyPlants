@@ -6,8 +6,7 @@ import java.io.File;
 import java.util.Random;
 
 /**
- * Created by: Frida Jacobsson
- * Updated by: Frida Jacobsson
+ * Class that randomize the pictures
  */
 public class PictureRandomizer {
 
@@ -48,6 +47,10 @@ public class PictureRandomizer {
         return image;
     }
 
+    /**
+     * Method that generate and return the pictures URL
+     * @return string URL
+     */
     public static String getRandomPictureURL() {
         Random random = new Random();
         switch (1 + random.nextInt(8)) {

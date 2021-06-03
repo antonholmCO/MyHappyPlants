@@ -7,6 +7,10 @@ import se.myhappyplants.shared.User;
 
 public class ChangeAllToWatered implements IResponseHandler {
 
+/**
+ * Class that handles to change all plants to watered
+ */
+public class ChangeAllToWatered implements ResponseHandler{
     private UserPlantRepository userPlantRepository;
 
     public ChangeAllToWatered(UserPlantRepository userPlantRepository) {

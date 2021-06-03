@@ -4,9 +4,10 @@ import se.myhappyplants.server.model.IResponseHandler;
 import se.myhappyplants.server.services.UserRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.User;
-
-public class ChangeFunFacts implements IResponseHandler {
-
+/**
+ * Class that handles to change the fun facts
+ */
+public class ChangeFunFacts implements ResponseHandler {
     private UserRepository userRepository;
 
     public ChangeFunFacts (UserRepository userRepository) {

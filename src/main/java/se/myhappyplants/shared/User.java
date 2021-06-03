@@ -3,6 +3,7 @@ package se.myhappyplants.shared;
 import java.io.*;
 
 /**
+ * Container class that defines a User
  * Created by: Linn Borgström
  * Updated by: Linn Borgström, 2021-05-17
  */
@@ -49,7 +50,15 @@ public class User implements Serializable {
         this.isNotificationsActivated = notificationsActivated;
 
     }
-
+    /**
+     * Constructor used to return a users details from the database
+     *
+     * @param uniqueId               A user's unique id in the database
+     * @param email                  Email address
+     * @param username               Username
+     * @param notificationsActivated True if notifications wanted
+     * @param funFactsActivated      True if fun facts wanted
+     */
     public User(int uniqueId, String email, String username, boolean isNotificationsActivated, boolean funFactsActivated) {
 
         this.uniqueId = uniqueId;

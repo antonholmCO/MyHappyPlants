@@ -6,8 +6,10 @@ import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
 
 import java.util.ArrayList;
-
-public class Search implements IResponseHandler {
+/**
+ * Class that handles the request of a search
+ */
+public class Search implements ResponseHandler {
     private PlantRepository plantRepository;
 
     public Search(PlantRepository plantRepository) {
