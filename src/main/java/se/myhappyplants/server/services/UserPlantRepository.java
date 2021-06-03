@@ -12,12 +12,12 @@ import java.util.ArrayList;
 /**
  * Class responsible for calling the database about a users library.
  * Created by: Linn Borgström
- * Updated by: Christopher O'Driscoll
+ * Updated by: Frida Jacobsson 2021-05-21
  */
 public class UserPlantRepository {
 
     private PlantRepository plantRepository;
-    private IDatabase database;
+    private IQueryExecutor database;
 
     /**
      * Constructor that creates a connection to the database.
@@ -25,7 +25,7 @@ public class UserPlantRepository {
      * @throws SQLException
      * @throws UnknownHostException
      */
-    public UserPlantRepository(PlantRepository plantRepository, IDatabase database) throws UnknownHostException, SQLException {
+    public UserPlantRepository(PlantRepository plantRepository, IQueryExecutor database) throws UnknownHostException, SQLException {
         this.plantRepository = plantRepository;
         this.database = database;
 
@@ -45,7 +45,6 @@ public class UserPlantRepository {
         String sqlSafeNickname = plant.getNickname().replace("'", "''");
         String query = "INSERT INTO Plant (user_id, nickname, plant_id, last_watered, image_url) values (" + user.getUniqueId() + ", '" + sqlSafeNickname + "', '" + plant.getPlantId() + "', '" + plant.getLastWatered() + "', '" + plant.getImageURL() + "');";
         try {
-            //conn.prepareCall(query).execute();
             database.executeUpdate(query);
             success = true;
         }
@@ -176,5 +175,20 @@ public class UserPlantRepository {
             sqlException.printStackTrace();
         }
         return dateChanged;
+    }
+
+    public boolean changePlantPicture(User user, Plant plant) {
+        boolean pictureChanged = false;
+        String nickname = plant.getNickname();
+        String sqlSafeNickname = nickname.replace("'", "''");
+        String query = "UPDATE [Plant] SET image_url = '" + plant.getImageURL() + "' WHERE user_id = " + user.getUniqueId() + " AND nickname = '" + sqlSafeNickname + "';";
+        try {
+            database.executeUpdate(query);
+            pictureChanged = true;
+        }
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return pictureChanged;
     }
 }

@@ -8,14 +8,14 @@ import java.sql.*;
 
 /**
  * Class responsible for calling the database about users.
- * Created by: Frida Jacobsson
- * Updated by: Christopher O'Driscoll
+ * Created by: Frida Jacobsson 2021-03-30
+ * Updated by: Frida Jacobsson 2021-05-21
  */
 public class UserRepository {
 
-    private IDatabase database;
+    private IQueryExecutor database;
 
-    public UserRepository(IDatabase database) {
+    public UserRepository(IQueryExecutor database){
        this.database = database;
     }
 
@@ -29,7 +29,7 @@ public class UserRepository {
         boolean success = false;
         String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         String sqlSafeUsername = user.getUsername().replace("'", "''");
-        String query = "INSERT INTO [User] VALUES ('" + sqlSafeUsername + "', " + "'" + user.getEmail() + "', '" + hashedPassword + "'," + 1 + "," + 1 + ");";
+        String query = "INSERT INTO [User] VALUES ('" + sqlSafeUsername + "', '" + user.getEmail() + "', '" + hashedPassword + "'," + 1 + "," + 1 + ");";
         try {
             database.executeUpdate(query);
             success = true;

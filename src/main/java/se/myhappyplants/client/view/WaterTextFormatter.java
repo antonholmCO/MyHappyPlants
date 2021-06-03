@@ -2,6 +2,8 @@ package se.myhappyplants.client.view;
 
 /**
  * Class to format the text of the water infor from the database
+ * Created by: Frida Jacobsson
+ * Updated by: Frida Jacobsson
  */
 public class WaterTextFormatter {
 

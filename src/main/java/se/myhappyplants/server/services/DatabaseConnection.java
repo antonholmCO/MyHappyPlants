@@ -7,9 +7,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Class that uses the PasswordsAndKeys class to handles the connection to the database
+ * Class for handling connection with a specific database
+ * Created by: Frida Jacobsson 2021-05-21
  */
-public class DatabaseConnection implements IConnection {
+public class DatabaseConnection implements IDatabaseConnection {
 
     private java.sql.Connection conn;
     private String databaseName;

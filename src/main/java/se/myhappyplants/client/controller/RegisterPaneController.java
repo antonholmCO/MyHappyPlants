@@ -1,7 +1,6 @@
 package se.myhappyplants.client.controller;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -11,14 +10,12 @@ import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.RootName;
 import se.myhappyplants.client.model.Verifier;
-import se.myhappyplants.client.service.ClientConnection;
+import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.User;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
 /**
@@ -31,7 +28,6 @@ public class RegisterPaneController {
     @FXML public PasswordField passFldNewPassword;
     @FXML public PasswordField passFldNewPassword1;
     @FXML public Label goBackIcon;
-    @FXML public Label registerHeading;
 
     private Verifier verifier;
 
@@ -50,8 +46,8 @@ public class RegisterPaneController {
                 if (!verifiedRegistration) {
                     return;
                 }
-                Message registerRequest = new Message(MessageType.register, new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText()));
-                ClientConnection connection = new ClientConnection();
+                Message registerRequest = new Message(MessageType.register, new User(txtFldNewEmail.getText(), txtFldNewUsername.getText(), passFldNewPassword.getText(), true));
+                ServerConnection connection = ServerConnection.getClientConnection();
                 Message registerResponse = connection.makeRequest(registerRequest);
 
                 if (registerResponse != null) {

@@ -12,7 +12,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import se.myhappyplants.client.model.*;
-import se.myhappyplants.client.service.ClientConnection;
+import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.AutocompleteSearchField;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.PopupBox;
@@ -38,9 +38,9 @@ public class SearchTabPaneController {
     @FXML
     private MainPaneController mainPaneController;
     @FXML
-    private Circle imgUserPicture;
+    private Circle imgUserAvatar;
     @FXML
-    private Label lblUsernamePlants;
+    private Label lblUsername;
     @FXML
     private Button btnSearch;
     @FXML
@@ -54,7 +54,8 @@ public class SearchTabPaneController {
     @FXML
     public ImageView imgFunFactTitle;
     @FXML
-    public Label lblFunFactText;
+    public TextField txtNbrOfResults;
+
     private ArrayList<Plant> searchResults;
 
     /**
@@ -62,10 +63,10 @@ public class SearchTabPaneController {
      * @throws IOException
      */
     @FXML
-    public void initialize() throws IOException {
+    public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
-        lblUsernamePlants.setText(loggedInUser.getUser().getUsername());
-        imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
+        lblUsername.setText(loggedInUser.getUser().getUsername());
+        imgUserAvatar.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
         cmbSortOption.setItems(ListSorter.sortOptionsSearch());
         showFunFact(LoggedInUser.getInstance().getUser().areFunFactsActivated());
     }
@@ -77,18 +78,18 @@ public class SearchTabPaneController {
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
-
     /**
      * Method to set and display the fun facts
      * @param factsActivated boolean, if the user has activated the option to true
      */
-    public void showFunFact (boolean factsActivated){
+    public void showFunFact(boolean factsActivated) {
 
         FunFacts funFacts = new FunFacts();
-        if(factsActivated) {
+        if (factsActivated) {
             imgFunFactTitle.setVisible(true);
             lstFunFacts.setItems(funFacts.getRandomFact());
-        } else {
+        }
+        else {
             imgFunFactTitle.setVisible(false);
             lstFunFacts.setItems(null);
         }
@@ -129,21 +130,22 @@ public class SearchTabPaneController {
                             Plant Plant = spp.getPlant();
                             if (Plant.getImageURL().equals("")) {
                                 spp.setDefaultImage(ImageLibrary.getDefaultPlantImage().toURI().toString());
-                            } else {
+                            }
+                            else {
                                 try {
                                     spp.updateImage();
-                                } catch (IllegalArgumentException e) {
+                                }
+                                catch (IllegalArgumentException e) {
                                     spp.setDefaultImage(ImageLibrary.getDefaultPlantImage().toURI().toString());
                                 }
                             }
                             updateProgress(i++, searchPlantPanes.size());
                         }
-                        Text text = (Text) progressIndicator.lookup(".percentage");
-                        if(text!=null && text.getText().equals("Utförd")){
-                            text.setText("Done");
-                            progressIndicator.setPrefWidth(text.getLayoutBounds().getWidth());
-                        }
-
+                            Text text = (Text) progressIndicator.lookup(".percentage");
+                            if(text.getText().equals("90%") || text.getText().equals("Done")){
+                                text.setText("Done");
+                                progressIndicator.setPrefWidth(text.getLayoutBounds().getWidth());
+                            }
                         return true;
                     }
                 };
@@ -162,15 +164,24 @@ public class SearchTabPaneController {
         PopupBox.display(MessageText.holdOnGettingInfo.toString());
         Thread searchThread = new Thread(() -> {
             Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
-            ClientConnection connection = new ClientConnection();
+            ServerConnection connection = ServerConnection.getClientConnection();
             Message apiResponse = connection.makeRequest(apiRequest);
 
             if (apiResponse != null) {
                 if (apiResponse.isSuccess()) {
                     searchResults = apiResponse.getPlantArray();
+                    Platform.runLater(() -> txtNbrOfResults.setText(searchResults.size() + " results"));
+                    if(searchResults.size() == 0) {
+                        progressIndicator.progressProperty().unbind();
+                        progressIndicator.setProgress(100);
+                        btnSearch.setDisable(false);
+                        Platform.runLater(() -> listViewResult.getItems().clear());
+                        return;
+                    }
                     Platform.runLater(() -> showResultsOnPane());
                 }
-            } else {
+            }
+            else {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "The connection to the server has failed. Check your connection and try again."));
             }
             btnSearch.setDisable(false);
@@ -191,7 +202,8 @@ public class SearchTabPaneController {
         PopupBox.display(MessageText.holdOnGettingInfo.toString());
         PlantDetails plantDetails = null;
         Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
-        Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
+        ServerConnection connection = ServerConnection.getClientConnection();
+        Message response = connection.makeRequest(getInfoSearchedPlant);
         if (response != null) {
             plantDetails = response.getPlantDetails();
         }
@@ -212,6 +224,6 @@ public class SearchTabPaneController {
      * Method to update the users avatar picture on the tab
      */
     public void updateAvatar() {
-        imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
+        imgUserAvatar.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 }

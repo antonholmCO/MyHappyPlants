@@ -12,19 +12,30 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import se.myhappyplants.client.model.*;
-import se.myhappyplants.client.service.ClientConnection;
+import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.PopupBox;
-import se.myhappyplants.shared.Message;
-import se.myhappyplants.shared.MessageType;
-import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.*;
 import se.myhappyplants.client.model.SetAvatar;
-import se.myhappyplants.shared.PlantDetails;
 
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -45,10 +56,10 @@ public class MyPlantsTabPaneController {
     private MainPaneController mainPaneController;
 
     @FXML
-    private Label lblUsernameMyPlants;
+    private Label lblUsername;
 
     @FXML
-    private Circle imgUserPicture;
+    private Circle imgUserAvatar;
 
     @FXML
     private ComboBox<SortingOption> cmbSortOption;
@@ -75,9 +86,8 @@ public class MyPlantsTabPaneController {
     @FXML
     public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
-        lblUsernameMyPlants.setText(loggedInUser.getUser().getUsername());
-        imgUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
-        //MainPaneController.makeAvatarRound(imgUserPicture);
+        lblUsername.setText(loggedInUser.getUser().getUsername());
+        imgUserAvatar.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
         cmbSortOption.setItems(ListSorter.sortOptionsLibrary());
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
@@ -159,7 +169,7 @@ public class MyPlantsTabPaneController {
     public void createCurrentUserLibraryFromDB() {
         Thread getLibraryThread = new Thread(() -> {
             Message getLibrary = new Message(MessageType.getLibrary, LoggedInUser.getInstance().getUser());
-            ClientConnection connection = new ClientConnection();
+            ServerConnection connection = ServerConnection.getClientConnection();
             Message response = connection.makeRequest(getLibrary);
 
             if (response.isSuccess()) {
@@ -184,7 +194,7 @@ public class MyPlantsTabPaneController {
             currentUserLibrary.remove(plant);
             addCurrentUserLibraryToHomeScreen();
             Message deletePlant = new Message(MessageType.deletePlant, LoggedInUser.getInstance().getUser(), plant);
-            ClientConnection connection = new ClientConnection();
+            ServerConnection connection = ServerConnection.getClientConnection();
             Message response = connection.makeRequest(deletePlant);
 
             if (!response.isSuccess()) {
@@ -226,14 +236,13 @@ public class MyPlantsTabPaneController {
     public void addPlantToDB(Plant plant) {
         Thread addPlantThread = new Thread(() -> {
             currentUserLibrary.add(plant);
-            addCurrentUserLibraryToHomeScreen();
             Message savePlant = new Message(MessageType.savePlant, LoggedInUser.getInstance().getUser(), plant);
-            ClientConnection connection = new ClientConnection();
+            ServerConnection connection = ServerConnection.getClientConnection();
             Message response = connection.makeRequest(savePlant);
             if (!response.isSuccess()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
-                createCurrentUserLibraryFromDB();
             }
+            createCurrentUserLibraryFromDB();
         });
         addPlantThread.start();
     }
@@ -255,10 +264,11 @@ public class MyPlantsTabPaneController {
      */
     public void changeLastWateredInDB(Plant plant, LocalDate date) {
         Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
-        Message response = new ClientConnection().makeRequest(changeLastWatered);
-        Platform.runLater(() -> PopupBox.display(MessageText.sucessfullyChangedDate.toString()));
+        ServerConnection connection = ServerConnection.getClientConnection();
+        Message response = connection.makeRequest(changeLastWatered);
+        PopupBox.display(MessageText.sucessfullyChangedDate.toString());
         if (!response.isSuccess()) {
-            MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
+            Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
         }
         createCurrentUserLibraryFromDB();
         showNotifications();
@@ -272,10 +282,11 @@ public class MyPlantsTabPaneController {
      */
     public boolean changeNicknameInDB(Plant plant, String newNickname) {
         Message changeNicknameInDB = new Message(MessageType.changeNickname, LoggedInUser.getInstance().getUser(), plant, newNickname);
-        Message response = new ClientConnection().makeRequest(changeNicknameInDB);
-        Platform.runLater(() -> PopupBox.display(MessageText.sucessfullyChangedPlant.toString()));
+        ServerConnection connection = ServerConnection.getClientConnection();
+        Message response = connection.makeRequest(changeNicknameInDB);
+        PopupBox.display(MessageText.sucessfullyChangedPlant.toString());
         if (!response.isSuccess()) {
-            MessageBox.display(BoxTitle.Failed, "It was not possible to change nickname for you plant. Try again.");
+            Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "It was not possible to change nickname for you plant. Try again."));
             return false;
         } else {
             plant.setNickname(newNickname);
@@ -285,7 +296,7 @@ public class MyPlantsTabPaneController {
     }
 
     /**
-     * Method to rearranges the library based on selected sorting option
+     * rearranges the library based on selected sorting option
      */
     public void sortLibrary() {
         SortingOption selectedOption;
@@ -300,7 +311,7 @@ public class MyPlantsTabPaneController {
      */
 
     public void updateAvatar() {
-        imgUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
+        imgUserAvatar.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 
     /**
@@ -311,7 +322,8 @@ public class MyPlantsTabPaneController {
     public PlantDetails getPlantDetails(Plant plant) {
         PlantDetails plantDetails = null;
         Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
-        Message response = new ClientConnection().makeRequest(getInfoSearchedPlant);
+        ServerConnection connection = ServerConnection.getClientConnection();
+        Message response = connection.makeRequest(getInfoSearchedPlant);
         if (response != null) {
             plantDetails = response.getPlantDetails();
         }
@@ -366,9 +378,10 @@ public class MyPlantsTabPaneController {
     private void changeAllToWateredInDB() {
         Thread waterAllThread = new Thread(() -> {
             Message changeAllToWatered = new Message(MessageType.changeAllToWatered, LoggedInUser.getInstance().getUser());
-            Message response = new ClientConnection().makeRequest(changeAllToWatered);
+            ServerConnection connection = ServerConnection.getClientConnection();
+            Message response = connection.makeRequest(changeAllToWatered);
             if (!response.isSuccess()) {
-                MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again.");
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
             }
             btnWaterAll.setDisable(false);
             createCurrentUserLibraryFromDB();
@@ -377,4 +390,37 @@ public class MyPlantsTabPaneController {
         waterAllThread.start();
     }
 
+    public void setNewPlantPicture(LibraryPlantPane lpp) {
+        FileChooser fc = new FileChooser();
+        FileChooser.ExtensionFilter fileExtensions = new FileChooser.ExtensionFilter("Images", "*.jpg", "*.jpeg", "*.png");
+        fc.getExtensionFilters().add(fileExtensions);
+        File selectedImage = fc.showOpenDialog(null);
+
+        if (selectedImage != null) {
+            String imagePath = selectedImage.toString();
+            String imageExtension = imagePath.substring(imagePath.indexOf("."));
+            File newPictureFile = new File("resources/images/plants/" + lpp.getPlant().getNickname() + imageExtension);
+            try {
+                try {
+                    Files.copy(selectedImage.toPath(), newPictureFile.toPath());
+                } catch (FileAlreadyExistsException e) {
+                    Files.delete(newPictureFile.toPath());
+                    Files.copy(selectedImage.toPath(), newPictureFile.toPath());
+                }
+                lpp.getPlant().setImageURL(newPictureFile.toURI().toURL().toString());
+                lpp.updateImage();
+                Thread changePlantPictureThread = new Thread(() -> {
+                    Message changePlantPicture = new Message(MessageType.changePlantPicture, LoggedInUser.getInstance().getUser(), lpp.getPlant());
+                    ServerConnection connection = ServerConnection.getClientConnection();
+                    Message response = connection.makeRequest(changePlantPicture);
+                    if (!response.isSuccess()) {
+                        Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
+                    }
+                });
+                changePlantPictureThread.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

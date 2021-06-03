@@ -43,7 +43,7 @@ public class PopupBox extends Popup {
 
         Stage mainStage = StartClient.getStage();
         double x = mainStage.getX() + mainStage.getWidth() - 222;
-        double y = mainStage.getY() + mainStage.getHeight() - 100;
+        double y = mainStage.getY() + mainStage.getHeight() - 110;
         window.setX(x);
         window.setY(y);
 

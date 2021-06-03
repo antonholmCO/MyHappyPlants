@@ -1,6 +1,9 @@
 package se.myhappyplants.client.controller;
 
+import java.io.*;
+
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
@@ -8,6 +11,8 @@ import javafx.scene.control.TextField;
 import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.RootName;
+import se.myhappyplants.client.service.ServerConnection;
+import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.service.ClientConnection;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.PopupBox;
@@ -34,6 +39,7 @@ public class LoginPaneController {
     @FXML
     private PasswordField passFldPassword;
 
+
     /**
      * Switches to 'logged in' scene
      *
@@ -47,11 +53,13 @@ public class LoginPaneController {
         if (!file.exists()) {
             file.createNewFile();
 
-        } else if (file.exists()) {
+        }
+        else if (file.exists()) {
             try (BufferedReader br = new BufferedReader(new FileReader("resources/lastLogin.txt"));) {
                 lastLoggedInUser = br.readLine();
                 txtFldEmail.setText(lastLoggedInUser);
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -66,22 +74,26 @@ public class LoginPaneController {
     private void loginButtonPressed() {
         Thread loginThread = new Thread(() -> {
             Message loginMessage = new Message(MessageType.login, new User(txtFldEmail.getText(), passFldPassword.getText()));
-            ClientConnection connection = new ClientConnection();
+            ServerConnection connection = ServerConnection.getClientConnection();
             Message loginResponse = connection.makeRequest(loginMessage);
+
             if (loginResponse != null) {
                 if (loginResponse.isSuccess()) {
                     LoggedInUser.getInstance().setUser(loginResponse.getUser());
                     Platform.runLater(() -> PopupBox.display("Now logged in as\n" + LoggedInUser.getInstance().getUser().getUsername()));
                     try {
                         switchToMainPane();
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else {
+                }
+                else {
                     Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Sorry, we couldn't find an account with that email or you typed the password wrong. Try again or create a new account."));
 
                 }
-            } else {
+            }
+            else {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
             }
         });
@@ -101,11 +113,13 @@ public class LoginPaneController {
     /**
      * Method to switch to the registerPane
      *
+     * @param actionEvent
      */
-    public void swapToRegister() {
+    public void swapToRegister(ActionEvent actionEvent) {
         try {
             StartClient.setRoot(RootName.registerPane.toString());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

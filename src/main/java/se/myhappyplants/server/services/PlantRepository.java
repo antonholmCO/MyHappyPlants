@@ -12,16 +12,14 @@ import java.util.ArrayList;
 
 /**
  * Class responsible for calling the database about plants.
- * Created by: Frida Jacobsson
+ * Created by: Frida Jacobsson 2021-03-30
  * Updated by: Christopher O'Driscoll
  */
 public class PlantRepository {
 
-    private WaterCalculator waterCalculator;
-    private IDatabase database;
+    private IQueryExecutor database;
 
-    public PlantRepository(WaterCalculator waterCalculator, IDatabase database) throws UnknownHostException, SQLException {
-        this.waterCalculator = waterCalculator;
+    public PlantRepository(IQueryExecutor database) {
         this.database = database;
     }
 

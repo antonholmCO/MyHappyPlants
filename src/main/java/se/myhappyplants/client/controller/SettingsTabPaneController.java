@@ -12,7 +12,7 @@ import javafx.stage.FileChooser;
 import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.SetAvatar;
-import se.myhappyplants.client.service.ClientConnection;
+import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.ButtonText;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.PopupBox;
@@ -41,9 +41,9 @@ public class SettingsTabPaneController {
     @FXML
     private MainPaneController mainPaneController;
     @FXML
-    private Circle imgViewUserPicture;
+    private Circle imgUserAvatar;
     @FXML
-    private Label lblUserName;
+    private Label lblUsername;
     @FXML
     private PasswordField passFldDeleteAccount;
 
@@ -53,8 +53,8 @@ public class SettingsTabPaneController {
     @FXML
     public void initialize() {
         User loggedInUser = LoggedInUser.getInstance().getUser();
-        lblUserName.setText(loggedInUser.getUsername());
-        imgViewUserPicture.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getEmail()))));
+        lblUsername.setText(loggedInUser.getUsername());
+        imgUserAvatar.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getEmail()))));
         tglBtnChangeNotification.setSelected(loggedInUser.areNotificationsActivated());
         ButtonText.setButtonText(tglBtnChangeNotification);
         tglBtnChangeFunFacts.setSelected(loggedInUser.areFunFactsActivated());
@@ -76,7 +76,7 @@ public class SettingsTabPaneController {
     public void changeNotificationsSetting() {
         Thread changeNotificationsThread = new Thread(() -> {
             Message notificationRequest = new Message(MessageType.changeNotifications, tglBtnChangeNotification.isSelected(), LoggedInUser.getInstance().getUser());
-            ClientConnection connection = new ClientConnection();
+            ServerConnection connection = ServerConnection.getClientConnection();
             Message notificationResponse = connection.makeRequest(notificationRequest);
             if (notificationResponse != null) {
                 if (notificationResponse.isSuccess()) {
@@ -103,7 +103,7 @@ public class SettingsTabPaneController {
     public void changeFunFactsSetting() {
         Thread changeFunFactsThread = new Thread(() -> {
             Message changeFunFactsRequest = new Message(MessageType.changeFunFacts, tglBtnChangeFunFacts.isSelected(), LoggedInUser.getInstance().getUser());
-            ClientConnection connection = new ClientConnection();
+            ServerConnection connection = ServerConnection.getClientConnection();
             Message funFactsResponse = connection.makeRequest(changeFunFactsRequest);
             if (funFactsResponse != null) {
                 if (funFactsResponse.isSuccess()) {
@@ -133,7 +133,7 @@ public class SettingsTabPaneController {
         if (answer == 1) {
             Thread deleteAccountThread = new Thread(() -> {
                 Message deleteMessage = new Message(MessageType.deleteAccount, new User(LoggedInUser.getInstance().getUser().getEmail(), passFldDeleteAccount.getText()));
-                ClientConnection connection = new ClientConnection();
+                ServerConnection connection = ServerConnection.getClientConnection();
                 Message deleteResponse = connection.makeRequest(deleteMessage);
                 if (deleteResponse != null) {
                     if (deleteResponse.isSuccess()) {
@@ -166,7 +166,7 @@ public class SettingsTabPaneController {
      * Method to update the users avatar picture on the tab
      */
     public void updateAvatar() {
-        imgViewUserPicture.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
+        imgUserAvatar.setFill(new ImagePattern(new Image(LoggedInUser.getInstance().getUser().getAvatarURL())));
     }
 
     /**
@@ -177,7 +177,7 @@ public class SettingsTabPaneController {
      * @author Anton
      */
     @FXML
-    private void selectPicture() {
+    private void selectAvatarImage() {
         User user = LoggedInUser.getInstance().getUser();
         FileChooser fc = new FileChooser();
 

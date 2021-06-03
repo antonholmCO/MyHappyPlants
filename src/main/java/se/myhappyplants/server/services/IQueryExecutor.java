@@ -5,9 +5,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Interface to the database class
+ * Interface for defining query executor methods
+ * Created by: Frida Jacobsson 2021-05-19
  */
-public interface IDatabase {
+public interface IQueryExecutor {
 
     void executeUpdate(String query) throws SQLException;
 

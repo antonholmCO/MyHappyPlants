@@ -9,7 +9,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *
  * Created by: Frida Jacobsson 2021-04-02
  * Updated by: Anton, 2021-04-06
  */

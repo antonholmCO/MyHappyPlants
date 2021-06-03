@@ -1,12 +1,11 @@
 package se.myhappyplants.shared;
 
-import java.io.File;
-import java.io.Serializable;
+import java.io.*;
 
 /**
  * Container class that defines a User
  * Created by: Linn Borgström
- * Updated by: Anton, 2021-04-29
+ * Updated by: Linn Borgström, 2021-05-17
  */
 public class User implements Serializable {
 
@@ -15,33 +14,42 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String avatarURL;
-    private boolean notificationsActivated = true;
+    private boolean isNotificationsActivated = true;
     private boolean funFactsActivated = true;
+
+    /**
+     * Constructor used when registering a new user account
+     *
+     * @param email
+     * @param username
+     * @param password
+     * @param isNotificationsActivated
+     */
+    public User(String email, String username, String password, boolean isNotificationsActivated) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.isNotificationsActivated = isNotificationsActivated;
+    }
 
     /**
      * Simple constructor for login requests
      *
-     * @param email    Email address
-     * @param password Password
+     * @param email
+     * @param password
      */
     public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    /**
-     * Constructor used when registering a new user account
-     *
-     * @param email    Email address
-     * @param username Username
-     * @param password Password
-     */
-    public User(String email, String username, String password) {
+    public User(int uniqueID, String email, String username, boolean notificationsActivated) {
+        this.uniqueId = uniqueID;
         this.email = email;
         this.username = username;
-        this.password = password;
-    }
+        this.isNotificationsActivated = notificationsActivated;
 
+    }
     /**
      * Constructor used to return a users details from the database
      *
@@ -51,11 +59,12 @@ public class User implements Serializable {
      * @param notificationsActivated True if notifications wanted
      * @param funFactsActivated      True if fun facts wanted
      */
-    public User(int uniqueId, String email, String username, boolean notificationsActivated, boolean funFactsActivated) {
+    public User(int uniqueId, String email, String username, boolean isNotificationsActivated, boolean funFactsActivated) {
+
         this.uniqueId = uniqueId;
         this.email = email;
         this.username = username;
-        this.notificationsActivated = notificationsActivated;
+        this.isNotificationsActivated = isNotificationsActivated;
         this.funFactsActivated = funFactsActivated;
     }
 
@@ -67,6 +76,11 @@ public class User implements Serializable {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+
     public String getEmail() {
         return email;
     }
@@ -75,20 +89,24 @@ public class User implements Serializable {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean areNotificationsActivated() {
+        return isNotificationsActivated;
+    }
+
+    public void setIsNotificationsActivated(boolean notificationsActivated) {
+        this.isNotificationsActivated = notificationsActivated;
+    }
+
     public String getAvatarURL() {
         return avatarURL;
     }
 
     public void setAvatar(String pathToImg) {
         this.avatarURL = new File(pathToImg).toURI().toString();
-    }
-
-    public boolean areNotificationsActivated() {
-        return notificationsActivated;
-    }
-
-    public void setNotificationsActivated(boolean notificationsActivated) {
-        this.notificationsActivated = notificationsActivated;
     }
 
     public boolean areFunFactsActivated() {

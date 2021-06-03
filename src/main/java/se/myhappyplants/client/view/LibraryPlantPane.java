@@ -43,7 +43,6 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     private DatePicker datePicker;
     private Button changeOKWaterButton;
     private ListView listViewMoreInfo;
-    private ObservableList<String> obsListMoreInfo;
     private Label daysUntilWaterlbl;
 
     public boolean extended;
@@ -125,6 +124,11 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         this.getChildren().addAll(image, lblEmptyInfo, btnSearchPlants);
     }
 
+
+    public void updateImage() {
+        Image img = new Image(plant.getImageURL());
+        image.setImage(img);
+    }
 
     /**
      * Method to initiate the image View
@@ -282,6 +286,8 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         changePictureButton.setLayoutX(488.0);
         changePictureButton.setLayoutY(250.0);
         changePictureButton.setMnemonicParsing(false);
+        changePictureButton.setOnAction(action ->
+                myPlantsTabPaneController.setNewPlantPicture(this));
     }
 
     /**

@@ -33,13 +33,12 @@ public class SearchPlantPane extends Pane implements PlantPane {
     private Label scientificName;
     private Button infoButton;
     private Button addButton;
-    private ListView listView;
-    private ImageView imgViewPlusSign;
 
     private Plant plant;
     private SearchTabPaneController searchTabPaneController;
+    private ListView listView;
+    private ImageView imgViewPlusSign;
     private boolean gotInfoOnPlant;
-    private ObservableList<String> getAllPlantInfo;
     private boolean extended;
     /**
      * Constructor to initialize some variables and sets off the initialization

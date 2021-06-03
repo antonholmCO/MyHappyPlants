@@ -15,11 +15,10 @@ import java.util.HashMap;
  */
 public class ResponseContext {
 
-    private HashMap<MessageType, ResponseHandler> responders = new HashMap<>();
+    private HashMap<MessageType, IResponseHandler> responders = new HashMap<>();
     private UserRepository userRepository;
     private UserPlantRepository userPlantRepository;
     private PlantRepository plantRepository;
-
 
     public ResponseContext(UserRepository userRepository, UserPlantRepository userPlantRepository, PlantRepository plantRepository) {
 
@@ -38,6 +37,7 @@ public class ResponseContext {
         responders.put(MessageType.changeLastWatered, new ChangeLastWatered(userPlantRepository));
         responders.put(MessageType.changeNickname, new ChangeNickname(userPlantRepository));
         responders.put(MessageType.changeNotifications, new ChangeNotifications(userRepository));
+        responders.put(MessageType.changePlantPicture, new ChangePlantPicture(userPlantRepository));
         responders.put(MessageType.deleteAccount, new DeleteAccount(userRepository));
         responders.put(MessageType.deletePlant, new DeletePlant(userPlantRepository));
         responders.put(MessageType.getLibrary, new GetLibrary(userPlantRepository));
@@ -48,8 +48,7 @@ public class ResponseContext {
         responders.put(MessageType.search, new Search(plantRepository));
     }
 
-    public ResponseHandler getResponseHandler(MessageType messageType) {
+    public IResponseHandler getResponseHandler(MessageType messageType) {
         return responders.get(messageType);
     }
-
 }
